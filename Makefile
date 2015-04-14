@@ -90,4 +90,4 @@ $(SITE)/README.pdf : README template.tex
 		--latex-engine=xelatex
 
 upload :
-	rsync -avz --exclude-from=excludes --delete --copy-links -e "ssh"  $(SITE)/* css js website:html/pandoc/
+	rsync -avz --delete --copy-links -e "ssh"  $(SITE)/* css js website:html/pandoc/
