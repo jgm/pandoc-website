@@ -1,0 +1,121 @@
+% Installing
+
+### Windows
+
+  - There is a package installer at pandoc's [download page].
+  - For PDF output, you'll also need to install LaTeX.
+    We recommend [MiKTeX](http://miktex.org/).
+
+### Mac OS X
+
+  - There is a package installer at pandoc's [download page].
+    If you later want to uninstall the package, you can do so
+    by downloading [this
+    script](https://raw.githubusercontent.com/jgm/pandoc/master/osx/uninstall-pandoc.pl)
+    and running it with `perl uninstall-pandoc.pl`.
+  - For PDF output, you'll also need LaTeX.  Because a full [MacTeX]
+    installation takes more than a gigabyte of disk space, we recommend
+    installing [BasicTeX](http://www.tug.org/mactex/morepackages.html)
+    (64M), and using the `tlmgr` tool to install additional packages
+    as needed.  If you get errors warning of fonts not found, try
+
+        tlmgr install collection-fontsrecommended
+
+### Linux
+
+  - For 64-bit [Debian] and [Ubuntu], we provide a debian package
+    on the [download page].  This will install the `pandoc` and
+    `pandoc-citeproc` executables and man pages.  If you use
+    an RPM-based distro, you may be able to install this deb using
+    `alien`.
+  - Or, try your package manager.
+    Pandoc is in the [Debian], [Ubuntu], [Slackware],
+    [Arch], [Fedora], [NiXOS], and [gentoo] repositories.
+    Note, however, that versions in the repositories are often
+    old.
+  - If the version in your repository is too old and you cannot
+    use the deb we provide, you can install from source, using the
+    instructions below under [Installating from source].
+    Note that most distros have the Haskell platform in their
+    package repositories.  For example, on Debian/Ubuntu,
+    you can install it with `apt-get install haskell-platform`.
+  - For PDF output, you'll need LaTeX.  We recommend installing
+    [TeX Live](http://www.tug.org/texlive/) via your package
+    manager.  (On Debian/Ubuntu, `apt-get install texlive`.)
+
+### BSD
+
+  - Pandoc is in the [NetBSD] and [FreeBSD ports] repositories.
+
+### Installing from source
+
+If for some reason a binary package is not available for your
+platform, you can install from source:
+
+  - First, install the [Haskell platform], then use the
+    `cabal` tool to get the latest release of pandoc:
+
+        cabal update
+        cabal install pandoc
+
+    Or, if you want to use pandoc's citation processing features,
+
+        cabal update
+        cabal install pandoc pandoc-citeproc
+
+    This will download and compile pandoc and all of its dependencies.
+
+    If this step fails, and you're using an older version of the
+    Haskell Platform (e.g. in Debian stable), try upgrading your
+    `cabal` tool:
+
+        cabal install cabal-install
+        ~/.cabal/bin/cabal update
+        ~/.cabal/bin/cabal install pandoc
+
+    By default, cabal will perform a user install, putting the pandoc
+    executable in `~/.cabal/bin` (on linux and BSD) or
+    `~/Library/Haskell/bin` (on OS X).  Make sure this directory
+    is in your path.
+
+    To update pandoc when a new release comes out on HackageDB,
+    simply do `cabal update && cabal install pandoc` again.  You
+    may get a message saying that the install may break earlier
+    installations of pandoc and pandoc-citeproc.  It should be safe
+    to force the installation:
+
+        cabal install --force pandoc pandoc-citeproc
+
+  - Alternatively, you can download the [source tarball] and
+    follow the instructions in INSTALL.
+
+### Creating a relocatable binary
+
+It is possible to compile pandoc such that the data files
+pandoc uses are embedded in the binary. (The executables in
+the binary are built this way.)  The
+resulting binary can be run from any directory and is
+completely self-contained.
+
+     cabal update
+     cabal install hsb2hs
+     cabal install --flags="embed_data_files" pandoc pandoc-citeproc
+
+
+[GHC]:  http://www.haskell.org/ghc/
+[GPL]:  http://www.gnu.org/copyleft/gpl.html
+[source tarball]: http://hackage.haskell.org/package/pandoc
+[Haskell platform]: http://hackage.haskell.org/platform/
+[Debian]: http://packages.debian.org/lenny/pandoc
+[Slackware]: http://www.linuxpackages.net/search_view.php?by=name&name=pandoc&ver=
+[Arch]: https://aur.archlinux.org/packages/haskell-pandoc/
+[Fedora]: https://apps.fedoraproject.org/packages/pandoc
+[NetBSD]: http://pkgsrc.se/wip/pandoc
+[FreeBSD ports]: http://www.freshports.org/textproc/pandoc/
+[Ubuntu]: http://www.ubuntu.com
+[MacPorts]: http://trac.macports.org/browser/trunk/dports/textproc/pandoc/Portfile
+[download page]: https://github.com/jgm/pandoc/releases
+[gentoo]: http://packages.gentoo.org/package/app-text/pandoc
+[NixOS]: http://nixos.org/nixos/
+[haskell repository]: https://wiki.archlinux.org/index.php/Haskell_Package_Guidelines#.5Bhaskell.5D
+[MacTeX]: https://tug.org/mactex/

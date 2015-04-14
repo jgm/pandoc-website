@@ -1,0 +1,50 @@
+% Reporting bugs
+
+Bug reports are welcome!
+Please report all bugs on pandoc's github [issue tracker].
+We are no longer using the googlecode issue tracker.
+
+[issue tracker]: https://github.com/jgm/pandoc/issues
+
+Guidelines:
+
+1.  Before you submit a bug report, search the (open and closed)
+    issues to make sure the issue hasn't come up before. Also,
+    check the [User's Guide](README.html) for anything relevant.
+
+2.  Make sure you can reproduce the bug with the latest released
+    version of pandoc, and preferably with the development
+    version.
+
+3.  Your report should give detailed instructions for how to
+    reproduce the problem.  A small test case (just a few lines)
+    is ideal.
+ 
+4.  If you're making an enhancement request, lay out the rationale
+    for the feature you're requesting.  Why would this feature be
+    useful?
+
+5.  If you're not sure whether something is a bug, or want to discuss
+    a potential new feature before putting in an enhancement request,
+    [pandoc-discuss] is a good place to bring it up.
+
+Submitting patches:
+
+1.  Patches may be attached to issues or submitted to [pandoc-discuss].
+    Each patch should make one logical change.
+
+2.  Please follow the existing stylistic conventions (e.g. for if-then
+    formatting), and wrap code to 80 columns.  Always include type
+    signatures for top-level functions.
+
+3.  Patches should be `-Wall` clean.
+
+4.  If your patch is for a new writer or reader, please include test cases.
+    (For a writer: `tests/writer.NAME`, `tests/tables.NAME`, and modify
+    `tests/RunTests.hs` to run your tests).
+
+5.  Before you put time into a nontrivial patch, it is worth discussing it
+    on [pandoc-discuss].
+
+[pandoc-discuss]: http://groups.google.com/group/pandoc-discuss
+

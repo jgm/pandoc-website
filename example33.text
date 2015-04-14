@@ -1,0 +1,23 @@
+# Custom writer
+
+This is a sample custom writer for pandoc.  It produces output
+that is very similar to that of pandoc's HTML writer.
+There is one new feature: code blocks marked with class 'dot'
+are piped through graphviz and images are included in the HTML
+output using `data:` URLs.
+
+Here's an example:
+
+```dot
+digraph G {
+main -> parse -> execute;
+main -> init;
+main -> cleanup;
+execute -> make_string;
+execute -> printf
+init -> make_string;
+main -> printf;
+execute -> compare;
+}
+```
+

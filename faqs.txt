@@ -1,0 +1,72 @@
+% FAQs
+
+<style type="text/css">
+h2 { border-bottom: none; border-left: 10px solid #aaa; font-size: 94%;
+font-weight: bold; margin-top: 1.5em; padding-left: 1em; }
+#toc li { padding-top: 1em; }
+</style>
+
+## I used pandoc to convert a document to ICML (or OPML or RTF) and, and when I try to open it in InDesign (or OmniOutliner or a word processor), I'm told it's invalid.  What have I done wrong?
+
+Be sure to use the `-s` or `--standalone` flag, or you just get a
+fragment, not a full document with the required header:
+
+    pandoc -s -f markdown -t icml -o my.icml my.md
+
+## I get a blank document when I try to convert a markdown document in Chinese to pdf using `pandoc -o test.pdf test.markdown`.
+
+By default, pandoc uses pdflatex to generate the PDF, and pdflatex
+doesn't handle Chinese characters. But you can change the default to
+use xelatex instead. You should also make sure you're using a font
+with Chinese glyphs.  For example:
+
+    pandoc -o c.pdf --latex-engine=xelatex -V mainfont='Adobe Ming Std'
+
+## The new Windows installer (starting with 1.11) does a single user install, rather than installing pandoc for all users. How can I install pandoc for all users?
+
+Run the following command as admin:
+
+    msiexec /i pandoc-1.xx.msi ALLUSERS=1
+
+This will put pandoc in `C:\Program Files\Pandoc`.
+You can install Pandoc to a different directory by setting APPLICATIONFOLDER parameter,
+for example:
+
+    msiexec /i pandoc-1.11.1.msi ALLUSERS=1 APPLICATIONFOLDER="C:\Pandoc"
+
+## How do I change the margins in PDF output?
+
+The option
+
+    -V geometry:margin=1in
+
+will set the margins to one inch on each side.  If you don't want uniform
+margins, you can do something like
+
+    -V geometry:"top=2cm, bottom=1.5cm, left=1cm, right=1cm"
+
+Or
+
+    -V geometry:"left=3cm, width=10cm"
+
+For more options, see the documentation for the LaTeX [geometry
+package](ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/geometry/geometry.pdf).
+
+## How does pandoc compare to multimarkdown?
+
+Here is a [wiki
+page](https://github.com/jgm/pandoc/wiki/Pandoc-vs-Multimarkdown)
+comparing the two.
+
+## Pandoc hangs when I try to use `--bibliography`.
+
+Most likely this is a packaging problem.  If you are running the
+version of pandoc 1.9.1 packaged in Ubuntu 12.04, you should
+be able to fix the problem by doing
+
+    sudo apt-get install libghc-citeproc-hs-data
+
+## After upgrading to 1.8.1.2, markdown2pdf messes up tables when used with my custom latex template.
+
+You need to add the line `\usepackage{ctable}` to your
+custom latex template, preferably right after the line `$if(tables)$`.

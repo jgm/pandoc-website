@@ -1,0 +1,400 @@
+% Scripting with pandoc
+
+*This version of the tutorial is for pandoc 1.11.*
+
+## A simple example
+
+Suppose you wanted to replace all level 2+ headers in a markdown
+document with regular paragraphs, with text in italics. How would you go
+about doing this?
+
+A first thought would be to use regular expressions. Something
+like this:
+
+    perl -pe 's/^##+ (.*)$/\*\1\*/' source.txt
+
+This should work most of the time.  But don't forget
+that ATX style headers can end with a sequence of `#`s
+that is not part of the header text:
+
+    ## My header ##
+
+And what if your document contains a line starting with `##` in an HTML
+comment or delimited code block?
+
+    <!--
+    ## This is just a comment
+    -->
+
+    ~~~~
+    ### A third level header in standard markdown
+    ~~~~
+
+We don't want to touch *these* lines.  Moreover, what about setext
+style second-level headers?
+
+    A header
+    --------
+
+We need to handle those too.  Finally, can we be sure that adding
+asterisks to each side of our string will put it in italics?
+What if the string already contains asterisks around it? Then we'll
+end up with bold text, which is not what we want. And what if it contains
+a regular unescaped asterisk?
+
+How would you modify your regular expression to handle these cases? It
+would be hairy, to say the least. What we need is a real parser.
+
+Well, pandoc has a real markdown parser, the library function
+`readMarkdown`. This transforms markdown text to an abstract syntax tree
+(AST) that represents the document structure. Why not manipulate the
+AST directly in a short Haskell script, then convert the result back to
+markdown using `writeMarkdown`?
+
+First, let's see what this AST looks like. We can use pandoc's `native`
+output format:
+
+~~~~
+% cat test.txt
+### my header
+
+text with *italics*
+% pandoc -t native test.txt
+Pandoc (Meta {docTitle = [], docAuthors = [], docDate = []})
+[ Header 3 ("my-header",[],[]) [Str "my",Space,Str "header"]
+, Para [Str "text",Space,Str "with",Space,Emph [Str "italics"]] ]
+~~~~
+
+A `Pandoc` document consists of a `Meta` block (with title, authors,
+and date) and a list of `Block` elements.  In this case, we have
+two `Block`s, a `Header` and a `Para`.  Each has as its content a
+list of `Inline` elements.  For more details on the pandoc AST,
+see the [haddock documentation for `Text.Pandoc.Definition`].
+
+Here's a short Haskell script that reads markdown, changes level
+2+ headers to regular paragraphs, and writes the result as markdown.
+If you save it as `behead.hs`, you can run it using `runhaskell behead.hs`.
+It will act like a unix pipe, reading from `stdin` and writing to `stdout`.
+Or, if you want, you can compile it, using `ghc --make behead`, then run
+the resulting executable `behead`.
+
+~~~~                          {.haskell}
+-- behead.hs
+import Text.Pandoc
+
+behead :: Block -> Block
+behead (Header n _ xs) | n >= 2 = Para [Emph xs]
+behead x = x
+
+transformDoc :: Pandoc -> Pandoc
+transformDoc = bottomUp behead
+
+readDoc :: String -> Pandoc
+readDoc = readMarkdown def
+
+writeDoc :: Pandoc -> String
+writeDoc = writeMarkdown def
+
+main :: IO ()
+main = interact (writeDoc . transformDoc . readDoc)
+~~~~
+
+The magic here is the `bottomUp` function, which converts
+our `behead` function (a function from `Block` to `Block`) to
+a transformation on whole `Pandoc` documents.
+
+(`bottomUp` is so named because it operates on the AST from
+the bottom up, starting at the leaves and working up the
+branches to the trunk.  Suppose you have a `BulletList` than contains
+another `BulletList` in one of its items.  Then `bottomUp f` will
+operate first on the nested list, and only later on the containing list.
+`topDown f` would operate first on the containing list, and then
+on the nested list.)
+
+## Digression: reader and writer options
+
+The `behead.hs` script uses default options for the reader
+and writer.  If you want more control, you can modify these
+defaults. (See the definitions for [`ReaderOptions`] and
+[`WriterOptions`] in the [haddock documentation for
+`Text.Pandoc.Options`].)
+
+[`ReaderOptions`]: http://johnmacfarlane.net/pandoc/doc/pandoc/Text-Pandoc-Options.html#t%3AReaderOptions
+[`WriterOptions`]: http://johnmacfarlane.net/pandoc/doc/pandoc/Text-Pandoc-Options.html#t%3AWriterOptions
+[haddock documentation for `Text.Pandoc.Options`]: http://johnmacfarlane.net/pandoc/doc/pandoc/Text-Pandoc-Options.html
+
+For example, the following variants will disable pandoc markdown
+extensions ("strict mode") and write markdown using reference-style
+links instead of inline links:
+
+~~~~ {.haskell}
+readDoc = readMarkdown def{ readerExtensions = strictExtensions }
+
+writeDoc = writeMarkdown def{ writerExtensions = strictExtensions,
+                            , writerReferenceLinks = True -- use ref-style links
+                            }
+~~~~
+
+## Queries: listing URLs
+
+We can use this same technique to do much more complex transformations
+and queries.  Here's how we could extract all the URLs linked to in
+a markdown document (again, not an easy task with regular expressions):
+
+~~~~                          {.haskell}
+-- extracturls.hs
+import Text.Pandoc
+
+extractURL :: Inline -> [String]
+extractURL (Link _ (u,_)) = [u]
+extractURL (Image _ (u,_)) = [u]
+extractURL _ = []
+
+extractURLs :: Pandoc -> [String]
+extractURLs = queryWith extractURL
+
+readDoc :: String -> Pandoc
+readDoc = readMarkdown def
+
+main :: IO ()
+main = interact (unlines . extractURLs . readDoc)
+~~~~
+
+`queryWith` is the query counterpart of `bottomUp`: it lifts
+a function that operates on `Inline` elements to one that operates
+on the whole `Pandoc` AST.
+
+## LaTeX for WordPress
+
+Another easy example. WordPress blogs require a special format for
+LaTeX math.  Instead of `$e=mc^2$`, you need: `$LaTeX e=mc^2$`.
+How can we convert a markdown document accordingly?
+
+Again, it's difficult to do the job reliably with regexes.
+A `$` might be a regular currency indicator, or it might occur in
+a comment or code block or inline code span.  We just want to find
+the `$`s that begin LaTeX math. If only we had a parser...
+
+We do.  Pandoc already extracts LaTeX math, so:
+
+~~~~                          {.haskell}
+-- wordpressify.hs
+import Text.Pandoc
+
+main = interact (writeMarkdown def .
+                 bottomUp wordpressify .
+                 readMarkdown def)
+  where wordpressify (Math x y) = Math x ("LaTeX " ++ y)
+        wordpressify x = x
+~~~~
+
+Mission accomplished. (I've omitted type signatures here,
+just to show it can be done.)
+
+## Include files
+
+So none of our transforms have involved IO. How about a script that
+reads a markdown document, finds all the inline code blocks with
+attribute `include`, and replaces their contents with the contents of
+the file given?
+
+~~~~                          {.haskell}
+-- includes.hs
+import Text.Pandoc
+
+doInclude :: Block -> IO Block
+doInclude cb@(CodeBlock (id, classes, namevals) contents) =
+  case lookup "include" namevals of
+       Just f     -> return . (CodeBlock (id, classes, namevals)) =<< readFile f
+       Nothing    -> return cb
+doInclude x = return x
+
+main :: IO ()
+main = getContents >>= bottomUpM doInclude . readMarkdown def
+                   >>= putStrLn . writeMarkdown def
+~~~~
+
+Try this on the following:
+
+    Here's the pandoc README:
+
+    ~~~~ {include="README"}
+    this will be replaced by contents of README
+    ~~~~
+
+The trick here is `bottomUpM`, which is just a monadic version of
+`bottomUp`, and lifts `doInclude` from `Block -> IO Block` to
+`Pandoc -> IO Pandoc`.
+
+Documentation on `bottomUp`, `queryWith`, `bottomUpM`, and
+`queryWithM` can be found in the [haddock documentation for
+`Text.Pandoc.Definition`].
+
+[haddock documentation for `Text.Pandoc.Definition`]: http://hackage.haskell.org/package/pandoc-types
+
+## Removing links
+
+What if we want to remove every link from a document, retaining
+the link's text?
+
+~~~~                          {.haskell}
+-- delink.hs
+import Text.Pandoc
+
+delink :: [Inline] -> [Inline]
+delink ((Link txt _) : xs) = txt ++ delink xs
+delink (x : xs)            = x : delink xs
+delink []                  = []
+
+main = interact (writeMarkdown def . bottomUp delink . readMarkdown def)
+~~~~
+
+Note that `delink` can't be a function of type `Inline -> Inline`,
+because the thing we want to replace the link with is not a single
+`Inline` element, but a list of them. So we make `delink` a function
+from *lists* of `Inline` elements to lists of `Inline` elements.
+`bottomUp` can still lift this function to a transformation of type
+`Pandoc -> Pandoc`.
+
+
+## JSON reader and writer
+
+Starting with version 1.8, the pandoc command-line tool has a
+`json` reader and writer.  Both are very fast (especially compared
+to the `native` reader and writer).  So, instead of writing a
+script (as shown above) that converts from one format to another,
+you may want to write a general purpose script that accepts JSON
+and produces JSON. This can then be used in a pipe with `pandoc`.
+
+Here is an example, using the convenience function `toJsonFilter`
+from `Text.Pandoc`. `toJsonFilter` converts a function into a program
+that reads pandoc's JSON output from standard input, transforms it by
+walking the AST and applying the specified function, and writes the
+result as JSON to standard output.
+
+~~~~ {.haskell}
+import Text.Pandoc
+
+main = toJsonFilter removeLink
+
+removeLink :: Inline -> Inline
+removeLink (Link xs _) = Emph xs
+removeLink x = x
+~~~~
+
+To use it to remove the links from a rst document:
+
+    pandoc -f rst -t json | runghc myscript.hs | pandoc -f json -t rst
+
+If you need more speed, you can compile the script:
+
+    ghc --make myscript.hs
+    pandoc -f rst -t json | ./myscript | pandoc -f json -t rst
+
+Note that the argument of `toJsonFilter` can be any type `(a -> a)`,
+`(a -> IO a)`, `(a -> [a])`, or `(a -> IO [a])`, where `a` is an instance
+of `Data`. So, for example, `a` can be `Pandoc`, `Inline`, `Block`,
+`[Inline]`, `[Block]`, `Meta`, `ListNumberStyle`, `Alignment`,
+`ListNumberDelim`, `QuoteType`, etc.
+Here's a filter that left-aligns all table cells:
+
+~~~ {.haskell}
+import Text.Pandoc
+
+main = toJsonFilter leftAlign
+
+leftAlign :: Alignment -> Alignment
+leftAlign _ = AlignLeft
+~~~
+
+## A filter for ruby text
+
+Finally, here's a nice real-world example, developed on the
+[pandoc-discuss](http://groups.google.com/group/pandoc-discuss/browse_thread/thread/7baea325565878c8) list.  Qubyte wrote:
+
+> I'm interested in using pandoc to turn my markdown notes on Japanese
+> into nicely set HTML and (Xe)LaTeX. With HTML5, ruby (typically used to
+> phonetically read chinese characters by placing text above or to the
+> side) is standard, and support from browsers is emerging (Webkit based
+> browsers appear to fully support it). For those browsers that don't
+> support it yet (notably Firefox) the feature falls back in a nice way
+> by placing the phonetic reading inside brackets to the side of each
+> Chinese character, which is suitable for other output formats too. As
+> for (Xe)LaTeX, ruby is not an issue.
+>
+> At the moment, I use inline HTML to achieve the result when the
+> conversion is to HTML, but it's ugly and uses a lot of keystrokes, for
+> example
+>
+> ~~~ {.xml}
+> <ruby>ご<rt></rt>飯<rp>（</rp><rt>はん</rt><rp>）</rp></ruby>
+> ~~~
+>
+> sets ご飯 "gohan" with "han" spelt phonetically above the second
+> character, or to the right of it in brackets if the browser does not
+> support ruby.  I'd like to have something more like
+>
+>     r[はん](飯)
+>
+> or any keystroke saving convention would be welcome.
+
+We came up with the following script, which uses the convention that a
+markdown link with a URL beginning with a hyphen is interpreted as ruby:
+
+    [はん](-飯)
+
+~~~ {.haskell}
+import Text.Pandoc
+import System.Environment (getArgs)
+
+handleRuby :: String -> Inline -> Inline
+handleRuby format (Link [Str ruby] ('-':kanji,_)) =
+  case format of
+       "html"   -> RawInline "html" $ "<ruby>" ++ kanji ++ "<rp>(</rp><rt>"
+                     ++ ruby ++ "</rt><rp>)</rp></ruby>"
+       "latex"  -> RawInline "latex" $ "\\ruby{" ++ kanji ++ "}{"
+                     ++ ruby ++ "}"
+       "kanji"  -> Str kanji
+       "kana"   -> Str ruby
+       _        -> Str ruby  -- default
+handleRuby _ x = x
+
+main :: IO ()
+main = do
+ args <- getArgs
+ toJsonFilter $ handleRuby $ case args of
+                              [f] -> f
+                              _   -> "kana" -- default
+~~~
+
+We compile our script:
+
+    ghc --make handleRuby
+
+Then run it:
+
+    % pandoc -t json | ./handleRuby html | pandoc -f json -t html
+    [はん](-飯)
+    ^D
+    <p><ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby></p>
+    % pandoc -t json | ./handleRuby latex | pandoc -f json -t latex
+    [はん](-飯)
+    ^D
+    \ruby{飯}{はん}
+
+## Exercises
+
+1.  Put all the regular text in a markdown document in ALL CAPS
+    (without touching text in URLs or link titles).
+
+2.  Remove all horizontal rules from a document.
+
+3.  Renumber all enumerated lists with roman numerals.
+
+4.  Replace each delimited code block with class `dot` with an
+    image generated by running `dot -Tpng` (from graphviz) on the
+    contents of the code block.
+
+5.  Find all code blocks with class `python` and run them
+    using the python interpreter, printing the results to the console.
+
