@@ -24,7 +24,7 @@ while (<IN>) {
         system("$commandExec") == 0 or
             die "System command $commandExec failed!";
         $line = $command;
-        $line =~ s/@@([^@]*)@@/<a href="demo\/$1">$1<\/a>/g;
+        $line =~ s/@@([^@]*)@@/<a rel="nofollow" href="demo\/$1">$1<\/a>/g;
         $line =~ s/demo\/http/http/g;
         $line =~ s/^(.*)$/    <pre><code>$1<\/code><\/pre>/g;
     }
