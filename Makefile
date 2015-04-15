@@ -2,7 +2,7 @@ SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, hk-pyg.css  print.css  screen.css)
 JS = js/nav.js
-ALL = $(patsubst %,$(SITE)/%,index.html installing.html README.html README.pdf CONTRIBUTING.html demos.html releases.html changelog.txt scripting.html scripting-1.11.html lists.html epub.html faqs.html diagram.png getting-started.html donate.html press.html css js $(CSS) $(JS))
+ALL = $(patsubst %,$(SITE)/%,index.html installing.html README.html README.pdf CONTRIBUTING.html demos.html releases.html changelog.txt scripting.html scripting-1.11.html lists.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) -t html5 --toc -s -S -B nav.html --template=template.html
@@ -58,6 +58,9 @@ $(SITE)/changelog.txt : changelog
 
 $(SITE)/diagram.dot :
 	runghc make-diagram.hs > $@ || rm $@
+
+$(SITE)/diagram.jpg : $(SITE)/diagram.png
+	convert -quality 70% $< $@
 
 $(SITE)/diagram.png : $(SITE)/diagram.dot
 	dot -Tpng -o$@ $<
