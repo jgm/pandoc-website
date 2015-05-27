@@ -25,6 +25,32 @@ including
 A small test case (just a few lines) is ideal.  If your input is large,
 try to whittle it down to the minimum necessary to illustrate the problem.
 
+Fixing bugs from the issue tracker
+----------------------------------
+
+Almost all the bugs on the issue tracker have one or more associated
+tags. These are used to indicate the *difficulty* and *nature* of a
+bug. There is not yet a way to indicate priority. An up to date
+summary of issues can be found [here](https://github.com/jgm/pandoc/labels).
+
+* [enhancement] -- A feature which would be desirable. We recommend
+  you discuss any proposed enhancement on pandoc-discuss before
+  writing code.
+* [bug] -- A problem which needs to be fixed.
+* [minor] -- The fix should only be a couple of lines.
+* [major] -- The fix might require structural changes or in depth knowledge of
+the code base.
+* [reader] -- A request to add a new input format.
+* [writer] -- A request to add a new output format.
+* [docs]   -- A discrepency or ambiguity in the documentation.
+* [inprogress] -- Someone is actively working on or planning to work on the
+  ticket.
+* [more discussion needed] -- It is unclear what the correct approach
+  to solving the ticket is. Before starting on tickets such as this it
+  would be advisable to post on the ticket.
+* [more info needed] -- We require more information from a user before
+  we can classify a report properly.
+
 Have an idea for a new feature?
 -------------------------------
 
@@ -122,7 +148,7 @@ the pandoc library is in `src/`, the source for the tests is in
 `tests/`, and the source for the benchmarks is in `benchmark/`.
 
 The modules `Text.Pandoc.Definition`, `Text.Pandoc.Builder`, and
-`Text.Pandoc.Generics` are in a separate library `pandoc-types`.  The code can
+`Text.Pandoc.Generic` are in a separate library `pandoc-types`.  The code can
 be found in a <http://github.com/jgm/pandoc-types>.
 
 To build pandoc, you will need a working installation of the
@@ -182,3 +208,13 @@ The library is structured as follows:
 [EditorConfig]: http://editorconfig.org/
 [Haskell platform]: http://www.haskell.org/platform/
 [hsb2hs]: http://hackage.haskell.org/package/hsb2hs
+[enhancement]: https://github.com/jgm/pandoc/labels/enhancement
+[bug]: https://github.com/jgm/pandoc/labels/bug
+[minor]: https://github.com/jgm/pandoc/labels/Minor
+[major]: https://github.com/jgm/pandoc/labels/Major
+[reader]: https://github.com/jgm/pandoc/labels/Reader
+[writer]: https://github.com/jgm/pandoc/labels/Writer
+[docs]: https://github.com/jgm/pandoc/labels/docs
+[inprogress]: https://github.com/jgm/pandoc/labels/inprogress
+[more discussion needed]: https://github.com/jgm/pandoc/labels/More%20discussion%20needed
+[more info needed]: https://github.com/jgm/pandoc/labels/More%20info%20needed
