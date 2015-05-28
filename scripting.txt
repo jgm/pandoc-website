@@ -1,6 +1,6 @@
 % Scripting with pandoc
 
-*This tutorial is for pandoc 1.12.  If you are using an earlier
+*This tutorial is for pandoc 1.12 or higher.  If you are using an earlier
 version of pandoc, see [the older version of the
 tutorial](scripting-1.11.html).*
 
@@ -93,6 +93,10 @@ behead x = x
 
 readDoc :: String -> Pandoc
 readDoc = readMarkdown def
+-- or, for pandoc 1.14, use:
+-- readDoc = case readMarkdown def of
+--                Right doc -> doc
+--                Left err  -> error (show err)
 
 writeDoc :: Pandoc -> String
 writeDoc = writeMarkdown def
@@ -128,6 +132,10 @@ extractURLs = query extractURL
 
 readDoc :: String -> Pandoc
 readDoc = readMarkdown def
+-- or, for pandoc 1.14, use:
+-- readDoc = case readMarkdown def of
+--                Right doc -> doc
+--                Left err  -> error (show err)
 
 main :: IO ()
 main = interact (unlines . extractURLs . readDoc)
