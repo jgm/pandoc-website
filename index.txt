@@ -18,7 +18,8 @@ Microsoft Word [docx], [EPUB], or [Haddock markup] to
 * Outline formats: [OPML]
 * TeX formats: [LaTeX], [ConTeXt], LaTeX Beamer slides
 * [PDF] via LaTeX
-* Lightweight markup formats: [Markdown], [reStructuredText], [AsciiDoc],
+* Lightweight markup formats: [Markdown] (including [CommonMark]),
+  [reStructuredText], [AsciiDoc],
   [MediaWiki markup], [DokuWiki markup], Emacs [Org-Mode], [Textile]
 * Custom formats:  custom writers can be written in [lua].
 
@@ -98,3 +99,4 @@ Pandoc is free software, released under the [GPL].
 [Txt2Tags]: http://txt2tags.org/
 [DokuWiki markup]: https://www.dokuwiki.org/wiki:syntax
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
+[CommonMark]: http://commonmark.org

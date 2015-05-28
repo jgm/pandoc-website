@@ -63,11 +63,11 @@ click on the name of the output file:
 
 13. From markdown to PDF:
 
-@   pandoc @@README@@ -o @@example13.pdf@@
+@   pandoc @@README@@ --latex-engine=xelatex -o @@example13.pdf@@
 
 14. PDF with numbered sections and a custom LaTeX header:
 
-@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont=Georgia --variable sansfont=Arial --variable monofont="Bitstream Vera Sans Mono" --variable fontsize=12pt --variable version=1.10 @@README@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
+@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont=Georgia --variable sansfont=Arial --variable monofont="Bitstream Vera Sans Mono" --variable fontsize=12pt --variable version=1.14 @@README@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
 
 [xmlto]:  http://cyberelk.net/tim/xmlto/
 
