@@ -25,7 +25,7 @@
     If shortcut links are not desired, the extension can be disabled
     in the normal way.
 
-# Behavior changes
+## Behavior changes
 
   * `--toc` is now supported for `docx` output (#458, Nikolay Yakimov).
     A "dirty" TOC is created at the beginning of document.
