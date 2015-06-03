@@ -30,7 +30,7 @@
     `alien`.
   - Or, try your package manager.
     Pandoc is in the [Debian], [Ubuntu], [Slackware],
-    [Arch], [Fedora], [NiXOS], and [gentoo] repositories.
+    [Arch], [Fedora], [NiXOS], [openSUSE], and [gentoo] repositories.
     Note, however, that versions in the repositories are often
     old.
   - If the version in your repository is too old and you cannot
@@ -119,3 +119,4 @@ completely self-contained.
 [NixOS]: http://nixos.org/nixos/
 [haskell repository]: https://wiki.archlinux.org/index.php/Haskell_Package_Guidelines#.5Bhaskell.5D
 [MacTeX]: https://tug.org/mactex/
+[openSUSE]: https://software.opensuse.org/package/pandoc
