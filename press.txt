@@ -57,6 +57,9 @@ Here are some books, articles, and blogs that discuss pandoc:
   pandoc."](https://www.tug.org/TUGboat/tb32-3/tb102kielhorn.pdf)
   *TUGboat-TeX Users Group* 32, no. 3 (2011): 272.
 
+- Massimiliano Dominici. ["An Overview of Pandoc."](http://www.dw.tug.org/TUGboat/tb35-1/tb109dominici.pdf),
+  *TUGboat* 32 (2014), n. 1: 44-50.
+
 - Gieben, R. ["Writing I-Ds and RFCs Using Pandoc and a Bit of
   XML."](https://tools.ietf.org/html/rfc7328.html) (RFC 7328, 2014).
 
@@ -64,6 +67,18 @@ Here are some books, articles, and blogs that discuss pandoc:
   Academics".](http://www.tandfonline.com/doi/pdf/10.1080/01639269.2014.904696)
   *Behavioral & Social Sciences Librarian* 33 (2): 120–124.
   doi:10.1080/01639269.2014.904696
+
+- Daniel Burgos and Alberto Corbí, "Semi-Automated Correction Tools for
+  Mathematics-Based Exercises in MOOC Environments,"
+  [*International Journal of Artificial Intelligence and Interactive Multimedia*,
+  3](http://www.ijimai.org/journal/sites/default/files/journals/IJIMAI20153_3.pdf), 89-95.
+
+- Garnett A, Alperin JP, Willinsky J. "The Public Knowledge Project XML
+  Publishing Service and meTypeset: Don't call it 'Yet Another
+  Word-to-JATS Conversion Kit'." *Journal Article Tag Suite
+  Conference (JATS-Con) Proceedings* 2015 [Internet]. Bethesda (MD):
+  National Center for Biotechnology Information (US); 2015. Available
+  from: <http://www.ncbi.nlm.nih.gov/books/NBK279666/>
 
 # Books
 
