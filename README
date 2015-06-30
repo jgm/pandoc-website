@@ -240,6 +240,14 @@ General options
     `epub.css`, `templates`, `slidy`, `slideous`, or `s5` directory
     placed in this directory will override pandoc's normal defaults.
 
+`--man1`
+
+:   Write `pandoc.1` man page to *stdout*.
+
+`--man5`
+
+:   Write `pandoc_markdown.5` man page to *stdout*.
+
 `--verbose`
 
 :   Give verbose debugging output.  Currently this only has an effect
@@ -971,9 +979,10 @@ as `title`, `author`, and `date`) as well as the following:
     `libertine` (Linux Libertine), `arev` (Arev Sans),
     and the default `lmodern`, among others.
 
-`mainfont`, `sansfont`, `monofont`, `mathfont`
+`mainfont`, `sansfont`, `monofont`, `mathfont`, `CJKmainfont`
 :   fonts for LaTeX documents (works only with xelatex
-    and lualatex)
+    and lualatex).  Note that if `CJKmainfont` is used,
+    the `xeCJK` package must be available.
 
 `colortheme`
 :   colortheme for LaTeX beamer documents
@@ -3430,6 +3439,7 @@ Julien Cretel,
 Justin Bogner,
 Kelsey Hightower,
 Konstantin Zudov,
+Lars-Dominik Braun,
 Luke Plant,
 Mark Szepieniec,
 Mark Wright,
