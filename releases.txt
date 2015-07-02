@@ -1,5 +1,13 @@
 % Releases
 
+# pandoc 1.15.0.3 (02 Jul 2015)
+
+  * Ensure target directory is created when installing man page.
+
+# pandoc 1.15.0.2 (02 Jul 2015)
+
+  * Added files needed for building man page to Extra-Source-Files.
+
 # pandoc 1.15.0.1 (01 Jul 2015)
 
   * Man page is now built and installed as part of the cabal build
