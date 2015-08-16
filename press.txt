@@ -2,46 +2,6 @@
 
 Here are some books, articles, and blogs that discuss pandoc:
 
-# Blog posts
-
-- Tenen, Dennis and Grant Wythoff (2014-03-19). ["Sustainable Authorship
-  in Plain Text using Pandoc and Markdown"](http://programminghistorian.org/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown). The Programming
-  Historian.
-
-- Mullen, Lincoln (2012-02-23). ["Pandoc Converts All Your (Text)
-   Documents"](http://chronicle.com/blogs/profhacker/pandoc-converts-all-your-text-documents/38700), The Chronicle of Higher Education Blogs: ProfHacker.
-
-- Mullen, Lincoln (2012-03-20). ["Make Your Own E-Books with
-  Pandoc"](http://chronicle.com/blogs/profhacker/make-your-own-e-books-with-pandoc/39067). The Chronicle of Higher Education Blogs: ProfHacker.
-
-- Fenner, Martin (2013-12-12). ["From Markdown to JATS XML in one
-  Step"](http://blog.martinfenner.org/2013/12/12/from-markdown-to-jats-xml-in-one-step/). Gobbledygook.
-
-- McDaniel, W. Caleb (2012-09-28). ["Why (and How) I Wrote My Academic
-  Book in Plain Text"](http://wcm1.web.rice.edu/my-academic-book-in-plain-text.html).
-
-- Healy, Kieran (2014-01-23). ["Plain Text, Papers, Pandoc"](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/).
-
-- Till, Kaitlyn, Shed Simas, and Velma Larkai (2014-04-14). ["The Flying
-  Narwhal: Small mag workflow"](http://tkbr.ccsp.sfu.ca/mpub/2014/04/14/the-flying-narwhal-small-mag-workflow/#more-639). Publishing @ SFU.
-
-- Maxwell, John (2013-11-01). ["Building Publishing Workflows with
- Pandoc and Git"](http://www.ccsp.sfu.ca/2013/11/building-publishing-workflows-with-pandoc-and-git/). Publishing @ SFU.
-
-- Maxwell, John (2014-02-26). ["On Pandoc"](http://tkbr.ccsp.sfu.ca:5001/Slides/On%20Pandoc). eBound Canada: Digital Production Workshop, Vancouver, BC.
-
-- Puppet labs (2013-11-28).
-  ["How We Automated our Ebook Builds with Pandoc and KindleGen."](http://puppetlabs.com/blog/automated-ebook-generation-convert-markdown-epub-mobi-pandoc-kindlegen).
-
-- Fenner, Martin (2014-08-25).
-  ["Using Microsoft Word with
-  git."](http://blog.martinfenner.org/2014/08/25/using-microsoft-word-with-git/).
-
-
-# Talks
-
-- MacFarlane, John (2014-05-17). ["Pandoc for Haskell Hackers"](http://johnmacfarlane.net/BayHac2014/#/). BayHac 2014, Mountain View, CA.
-
 # Articles
 
 - [Pandoc](http://en.wikipedia.org/wiki/Pandoc) on Wikipedia.
@@ -93,4 +53,45 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 - Michael Kofler,
   [*Markdown und
   Pandoc*](http://www.amazon.com/Markdown-Pandoc-German-Michael-Kofler-ebook/dp/B00CX7HIOO/ref=sr_1_1?ie=UTF8&qid=1424543894&sr=8-1&keywords=pandoc).
+
+# Blog posts
+
+- Tenen, Dennis and Grant Wythoff (2014-03-19). ["Sustainable Authorship
+  in Plain Text using Pandoc and Markdown"](http://programminghistorian.org/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown). The Programming
+  Historian.
+
+- Mullen, Lincoln (2012-02-23). ["Pandoc Converts All Your (Text)
+   Documents"](http://chronicle.com/blogs/profhacker/pandoc-converts-all-your-text-documents/38700), The Chronicle of Higher Education Blogs: ProfHacker.
+
+- Mullen, Lincoln (2012-03-20). ["Make Your Own E-Books with
+  Pandoc"](http://chronicle.com/blogs/profhacker/make-your-own-e-books-with-pandoc/39067). The Chronicle of Higher Education Blogs: ProfHacker.
+
+- Fenner, Martin (2013-12-12). ["From Markdown to JATS XML in one
+  Step"](http://blog.martinfenner.org/2013/12/12/from-markdown-to-jats-xml-in-one-step/). Gobbledygook.
+
+- McDaniel, W. Caleb (2012-09-28). ["Why (and How) I Wrote My Academic
+  Book in Plain Text"](http://wcm1.web.rice.edu/my-academic-book-in-plain-text.html).
+
+- Healy, Kieran (2014-01-23). ["Plain Text, Papers, Pandoc"](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/).
+
+- Till, Kaitlyn, Shed Simas, and Velma Larkai (2014-04-14). ["The Flying
+  Narwhal: Small mag workflow"](http://tkbr.ccsp.sfu.ca/mpub/2014/04/14/the-flying-narwhal-small-mag-workflow/#more-639). Publishing @ SFU.
+
+- Maxwell, John (2013-11-01). ["Building Publishing Workflows with
+ Pandoc and Git"](http://www.ccsp.sfu.ca/2013/11/building-publishing-workflows-with-pandoc-and-git/). Publishing @ SFU.
+
+- Maxwell, John (2014-02-26). ["On Pandoc"](http://tkbr.ccsp.sfu.ca:5001/Slides/On%20Pandoc). eBound Canada: Digital Production Workshop, Vancouver, BC.
+
+- Puppet labs (2013-11-28).
+  ["How We Automated our Ebook Builds with Pandoc and KindleGen."](http://puppetlabs.com/blog/automated-ebook-generation-convert-markdown-epub-mobi-pandoc-kindlegen).
+
+- Fenner, Martin (2014-08-25).
+  ["Using Microsoft Word with
+  git."](http://blog.martinfenner.org/2014/08/25/using-microsoft-word-with-git/).
+
+
+# Talks
+
+- MacFarlane, John (2014-05-17). ["Pandoc for Haskell Hackers"](http://johnmacfarlane.net/BayHac2014/#/). BayHac 2014, Mountain View, CA.
+
 
