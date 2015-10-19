@@ -5,7 +5,8 @@ pandoc is your swiss-army knife.  Pandoc can convert documents
 in [markdown], [reStructuredText], [textile], [HTML], [DocBook],
 [LaTeX], [MediaWiki markup], [TWiki markup],
 [OPML], Emacs [Org-Mode], [Txt2Tags],
-Microsoft Word [docx], [EPUB], or [Haddock markup] to
+Microsoft Word [docx], LibreOffice [ODT],
+[EPUB], or [Haddock markup] to
 
 * HTML formats:  XHTML, HTML5, and HTML slide shows using [Slidy],
   [reveal.js], [Slideous], [S5], or [DZSlides].

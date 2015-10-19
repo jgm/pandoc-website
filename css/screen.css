@@ -7,6 +7,8 @@ header span   { font-family: Arial, Verdana, sans-serif; }
 header .big   { font-size: 36pt; border: none; }
 header .small { font-size: 22pt; color: gray; }
 
+ul ul { margin-bottom: 0.5em }
+
 div#TOC { font-size: 10pt; margin: 2em 0 1em 0; padding: 0; background-color: white; }
 div#TOC ul > ul { margin-left: 1em; }
 

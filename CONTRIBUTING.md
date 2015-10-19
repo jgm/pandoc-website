@@ -25,6 +25,32 @@ including
 A small test case (just a few lines) is ideal.  If your input is large,
 try to whittle it down to the minimum necessary to illustrate the problem.
 
+Out of scope?
+-------------
+
+A less than perfect conversion does not necessarily mean there's
+a bug in pandoc.  Quoting from the README:
+
+> Because Pandoc's intermediate representation of a document is less
+> expressive than many of the formats it converts between, one should
+> not expect perfect conversions between every format and every other.
+> Pandoc attempts to preserve the structural elements of a document, but
+> not formatting details such as margin size.  And some document elements,
+> such as complex tables, may not fit into Pandoc's simple document
+> model.  While conversions from Pandoc's Markdown to all formats aspire
+> to be perfect, conversions from formats more expressive than Pandoc's
+> Markdown can be expected to be lossy.
+
+For example, both docx and odt can represent margin size, but because
+pandoc's internal document model does not contain a representation of
+margin size, this information will be lost on converting from docx
+to odt.  (You can, however, customize margin size using `--reference-odt`.)
+
+So before submitting a bug report, consider whether it might be
+"out of scope."  If it concerns a feature of documents that isn't
+representable in pandoc's Markdown, then it very likely is.
+(If in doubt, you can always ask on pandoc-discuss.)
+
 Fixing bugs from the issue tracker
 ----------------------------------
 
@@ -106,6 +132,14 @@ Please follow these guidelines:
 9.  It is better not to introduce new dependencies.  Dependencies on
     external C libraries should especially be avoided.
 
+10. We aim for compatibility with ghc versions from 7.4.2 to the
+    latest release.  All pull requests and commits are tested
+    automatically on travis-ci.org, using GHC versions in the
+    `Tested-With` stanza of `pandoc.cabal`.  We currently relax
+    the "`-Wall` clean" requirement for GHC 7.10.x, because
+    there are so many warnings relating to the addition of type
+    classes to the Prelude.
+
 Tests
 -----
 
@@ -119,6 +153,20 @@ The test program is `tests/test-pandoc.hs`.
 
 Benchmarks can be enabled by passing the `--enable-benchmarks` flag
 to `cabal configure`, and run using `cabal bench`.
+
+Using the REPL
+--------------
+
+With a recent version of cabal, you can do `cabal repl` and get
+a ghci REPL for working with pandoc.  We recommend using the following
+`.ghci` file (which can be placed in the source directory):
+
+```
+:set -fobject-code
+:set -XTypeSynonymInstances
+:set -XScopedTypeVariables
+:set -XOverloadedStrings
+```
 
 The code
 --------
