@@ -27,13 +27,13 @@ $(SITE)/% : %
 clean:
 	rm -rf $(SITE)
 
-DEMOFILES = $(patsubst %, $(DEMO)/%, README config.xsl code.text math.text math.tex mytemplate.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua example33.text twocolumns.docx biblio.json biblio.yaml)
+DEMOFILES = $(patsubst %, $(DEMO)/%, README code.text math.text math.tex mytemplate.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua example33.text twocolumns.docx biblio.json biblio.yaml)
 
 $(DEMO)/% : %
 	cp $< $@
 
-$(SITE)/demos.txt : $(DEMO) $(DEMO)/reveal.js $(DEMOFILES) mkdemos.pl
-	perl mkdemos.pl demos $@ $(DEMO)
+$(SITE)/demos.txt : demos $(DEMO) $(DEMO)/reveal.js $(DEMOFILES) mkdemos.pl
+	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
 	pandoc-citeproc --bib2json $< > $@
@@ -57,7 +57,7 @@ $(SITE)/changelog.txt : changelog
 	cp $< $@
 
 $(SITE)/diagram.dot :
-	runghc make-diagram.hs > $@ || rm $@
+	stack runghc make-diagram.hs > $@ || rm $@
 
 $(SITE)/diagram.jpg : $(SITE)/diagram.png
 	convert -quality 70% $< $@
@@ -70,7 +70,7 @@ $(SITE)/% : %
 
 # 'make update' pulls in source files from the pandoc source directory
 SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog README CONTRIBUTING.md) \
-          $(wildcard $(PANDOC_SRC)/man/man1/*.*)
+          $(PANDOC_SRC)/man/pandoc.1
 
 update :
 	cp -r $(SOURCES) .
@@ -86,8 +86,8 @@ update :
 
 $(SITE)/README.pdf : README template.tex
 	$(PANDOC) $< -o $@ --toc -s -S --template template.tex \
-		--variable mainfont=Georgia --variable sansfont=Arial \
-		--variable monofont="Bitstream Vera Sans Mono" \
+		--variable mainfont="Georgia" --variable sansfont="Corbel" \
+		--variable monofont="Consolas" \
 		--variable fontsize=11pt --variable version="$(VERSION)" \
 		--variable geometry='margin=1.2in' \
 		--latex-engine=xelatex

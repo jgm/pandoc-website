@@ -45,10 +45,6 @@ click on the name of the output file:
 
 @   pandoc -s -S -t docbook @@README@@ -o @@example9.db@@
 
-    Chunked XHTML via DocBook and [xmlto]:
-
-@   xmlto xhtml -m @@config.xsl@@ @@example9.db@@ -o @@example9/@@
-
 10. Man page:
 
 @   pandoc -s -t man @@pandoc.1.md@@ -o @@example10.1@@
@@ -67,9 +63,7 @@ click on the name of the output file:
 
 14. PDF with numbered sections and a custom LaTeX header:
 
-@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont=Georgia --variable sansfont=Arial --variable monofont="Bitstream Vera Sans Mono" --variable fontsize=12pt --variable version=1.14 @@README@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
-
-[xmlto]:  http://cyberelk.net/tim/xmlto/
+@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont="Palatino" --variable sansfont="Century Gothic" --variable monofont="Consolas" --variable fontsize=12pt --variable version=1.15.2 @@README@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
 
 15. A wiki program using [Happstack](http://happstack.com) and pandoc:
     [gitit](http://gitit.net)
@@ -123,9 +117,9 @@ click on the name of the output file:
 
 24. Markdown citations:
 
-@   pandoc -s -S --biblio @@biblio.bib@@ --csl @@chicago-author-date.csl@@ @@CITATIONS@@ -o @@example24a.html@@
-@   pandoc -s -S --biblio @@biblio.json@@ --csl @@chicago-fullnote-bibliography.csl@@ @@CITATIONS@@ -o @@example24b.html@@
-@   pandoc -s -S --biblio @@biblio.yaml@@ --csl @@ieee.csl@@ @@CITATIONS@@ -t man -o @@example24c.1@@
+@   pandoc -s -S --bibliography @@biblio.bib@@ --filter pandoc-citeproc @@CITATIONS@@ -o @@example24a.html@@
+@   pandoc -s -S --bibliography @@biblio.json@@ --filter pandoc-citeproc --csl @@chicago-fullnote-bibliography.csl@@ @@CITATIONS@@ -o @@example24b.html@@
+@   pandoc -s -S --bibliography @@biblio.yaml@@ --filter pandoc-citeproc --csl @@ieee.csl@@ @@CITATIONS@@ -t man -o @@example24c.1@@
 
 25. Textile writer:
 

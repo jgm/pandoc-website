@@ -61,10 +61,11 @@ $endif$
             pdfauthor={$author-meta$},
             pdftitle={$title-meta$},
             colorlinks=true,
-            citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
-            urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
+            citecolor=$if(citecolor)$$citecolor$$else$magenta$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$magenta$endif$,
             linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
-            pdfborder={0 0 0}}
+            pdfborder={0 0 0},
+            hidelinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{fancyhdr}
 \pagestyle{fancy}
