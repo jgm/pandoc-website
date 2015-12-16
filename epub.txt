@@ -119,7 +119,6 @@ chapter files as sources:
       08-git-and-other-scms/01-chapter8.markdown \
       09-git-internals/01-chapter9.markdown
 
-(This will take a little while -- about 30 seconds on my machine.)
 That's it!  The ebook, `progit.epub`, is ready to be uploaded to your reader.
 
 ## Changing the format
