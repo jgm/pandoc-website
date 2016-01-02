@@ -67,27 +67,14 @@ end
 
 -- This function is called once for the whole document. Parameters:
 -- body is a string, metadata is a table, variables is a table.
--- One could use some kind of templating
--- system here; this just gives you a simple standalone HTML file.
+-- This gives you a fragment.  You could use the metadata table to
+-- fill variables in a custom lua template.  Or, pass `--template=...`
+-- to pandoc, and pandoc will add do the template processing as
+-- usual.
 function Doc(body, metadata, variables)
   local buffer = {}
   local function add(s)
     table.insert(buffer, s)
-  end
-  add('<!DOCTYPE html>')
-  add('<html>')
-  add('<head>')
-  add('<title>' .. (metadata['title'] or '') .. '</title>')
-  add('</head>')
-  add('<body>')
-  if metadata['title'] and metadata['title'] ~= "" then
-    add('<h1 class="title">' .. metadata['title'] .. '</h1>')
-  end
-  for _, author in pairs(metadata['author'] or {}) do
-    add('<h2 class="author">' .. author .. '</h2>')
-  end
-  if metadata['date'] and metadata['date'] ~= "" then
-    add('<h3 class="date">' .. metadata.date .. '</h3>')
   end
   add(body)
   if #notes > 0 then
@@ -97,9 +84,7 @@ function Doc(body, metadata, variables)
     end
     add('</ol>')
   end
-  add('</body>')
-  add('</html>')
-  return table.concat(buffer,'\n')
+  return table.concat(buffer,'\n') .. '\n'
 end
 
 -- The functions that follow render corresponding pandoc elements.
@@ -113,6 +98,10 @@ end
 
 function Space()
   return " "
+end
+
+function SoftBreak()
+  return "\n"
 end
 
 function LineBreak()
@@ -143,12 +132,12 @@ function Strikeout(s)
   return '<del>' .. s .. '</del>'
 end
 
-function Link(s, src, tit)
+function Link(s, src, tit, attr)
   return "<a href='" .. escape(src,true) .. "' title='" ..
          escape(tit,true) .. "'>" .. s .. "</a>"
 end
 
-function Image(s, src, tit)
+function Image(s, src, tit, attr)
   return "<img src='" .. escape(src,true) .. "' title='" ..
          escape(tit,true) .. "'/>"
 end
@@ -179,6 +168,15 @@ end
 
 function Span(s, attr)
   return "<span" .. attributes(attr) .. ">" .. s .. "</span>"
+end
+
+function Cite(s, cs)
+  local ids = {}
+  for _,cit in ipairs(cs) do
+    table.insert(ids, cit.citationId)
+  end
+  return "<span class=\"cite\" data-citation-ids=\"" .. table.concat(ids, ",") ..
+    "\">" .. s .. "</span>"
 end
 
 function Plain(s)
@@ -255,6 +253,12 @@ function html_align(align)
   else
     return 'left'
   end
+end
+
+function CaptionedImage(src, tit, caption)
+   return '<div class="figure">\n<img src="' .. escape(src,true) ..
+      '" title="' .. escape(tit,true) .. '"/>\n' ..
+      '<p class="caption">' .. caption .. '</p>\n</div>'
 end
 
 -- Caption is a string, aligns is an array of strings,
