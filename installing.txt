@@ -54,56 +54,24 @@
 ### Installing from source
 
 If for some reason a binary package is not available for your
-platform, you can install from source:
+platform, you can install from source.  The easiest approach
+is to use [stack]:
 
-  - First, install the [Haskell platform], then use the
-    `cabal` tool to get the latest release of pandoc:
+1.  Install [stack].
 
-        cabal update
-        cabal install pandoc
+2.  Issue the following commands:
 
-    Or, if you want to use pandoc's citation processing features,
+        stack setup
+        stack install
 
-        cabal update
-        cabal install pandoc pandoc-citeproc
+    `stack setup` will automatically download the ghc compiler
+    if you don't have it.  `stack install` will install the
+    `pandoc` executable into `~/.local/bin`, which you should
+    add to your `PATH`.  This process will take a while, and
+    will consume a considerable amount of disk space.
 
-    This will download and compile pandoc and all of its dependencies.
-
-    If this step fails, and you're using an older version of the
-    Haskell Platform (e.g. in Debian stable), try upgrading your
-    `cabal` tool:
-
-        cabal install cabal-install
-        ~/.cabal/bin/cabal update
-        ~/.cabal/bin/cabal install pandoc
-
-    By default, cabal will perform a user install, putting the pandoc
-    executable in `~/.cabal/bin` (on linux and BSD) or
-    `~/Library/Haskell/bin` (on OS X).  Make sure this directory
-    is in your path.
-
-    To update pandoc when a new release comes out on HackageDB,
-    simply do `cabal update && cabal install pandoc` again.  You
-    may get a message saying that the install may break earlier
-    installations of pandoc and pandoc-citeproc.  It should be safe
-    to force the installation:
-
-        cabal install --force pandoc pandoc-citeproc
-
-  - Alternatively, you can download the [source tarball] and
-    follow the instructions in INSTALL.
-
-### Creating a relocatable binary
-
-It is possible to compile pandoc such that the data files
-pandoc uses are embedded in the binary. (The executables in
-the binary are built this way.)  The
-resulting binary can be run from any directory and is
-completely self-contained.
-
-     cabal update
-     cabal install hsb2hs
-     cabal install --flags="embed_data_files" pandoc pandoc-citeproc
+Alternatively, you can download the [source tarball] and
+follow the instructions in INSTALL.
 
 
 [GHC]:  http://www.haskell.org/ghc/
@@ -112,7 +80,7 @@ completely self-contained.
 [Haskell platform]: http://hackage.haskell.org/platform/
 [Debian]: http://packages.debian.org/lenny/pandoc
 [Slackware]: http://www.linuxpackages.net/search_view.php?by=name&name=pandoc&ver=
-[Arch]: https://aur.archlinux.org/packages/haskell-pandoc/
+[Arch]: https://www.archlinux.org/packages/community/x86_64/pandoc/
 [Fedora]: https://apps.fedoraproject.org/packages/pandoc
 [NetBSD]: http://pkgsrc.se/wip/pandoc
 [FreeBSD ports]: http://www.freshports.org/textproc/pandoc/
@@ -124,3 +92,4 @@ completely self-contained.
 [haskell repository]: https://wiki.archlinux.org/index.php/Haskell_Package_Guidelines#.5Bhaskell.5D
 [MacTeX]: https://tug.org/mactex/
 [openSUSE]: https://software.opensuse.org/package/pandoc
+[stack]: http://docs.haskellstack.org/en/stable/install_and_upgrade.html
