@@ -58,7 +58,7 @@ so adding a new input or output format just requires adding a new
 module.
 
 Pandoc is free software, released under the [GPL].
-© 2006-2014 [John MacFarlane].
+© 2006-2016 [John MacFarlane].
 
 <img src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
 
