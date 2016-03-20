@@ -22,7 +22,7 @@ markup], [Haddock markup], [OPML], [Emacs Org mode], [DocBook],
 [OpenDocument], [ODT], [Word docx], [GNU Texinfo], [MediaWiki markup],
 [DokuWiki markup], [Haddock markup], [EPUB] (v2 or v3),
 [FictionBook2], [Textile], [groff man] pages, [Emacs Org mode],
-[AsciiDoc], [InDesign ICML], and [Slidy], [Slideous], [DZSlides],
+[AsciiDoc], [InDesign ICML], [TEI Simple], and [Slidy], [Slideous], [DZSlides],
 [reveal.js] or [S5] HTML slide shows. It can also produce [PDF] output
 on systems where LaTeX, ConTeXt, or `wkhtmltopdf` is installed.
 
@@ -89,6 +89,7 @@ Markdown can be expected to be lossy.
 [reveal.js]: http://lab.hakim.se/reveal-js/
 [FictionBook2]: http://www.fictionbook.org/index.php/Eng:XML_Schema_Fictionbook_2.1
 [InDesign ICML]: https://www.adobe.com/content/dam/Adobe/en/devnet/indesign/cs55-docs/IDML/idml-specification.pdf
+[TEI Simple]: https://github.com/TEIC/TEI-Simple
 
 Using `pandoc`
 --------------
@@ -277,11 +278,11 @@ General options
     `docx` (Word docx), `haddock` (Haddock markup), `rtf` (rich text
     format), `epub` (EPUB v2 book), `epub3` (EPUB v3), `fb2`
     (FictionBook2 e-book), `asciidoc` (AsciiDoc), `icml` (InDesign
-    ICML), `slidy` (Slidy HTML and javascript slide show), `slideous`
-    (Slideous HTML and javascript slide show), `dzslides` (DZSlides
-    HTML5 + javascript slide show), `revealjs` (reveal.js HTML5 +
-    javascript slide show), `s5` (S5 HTML and javascript slide show),
-    or the path of a custom lua writer (see [Custom
+    ICML), `tei` (TEI Simple), `slidy` (Slidy HTML and javascript slide
+    show), `slideous` (Slideous HTML and javascript slide show),
+    `dzslides` (DZSlides HTML5 + javascript slide show), `revealjs`
+    (reveal.js HTML5 + javascript slide show), `s5` (S5 HTML and javascript
+    slide show), or the path of a custom lua writer (see [Custom
     writers], below). Note that `odt`, `epub`, and
     `epub3` output will not be directed to *stdout*; an output
     filename must be specified using the `-o/--output` option. If
@@ -387,6 +388,14 @@ Reader options
     require different kinds of images.  Currently this option only affects
     the Markdown and LaTeX readers.
 
+`--file-scope`
+
+:   Parse each file individually before combining for multifile
+    documents. This will allow footnotes in different files with the
+    same identifiers to work as expected. If this option is set,
+    footnotes and links will not work across files. Reading binary
+    files (docx, odt, epub) implies `--file-scope`.
+
 `--filter=`*EXECUTABLE*
 
 :   Specify an executable to be used as a filter transforming the
@@ -471,7 +480,7 @@ General writer options
 `-s`, `--standalone`
 
 :   Produce output with an appropriate header and footer (e.g. a
-    standalone HTML, LaTeX, or RTF file, not a fragment).  This option
+    standalone HTML, LaTeX, TEI, or RTF file, not a fragment).  This option
     is set automatically for `pdf`, `epub`, `epub3`, `fb2`, `docx`, and `odt`
     output.
 
@@ -536,9 +545,9 @@ General writer options
 `--toc`, `--table-of-contents`
 
 :   Include an automatically generated table of contents (or, in
-    the case of `latex`, `context`, and `rst`, an instruction to create
+    the case of `latex`, `context`, `docx`, and `rst`, an instruction to create
     one) in the output document. This option has no effect on `man`,
-    `docbook`, `slidy`, `slideous`, `s5`, `docx`, or `odt` output.
+    `docbook`, `slidy`, `slideous`, `s5`, or `odt` output.
 
 `--toc-depth=`*NUMBER*
 
@@ -579,7 +588,7 @@ General writer options
 
 :   Include contents of *FILE*, verbatim, at the end of the document
     body (before the `</body>` tag in HTML, or the
-    `\end{document}` command in LaTeX). This option can be be used
+    `\end{document}` command in LaTeX). This option can be used
     repeatedly to include multiple files. They will be included in the
     order specified.  Implies `--standalone`.
 
@@ -627,9 +636,10 @@ Options affecting specific writers
 `--chapters`
 
 :   Treat top-level headers as chapters in LaTeX, ConTeXt, and DocBook
-    output.  When the LaTeX document class is set to `report`, `book`, or
-    `memoir`, this option is implied.  If `beamer` is the output
-    format, top-level headers will become `\part{..}`.
+    output.  When the LaTeX document class is set to `report`, `book`,
+    or `memoir` (unless the `article` option is specified), this
+    option is implied.  If `beamer` is the output format, top-level
+    headers will become `\part{..}`.
 
 `-N`, `--number-sections`
 
@@ -715,7 +725,7 @@ Options affecting specific writers
 
 `-c` *URL*, `--css=`*URL*
 
-:   Link to a CSS style sheet. This option can be be used repeatedly to
+:   Link to a CSS style sheet. This option can be used repeatedly to
     include multiple files. They will be included in the order specified.
 
 `--reference-odt=`*FILE*
@@ -1031,6 +1041,10 @@ as the following:
     `\subtitle`, such as `beamer` or the [KOMA-Script] series (`scrartcl`,
     `scrreprt`, `scrbook`).[^subtitle]
 
+`institute`
+:   author affiliations (in LaTeX and Beamer only).  Can be a
+    list, when there are multiple authors.
+
 `abstract`
 :   document summary, included in LaTeX, ConTeXt, AsciiDoc, and Word docx
 
@@ -1090,7 +1104,7 @@ Language variables
     in the YAML metadata, according to [BCP 47]. For example:
     `otherlangs: [en-GB, fr]`.
     This is automatically generated from the `lang` attributes
-    in all `span`s and `div`s but can be overriden.
+    in all `span`s and `div`s but can be overridden.
     Currently only used by LaTeX through the generated
     `babel-otherlangs` and `polyglossia-otherlangs` variables.
     The LaTeX writer outputs polyglossia commands in the text but
@@ -3377,14 +3391,13 @@ variants are supported:
     `shortcut_reference_links`.
 
 `markdown_github` (GitHub-Flavored Markdown)
-:   `pipe_tables`, `raw_html`, `tex_math_single_backslash`,
-    `fenced_code_blocks`, `auto_identifiers`,
+:   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
     `ascii_identifiers`, `backtick_code_blocks`, `autolink_bare_uris`,
     `intraword_underscores`, `strikeout`, `hard_line_breaks`, `emoji`,
     `shortcut_reference_links`.
 
 `markdown_mmd` (MultiMarkdown)
-:   `pipe_tables` `raw_html`, `markdown_attribute`, `mmd_link_attributes`,
+:   `pipe_tables`, `raw_html`, `markdown_attribute`, `mmd_link_attributes`,
     `raw_tex`, `tex_math_double_backslash`, `intraword_underscores`,
     `mmd_title_block`, `footnotes`, `definition_lists`,
     `all_symbols_escapable`, `implicit_header_references`,

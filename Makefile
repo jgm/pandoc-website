@@ -57,7 +57,7 @@ $(SITE)/changelog.txt : changelog
 	cp $< $@
 
 $(SITE)/diagram.dot :
-	stack runghc make-diagram.hs > $@ || rm $@
+	runghc make-diagram.hs > $@ || rm $@
 
 $(SITE)/diagram.jpg : $(SITE)/diagram.png
 	convert -quality 70% $< $@
