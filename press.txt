@@ -94,7 +94,7 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 
 - Mattia Tezzele (2015-11-24), ["Typesetting automation: A Plain-text workflow for painless
   production of personal documents & offline
-  correspondence---featuring Pnadoc, LaTeX, and a simple
+  correspondence---featuring Pandoc, LaTeX, and a simple
   makefile](http://mrzool.cc/writing/typesetting-automation/)
 
 # Talks
