@@ -89,7 +89,7 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
   ["Using Microsoft Word with
   git."](http://blog.martinfenner.org/2014/08/25/using-microsoft-word-with-git/).
 
-- Wouter Soudan (2015-12-02). ["From Word to Markdown to InDesign
+- Wouter Soudan (2015-12-02). ["From Word to Markdown to InDesign: 
    Fully automated typesetting."](http://rhythmus.be/md2indd/)
 
 - Mattia Tezzele (2015-11-24), ["Typesetting automation: A Plain-text workflow for painless
