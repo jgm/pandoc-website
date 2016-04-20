@@ -1,8 +1,8 @@
 % Scripting with pandoc
 
-*This tutorial is for pandoc 1.16 or higher.  If you are using an earlier
+*This tutorial is for pandoc 1.12 or higher.  If you are using an earlier
 version of pandoc, see [the older version of the
-tutorial](scripting-1.12.html).*
+tutorial](scripting-1.11.html).*
 
 ## A simple example
 
@@ -123,8 +123,8 @@ a markdown document (again, not an easy task with regular expressions):
 import Text.Pandoc
 
 extractURL :: Inline -> [String]
-extractURL (Link _ _ (u,_)) = [u]
-extractURL (Image _ _ (u,_)) = [u]
+extractURL (Link _ (u,_)) = [u]
+extractURL (Image _ (u,_)) = [u]
 extractURL _ = []
 
 extractURLs :: Pandoc -> [String]
@@ -326,8 +326,8 @@ import Text.Pandoc.JSON
 main = toJSONFilter delink
 
 delink :: Inline -> [Inline]
-delink (Link _ txt _) = txt
-delink x              = [x]
+delink (Link txt _) = txt
+delink x            = [x]
 ~~~~
 
 Note that `delink` can't be a function of type `Inline -> Inline`,
@@ -379,7 +379,7 @@ import Text.Pandoc.JSON
 import System.Environment (getArgs)
 
 handleRuby :: Maybe Format -> Inline -> Inline
-handleRuby (Just format) (Link _ [Str ruby] ('-':kanji,_))
+handleRuby (Just format) (Link [Str ruby] ('-':kanji,_))
   | format == Format "html"  = RawInline format
     $ "<ruby>" ++ kanji ++ "<rp>(</rp><rt>" ++ ruby ++ "</rt><rp>)</rp></ruby>"
   | format == Format "latex" = RawInline format
