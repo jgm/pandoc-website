@@ -326,8 +326,8 @@ import Text.Pandoc.JSON
 main = toJSONFilter delink
 
 delink :: Inline -> [Inline]
-delink (Link txt _) = txt
-delink x            = [x]
+delink (Link _ txt _) = txt
+delink x              = [x]
 ~~~~
 
 Note that `delink` can't be a function of type `Inline -> Inline`,
