@@ -1,0 +1,29 @@
+% Help
+
+Pandoc is open-source software, maintained by volunteers working
+in their free time.  Please keep that in mind when asking for
+help.
+
+The first place to go if you have a question about pandoc, or
+if something doesn't seem to be working properly, is the
+[pandoc-discuss mailing list] on Google Groups. (The mailing
+list is also mirrored on [gmane].)  This list has over 1500
+members, and more often than not, someone will answer your
+question quickly.
+
+If you think you've found a bug in pandoc, you can create an
+issue on the [github bug tracker].  But unless you're sure it's
+a bug, it's good to raise the issue on pandoc-discuss first.
+See the [guidelines on contributing] for some suggestions
+about how to write a useful bug report.
+
+People often ask questions about pandoc on [stackoverflow].  But
+the main pandoc developers do not monitor this site, so you're
+likely to get better responses if you post on [pandoc-discuss].
+
+[github bug tracker]: https://github.com/jgm/pandoc/issues
+[pandoc-discuss mailing list]: https://groups.google.com/forum/#!forum/pandoc-discuss
+[gmane]: http://dir.gmane.org/gmane.text.pandoc
+[guidelines on contributing]: https://github.com/jgm/pandoc/blob/master/CONTRIBUTING.md
+[stackoverflow]: http://stackoverflow.com/questions/tagged/pandoc
+
