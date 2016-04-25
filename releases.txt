@@ -1,5 +1,9 @@
 % Releases
 
+Want to know when a new release is available?  Subscribe to
+[`pandoc-announce`](http://groups.google.com/group/pandoc-announce),
+a low-volume mailing list that is just for announcements of new releases.
+
 # pandoc 1.17.0.3 (24 Mar 2016)
 
   * LaTeX writer: Fixed position of label in figures (#2813).
