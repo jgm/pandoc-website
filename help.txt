@@ -17,9 +17,15 @@ a bug, it's good to raise the issue on pandoc-discuss first.
 See the [guidelines on contributing] for some suggestions
 about how to write a useful bug report.
 
+Suggestions for enhancements to pandoc (for example, new
+formats, options, or structural elements) should always be
+discussed on the mailing list before an issue is created on
+the github tracker.
+
 People often ask questions about pandoc on [stackoverflow].  But
 the main pandoc developers do not monitor this site, so you're
-likely to get better responses if you post on [pandoc-discuss].
+likely to get better responses if you post on
+[pandoc-discuss][pandoc-discuss mailing list].
 
 [github bug tracker]: https://github.com/jgm/pandoc/issues
 [pandoc-discuss mailing list]: https://groups.google.com/forum/#!forum/pandoc-discuss
