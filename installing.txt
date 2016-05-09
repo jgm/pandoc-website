@@ -13,6 +13,8 @@
     by downloading [this
     script](https://raw.githubusercontent.com/jgm/pandoc/master/osx/uninstall-pandoc.pl)
     and running it with `perl uninstall-pandoc.pl`.
+  - You can also install pandoc using
+    [homebrew](http://brew.sh): `brew install pandoc`.
   - For PDF output, you'll also need LaTeX.  Because a full [MacTeX]
     installation takes more than a gigabyte of disk space, we recommend
     installing [BasicTeX](http://www.tug.org/mactex/morepackages.html)
