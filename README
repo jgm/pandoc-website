@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% January 12, 2016
+% July 17, 2016
 
 Synopsis
 ========
@@ -13,18 +13,19 @@ Description
 Pandoc is a [Haskell] library for converting from one markup format to
 another, and a command-line tool that uses this library. It can read
 [Markdown], [CommonMark], [PHP Markdown Extra], [GitHub-Flavored Markdown],
-and (subsets of) [Textile], [reStructuredText], [HTML], [LaTeX], [MediaWiki markup], [TWiki
-markup], [Haddock markup], [OPML], [Emacs Org mode], [DocBook],
-[txt2tags], [EPUB], [ODT] and [Word docx]; and it can write plain text,
-[Markdown], [CommonMark], [PHP Markdown Extra], [GitHub-Flavored Markdown],
-[reStructuredText], [XHTML], [HTML5], [LaTeX] (including
-[`beamer`] slide shows), [ConTeXt], [RTF], [OPML], [DocBook],
-[OpenDocument], [ODT], [Word docx], [GNU Texinfo], [MediaWiki markup],
-[DokuWiki markup], [Haddock markup], [EPUB] (v2 or v3),
-[FictionBook2], [Textile], [groff man] pages, [Emacs Org mode],
-[AsciiDoc], [InDesign ICML], [TEI Simple], and [Slidy], [Slideous], [DZSlides],
-[reveal.js] or [S5] HTML slide shows. It can also produce [PDF] output
-on systems where LaTeX, ConTeXt, or `wkhtmltopdf` is installed.
+[MultiMarkdown], and (subsets of) [Textile], [reStructuredText], [HTML],
+[LaTeX], [MediaWiki markup], [TWiki markup], [Haddock markup], [OPML], [Emacs
+Org mode], [DocBook], [txt2tags], [EPUB], [ODT] and [Word docx]; and it can
+write plain text, [Markdown], [CommonMark], [PHP Markdown Extra],
+[GitHub-Flavored Markdown], [MultiMarkdown], [reStructuredText], [XHTML],
+[HTML5], [LaTeX] (including [`beamer`] slide shows), [ConTeXt], [RTF], [OPML],
+[DocBook], [OpenDocument], [ODT], [Word docx], [GNU Texinfo], [MediaWiki
+markup], [DokuWiki markup], [ZimWiki markup], [Haddock markup],
+[EPUB] (v2 or v3), [FictionBook2], [Textile], [groff man] pages,
+[Emacs Org mode], [AsciiDoc], [InDesign ICML], [TEI Simple], and [Slidy],
+[Slideous], [DZSlides], [reveal.js] or [S5] HTML slide shows. It can also
+produce [PDF] output on systems where LaTeX, ConTeXt, or `wkhtmltopdf` is
+installed.
 
 Pandoc's enhanced version of Markdown includes syntax for [footnotes],
 [tables], flexible [ordered lists], [definition lists], [fenced code blocks],
@@ -55,6 +56,7 @@ Markdown can be expected to be lossy.
 [CommonMark]: http://commonmark.org
 [PHP Markdown Extra]: https://michelf.ca/projects/php-markdown/extra/
 [GitHub-Flavored Markdown]: https://help.github.com/articles/github-flavored-markdown/
+[MultiMarkdown]: http://fletcherpenney.net/multimarkdown/
 [reStructuredText]: http://docutils.sourceforge.net/docs/ref/rst/introduction.html
 [S5]: http://meyerweb.com/eric/tools/s5/
 [Slidy]: http://www.w3.org/Talks/Tools/Slidy/
@@ -76,6 +78,7 @@ Markdown can be expected to be lossy.
 [Textile]: http://redcloth.org/textile
 [MediaWiki markup]: https://www.mediawiki.org/wiki/Help:Formatting
 [DokuWiki markup]: https://www.dokuwiki.org/dokuwiki
+[ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [Haddock markup]: https://www.haskell.org/haddock/doc/html/ch03s08.html
 [groff man]: http://developer.apple.com/DOCUMENTATION/Darwin/Reference/ManPages/man7/groff_man.7.html
@@ -242,8 +245,8 @@ General options
 :   Specify input format.  *FORMAT* can be `native` (native Haskell),
     `json` (JSON version of native AST), `markdown` (pandoc's
     extended Markdown), `markdown_strict` (original unextended
-    Markdown), `markdown_phpextra` (PHP Markdown Extra),
-    `markdown_github` (GitHub-Flavored Markdown),
+    Markdown), `markdown_phpextra` (PHP Markdown Extra), `markdown_github`
+    (GitHub-Flavored Markdown), `markdown_mmd` (MultiMarkdown),
     `commonmark` (CommonMark Markdown), `textile` (Textile), `rst`
     (reStructuredText), `html` (HTML), `docbook` (DocBook), `t2t`
     (txt2tags), `docx` (docx), `odt` (ODT), `epub` (EPUB), `opml` (OPML),
@@ -267,32 +270,33 @@ General options
     `json` (JSON version of native AST), `plain` (plain text),
     `markdown` (pandoc's extended Markdown), `markdown_strict`
     (original unextended Markdown), `markdown_phpextra` (PHP Markdown
-    Extra), `markdown_github` (GitHub-Flavored
-    Markdown), `commonmark` (CommonMark Markdown), `rst`
+    Extra), `markdown_github` (GitHub-Flavored Markdown), `markdown_mmd`
+    (MultiMarkdown), `commonmark` (CommonMark Markdown), `rst`
     (reStructuredText), `html` (XHTML), `html5` (HTML5), `latex`
     (LaTeX), `beamer` (LaTeX beamer slide show), `context` (ConTeXt),
-    `man` (groff man), `mediawiki` (MediaWiki markup), `dokuwiki`
-    (DokuWiki markup), `textile` (Textile), `org` (Emacs Org mode),
-    `texinfo` (GNU Texinfo), `opml` (OPML), `docbook` (DocBook),
-    `opendocument` (OpenDocument), `odt` (OpenOffice text document),
-    `docx` (Word docx), `haddock` (Haddock markup), `rtf` (rich text
-    format), `epub` (EPUB v2 book), `epub3` (EPUB v3), `fb2`
-    (FictionBook2 e-book), `asciidoc` (AsciiDoc), `icml` (InDesign
-    ICML), `tei` (TEI Simple), `slidy` (Slidy HTML and javascript slide
-    show), `slideous` (Slideous HTML and javascript slide show),
-    `dzslides` (DZSlides HTML5 + javascript slide show), `revealjs`
-    (reveal.js HTML5 + javascript slide show), `s5` (S5 HTML and javascript
-    slide show), or the path of a custom lua writer (see [Custom
-    writers], below). Note that `odt`, `epub`, and
-    `epub3` output will not be directed to *stdout*; an output
-    filename must be specified using the `-o/--output` option. If
-    `+lhs` is appended to `markdown`, `rst`, `latex`, `beamer`,
-    `html`, or `html5`, the output will be rendered as literate
-    Haskell source: see [Literate Haskell
-    support], below.  Markdown syntax
-    extensions can be individually enabled or disabled by appending
-    `+EXTENSION` or `-EXTENSION` to the format name, as described
-    above under `-f`.
+    `man` (groff man), `mediawiki` (MediaWiki markup),
+    `dokuwiki` (DokuWiki markup), `zimwiki` (ZimWiki markup),
+    `textile` (Textile), `org` (Emacs Org mode),
+    `texinfo` (GNU Texinfo), `opml` (OPML), `docbook` (DocBook 4),
+    `docbook5` (DocBook 5), `opendocument` (OpenDocument), `odt`
+    (OpenOffice text document), `docx` (Word docx), `haddock`
+    (Haddock markup), `rtf` (rich text format), `epub` (EPUB v2
+    book), `epub3` (EPUB v3), `fb2` (FictionBook2 e-book),
+    `asciidoc` (AsciiDoc), `icml` (InDesign ICML), `tei` (TEI
+    Simple), `slidy` (Slidy HTML and javascript slide show),
+    `slideous` (Slideous HTML and javascript slide show),
+    `dzslides` (DZSlides HTML5 + javascript slide show),
+    `revealjs` (reveal.js HTML5 + javascript slide show), `s5`
+    (S5 HTML and javascript slide show), or the path of a custom
+    lua writer (see [Custom writers], below). Note that `odt`,
+    `epub`, and `epub3` output will not be directed to *stdout*;
+    an output filename must be specified using the `-o/--output`
+    option. If `+lhs` is appended to `markdown`, `rst`, `latex`,
+    `beamer`, `html`, or `html5`, the output will be rendered as
+    literate Haskell source: see [Literate Haskell support],
+    below.  Markdown syntax extensions can be individually
+    enabled or disabled by appending `+EXTENSION` or
+    `-EXTENSION` to the format name, as described above under `-f`.
 
 `-o` *FILE*, `--output=`*FILE*
 
@@ -349,12 +353,12 @@ Reader options
 
 :   Parse untranslatable HTML codes and LaTeX environments as raw HTML
     or LaTeX, instead of ignoring them.  Affects only HTML and LaTeX
-    input. Raw HTML can be printed in Markdown, reStructuredText, HTML,
-    Slidy, Slideous, DZSlides, reveal.js, and S5 output; raw LaTeX
-    can be printed in Markdown, reStructuredText, LaTeX, and ConTeXt output.
-    The default is for the readers to omit untranslatable HTML codes and
-    LaTeX environments.  (The LaTeX reader does pass through untranslatable
-    LaTeX *commands*, even if `-R` is not specified.)
+    input. Raw HTML can be printed in Markdown, reStructuredText, Emacs Org
+    mode, HTML, Slidy, Slideous, DZSlides, reveal.js, and S5 output; raw LaTeX
+    can be printed in Markdown, reStructuredText, Emacs Org mode, LaTeX, and
+    ConTeXt output.  The default is for the readers to omit untranslatable
+    HTML codes and LaTeX environments.  (The LaTeX reader does pass through
+    untranslatable LaTeX *commands*, even if `-R` is not specified.)
 
 `-S`, `--smart`
 
@@ -452,11 +456,13 @@ Reader options
 
 `--track-changes=accept`|`reject`|`all`
 
-:   Specifies what to do with insertions and deletions produced by the MS
-    Word "Track Changes" feature.  `accept` (the default), inserts all
-    insertions, and ignores all deletions. `reject` inserts all
-    deletions and ignores insertions. `all` puts in both insertions
-    and deletions, wrapped in spans with `insertion` and `deletion`
+:   Specifies what to do with insertions, deletions, and comments
+    produced by the MS Word "Track Changes" feature.  `accept` (the
+    default), inserts all insertions, and ignores all
+    deletions. `reject` inserts all deletions and ignores
+    insertions. Both `accept` and `reject` ignore comments. `all` puts
+    in insertions, deletions, and comments, wrapped in spans with
+    `insertion`, `deletion`, `comment-start`, and `comment-end`
     classes, respectively. The author and time of change is
     included. `all` is useful for scripting: only accepting changes
     from a certain reviewer, say, or before a certain date. This
@@ -538,16 +544,16 @@ General writer options
 
 `--columns=`*NUMBER*
 
-:   Specify length of lines in characters (for text wrapping).
-    This affects only the generated source code, not the layout on
-    the rendered page.
+:   Specify length of lines in characters.  This affects text wrapping
+    in the generated source code (see `--wrap`).  It also affects
+    calculation of column widths for plain text tables (see [Tables] below).
 
 `--toc`, `--table-of-contents`
 
 :   Include an automatically generated table of contents (or, in
     the case of `latex`, `context`, `docx`, and `rst`, an instruction to create
     one) in the output document. This option has no effect on `man`,
-    `docbook`, `slidy`, `slideous`, `s5`, or `odt` output.
+    `docbook`, `docbook5`, `slidy`, `slideous`, `s5`, or `odt` output.
 
 `--toc-depth=`*NUMBER*
 
@@ -707,7 +713,7 @@ Options affecting specific writers
     `none` leaves `mailto:` links as they are.  `javascript` obfuscates
     them using javascript. `references` obfuscates them by printing their
     letters as decimal or hexadecimal character references.  The default
-    is `javascript`.
+    is `none`.
 
 `--id-prefix=`*STRING*
 
@@ -909,7 +915,7 @@ Math rendering in HTML
 
 `--mathml`[`=`*URL*]
 
-:   Convert TeX math to [MathML] (in `docbook` as well as `html` and `html5`).
+:   Convert TeX math to [MathML] (in `docbook`, `docbook5`, `html` and `html5`).
     In standalone `html` output, a small javascript (or a link to such a
     script if a *URL* is supplied) will be inserted that allows the MathML to
     be viewed on some browsers.
@@ -946,6 +952,8 @@ Math rendering in HTML
 :   Render TeX formulas using an external script that converts TeX
     formulas to images. The formula will be concatenated with the URL
     provided. If *URL* is not specified, the Google Chart API will be used.
+    Note:  the `--webtex` option will affect Markdown output
+    as well as HTML.
 
 `--katex`[`=`*URL*]
 
@@ -1250,6 +1258,9 @@ LaTeX variables are used when [creating a PDF].
 
 `toc-depth`
 :   level of section to include in table of contents
+
+`secnumdepth`
+:   numbering depth for sections, if sections are numbered
 
 `lof`, `lot`
 :   include list of figures, list of tables
@@ -1591,21 +1602,26 @@ CSS.
 #### Extension: `implicit_header_references` ####
 
 Pandoc behaves as if reference links have been defined for each header.
-So, instead of
+So, to link to a header
 
-    [header identifiers](#header-identifiers-in-html)
+    # Header identifiers in HTML
 
 you can simply write
 
-    [header identifiers]
+    [Header identifiers in HTML]
 
 or
 
-    [header identifiers][]
+    [Header identifiers in HTML][]
 
 or
 
-    [the section on header identifiers][header identifiers]
+    [the section on header identifiers][header identifiers in
+    HTML]
+
+instead of giving the identifier explicitly:
+
+    [Header identifiers in HTML](#header-identifiers-in-html)
 
 If there are multiple headers with identical text, the corresponding
 reference will link to the first one only, and you will need to use explicit
@@ -2633,7 +2649,7 @@ them and they won't be treated as math delimiters.
 TeX math will be printed in all output formats. How it is rendered
 depends on the output format:
 
-Markdown, LaTeX, Emacs Org mode, ConTeXt
+Markdown, LaTeX, Emacs Org mode, ConTeXt, ZimWiki
   ~ It will appear verbatim between `$` characters.
 
 reStructuredText
@@ -2733,8 +2749,8 @@ Markdown allows it, but it has been made an extension so that it can
 be disabled if desired.)
 
 The raw HTML is passed through unchanged in HTML, S5, Slidy, Slideous,
-DZSlides, EPUB, Markdown, and Textile output, and suppressed in other
-formats.
+DZSlides, EPUB, Markdown, Emacs Org mode, and Textile output, and suppressed
+in other formats.
 
 #### Extension: `markdown_in_html_blocks` ####
 
@@ -2813,7 +2829,7 @@ the material between the begin and end tags will be interpreted as raw
 LaTeX, not as Markdown.
 
 Inline LaTeX is ignored in output formats other than Markdown, LaTeX,
-and ConTeXt.
+Emacs Org mode, and ConTeXt.
 
 LaTeX macros
 ------------
@@ -3317,8 +3333,6 @@ the document, for example:
 See the MultiMarkdown documentation for details.  If `pandoc_title_block` or
 `yaml_metadata_block` is enabled, it will take precedence over
 `mmd_title_block`.
-
-[MultiMarkdown]: http://fletcherpenney.net/multimarkdown/
 
 #### Extension: `abbreviations` ####
 
@@ -3835,6 +3849,7 @@ any kind.  (See COPYRIGHT for full copyright and warranty notices.)
 Contributors include
 Aaron Wolen,
 Albert Krewinkel,
+Alex Vong,
 Alexander Kondratskiy,
 Alexander Sulfrian,
 Alexander V Vershilov,
@@ -3847,6 +3862,7 @@ Arlo O'Keeffe,
 Artyom Kazak,
 Ben Gamari,
 Beni Cherniavsky-Paskin,
+Benoit Schweblin,
 Bjorn Buckwalter,
 Bradley Kuhn,
 Brent Yorgey,
@@ -3854,12 +3870,16 @@ Bryan O'Sullivan,
 B. Scott Michel,
 Caleb McDaniel,
 Calvin Beck,
+Carlos Sosa,
+Chris Black,
+Christian Conkle,
 Christoffer Ackelman,
 Christoffer Sawicki,
 Clare Macrae,
 Clint Adams,
 Conal Elliott,
 Craig S. Bosma,
+csforste,
 Daniel Bergey,
 Daniel T. Staal,
 David Lazar,
@@ -3867,27 +3887,35 @@ David Röthlisberger,
 Denis Laxalde,
 Douglas Calvert,
 Douglas F. Calvert,
+Emanuel Evans,
+Emily Eisenberg,
 Eric Kow,
 Eric Seidel,
 Florian Eitel,
 François Gannaz,
 Freiric Barral,
+Freirich Raabe,
 Fyodor Sheremetyev,
 Gabor Pali,
 Gavin Beatty,
+Gottfried Haider,
 Greg Maslov,
 Grégory Bataille,
 Greg Rundlett,
 gwern,
 Gwern Branwen,
 Hans-Peter Deifel,
+Henrik Tramberend,
 Henry de Valence,
+ickc,
 Ilya V. Portnov,
 infinity0x,
+Ivo Clarysse,
 Jaime Marquínez Ferrándiz,
 James Aspnes,
 Jamie F. Olson,
 Jan Larres,
+Jan Schulz,
 Jason Ronallo,
 Jeff Arnold,
 Jeff Runningen,
@@ -3902,22 +3930,30 @@ Jonathan Daugherty,
 Josef Svenningsson,
 Jose Luis Duran,
 Julien Cretel,
+Juliusz Gonera,
 Justin Bogner,
 Kelsey Hightower,
+Kolen Cheung,
 Konstantin Zudov,
+Kristof Bastiaensen,
 Lars-Dominik Braun,
 Luke Plant,
 Mark Szepieniec,
 Mark Wright,
+Martin Linn,
 Masayoshi Takahashi,
 Matej Kollar,
 Mathias Schenner,
+Mathieu Duponchelle,
+Matthew Eddey,
 Matthew Pickering,
 Matthias C. M. Troffaes,
 Mauro Bieg,
 Max Bolingbroke,
 Max Rydahl Andersen,
 Merijn Verstraaten,
+Michael Beaumont,
+Michael Chladek,
 Michael Snoyman,
 Michael Thompson,
 MinRK,
@@ -3927,22 +3963,29 @@ Nick Bart,
 Nicolas Kaiser,
 Nikolay Yakimov,
 nkalvi,
+Ophir Lifshitz,
+Pablo Rodríguez,
 Paulo Tanimoto,
 Paul Rivier,
 Peter Wang,
 Philippe Ombredanne,
 Phillip Alday,
+Prayag Verma,
 Puneeth Chaganti,
 qerub,
 Ralf Stephan,
+Raniere Silva,
 Recai Oktaş,
+robabla,
 rodja.trappe,
+rski,
 RyanGlScott,
 Scott Morrison,
 Sergei Trofimovich,
 Sergey Astanin,
 Shahbaz Youssefi,
 Shaun Attfield,
+Sidarth Kapur,
 shreevatsa.public,
 Simon Hengel,
 Sumit Sahrawat,
@@ -3950,6 +3993,8 @@ takahashim,
 thsutton,
 Tim Lin,
 Timothy Humphries,
+Tiziano Müller,
+Thomas Hodgson,
 Todd Sifleet,
 Tom Leese,
 Uli Köhler,
