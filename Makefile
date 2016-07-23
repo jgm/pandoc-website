@@ -2,7 +2,7 @@ SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
 JS = js/nav.js
-ALL = $(patsubst %,$(SITE)/%,index.html installing.html README.html README.pdf CONTRIBUTING.html demos.html releases.html changelog.txt scripting.html scripting-1.11.html scripting-1.12.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html css js $(CSS) $(JS))
+ALL = $(patsubst %,$(SITE)/%,index.html installing.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.txt scripting.html scripting-1.11.html scripting-1.12.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) -t html5 --toc -s -S -B nav.html --template=template.html
@@ -27,7 +27,7 @@ $(SITE)/% : %
 clean:
 	rm -rf $(SITE)
 
-DEMOFILES = $(patsubst %, $(DEMO)/%, README code.text math.text math.tex mytemplate.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua example33.text twocolumns.docx biblio.json biblio.yaml)
+DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex mytemplate.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua example33.text twocolumns.docx biblio.json biblio.yaml)
 
 $(DEMO)/% : %
 	cp $< $@
@@ -46,9 +46,6 @@ $(DEMO)/reveal.js:
 
 $(DEMO):
 	mkdir $(DEMO)
-
-$(SITE)/README.txt : README
-	cp $< $@
 
 $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 	cp $< $@
@@ -69,7 +66,7 @@ $(SITE)/% : %
 	cp $< $@
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog README CONTRIBUTING.md) \
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt CONTRIBUTING.md) \
           $(PANDOC_SRC)/man/pandoc.1
 
 update :
@@ -84,10 +81,10 @@ update :
 %.html : %.txt nav.html template.html
 	$(MKPAGE) $< -o $@
 
-$(SITE)/README.pdf : README template.tex
+$(SITE)/MANUAL.pdf : MANUAL.txt template.tex
 	$(PANDOC) $< -o $@ --toc -s -S --template template.tex \
-		--variable mainfont="Georgia" --variable sansfont="Corbel" \
-		--variable monofont="Consolas" \
+		--variable mainfont="Georgia" --variable sansfont="Arial" \
+		--variable monofont="Menlo" \
 		--variable fontsize=11pt --variable version="$(VERSION)" \
 		--variable geometry='margin=1.2in' \
 		--latex-engine=xelatex

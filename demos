@@ -11,19 +11,19 @@ click on the name of the output file:
 
 1.  HTML fragment:
 
-@   pandoc @@README@@ -o @@example1.html@@
+@   pandoc @@MANUAL.txt@@ -o @@example1.html@@
 
 2.  Standalone HTML file:
 
-@   pandoc -s @@README@@ -o @@example2.html@@
+@   pandoc -s @@MANUAL.txt@@ -o @@example2.html@@
 
 3.  HTML with smart quotes, table of contents, CSS, and custom footer:
 
-@   pandoc -s -S --toc -c @@pandoc.css@@ -A @@footer.html@@ @@README@@ -o @@example3.html@@
+@   pandoc -s -S --toc -c @@pandoc.css@@ -A @@footer.html@@ @@MANUAL.txt@@ -o @@example3.html@@
 
 4.  LaTeX:
 
-@   pandoc -s @@README@@ -o @@example4.tex@@
+@   pandoc -s @@MANUAL.txt@@ -o @@example4.tex@@
 
 5.  From LaTeX to markdown:
 
@@ -31,11 +31,11 @@ click on the name of the output file:
 
 6.  reStructuredText:
 
-@   pandoc -s -t rst --toc @@README@@ -o @@example6.text@@
+@   pandoc -s -t rst --toc @@MANUAL.txt@@ -o @@example6.text@@
 
 7.  Rich text format (RTF):
 
-@   pandoc -s @@README@@ -o @@example7.rtf@@
+@   pandoc -s @@MANUAL.txt@@ -o @@example7.rtf@@
 
 8.  Beamer slide show:
 
@@ -43,7 +43,7 @@ click on the name of the output file:
 
 9.  DocBook XML:
 
-@   pandoc -s -S -t docbook @@README@@ -o @@example9.db@@
+@   pandoc -s -S -t docbook @@MANUAL.txt@@ -o @@example9.db@@
 
 10. Man page:
 
@@ -51,7 +51,7 @@ click on the name of the output file:
 
 11. ConTeXt:
 
-@   pandoc -s -t context @@README@@ -o @@example11.tex@@
+@   pandoc -s -t context @@MANUAL.txt@@ -o @@example11.tex@@
 
 12. Converting a web page to markdown:
 
@@ -59,11 +59,11 @@ click on the name of the output file:
 
 13. From markdown to PDF:
 
-@   pandoc @@README@@ --latex-engine=xelatex -o @@example13.pdf@@
+@   pandoc @@MANUAL.txt@@ --latex-engine=xelatex -o @@example13.pdf@@
 
 14. PDF with numbered sections and a custom LaTeX header:
 
-@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont="Palatino" --variable sansfont="Century Gothic" --variable monofont="Consolas" --variable fontsize=12pt --variable version=1.15.2 @@README@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
+@   pandoc -N --template=@@mytemplate.tex@@ --variable mainfont="Palatino" --variable sansfont="Helvetica" --variable monofont="Menlo" --variable fontsize=12pt --variable version=1.17.2 @@MANUAL.txt@@ --latex-engine=xelatex --toc -o @@example14.pdf@@
 
 15. A wiki program using [Happstack](http://happstack.com) and pandoc:
     [gitit](http://gitit.net)
@@ -94,26 +94,26 @@ click on the name of the output file:
 
 19. GNU Texinfo, converted to info, HTML, and PDF formats:
 
-@   pandoc @@README@@ -s -o @@example19.texi@@
+@   pandoc @@MANUAL.txt@@ -s -o @@example19.texi@@
 @   makeinfo --no-validate --force @@example19.texi@@ -o @@example19.info@@
 @   makeinfo --no-validate --force @@example19.texi@@ --html -o @@example19@@
 @   texi2pdf @@example19.texi@@  # produces @@example19.pdf@@
 
 20. OpenDocument XML:
 
-@   pandoc @@README@@ -s -t opendocument -o @@example20.xml@@
+@   pandoc @@MANUAL.txt@@ -s -t opendocument -o @@example20.xml@@
 
 21. ODT (OpenDocument Text, readable by OpenOffice):
 
-@   pandoc @@README@@ -o @@example21.odt@@
+@   pandoc @@MANUAL.txt@@ -o @@example21.odt@@
 
 22. MediaWiki markup:
 
-@   pandoc -s -S -t mediawiki --toc @@README@@ -o @@example22.wiki@@
+@   pandoc -s -S -t mediawiki --toc @@MANUAL.txt@@ -o @@example22.wiki@@
 
 23. EPUB ebook:
 
-@   pandoc -S @@README@@ -o @@README.epub@@
+@   pandoc -S @@MANUAL.txt@@ -o @@MANUAL.epub@@
 
 24. Markdown citations:
 
@@ -123,7 +123,7 @@ click on the name of the output file:
 
 25. Textile writer:
 
-@   pandoc -s -S @@README@@ -t textile -o @@example25.textile@@
+@   pandoc -s -S @@MANUAL.txt@@ -t textile -o @@example25.textile@@
 
 26. Textile reader:
 
@@ -131,15 +131,15 @@ click on the name of the output file:
 
 27. Org-mode:
 
-@   pandoc -s -S @@README@@ -o @@example27.org@@
+@   pandoc -s -S @@MANUAL.txt@@ -o @@example27.org@@
 
 28.  AsciiDoc:
 
-@   pandoc -s -S @@README@@ -t asciidoc -o @@example28.txt@@
+@   pandoc -s -S @@MANUAL.txt@@ -t asciidoc -o @@example28.txt@@
 
 29.  Word docx:
 
-@   pandoc -s -S @@README@@ -o @@example29.docx@@
+@   pandoc -s -S @@MANUAL.txt@@ -o @@example29.docx@@
 
 30.  LaTeX math to docx:
 
@@ -159,7 +159,7 @@ click on the name of the output file:
 
 34.  Docx with a reference docx:
 
-@   pandoc -S --reference-docx @@twocolumns.docx@@ -o @@UsersGuide.docx@@ @@README@@
+@   pandoc -S --reference-docx @@twocolumns.docx@@ -o @@UsersGuide.docx@@ @@MANUAL.txt@@
 
 35.  Docx to markdown, including math:
 
@@ -167,4 +167,4 @@ click on the name of the output file:
 
 36.  EPUB to plain text:
 
-@   pandoc @@README.epub@@ -t plain -o @@example36.text@@
+@   pandoc @@MANUAL.epub@@ -t plain -o @@example36.text@@
