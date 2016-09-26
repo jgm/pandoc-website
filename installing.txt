@@ -25,20 +25,30 @@
 
 ### Linux
 
+  - First, try your package manager.
+    Pandoc is in the [Debian], [Ubuntu], [Slackware],
+    [Arch], [Fedora], [NiXOS], [openSUSE], and [gentoo] repositories.
+    Note, however, that versions in the repositories are often
+    old.
   - For 64-bit [Debian] and [Ubuntu], we provide a debian package
-    on the [download page].  This will install the `pandoc` and
+    on the [download page].
+
+        sudo dpkg -i $DEB
+
+    where `$DEB` is the path to the downloaded deb, will
+    will install the `pandoc` and
     `pandoc-citeproc` executables and man pages.  If you use
     an RPM-based distro, you may be able to install this deb using
     `alien`, or try
 
         ar p $DEB data.tar.gz | sudo tar xvz --strip-components 2 -C /usr/local
+  - If you'd rather install pandoc in your home directory, say
+    in `$HOME/.local`, then you can extract the files manually
+    from the deb:
 
-    where `$DEB` is the path to the downloaded deb.
-  - Or, try your package manager.
-    Pandoc is in the [Debian], [Ubuntu], [Slackware],
-    [Arch], [Fedora], [NiXOS], [openSUSE], and [gentoo] repositories.
-    Note, however, that versions in the repositories are often
-    old.
+        ar p $DEB data.tar.gz | tar xvz --strip-components 2 -C $HOME/.local/
+
+    where, again, `$DEB` is the path to the downloaded deb.
   - If the version in your repository is too old and you cannot
     use the deb we provide, you can install from source, using the
     instructions below under [Installing from source].
