@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% July 17, 2016
+% September 26, 2016
 
 Synopsis
 ========
@@ -18,10 +18,10 @@ another, and a command-line tool that uses this library. It can read
 Org mode], [DocBook], [txt2tags], [EPUB], [ODT] and [Word docx]; and it can
 write plain text, [Markdown], [CommonMark], [PHP Markdown Extra],
 [GitHub-Flavored Markdown], [MultiMarkdown], [reStructuredText], [XHTML],
-[HTML5], [LaTeX] (including [`beamer`] slide shows), [ConTeXt], [RTF], [OPML],
+[HTML5], [LaTeX] \(including [`beamer`] slide shows\), [ConTeXt], [RTF], [OPML],
 [DocBook], [OpenDocument], [ODT], [Word docx], [GNU Texinfo], [MediaWiki
 markup], [DokuWiki markup], [ZimWiki markup], [Haddock markup],
-[EPUB] (v2 or v3), [FictionBook2], [Textile], [groff man] pages,
+[EPUB] \(v2 or v3\), [FictionBook2], [Textile], [groff man] pages,
 [Emacs Org mode], [AsciiDoc], [InDesign ICML], [TEI Simple], and [Slidy],
 [Slideous], [DZSlides], [reveal.js] or [S5] HTML slide shows. It can also
 produce [PDF] output on systems where LaTeX, ConTeXt, or `wkhtmltopdf` is
@@ -31,8 +31,8 @@ Pandoc's enhanced version of Markdown includes syntax for [footnotes],
 [tables], flexible [ordered lists], [definition lists], [fenced code blocks],
 [superscripts and subscripts], [strikeout], [metadata blocks], automatic tables of
 contents, embedded LaTeX [math], [citations], and [Markdown inside HTML block
-elements][Extension: `markdown_in_html_blocks`]. (These enhancements, described below under
-[Pandoc's Markdown], can be disabled using the
+elements][Extension: `markdown_in_html_blocks`]. (These enhancements, described
+further under [Pandoc's Markdown], can be disabled using the
 `markdown_strict` input or output format.)
 
 In contrast to most existing tools for converting Markdown to HTML, which
@@ -262,7 +262,8 @@ General options
     `markdown-pipe_tables+hard_line_breaks` is pandoc's Markdown
     without pipe tables and with hard line breaks. See [Pandoc's
     Markdown], below, for a list of extensions and
-    their names.
+    their names.  See `--list-input-formats` and `--list-extensions`,
+    below.
 
 `-t` *FORMAT*, `-w` *FORMAT*, `--to=`*FORMAT*, `--write=`*FORMAT*
 
@@ -297,6 +298,7 @@ General options
     below.  Markdown syntax extensions can be individually
     enabled or disabled by appending `+EXTENSION` or
     `-EXTENSION` to the format name, as described above under `-f`.
+    See `--list-output-formats` and `--list-extensions`, below.
 
 `-o` *FILE*, `--output=`*FILE*
 
@@ -337,6 +339,30 @@ General options
 
 :   Give verbose debugging output.  Currently this only has an effect
     with PDF output.
+
+`--list-input-formats`
+
+:   List supported input formats, one per line.
+
+`--list-output-formats`
+
+:   List supported output formats, one per line.
+
+`--list-extensions`
+
+:   List supported Markdown extensions, one per line, followed
+    by a `+` or `-` indicating whether it is enabled by default
+    in pandoc's Markdown.
+
+`--list-highlight-languages`
+
+:   List supported languages for syntax highlighting, one per
+    line.
+
+`--list-highlight-styles`
+
+:   List supported styles for syntax highlighting, one per line.
+    See `--highlight-style`.
 
 `-v`, `--version`
 
@@ -421,12 +447,23 @@ Reader options
     exports `toJSONFilter` to facilitate writing filters in Haskell.
     Those who would prefer to write filters in python can use the
     module [`pandocfilters`], installable from PyPI. There are also
-    pandoc filter libraries in [PHP], [perl], and [javascript/node.js].
+    pandoc filter libraries in [PHP], [perl], and
+    [javascript/node.js].
 
-    Note that the *EXECUTABLE* will be sought in the user's
-    `PATH`, and not in the working directory, if no directory is
-    provided.  If you want to run a script in the working directory,
-    preface the filename with `./`.
+    If no directory is provided pandoc will look for executable or
+    non-executable filters in the director `$DATADIR/filters`, and
+    then for executable filters in the user's `PATH`. If you want to
+    run a script in the working directory, preface the filename with
+    `./`.
+
+    In order of preference, pandoc will look for filters in
+
+     1. a specified full or relative path (executable or
+     non-executable)
+
+     2. `$DATADIR/filters` (executable or non-executable)
+
+     3. `$PATH` (executable only)
 
 `-M` *KEY*[`=`*VAL*], `--metadata=`*KEY*[`:`*VAL*]
 
@@ -527,7 +564,7 @@ General writer options
     to inch/centimeters and vice versa. The default is 96dpi.
     Technically, the correct term would be ppi (pixels per inch).
 
-`--wrap=[auto|none|preserve]`
+`--wrap=auto`|`none`|`preserve`
 
 :   Determine how text is wrapped in the output (the source
     code, not the rendered version).  With `auto` (the default),
@@ -572,6 +609,7 @@ General writer options
     Options are `pygments` (the default), `kate`, `monochrome`,
     `espresso`, `zenburn`, `haddock`, and `tango`.  For more information
     on syntax highlighting in pandoc, see [Syntax highlighting], below.
+    See also `--list-highlight-styles`.
 
 `-H` *FILE*, `--include-in-header=`*FILE*
 
@@ -632,7 +670,16 @@ Options affecting specific writers
 `--reference-links`
 
 :   Use reference-style links, rather than inline links, in writing Markdown
-    or reStructuredText.  By default inline links are used.
+    or reStructuredText.  By default inline links are used.  The
+    placement of link references is affected by the
+    `--reference-location` option.
+
+`--reference-location = block`|`section`|`document`
+
+:   Specify whether footnotes (and references, if `reference-links` is
+    set) are placed at the end of the current (top-level) block, the
+    current section, or the document. The default is
+    `document`. Currently only affects the markdown writer.
 
 `--atx-headers`
 
@@ -641,11 +688,19 @@ Options affecting specific writers
 
 `--chapters`
 
-:   Treat top-level headers as chapters in LaTeX, ConTeXt, and DocBook
-    output.  When the LaTeX document class is set to `report`, `book`,
-    or `memoir` (unless the `article` option is specified), this
-    option is implied.  If `beamer` is the output format, top-level
-    headers will become `\part{..}`.
+:   Deprecated synonym for `--top-level-division=chapter`.
+
+`--top-level-division=[section|chapter|part]`
+
+:   Treat top-level headers as the given division type in LaTeX, ConTeXt,
+    DocBook, and  TEI output. The hierarchy order is part, chapter, then section;
+    all headers are shifted such that the top-level header becomes the specified
+    type.  The default is `section`. When the LaTeX document class is set to
+    `report`, `book`, or `memoir` (unless the `article` option is specified),
+    `chapter` is implied as the setting for this option.  If `beamer` is the
+    output format, specifying either `chapter` or `part` will cause top-level
+    headers to become `\part{..}`, while second-level headers remain as their
+    default type.
 
 `-N`, `--number-sections`
 
@@ -951,15 +1006,17 @@ Math rendering in HTML
 
 :   Render TeX formulas using an external script that converts TeX
     formulas to images. The formula will be concatenated with the URL
-    provided. If *URL* is not specified, the Google Chart API will be used.
+    provided. If *URL* is not specified, the CodeCogs will be used.
     Note:  the `--webtex` option will affect Markdown output
-    as well as HTML.
+    as well as HTML, which is useful if you're targeting a
+    version of Markdown without native math support.
 
 `--katex`[`=`*URL*]
 
 :   Use [KaTeX] to display embedded TeX math in HTML output.
     The *URL* should point to the `katex.js` load script. If a *URL* is
     not provided, a link to the KaTeX CDN will be inserted.
+    Note: [KaTeX] seems to work best with `html5` output.
 
 `--katex-stylesheet=`*URL*
 
@@ -1164,6 +1221,9 @@ including all [reveal.js configuration options].
 `theme`, `colortheme`, `fonttheme`, `innertheme`, `outertheme`
 :   themes for LaTeX [`beamer`] documents
 
+`themeoptions`
+:   options for LaTeX beamer themes (a list).
+
 `navigation`
 :   controls navigation symbols in `beamer` documents
     (default is `empty` for no navigation symbols; other valid values
@@ -1172,6 +1232,18 @@ including all [reveal.js configuration options].
 `section-titles`
 :   enables on "title pages" for new sections in `beamer`
     documents (default = true).
+
+`beamerarticle`
+:   when true, the `beamerarticle` package is loaded (for
+    producing an article from beamer slides).
+
+`colorlinks`
+:   add color to link text; automatically enabled if any of `linkcolor`, `citecolor`,
+    `urlcolor`, or `toccolor` are set (for beamer only).
+
+`linkcolor`, `citecolor`, `urlcolor`, `toccolor`
+:   color for internal links, citation links, external links, and links in table
+    of contents: uses any of the [predefined LaTeX colors] (for beamer only).
 
 [reveal.js configuration options]: https://github.com/hakimel/reveal.js#configuration
 
@@ -1269,8 +1341,10 @@ LaTeX variables are used when [creating a PDF].
 :   bibliography to use for resolving references
 
 `biblio-style`
-:   bibliography style, when used with `--natbib` and
-    `--biblatex`.
+:   bibliography style, when used with `--natbib` and `--biblatex`.
+
+`biblio-title`
+:   bibliography title, when used with `--natbib` and `--biblatex`.
 
 `biblatexoptions`
 :   list of options for biblatex.
@@ -2454,10 +2528,8 @@ when the field contains blank lines:
     ---
     title:  'This is the title: it contains a colon'
     author:
-    - name: Author One
-      affiliation: University of Somewhere
-    - name: Author Two
-      affiliation: University of Nowhere
+    - Author One
+    - Author Two
     tags: [nothing, nothingness]
     abstract: |
       This is the abstract.
@@ -2472,9 +2544,23 @@ equivalent of the Markdown in the `abstract` field:
     <p>This is the abstract.</p>
     <p>It consists of two paragraphs.</p>
 
-Note: The `author` variable in the default templates expects a simple list or
-string.  To use the structured authors in the example, you would need a
-custom template.  For example:
+Variables can contain arbitrary YAML structures, but the template must match
+this structure.  The `author` variable in the default templates expects a
+simple list or string, but can be changed to support more complicated
+structures.  The following combination, for example, would add an affiliation
+to the author if one is given:
+
+    ---
+    title: The document title
+    author:
+    - name: Author One
+      affiliation: University of Somewhere
+    - name: Author Two
+      affiliation: University of Nowhere
+    ...
+
+To use the structured authors in the example above, you would need a custom
+template:
 
     $for(author)$
     $if(author.name)$
@@ -2684,7 +2770,7 @@ Docx
 
 FictionBook2
   ~ If the `--webtex` option is used, formulas are rendered as images
-    using Google Charts or other compatible web service, downloaded
+    using CodeCogs or other compatible web service, downloaded
     and embedded in the e-book. Otherwise, they will appear verbatim.
 
 HTML, Slidy, DZSlides, S5, EPUB
@@ -2727,8 +2813,8 @@ HTML, Slidy, DZSlides, S5, EPUB
     6.  If the `--webtex` option is used, TeX formulas will be converted
         to `<img>` tags that link to an external script that converts
         formulas to images. The formula will be URL-encoded and concatenated
-        with the URL provided. If no URL is specified, the Google Chart
-        API will be used (`http://chart.apis.google.com/chart?cht=tx&chl=`).
+        with the URL provided. If no URL is specified, the CodeCogs
+        will be used (`https://latex.codecogs.com/png.latex?`).
 
     7.  If the `--mathjax` option is used, TeX math will be displayed
         between `\(...\)` (for inline math) or `\[...\]` (for display
@@ -3032,6 +3118,16 @@ For example:
   is to look at the image resolution and the dpi metadata embedded in
   the image file.
 
+Spans
+-----
+
+#### Extension: `bracketed_spans` ####
+
+A bracketed sequence of inlines, as one would use to begin
+a link, will be treated as a span with attributes if it is
+followed immediately by attributes:
+
+    [This is *some text*]{.class key="val"}
 
 Footnotes
 ---------
@@ -3271,6 +3367,12 @@ in pandoc, but may be enabled by adding `+EXTENSION` to the format
 name, where `EXTENSION` is the name of the extension.  Thus, for
 example, `markdown+hard_line_breaks` is Markdown with hard line breaks.
 
+#### Extension: `angle_brackets_escapable` ####
+
+Allow `<` and `>` to be backslash-escaped, as they can be in
+GitHub flavored Markdown but not original Markdown.  This is
+implied by pandoc's default `all_symbols_escapable`.
+
 #### Extension: `lists_without_preceding_blankline` ####
 
 Allow a list to occur right after a paragraph, with no intervening
@@ -3414,11 +3516,11 @@ variants are supported:
 :   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
     `ascii_identifiers`, `backtick_code_blocks`, `autolink_bare_uris`,
     `intraword_underscores`, `strikeout`, `hard_line_breaks`, `emoji`,
-    `shortcut_reference_links`.
+    `shortcut_reference_links`, `angle_brackets_escapable`.
 
 `markdown_mmd` (MultiMarkdown)
 :   `pipe_tables`, `raw_html`, `markdown_attribute`, `mmd_link_attributes`,
-    `raw_tex`, `tex_math_double_backslash`, `intraword_underscores`,
+    `tex_math_double_backslash`, `intraword_underscores`,
     `mmd_title_block`, `footnotes`, `definition_lists`,
     `all_symbols_escapable`, `implicit_header_references`,
     `auto_identifiers`, `mmd_header_identifiers`,
@@ -3820,6 +3922,49 @@ To disable highlighting, use the `--no-highlight` option.
 
 [highlighting-kate]: https://github.com/jgm/highlighting-kate
 
+Custom Styles in Docx Output
+============================
+
+By default, pandoc's docx output applies a predefined set of styles for
+blocks such as paragraphs and block quotes, and uses largely default
+formatting (italics, bold) for inlines. This will work for most
+purposes, especially alongside a `reference.docx` file. However, if you
+need to apply your own styles to blocks, or match a preexisting set of
+styles, pandoc allows you to define custom styles for blocks and text
+using `div`s and `span`s, respecitively.
+
+If you define a `div` or `span` with the attribute `custom-style`,
+pandoc will apply your specified style to the contained elements. So,
+for example,
+
+    <span custom-style="Emphatically">Get out,</span> he said.
+
+would produce a docx file with "Get out," styled with character
+style `Emphatically`. Similarly,
+
+    Dickinson starts the poem simply:
+
+    <div custom-style="Poetry">
+    | A Bird came down the Walk---
+    | He did not know I saw---
+    </div>
+
+would style the two contained lines with the `Poetry` paragraph style.
+
+If the styles are not yet in your reference.docx, they will be defined
+in the output file as inheriting from normal text. If they are already
+defined, pandoc will not alter the definition.
+
+This feature allows for greatest customization in conjunction with
+[pandoc filters]. If you want all paragraphs after block quotes to be
+indented, you can write a filter to apply the styles necessary. If you
+want all italics to be transformed to the `Emphasis` character style
+(perhaps to change their color), you can write a filter which will
+transform all italicized inlines to inlines within an `Emphasis`
+custom-style `span`.
+
+[pandoc filters]: http://pandoc.org/scripting.html
+
 Custom writers
 ==============
 
@@ -3842,7 +3987,7 @@ which you can modify according to your needs, do
 Authors
 =======
 
-© 2006-2015 John MacFarlane (jgm@berkeley.edu). Released under the
+© 2006-2016 John MacFarlane (jgm@berkeley.edu). Released under the
 [GPL], version 2 or greater.  This software carries no warranty of
 any kind.  (See COPYRIGHT for full copyright and warranty notices.)
 

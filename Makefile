@@ -47,6 +47,9 @@ $(DEMO)/reveal.js:
 $(DEMO):
 	mkdir $(DEMO)
 
+$(SITE)/installing.txt : INSTALL.md
+	cp $< $@
+
 $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 	cp $< $@
 
@@ -66,7 +69,7 @@ $(SITE)/% : %
 	cp $< $@
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt CONTRIBUTING.md) \
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt INSTALL.md CONTRIBUTING.md) \
           $(PANDOC_SRC)/man/pandoc.1
 
 update :
