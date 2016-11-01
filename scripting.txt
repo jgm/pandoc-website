@@ -4,6 +4,33 @@
 version of pandoc, see [the older version of the
 tutorial](scripting-1.12.html).*
 
+## Summary
+
+Pandoc provides an interface for users to write programs (known as filters) which act on pandoc’s AST.
+
+Pandoc consists of a set of readers and writers. When converting a document from one format to another;
+
+1. text is parsed by a reader into pandoc’s intermediate representation of the document – the AST.
+2. the AST may be modified by filters
+3. the AST is converted by a writer into the target format.
+
+Filters may be written in any programming language. For example, the `caps.py` filter can be run like this:
+
+    pandoc --filter ./caps.py -t latex
+
+which is equivalent to:
+
+    pandoc -t json | ./caps.py latex | pandoc -f json -t latex
+
+While JSON is used as a serialization format, the AST’s format is actually defined by
+[this Haskell data structure](https://github.com/jgm/pandoc-types/blob/master/Text/Pandoc/Definition.hs).
+(The `pandoc-api-version` field in pandoc’s JSON refers to the version of that separate `pandoc-types`
+package, not the `pandoc` version directly.)
+
+For a gentle introduction into writing your own filters, continue this guide. There’s also a
+[list of third party filters on the wiki](https://github.com/jgm/pandoc/wiki/Pandoc-Filters).
+
+
 ## A simple example
 
 Suppose you wanted to replace all level 2+ headers in a markdown
