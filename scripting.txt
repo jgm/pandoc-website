@@ -6,29 +6,36 @@ tutorial](scripting-1.12.html).*
 
 ## Summary
 
-Pandoc provides an interface for users to write programs (known as filters) which act on pandoc’s AST.
+Pandoc provides an interface for users to write programs (known
+as filters) which act on pandoc’s AST.
 
-Pandoc consists of a set of readers and writers. When converting a document from one format to another;
+Pandoc consists of a set of readers and writers. When converting
+a document from one format to another, text is parsed by a
+reader into pandoc’s intermediate representation of the
+document---an "abstract syntax tree" or AST---which is then
+converted by the writer into the target format.
+The pandoc AST format is defined in the module
+`Text.Pandoc.Definition` in
+[pandoc-types](https://hackage.haskell.org/package/pandoc-types).
 
-1. text is parsed by a reader into pandoc’s intermediate representation of the document – the AST.
-2. the AST may be modified by filters
-3. the AST is converted by a writer into the target format.
+A "filter" is a program that modifies the AST, between the
+reader and the writer:
 
-Filters may be written in any programming language. For example, the `caps.py` filter can be run like this:
+    INPUT --reader--> AST --filter--> AST --writer--> OUTPUT
 
-    pandoc --filter ./caps.py -t latex
+Filters are "pipes" that read from standard input and write to
+standard output.  They consume and produce a JSON representation
+of the pandoc AST.  (In recent versions, this representation
+includes a `pandoc-api-version` field which refers to a
+version of `pandoc-types`.)  Filters may be written in any programming
+language.  To use a filter, you need only specify it on the
+command line using `--filter`, e.g.
 
-which is equivalent to:
+    pandoc -s input.txt --filter pandoc-citeproc -o output.htl
 
-    pandoc -t json | ./caps.py latex | pandoc -f json -t latex
-
-While JSON is used as a serialization format, the AST’s format is actually defined by
-[this Haskell data structure](https://github.com/jgm/pandoc-types/blob/master/Text/Pandoc/Definition.hs).
-(The `pandoc-api-version` field in pandoc’s JSON refers to the version of that separate `pandoc-types`
-package, not the `pandoc` version directly.)
-
-For a gentle introduction into writing your own filters, continue this guide. There’s also a
-[list of third party filters on the wiki](https://github.com/jgm/pandoc/wiki/Pandoc-Filters).
+For a gentle introduction into writing your own filters,
+continue this guide. There’s also a [list of third party filters
+on the wiki](https://github.com/jgm/pandoc/wiki/Pandoc-Filters).
 
 
 ## A simple example
