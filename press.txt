@@ -6,6 +6,12 @@ Here are some books, articles, and blogs that discuss pandoc:
 
 - [Pandoc](http://en.wikipedia.org/wiki/Pandoc) on Wikipedia.
 
+- Krewinkel, Albert and Robert Winkler.  ["Formatting Open
+Science: agile creation of multiple document types by writing
+academic manuscripts in pandoc
+markdown."](https://peerj.com/preprints/2648/).
+*PeerJ Preprints*.
+
 - Krijnen, Jacco, Doaitse Swierstra, and Marcos O. Viera. ["Expand:
   Towards an Extensible Pandoc
   System."](http://dx.doi.org/10.1007/978-3-319-04132-2_14)
