@@ -48,7 +48,7 @@ $(DEMO):
 	mkdir $(DEMO)
 
 $(SITE)/installing.txt : INSTALL.md
-	cp $< $@
+	sed -e '1s/#/%/' $< > $@
 
 $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 	cp $< $@
