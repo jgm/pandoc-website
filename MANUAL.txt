@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% December 10, 2016
+% January 29, 2017
 
 Synopsis
 ========
@@ -67,7 +67,7 @@ Markdown can be expected to be lossy.
 [LaTeX]: http://latex-project.org
 [`beamer`]: https://ctan.org/pkg/beamer
 [Beamer User's Guide]: http://ctan.math.utah.edu/ctan/tex-archive/macros/latex/contrib/beamer/doc/beameruserguide.pdf
-[ConTeXt]: http://contextgarden.net/
+[ConTeXt]: http://www.contextgarden.net/
 [RTF]: http://en.wikipedia.org/wiki/Rich_Text_Format
 [DocBook]: http://docbook.org
 [txt2tags]: http://txt2tags.org
@@ -81,13 +81,13 @@ Markdown can be expected to be lossy.
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [Haddock markup]: https://www.haskell.org/haddock/doc/html/ch03s08.html
-[groff man]: http://developer.apple.com/DOCUMENTATION/Darwin/Reference/ManPages/man7/groff_man.7.html
+[groff man]: http://man7.org/linux/man-pages/man7/groff_man.7.html
 [Haskell]: https://www.haskell.org
 [GNU Texinfo]: http://www.gnu.org/software/texinfo/
 [Emacs Org mode]: http://orgmode.org
 [AsciiDoc]: http://www.methods.co.nz/asciidoc/
 [DZSlides]: http://paulrouget.com/dzslides/
-[Word docx]: http://www.microsoft.com/interop/openup/openxml/default.aspx
+[Word docx]: https://en.wikipedia.org/wiki/Office_Open_XML
 [PDF]: https://www.adobe.com/pdf/
 [reveal.js]: http://lab.hakim.se/reveal-js/
 [FictionBook2]: http://www.fictionbook.org/index.php/Eng:XML_Schema_Fictionbook_2.1
@@ -563,11 +563,12 @@ General writer options
 :   Determine how text is wrapped in the output (the source
     code, not the rendered version).  With `auto` (the default),
     pandoc will attempt to wrap lines to the column width specified by
-    `--columns` (default 80).  With `none`, pandoc will not wrap
+    `--columns` (default 72).  With `none`, pandoc will not wrap
     lines at all.  With `preserve`, pandoc will attempt to
     preserve the wrapping from the source document (that is,
     where there are nonsemantic newlines in the source, there
     will be nonsemantic newlines in the output as well).
+    Automatic wrapping does not currently work in HTML output.
 
 `--no-wrap`
 
@@ -601,9 +602,10 @@ General writer options
 
 :   Specifies the coloring style to be used in highlighted source code.
     Options are `pygments` (the default), `kate`, `monochrome`,
-    `espresso`, `zenburn`, `haddock`, and `tango`.  For more information
-    on syntax highlighting in pandoc, see [Syntax highlighting], below.
-    See also `--list-highlight-styles`.
+    `breezeDark`, `espresso`, `zenburn`, `haddock`, and `tango`.
+    For more information on syntax highlighting in pandoc, see
+    [Syntax highlighting], below.  See also
+    `--list-highlight-styles`.
 
 `-H` *FILE*, `--include-in-header=`*FILE*
 
@@ -1313,6 +1315,9 @@ LaTeX variables are used when [creating a PDF].
 `fontenc`
 :   allows font encoding to be specified through `fontenc` package (with `pdflatex`);
     default is `T1` (see guide to [LaTeX font encodings])
+
+`microtypeoptions`
+:    options to pass to the microtype package
 
 `colorlinks`
 :   add color to link text; automatically enabled if any of `linkcolor`, `citecolor`,
@@ -3194,7 +3199,9 @@ will be numbered sequentially.
 
 The footnotes themselves need not be placed at the end of the
 document.  They may appear anywhere except inside other block elements
-(lists, block quotes, tables, etc.).
+(lists, block quotes, tables, etc.).  Each footnote should be
+separated from surrounding content (including other footnotes)
+by blank lines.
 
 #### Extension: `inline_notes` ####
 
@@ -3375,6 +3382,14 @@ field and put the citations there:
 In this example, the document will contain a citation for `item3`
 only, but the bibliography will contain entries for `item1`, `item2`, and
 `item3`.
+
+It is possible to create a bibliography with all the citations,
+whether or not they appear in the document, by using a wildcard:
+
+    ---
+    nocite: |
+      @*
+    ...
 
 For LaTeX or PDF output, you can also use [`natbib`] or [`biblatex`]
 to render bibliography. In order to do so, specify bibliography files as
@@ -4105,6 +4120,7 @@ Jens Petersen,
 Jesse Rosenthal,
 Joe Hillenbrand,
 John MacFarlane,
+John Muccigrosso,
 Jonas Smedegaard,
 Jonathan Daugherty,
 Jose Luis Duran,
@@ -4115,7 +4131,6 @@ Justin Bogner,
 Jérémy Bobbio,
 Kelsey Hightower,
 Kolen Cheung,
-KolenCheung,
 Konstantin Zudov,
 Kristof Bastiaensen,
 Lars-Dominik Braun,
@@ -4179,10 +4194,13 @@ Uli Köhler,
 Václav Zeman,
 Viktor Kronvall,
 Vincent,
+Václav Haisman,
 Václav Zeman,
+Wandmalfarbe,
 Waldir Pimenta,
 Wikiwide,
 Xavier Olive,
+bumper314,
 csforste,
 infinity0x,
 nkalvi,
@@ -4193,6 +4211,7 @@ rodja.trappe,
 rski,
 shreevatsa.public,
 takahashim,
+tgkokk,
 thsutton.
 
 [GPL]: http://www.gnu.org/copyleft/gpl.html "GNU General Public License"
