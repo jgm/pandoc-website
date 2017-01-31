@@ -4,6 +4,12 @@ Want to know when a new release is available?  Subscribe to
 [`pandoc-announce`](http://groups.google.com/group/pandoc-announce),
 a low-volume mailing list that is just for announcements of new releases.
 
+# pandoc 1.19.2.1 (31 Jan 2017)
+
+  * Require skylighting >= 0.1.1.4.
+  * Adjust test output for skylighting version.
+  * Relax upper bounds on blaze-html and blaze-markup.
+
 # pandoc 1.19.2 (29 Jan 2017)
 
   * Use skylighting library instead of highlighting-kate for syntax
