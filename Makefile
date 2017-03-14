@@ -5,7 +5,7 @@ JS = js/nav.js
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.txt scripting.html scripting-1.11.html scripting-1.12.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
-MKPAGE = $(PANDOC) -t html5 --toc -s -S -B nav.html --template=template.html
+MKPAGE = $(PANDOC) -t html5 --toc -s -B nav.html --template=template.html
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
@@ -85,7 +85,7 @@ update :
 	$(MKPAGE) $< -o $@
 
 $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
-	$(PANDOC) $< -o $@ --toc -s -S --template template.tex \
+	$(PANDOC) $< -o $@ --toc -s --template template.tex \
 		--variable mainfont="Georgia" --variable sansfont="Arial" \
 		--variable monofont="Menlo" \
 		--variable fontsize=11pt --variable version="$(VERSION)" \

@@ -1,4 +1,4 @@
-# Press
+% Press
 
 Here are some books, articles, and blogs that discuss pandoc:
 
@@ -61,6 +61,14 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
   Pandoc*](http://www.amazon.com/Markdown-Pandoc-German-Michael-Kofler-ebook/dp/B00CX7HIOO/ref=sr_1_1?ie=UTF8&qid=1424543894&sr=8-1&keywords=pandoc).
 
 # Blog posts
+
+- Pullum, Geoffrey (2017-03-13).  ["Word-Processing
+  Misery"](http://www.chronicle.com/blogs/linguafranca/2017/03/13/word-processing-hell/).
+  The Chronicle of Higher Education Blogs: Lingua Franca.
+
+- Curiositry (2017-02-28).  ["Pandoc for
+  Writers"](http://www.autodidacts.io/convert-markdown-to-standard-manuscript-format-odts-docs-and-pdfs-with-pandoc/).
+  The Autodidacts.
 
 - Tenen, Dennis and Grant Wythoff (2014-03-19). ["Sustainable Authorship
   in Plain Text using Pandoc and Markdown"](http://programminghistorian.org/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown). The Programming
