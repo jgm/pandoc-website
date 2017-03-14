@@ -1,4 +1,4 @@
-# Donate to pandoc development
+% Donate to pandoc development
 
 Donate bitcoin:
 <a href="bitcoin:14JZBdW5exTymCGr5ooi7qP2v5sK3M7p6T">14JZBdW5exTymCGr5ooi7qP2v5sK3M7p6T</a>.
