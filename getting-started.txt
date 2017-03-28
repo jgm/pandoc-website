@@ -159,8 +159,8 @@ terminal and sending its output back to the terminal.  You can use
 this feature to play around with pandoc.
 
 By default, input is interpreted as pandoc markdown, and output is
-HTML 4.  But we can change that.  Let's try converting *from*
-HTML *to* markdown:
+HTML.  But we can change that.  Let's try converting *from* HTML
+*to* markdown:
 
     pandoc -f html -t markdown
 
