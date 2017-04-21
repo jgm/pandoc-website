@@ -102,7 +102,7 @@ language: en-US
 ...
 ```
 
-See the [User's Guide](README#epub-metadata) for more information
+See the [User's Guide](MANUAL.html#epub-metadata) for more information
 above these fields.
 
 Now run pandoc to make the ebook, using our title page and modified
@@ -165,5 +165,5 @@ which will use a web service to convert the TeX to an image.
 [github site]: http://github.com/progit/progit
 [git]: http://git-scm.com
 [Dublin Core metadata elements]: http://dublincore.org/documents/dces/
-[User's Guide]: README.html
+[User's Guide]: MANUAL.html
 
