@@ -144,8 +144,9 @@ for you to type something.  Type this:
     - one
     - two
 
-When you're finished, type `Ctrl-D` on OS X or Linux, or `Ctrl-Z` on
-Windows.  You should now see your text converted to HTML!
+When you're finished (the cursor should be at the beginning of the line),
+type `Ctrl-D` on OS X or Linux, or `Ctrl-Z` followed
+by `Enter` on Windows.  You should now see your text converted to HTML!
 
     <p>Hello <em>pandoc</em>!</p>
     <ul>
@@ -168,7 +169,8 @@ Now type:
 
     <p>Hello <em>pandoc</em>!</p>
 
-and hit `Ctrl-D` (or `Ctrl-Z` on Windows).  You should see:
+and hit `Ctrl-D` (or `Ctrl-Z` followed by `Enter` on Windows).
+You should see:
 
     Hello *pandoc*!
 
@@ -278,7 +280,8 @@ Try it using pandoc as a filter.  Type
 
     pandoc --smart
 
-then enter this text, followed by `Ctrl-D` (`Ctrl-Z` on Windows):
+then enter this text, followed by `Ctrl-D` (`Ctrl-Z` followed by
+`Enter` on Windows):
 
     "Hello there," she said---and Sam didn't reply.
 
