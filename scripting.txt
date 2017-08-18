@@ -95,7 +95,7 @@ output format:
 ### my header
 
 text with *italics*
-% pandoc -t native test.txt
+% pandoc -s -t native test.txt
 Pandoc (Meta {unMeta = fromList []})
 [Header 3 ("my-header",[],[]) [Str "My",Space,Str "header"]
 , Para [Str "text",Space,Str "with",Space,Emph [Str "italics"]] ]
