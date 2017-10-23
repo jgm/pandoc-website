@@ -2,28 +2,31 @@
 
 If you need to convert files from one markup format into another,
 pandoc is your swiss-army knife.  Pandoc can convert documents
-in [markdown], [reStructuredText], [textile], [HTML], [DocBook],
-[LaTeX], [MediaWiki markup], [TWiki markup],
-[OPML], Emacs [Org-Mode], [Txt2Tags],
-Microsoft Word [docx], LibreOffice [ODT],
-[EPUB], or [Haddock markup] to
+in (several dialects of) [Markdown], [reStructuredText],
+[textile], [HTML], [DocBook], [LaTeX], [MediaWiki markup],
+[TWiki markup], [OPML], Emacs [Org-Mode], Emacs [Muse],
+[txt2tags], Microsoft Word [docx], LibreOffice [ODT], [EPUB],
+[TikiWiki markup], [Vimwiki markup], or [Haddock markup] to
 
-* HTML formats:  XHTML, HTML5, and HTML slide shows using [Slidy],
+* **HTML formats**:  XHTML, HTML5, and HTML slide shows using [Slidy],
   [reveal.js], [Slideous], [S5], or [DZSlides].
-* Word processor formats:  Microsoft Word [docx], OpenOffice/LibreOffice
+* **Word processor formats**:  Microsoft Word [docx], OpenOffice/LibreOffice
   [ODT], [OpenDocument XML]
-* Ebooks:  [EPUB] version 2 or 3, [FictionBook2]
-* Documentation formats: [DocBook], [TEI Simple],
-  [GNU TexInfo], [Groff man] pages,
-  [Haddock markup]
-* Page layout formats:  [InDesign ICML]
-* Outline formats: [OPML]
-* TeX formats: [LaTeX], [ConTeXt], LaTeX Beamer slides
-* [PDF] via LaTeX
-* Lightweight markup formats: [Markdown] (including [CommonMark]),
-  [reStructuredText], [AsciiDoc],
-  [MediaWiki markup], [DokuWiki markup], Emacs [Org-Mode], [Textile]
-* Custom formats:  custom writers can be written in [lua].
+* **Ebooks**:  [EPUB] version 2 or 3, [FictionBook2]
+* **Documentation formats**: [DocBook] version 4 or 5, [TEI Simple],
+  [GNU TexInfo], [Groff man], [Groff ms], [Haddock markup]
+* **Archival formats**: [JATS]
+* **Page layout formats**:  [InDesign ICML]
+* **Outline formats**: [OPML]
+* **TeX formats**: [LaTeX], [ConTeXt], LaTeX Beamer slides
+* **PDF** via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
+  `wkhtml2pdf`, `prince`, or `weasyprint`.
+* **Lightweight markup formats**: [Markdown] (including [CommonMark] and
+  [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
+  Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
+  [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
+  [TWiki markup], [Vimwiki markup], and [ZimWiki markup].
+* **Custom formats**:  custom writers can be written in [lua].
 
 Pandoc understands a number of useful markdown syntax extensions,
 including document metadata (title, author, date); footnotes; tables;
@@ -36,13 +39,14 @@ extensions can be turned off.
 
 LaTeX math (and even macros) can be used in markdown documents.  Several
 different methods of rendering math in HTML are provided, including
-MathJax and translation to MathML. LaTeX math is rendered in docx using
-native Word equation objects.
+MathJax and translation to MathML. LaTeX math is converted (as needed
+by the output format) to unicode, native Word equation objects,
+MathML, or groff eqn.
 
 Pandoc includes a powerful system for automatic citations and
-bibliographies, using [pandoc-citeproc]
-(which derives from Andrea Rossato's [citeproc-hs]).
-This means that you can write a citation like
+bibliographies, using [pandoc-citeproc] (which derives from
+Andrea Rossato's [citeproc-hs]).  This means that you can write
+a citation like
 
     [see @doe99, pp. 33-35; also @smith04, ch. 1]
 
@@ -53,13 +57,17 @@ bibliography at the end of the document.  Many forms of bibliography
 database can be used, including bibtex, RIS, EndNote, ISI, MEDLINE,
 MODS, and JSON citeproc.  Citations work in every output format.
 
+There are many ways to customize pandoc to fit your needs,
+including a template system and a powerful system for writing
+filters.
+
 Pandoc includes a Haskell library and a standalone command-line program.
 The library includes separate modules for each input and output format,
 so adding a new input or output format just requires adding a new
 module.
 
 Pandoc is free software, released under the [GPL].
-© 2006-2016 [John MacFarlane].
+Copyright 2006-2017 [John MacFarlane].
 
 <img src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
 
@@ -77,6 +85,7 @@ Pandoc is free software, released under the [GPL].
 [OpenDocument XML]: http://opendocument.xml.org/
 [MediaWiki markup]: http://www.mediawiki.org/wiki/Help:Formatting
 [groff man]: http://www.gnu.org/software/groff/groff.html
+[groff ms]: http://www.gnu.org/software/groff/groff.html
 [GNU Texinfo]: http://www.gnu.org/software/texinfo/
 [Haskell]:  http://www.haskell.org/
 [GHC]:  http://www.haskell.org/ghc/
@@ -103,3 +112,13 @@ Pandoc is free software, released under the [GPL].
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
 [CommonMark]: http://commonmark.org
+[JATS]: https://jats.nlm.nih.gov/publishing/
+[GitHub-flavored Markdown]: https://github.github.com/gfm/
+[Muse]: https://www.gnu.org/software/emacs-muse/manual/
+[txt2tags]: http://txt2tags.org
+[Vimwiki markup]: https://vimwiki.github.io
+[TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
+[TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
+[ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
+
+
