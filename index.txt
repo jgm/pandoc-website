@@ -120,5 +120,3 @@ Copyright 2006-2017 [John MacFarlane].
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
-
-
