@@ -1,6 +1,12 @@
 Contributing to pandoc
 ======================
 
+Have a question?
+----------------
+
+Ask on [pandoc-discuss].
+
+
 Found a bug?
 ------------
 
@@ -71,7 +77,7 @@ summary of issues can be found [here](https://github.com/jgm/pandoc/labels).
   knowledge of the code base.
 * [new:reader] — A request to add a new input format.
 * [new:writer] — A request to add a new output format.
-* [docs] — A discrepency,  or ambiguity in the documentation.
+* [docs] — A discrepancy,  or ambiguity in the documentation.
 * [status:in-progress] — Someone is actively working on or planning to work on the
   ticket.
 * [status:more-discussion-needed] — It is unclear what the correct approach
@@ -161,7 +167,7 @@ or, if you're using [stack],
     stack setup
     stack test
 
-The test program is `tests/test-pandoc.hs`.
+The test program is `test/test-pandoc.hs`.
 
 Benchmarks
 ----------
@@ -175,6 +181,11 @@ To run benchmarks with cabal:
 With stack:
 
     stack bench
+
+You can also build pandoc with the `weigh-pandoc` flag and
+run `weigh-pandoc` to get some statistics on memory usage.
+(Eventually this should be incorporated into the benchmark
+suite.)
 
 Using the REPL
 --------------
@@ -193,32 +204,51 @@ placed in the source directory):
 :set -XOverloadedStrings
 ```
 
+Profiling
+---------
+
+To use the GHC profiler with cabal:
+
+    cabal clean
+    cabal install --enable-library-profiling --enable-executable-profiling
+    pandoc +RTS -p -RTS [file]...
+    less pandoc.prof
+
+With stack:
+
+    stack clean
+    stack install --profile
+    pandoc +RTS -p -RTS [file]...
+    less pandoc.prof
+
+Templates
+---------
+
+The default templates live in `data/templates`, which is a git
+subtree linked to <https://github.com/jgm/pandoc-templates.git>.
+The purpose of maintaining a separate repository is to allow
+people to maintain variant templates as a fork.
+
+You can modify the templates and submit patches without worrying
+much about this: when these patches are merged, we will
+push them to the main templates repository by doing
+
+    git subtree push --prefix=data/templates templates master
+
+where `templates` is a remote pointing to the templates
+repository.
+
 The code
 --------
 
 Pandoc has a publicly accessible git repository on
 github: <http://github.com/jgm/pandoc>.  To get a local copy of the source:
 
-    git clone git://github.com/jgm/pandoc.git
-
-Note:  after cloning the repository (and in the future after pulling from it),
-you should do
-
-    git submodule update --init
-
-to pull in changes to the templates (`data/templates/`).  You can automate this
-by creating a file `.git/hooks/post-merge` with the contents:
-
-    #!/bin/sh
-    git submodule update --init
-
-and making it executable:
-
-    chmod +x .git/hooks/post-merge
+    git clone https://github.com/jgm/pandoc.git
 
 The source for the main pandoc program is `pandoc.hs`.  The source for
 the pandoc library is in `src/`, the source for the tests is in
-`tests/`, and the source for the benchmarks is in `benchmark/`.
+`test/`, and the source for the benchmarks is in `benchmark/`.
 
 The modules `Text.Pandoc.Definition`, `Text.Pandoc.Builder`, and
 `Text.Pandoc.Generic` are in a separate library `pandoc-types`.  The code can
@@ -261,7 +291,7 @@ The library is structured as follows:
     the needs of pandoc.
   - `Text.Pandoc.SelfContained` contains functions for making an HTML
     file "self-contained," by importing remotely linked images, CSS,
-    and javascript and turning them into `data:` URLs.
+    and JavaScript and turning them into `data:` URLs.
   - `Text.Pandoc.Shared` is a grab-bag of shared utility functions.
   - `Text.Pandoc.Writers.Shared` contains utilities used in writers only.
   - `Text.Pandoc.Slides` contains functions for splitting a markdown document

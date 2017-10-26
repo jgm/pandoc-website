@@ -9,25 +9,57 @@ markup], [OPML], Emacs [Org-Mode], Emacs [Muse], [txt2tags],
 Microsoft Word [docx], LibreOffice [ODT], [EPUB], or [Haddock
 markup] to
 
-* **HTML formats**:  XHTML, HTML5, and HTML slide shows using [Slidy],
-  [reveal.js], [Slideous], [S5], or [DZSlides].
-* **Word processor formats**:  Microsoft Word [docx], OpenOffice/LibreOffice
-  [ODT], [OpenDocument XML]
-* **Ebooks**:  [EPUB] version 2 or 3, [FictionBook2]
-* **Documentation formats**: [DocBook] version 4 or 5, [TEI Simple],
-  [GNU TexInfo], [Groff man], [Groff ms], [Haddock markup]
-* **Archival formats**: [JATS]
-* **Page layout formats**:  [InDesign ICML]
-* **Outline formats**: [OPML]
-* **TeX formats**: [LaTeX], [ConTeXt], LaTeX Beamer slides
-* **PDF** via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
-  `wkhtml2pdf`, `prince`, or `weasyprint`.
-* **Lightweight markup formats**: [Markdown] (including [CommonMark] and
-  [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
-  Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
-  [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
-  [TWiki markup], [Vimwiki markup], and [ZimWiki markup].
-* **Custom formats**:  custom writers can be written in [lua].
+HTML formats
+
+:   XHTML, HTML5, and HTML slide shows using [Slidy],
+   [reveal.js], [Slideous], [S5], or [DZSlides]
+
+Word processor formats
+
+:   Microsoft Word [docx], OpenOffice/LibreOffice
+   [ODT], [OpenDocument XML]
+
+Ebooks
+
+:   [EPUB] version 2 or 3, [FictionBook2]
+
+Documentation formats
+
+:   [DocBook] version 4 or 5, [TEI Simple],
+    [GNU TexInfo], [Groff man], [Groff ms], [Haddock markup]
+
+Archival formats
+
+:   [JATS]
+
+Page layout formats
+
+:   [InDesign ICML]
+
+Outline formats
+
+:   [OPML]
+
+TeX formats
+
+:   [LaTeX], [ConTeXt], LaTeX Beamer slides
+
+PDF
+
+:   via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
+   `wkhtml2pdf`, `prince`, or `weasyprint`.
+
+Lightweight markup formats
+
+:   [Markdown] (including [CommonMark] and
+    [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
+    Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
+    [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
+    [TWiki markup], [Vimwiki markup], and [ZimWiki markup].
+
+Custom formats
+
+:   custom writers can be written in [lua].
 
 Pandoc understands a number of useful markdown syntax extensions,
 including document metadata (title, author, date); footnotes; tables;
