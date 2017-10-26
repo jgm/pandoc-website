@@ -4,9 +4,10 @@ If you need to convert files from one markup format into another,
 pandoc is your swiss-army knife.  Pandoc can convert documents
 in (several dialects of) [Markdown], [reStructuredText],
 [textile], [HTML], [DocBook], [LaTeX], [MediaWiki markup],
-[TWiki markup], [OPML], Emacs [Org-Mode], Emacs [Muse],
-[txt2tags], Microsoft Word [docx], LibreOffice [ODT], [EPUB],
-[TikiWiki markup], [Vimwiki markup], or [Haddock markup] to
+[TWiki markup], [TikiWiki markup], [Creole 1.0], [Vimwiki
+markup], [OPML], Emacs [Org-Mode], Emacs [Muse], [txt2tags],
+Microsoft Word [docx], LibreOffice [ODT], [EPUB], or [Haddock
+markup] to
 
 * **HTML formats**:  XHTML, HTML5, and HTML slide shows using [Slidy],
   [reveal.js], [Slideous], [S5], or [DZSlides].
@@ -119,4 +120,5 @@ Copyright 2006-2017 [John MacFarlane].
 [Vimwiki markup]: https://vimwiki.github.io
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
+[Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
