@@ -13,6 +13,19 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/screen.css">
   <link rel="stylesheet" type="text/css" media="print" href="css/print.css">
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      pre{ font-size: 12pt; }
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}
+$if(quotes)$
+      q { quotes: "“" "”" "‘" "’"; }
+$endif$
+$if(highlighting-css)$
+$highlighting-css$
+$endif$
+  </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
             type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -65,16 +78,16 @@
     <div id="bd">
       <nav id="navbar" class="navbar nav navbar-default col-md-3 col-sm-4">
         $for(include-before)$$include-before$$endfor$
-$if(toc)$
-        <div id="toc">
-$toc$
-        </div>
-$endif$
       </nav>
       <main class="col-md-9 col-sm-8">
         <div class="row">
 $if(title)$
           <h1 class="title">$title$</h1>
+$endif$
+$if(toc)$
+        <div id="toc">
+$toc$
+        </div>
 $endif$
 $body$
         </div>

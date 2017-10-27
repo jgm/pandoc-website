@@ -26,8 +26,8 @@ h4 h5 h6  { font-size: 14pt; }
 ul { list-style-type: square; }
 dt { font-weight: bold; margin-bottom: .1em; }
 
-table { border-top: 1px solid #ccc;  border-left: 1px solid #ccc; }
-th, td { border-bottom: 1px solid #ddd; border-right: 1px solid #ccc; }
+table { margin-top: 1em; margin-bottom: 1em; }
+table th { border-bottom: 1px solid black; }
 
 blockquote { padding: 0 1.6em; color: #666; }
 
@@ -50,27 +50,9 @@ nav label { }
 content: "\00A0\25BE";
 }
 
-div#toc { border-top: 1px solid gray; margin-top: 1em; padding-top: 1em; }
+div#toc li { list-style:none; }
+
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
 div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }
 
-/* Loosely based on pygment's default colors */
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
-   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
-td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; } 
-td.sourceCode { padding-left: 5px; }
-pre.sourceCode { }
-pre.sourceCode span.kw { color: #007020; font-weight: bold; } 
-pre.sourceCode span.dt { color: #902000; }
-pre.sourceCode span.dv { color: #40a070; }
-pre.sourceCode span.bn { color: #40a070; }
-pre.sourceCode span.fl { color: #40a070; }
-pre.sourceCode span.ch { color: #4070a0; }
-pre.sourceCode span.st { color: #4070a0; }
-pre.sourceCode span.co { color: #60a0b0; font-style: italic; }
-pre.sourceCode span.ot { color: #007020; }
-pre.sourceCode span.al { color: red; font-weight: bold; }
-pre.sourceCode span.fu { color: #06287e; }
-pre.sourceCode span.re { }
-pre.sourceCode span.er { color: red; font-weight: bold; }
