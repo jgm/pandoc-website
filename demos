@@ -133,38 +133,39 @@ click on the name of the output file:
 
 @   pandoc -s @@MANUAL.txt@@ -o @@example27.org@@
 
-28.  AsciiDoc:
+28. AsciiDoc:
 
 @   pandoc -s @@MANUAL.txt@@ -t asciidoc -o @@example28.txt@@
 
-29.  Word docx:
+29. Word docx:
 
 @   pandoc -s @@MANUAL.txt@@ -o @@example29.docx@@
 
-30.  LaTeX math to docx:
+30. LaTeX math to docx:
 
 @   pandoc -s @@math.tex@@ -o @@example30.docx@@
 
-31.  DocBook to markdown:
+31. DocBook to markdown:
 
 @   pandoc -f docbook -t markdown -s @@howto.xml@@ -o @@example31.text@@
 
-32.  MediaWiki to html5:
+32. MediaWiki to html5:
 
 @   pandoc -f mediawiki -t html5 -s @@haskell.wiki@@ -o @@example32.html@@
 
-33.  Custom writer:
+33. Custom writer:
 
 @   pandoc -t @@sample.lua@@ @@example33.text@@ -o @@example33.html@@
 
-34.  Docx with a reference docx:
+34. Docx with a reference docx:
 
 @   pandoc --reference-doc @@twocolumns.docx@@ -o @@UsersGuide.docx@@ @@MANUAL.txt@@
 
-35.  Docx to markdown, including math:
+35. Docx to markdown, including math:
 
 @   pandoc -s @@example30.docx@@ -t markdown -o @@example35.md@@
 
-36.  EPUB to plain text:
+36. EPUB to plain text:
 
 @   pandoc @@MANUAL.epub@@ -t plain -o @@example36.text@@
+
