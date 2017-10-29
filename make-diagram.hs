@@ -1,4 +1,5 @@
 import Text.Pandoc
+import Text.Pandoc.Class
 import Data.List
 
 main = do
@@ -6,8 +7,8 @@ main = do
   putStrLn "rankdir=LR;"
   putStrLn "ranksep=10;"
   putStrLn "bgcolor=\"white\";"
-  let rs = [r | r <- map fst readers, r /= "native"]
-  let ws = [w | w <- map fst writers, w /= "native"]
+  let rs = [r | r <- map fst (readers :: [(String, Reader PandocIO)]) , r /= "native"]
+  let ws = [w | w <- map fst (writers :: [(String, Writer PandocIO)]) , w /= "native"]
   putStrLn $ "{rank=same; " ++ unwords [r ++ "reader" | r <- rs] ++ ";}"
   -- putStrLn $ "{rank=same; " ++ unwords [w ++ "writer" | w <- ws] ++ ";}"
   putStrLn $ unlines [readernode r | r <- rs]
