@@ -140,7 +140,6 @@ Copyright 2006-2017 [John MacFarlane].
 [reveal.js]: http://lab.hakim.se/reveal-js/
 [InDesign ICML]: https://www.adobe.com/content/dam/Adobe/en/devnet/indesign/cs55-docs/IDML/idml-specification.pdf
 [OPML]: http://dev.opml.org/spec2.html
-[Txt2Tags]: http://txt2tags.org/
 [DokuWiki markup]: https://www.dokuwiki.org/wiki:syntax
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
