@@ -1,7 +1,7 @@
 % Creating an ebook with pandoc
 
 Starting with version 1.6, pandoc can produce output in the [EPUB]
-electronic book format. [EPUB] books can be viewed on iPads, Nooks, and
+electronic book format. EPUB books can be viewed on iPads, Nooks, and
 other electronic book readers, including many smart phones. (They can
 also be converted to Kindle books using [KindleGen].)
 
@@ -123,25 +123,11 @@ That's it!  The ebook, `progit.epub`, is ready to be uploaded to your reader.
 
 ## Changing the format
 
-You can use the `--epub-stylesheet` option to specify a CSS file
-for the book.  The default CSS is
-
-~~~~ {.css}
-/* This defines styles and classes used in the book */
-body { margin: 5%; text-align: justify; font-size: medium; }
-code { font-family: monospace; }
-h1 { text-align: left; }
-h2 { text-align: left; }
-h3 { text-align: left; }
-h4 { text-align: left; }
-h5 { text-align: left; }
-h6 { text-align: left; }
-h1.title { }
-h2.author { }
-h3.date { }
-ol.toc { padding: 0; margin-left: 1em; }
-ol.toc li { list-style-type: none; margin: 0; padding: 0; }
-~~~~
+You can use the `--css` option to specify a CSS file
+for the book.  The default CSS is minimal and can be found
+[on GitHub](https://github.com/jgm/pandoc/blob/master/data/epub.css)
+or in the `epub.css` file in your data directory
+(see `--data-dir` in the [User's Guide]).
 
 You can even embed fonts in the EPUB if you want; see the [User's Guide]
 under `--epub-embed-font` for instructions.
