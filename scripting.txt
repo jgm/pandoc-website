@@ -87,8 +87,8 @@ Well, pandoc has a real markdown parser, the library function
 AST directly in a short Haskell script, then convert the result back to
 markdown using `writeMarkdown`?
 
-First, let's see what this AST looks like. We can use pandoc's `native`
-output format:
+First, let's see what this AST looks like. We ask pandoc to create a standalone
+output in pandoc's `native` format:
 
 ~~~~
 % cat test.txt
