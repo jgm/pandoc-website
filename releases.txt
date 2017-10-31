@@ -4,6 +4,31 @@ Want to know when a new release is available?  Subscribe to
 [`pandoc-announce`](http://groups.google.com/group/pandoc-announce),
 a low-volume mailing list that is just for announcements of new releases.
 
+# pandoc 2.0.0.1 (30 Oct 2017)
+
+  * EPUB writer:
+
+    + Fixed filepaths for nonstandard epub-subdirectory values.
+    + Ensure that epub2 is recognized as a non-text format,
+      so that a template is used.
+    + Don't include "prefix" attribute for ibooks for epub2.
+      It doesn't validate.
+    + Fix stylesheet paths; previously we had an incorrect
+      stylesheet path for the cover page and nav page.
+
+  * LaTeX reader:
+
+    + Insert space when needed in macro expansion (#4007).
+      Sometimes we need to insert a space after a control sequence
+      to prevent it merging with a following letter.
+    + Allow unbraced arguments for macros (#4007).
+    + Allow body of macro definition to be unbraced (#4007).
+
+  * Linux package build: ensure that pandoc-citeproc is statically linked.
+
+  * trypandoc: add native, ms.
+
+
 # pandoc 2.0 (29 Oct 2017)
 
 ## New features
@@ -57,14 +82,14 @@ a low-volume mailing list that is just for announcements of new releases.
   * Implement multicolumn support for slide formats (#1710).
     The structure expected is:
 
-        <div class="columns">
-          <div class="column" width="40%">
-            contents...
-          </div>
-          <div class="column" width="60%">
-            contents...
-          </div>
-        </div>
+        :::::::::::::: {.columns}
+        ::: {.column width="40%"}
+        contents...
+        :::
+        ::: {.column width="60%"}
+        contents...
+        :::
+        ::::::::::::::
 
     Support has been added for beamer and all HTML slide formats.
 
