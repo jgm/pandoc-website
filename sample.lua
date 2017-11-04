@@ -170,6 +170,14 @@ function Span(s, attr)
   return "<span" .. attributes(attr) .. ">" .. s .. "</span>"
 end
 
+function RawInline(format, str)
+  if format == "html" then
+    return str
+  else
+    return ''
+  end
+end
+
 function Cite(s, cs)
   local ids = {}
   for _,cit in ipairs(cs) do
@@ -198,6 +206,11 @@ end
 
 function HorizontalRule()
   return "<hr/>"
+end
+
+function LineBlock(ls)
+  return '<div style="white-space: pre-line;">' .. table.concat(ls, '\n') ..
+         '</div>'
 end
 
 function CodeBlock(s, attr)
@@ -255,7 +268,7 @@ function html_align(align)
   end
 end
 
-function CaptionedImage(src, tit, caption)
+function CaptionedImage(src, tit, caption, attr)
    return '<div class="figure">\n<img src="' .. escape(src,true) ..
       '" title="' .. escape(tit,true) .. '"/>\n' ..
       '<p class="caption">' .. caption .. '</p>\n</div>'
@@ -305,6 +318,14 @@ function Table(caption, aligns, widths, headers, rows)
   end
   add('</table')
   return table.concat(buffer,'\n')
+end
+
+function RawBlock(format, str)
+  if format == "html" then
+    return str
+  else
+    return ''
+  end
 end
 
 function Div(s, attr)
