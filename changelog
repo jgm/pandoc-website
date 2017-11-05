@@ -1,3 +1,121 @@
+pandoc (2.0.1.1)
+
+  * Improved fix to #3989 (parsing of HTML tags containing
+    `>` in an attribute or comment). The previous fix (in 2.0.1) only
+    worked in certain cases.
+
+  * FB2 writer (Alexander Krotov):
+
+    + Add `unrecognised` genre to `<title-info>`
+      (Alexander Krotov).  XML schema requires at least one genre.
+    + Remove `<annotation>` from `<body>`.
+
+  * CommonMark writer: fix strikethrough for `gfm` (#4038).
+
+  * Use texmath 0.10, which adds support for a wider range of
+    symbols and fixes default column alignments in MathML
+    and OMML.
+
+  * Highlighting fixes, using skylighting 0.4.3.1:
+
+    + Fix invalid CSS.
+    + Support `lineAnchors` (or `line-anchors`) in HTML code blocks.
+    + Ensure that code lines don't get duplicate identifiers (#4031).
+      The line identifiers are built using the code block's identifier
+      as a prefix. If the code block has null identifier, we use
+      `cb1`, `cb2`, etc.
+
+  * Added a few abbreviations to `data/abbreviations`,
+    and sorted the list (#3984, Wandmalfarbe).
+
+  * Improved support for columns in HTML writer (#4028).
+
+    + Remove `width` attribute from the `div`.
+    + Remove space between `<div class="column">` elements,
+      since this prevents columns whose widths sum to 100%
+      (the space takes up space).
+    + Move as much as possible of the CSS to the template.
+    + Ensure that all the HTML-based templates (including epub)
+      contain the CSS for columns.
+    + Columns default to 50% width unless they are given a width
+      attribute.  So if you want two equal-width columns, you
+      can use a div with class `column` and no `width` attribute.
+
+  * SelfContained: use `base64` for css links with media attribute (#4026).
+    This fixes `--self-contained` with S5.
+
+  * Improve `pandoc-template-mode.el` (Vaclav Haisman).
+
+  * INSTALL.md: MacOS instructions needed xar -f (adam234).
+
+  * MANUAL.txt:
+
+    + Clarify that --setext-headers doesn't affect gfm output (#4035).
+    + Clarify what is needed to open and close a div in `fenced_divs`
+      (#4039, Tristano Ajmone).
+    + Removed reference to `default.beamer` in docs (#4024).
+      Also added mention of other templates affecting PDF output
+      with different settings.
+
+pandoc (2.0.1)
+
+  * Fixed regression in parsing of HTML comments in markdown and other
+    non-HTML formats (`Text.Pandoc.Readers.HTML.htmlTag`) (#4019).
+    The parser stopped at the first `>` character, even if it wasn't
+    the end of the comment.
+
+  * Creole reader (Sascha Wilde):
+
+    + Fix some minor typos and formatting.
+    + Add additional test on nowiki-block after para.
+    + Fix lists with trailing white space.
+
+  * LaTeX reader: handle `%` comment right after command.
+    For example, `\emph%`.
+
+  * Markdown reader:  make sure fenced div closers work in lists.
+    Previously the following failed:
+
+        ::: {.class}
+        1. one
+        2. two
+        :::
+
+    and you needed a blank line before the closing `:::`.
+
+  * Make `fenced_divs` affect the Markdown writer.  If `fenced_divs` is
+    enabled, Divs will be rendered as fenced divs.
+
+  * LaTeX/Beamer writer: support "blocks" inside columns and other Divs
+    (#4016).
+
+  * HTML Writer: consistently use dashed class-names (Mauro Bieg, #3556).
+    Note: this change may require some changes in CSS rules.
+    `footnoteRef` has become `footnote-ref`, `titleslide` has
+    become `title-slide`, and `footnoteBack` has become `footnote-back`.
+
+  * JATS writer: Properly pass through author metadata (#4020).
+
+  * FB2 writer (Alexander Krotov):
+
+    + Write blocks outside of `<p>` in definitions.
+    + Make bullet lists consistent with ordered lists, repeating
+      the marker for the outer list rather than indenting sublists,
+      since indentation does not work in readers.
+    + Add new style FB2 tests.
+
+  * `Text.Pandoc.ImageSize`: Add `Millimeter` constructor to `Dimension`
+    (#4012) [API change]. Now sizes given in 'mm' are no longer converted
+    to 'cm'.
+
+  * Revise documentation of small caps syntax (Andrew Dunning, #4013).
+
+  * Fix broken reference links in manual (Andrew Dunning, #4014)
+
+  * Fixed example of slide columns structure in changelog (#4015).
+    Also documented this feature in MANUAL.txt.
+
+
 pandoc (2.0.0.1)
 
   * EPUB writer:
@@ -75,14 +193,14 @@ pandoc (2.0)
   * Implement multicolumn support for slide formats (#1710).
     The structure expected is:
 
-        <div class="columns">
-          <div class="column" width="40%">
-            contents...
-          </div>
-          <div class="column" width="60%">
-            contents...
-          </div>
-        </div>
+        :::::::::::::: {.columns}
+        ::: {.column width="40%"}
+        contents...
+        :::
+        ::: {.column width="60%"}
+        contents...
+        :::
+        ::::::::::::::
 
     Support has been added for beamer and all HTML slide formats.
 
