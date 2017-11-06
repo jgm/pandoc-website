@@ -22,7 +22,7 @@ a low-volume mailing list that is just for announcements of new releases.
     symbols and fixes default column alignments in MathML
     and OMML.
 
-  * Highlighting fixes, using skylighting 0.4.3.1:
+  * Highlighting fixes, using skylighting 0.4.3.2:
 
     + Fix invalid CSS.
     + Support `lineAnchors` (or `line-anchors`) in HTML code blocks.

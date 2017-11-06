@@ -16,7 +16,7 @@ pandoc (2.0.1.1)
     symbols and fixes default column alignments in MathML
     and OMML.
 
-  * Highlighting fixes, using skylighting 0.4.3.1:
+  * Highlighting fixes, using skylighting 0.4.3.2:
 
     + Fix invalid CSS.
     + Support `lineAnchors` (or `line-anchors`) in HTML code blocks.
@@ -45,6 +45,10 @@ pandoc (2.0.1.1)
     This fixes `--self-contained` with S5.
 
   * Improve `pandoc-template-mode.el` (Vaclav Haisman).
+
+  * Issue INFO, not WARNING, when a .sty file cannot be
+    read in LaTeX reader.  It is normally not an issue requiring
+    a fix from the user if .sty files are not found.
 
   * INSTALL.md: MacOS instructions needed xar -f (adam234).
 
