@@ -27,7 +27,7 @@ doesn't handle Chinese characters. But you can change the default to
 use xelatex instead. You should also make sure you're using a font
 with Chinese glyphs.  For example:
 
-    pandoc -o c.pdf --latex-engine=xelatex -V mainfont='Adobe Ming Std'
+    pandoc -o c.pdf --pdf-engine=xelatex -V mainfont='Adobe Ming Std'
 
 ## The new Windows installer (starting with 1.11) does a single user install, rather than installing pandoc for all users. How can I install pandoc for all users?
 
