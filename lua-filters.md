@@ -165,6 +165,8 @@ those elements accessible through the filter function parameter.
 
 Some pandoc functions have been made available in lua:
 
+- `walk_block` and `walk_inline` allow filters to be applied
+  inside specific block or inline elements.
 - `read` allows filters to parse strings into pandoc documents
 - `pipe` runs an external command with input from and output to
   strings
@@ -331,6 +333,104 @@ will output:
 <dd><p><span>Professor of Phrenology</span></p>
 </dd>
 </dl>
+```
+
+## Modifying pandoc's `MANUAL.txt` for man pages
+
+This is the filter we use when converting `MANUAL.txt`
+to man pages.  It converts level-1 headers to uppercase
+(using `walk_block` to transform inline elements
+inside headers), removes footnotes, and replaces links
+with regular text.
+
+``` lua
+function Header(el)
+    if el.level == 1 then
+      return pandoc.walk_block(el, {
+        Str = function(el)
+            return pandoc.Str(el.text:upper())
+        end })
+    end
+end
+
+function Link(el)
+    return el.content
+end
+
+function Note(el)
+    return {}
+end
+```
+
+## Creating a handout from a paper
+
+This filter extracts all the numbered examples, section
+headers, block quotes, and figures from a document, in addition
+to any divs with class `handout`.  (Note that only blocks
+at the "outer level" are included; this ignores blocks inside
+nested constructs, like list items.)
+
+``` lua
+-- creates a handout from an article, using its headings,
+-- blockquotes, numbered examples, figures, and any
+-- Divs with class "handout"
+
+function Pandoc(doc)
+    local hblocks = {}
+    for i,el in pairs(doc.blocks) do
+        if (el.t == "Div" and el.classes[1] == "handout") or
+           (el.t == "BlockQuote") or
+           (el.t == "OrderedList" and el.style == "Example") or
+           (el.t == "Para" and #el.c == 1 and el.c[1].t == "Image") or
+           (el.t == "Header") then
+           table.insert(hblocks, el)
+        end
+    end
+    return pandoc.Pandoc(hblocks, doc.meta)
+end
+```
+
+## Counting words in a document
+
+This filter counts the words in the body of a document (omitting
+metadata like titles and abstracts), including words in code.
+It should be more accurate than `wc -w` run directly on a
+Markdown document, since the latter will count markup
+characters, like the `#` in front of an ATX header, or
+tags in HTML documents, as words.  To run it,
+`pandoc --lua-filter wordcount.lua myfile.md`.
+
+``` lua
+-- counts words in a document
+
+words = 0
+
+wordcount = {
+  Str = function(el)
+    -- we don't count a word if it's entirely punctuation:
+    local s = el.text:gsub("%p","")
+    if #s > 0 then
+        words = words + 1
+    end
+  end,
+
+  Code = function(el)
+    _,n = el.text:gsub("%S+","")
+    words = words + n
+  end,
+
+  CodeBlock = function(el)
+    _,n = el.text:gsub("%S+","")
+    words = words + n
+  end
+}
+
+function Pandoc(el)
+    -- skip metadata, just count body:
+    pandoc.walk_block(pandoc.Div(el.blocks), wordcount)
+    print(words .. " words in body")
+    os.exit(0)
+end
 ```
 
 ## Converting ABC code to music notation
@@ -1070,6 +1170,38 @@ Lua functions for pandoc scripts.
 
 ## Helper Functions
 
+[`walk_block (element, filter)`]{#walk_block}
+
+:   Apply a filter inside a block element, walking its
+    contents.
+
+    Parameters:
+
+    `element`:
+    :   the block element
+
+    `filter`:
+    :   a lua filter (table of functions) to be applied
+        within the block element
+
+    Returns: the transformed block element
+
+[`walk_inline (element, filter)`]{#walk_inline}
+
+:   Apply a filter inside an inline element, walking its
+    contents.
+
+    Parameters:
+
+    `element`:
+    :   the inline element
+
+    `filter`:
+    :   a lua filter (table of functions) to be applied
+        within the inline element
+
+    Returns: the transformed inline element
+
 [`read (markup[, format])`]{#read}
 
 :   Parse the given string into a Pandoc document.
@@ -1141,7 +1273,6 @@ Lua functions for pandoc scripts.
     Usage:
 
         local output = pandoc.pipe("sed", {"-e","s/a/b/"}, "abc")
-
 
 # Submodule mediabag
 
