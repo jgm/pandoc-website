@@ -26,7 +26,9 @@ So, to use it, you'll need to open a terminal window:
   mode, run the `cmd` or `powershell` command from the Start menu.
   If you use the Windows 8 start screen instead, simply type
   `cmd` or `powershell`, and then run either the "Command
-  Prompt" or "Windows Powershell" application.
+  Prompt" or "Windows Powershell" application.  If you are using
+  `cmd`, type `chcp 65001` before using pandoc, to set the
+  encoding to UTF-8.
 
 - On Linux, there are many possible configurations, depending on
   what desktop environment you're using:
@@ -274,18 +276,17 @@ You now know the basics.  Pandoc has a lot of options.  At this point
 you can start to learn more about them by reading the
 [User's Guide](README.html).
 
-Here's an example.  The `-S` or `--smart` option (you can use either
-form) causes pandoc to produce curly quotes and proper dashes.
-Try it using pandoc as a filter.  Type
+Here's an example.  The `--mathml` option causes pandoc to
+convert TeX math into MathML.  Type
 
-    pandoc --smart
+    pandoc --mathml
 
 then enter this text, followed by `Ctrl-D` (`Ctrl-Z` followed by
 `Enter` on Windows):
 
-    "Hello there," she said---and Sam didn't reply.
+    $x = y^2$
 
-Now try the same thing without `--smart`.  See the difference
+Now try the same thing without `--mathml`.  See the difference
 in output?
 
 If you forget an option, or forget which formats are supported, you
@@ -299,12 +300,8 @@ On OS X or Linux systems, you can also do
 
     man pandoc
 
-to get the pandoc manual page, or
-
-    man pandoc_markdown
-
-to get a description of pandoc's markdown syntax.  All of this
-information is also in the User's Guide.
+to get the pandoc manual page.  All of this information is also
+in the User's Guide.
 
 If you get stuck, you can always ask questions on the
 [pandoc-discuss](http://groups.google.com/group/pandoc-discuss)
