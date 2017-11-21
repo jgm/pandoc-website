@@ -2,7 +2,7 @@
 
 This document is for people who are unfamiliar with command line
 tools.  Command-line experts can go straight to the [User's
-Guide](README.html) or the pandoc man page.
+Guide](MANUAL.html) or the pandoc man page.
 
 # Step 1:  Install pandoc
 
@@ -274,7 +274,7 @@ package in linux.)  Then do
 
 You now know the basics.  Pandoc has a lot of options.  At this point
 you can start to learn more about them by reading the
-[User's Guide](README.html).
+[User's Guide](MANUAL.html).
 
 Here's an example.  The `--mathml` option causes pandoc to
 convert TeX math into MathML.  Type
