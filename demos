@@ -77,10 +77,10 @@ click on the name of the output file:
 17. TeX math in HTML:
 
 @   pandoc @@math.text@@ -s -o @@mathDefault.html@@
-@   pandoc @@math.text@@ -s --mathml -o @@mathMathML.html@@
-@   pandoc @@math.text@@ -s --webtex -o @@mathWebTeX.html@@
+@   pandoc @@math.text@@ -s --mathml  -o @@mathMathML.html@@
+@   pandoc @@math.text@@ -s --webtex  -o @@mathWebTeX.html@@
 @   pandoc @@math.text@@ -s --mathjax -o @@mathMathJax.html@@
-@   pandoc @@math.text@@ -s --latexmathml -o @@mathLaTeXMathML.html@@
+@   pandoc @@math.text@@ -s --katex   -o @@mathKaTeX.html@@
 
 18. Syntax highlighting of delimited code blocks:
 

@@ -17,7 +17,7 @@ HTML formats
 Word processor formats
 
 :   Microsoft Word [docx], OpenOffice/LibreOffice
-   [ODT], [OpenDocument XML]
+   [ODT], [OpenDocument XML], Microsoft [PowerPoint].
 
 Ebooks
 
@@ -153,3 +153,4 @@ Copyright 2006-2017 [John MacFarlane].
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
 [Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
+[PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint

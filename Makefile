@@ -69,7 +69,7 @@ $(SITE)/% : %
 	cp $< $@
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/lua-filters.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/lua-filters.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua
 
 update :
 	cp $(SOURCES) .

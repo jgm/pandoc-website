@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% November 20, 2017
+% December 8, 2017
 
 Synopsis
 ========
@@ -14,21 +14,21 @@ Pandoc is a [Haskell] library for converting from one markup format to
 another, and a command-line tool that uses this library. It can read
 [Markdown], [CommonMark], [PHP Markdown Extra], [GitHub-Flavored
 Markdown], [MultiMarkdown], and (subsets of) [Textile],
-[reStructuredText], [HTML], [LaTeX], [MediaWiki markup], [TWiki markup],
-[TikiWiki markup], [Creole 1.0], [Haddock markup], [OPML], [Emacs Org mode],
-[DocBook], [Muse], [txt2tags], [Vimwiki], [EPUB], [ODT], and [Word docx];
-and it can write plain text, [Markdown], [CommonMark], [PHP Markdown
-Extra], [GitHub-Flavored Markdown], [MultiMarkdown],
-[reStructuredText], [XHTML], [HTML5], [LaTeX] \(including
-[`beamer`] slide shows\), [ConTeXt], [RTF], [OPML], [DocBook],
-[OpenDocument], [ODT], [Word docx], [GNU Texinfo], [MediaWiki
-markup], [DokuWiki markup], [ZimWiki markup], [Haddock markup],
-[EPUB] \(v2 or v3\), [FictionBook2], [Textile], [groff man],
+[reStructuredText], [HTML], [LaTeX], [MediaWiki markup], [TWiki
+markup], [TikiWiki markup], [Creole 1.0], [Haddock markup], [OPML],
+[Emacs Org mode], [DocBook], [Muse], [txt2tags], [Vimwiki], [EPUB],
+[ODT], and [Word docx]; and it can write plain text, [Markdown],
+[CommonMark], [PHP Markdown Extra], [GitHub-Flavored Markdown],
+[MultiMarkdown], [reStructuredText], [XHTML], [HTML5], [LaTeX]
+\(including [`beamer`] slide shows\), [ConTeXt], [RTF], [OPML],
+[DocBook], [OpenDocument], [ODT], [Word docx], [GNU Texinfo],
+[MediaWiki markup], [DokuWiki markup], [ZimWiki markup], [Haddock
+markup], [EPUB] \(v2 or v3\), [FictionBook2], [Textile], [groff man],
 [groff ms], [Emacs Org mode], [AsciiDoc], [InDesign ICML], [TEI
-Simple], [Muse] and [Slidy], [Slideous], [DZSlides], [reveal.js]
-or [S5] HTML slide shows. It can also produce [PDF] output on
-systems where LaTeX, ConTeXt, `pdfroff`, `wkhtmltopdf`,
-`prince`, or `weasyprint` is installed.
+Simple], [Muse], [PowerPoint] slide shows and [Slidy], [Slideous],
+[DZSlides], [reveal.js] or [S5] HTML slide shows. It can also produce
+[PDF] output on systems where LaTeX, ConTeXt, `pdfroff`,
+`wkhtmltopdf`, `prince`, or `weasyprint` is installed.
 
 Pandoc's enhanced version of Markdown includes syntax for [footnotes],
 [tables], flexible [ordered lists], [definition lists], [fenced code
@@ -102,6 +102,7 @@ Markdown can be expected to be lossy.
 [InDesign ICML]: https://www.adobe.com/content/dam/Adobe/en/devnet/indesign/cs55-docs/IDML/idml-specification.pdf
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
 [Muse]: https://amusewiki.org/library/manual
+[PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [Vimwiki]: https://vimwiki.github.io
 
 Using `pandoc`
@@ -303,36 +304,35 @@ General options
     (original unextended Markdown), `markdown_phpextra` (PHP Markdown
     Extra), `markdown_mmd` (MultiMarkdown), `gfm` (GitHub-Flavored
     Markdown), `commonmark` (CommonMark Markdown), `rst`
-    (reStructuredText), `html4` (XHTML 1.0 Transitional), `html`
-    or `html5` (HTML5/XHTML [polyglot markup]), `latex`
-    (LaTeX), `beamer` (LaTeX beamer slide show), `context` (ConTeXt),
-    `man` (groff man), `mediawiki` (MediaWiki markup),
-    `dokuwiki` (DokuWiki markup), `zimwiki` (ZimWiki markup),
-    `textile` (Textile), `org` (Emacs Org mode), `texinfo` (GNU Texinfo),
-    `opml` (OPML), `docbook` or `docbook4` (DocBook 4), `docbook5`
-    (DocBook 5), `jats` (JATS XML), `opendocument` (OpenDocument),
-    `odt` (OpenOffice text document), `docx` (Word docx), `haddock`
-    (Haddock markup), `rtf` (rich text format), `epub2` (EPUB v2 book),
-    `epub` or `epub3` (EPUB v3), `fb2` (FictionBook2 e-book),
-    `asciidoc` (AsciiDoc), `icml` (InDesign ICML), `tei` (TEI
-    Simple), `slidy` (Slidy HTML and JavaScript slide show),
-    `slideous` (Slideous HTML and JavaScript slide show),
-    `dzslides` (DZSlides HTML5 + JavaScript slide show),
-    `revealjs` (reveal.js HTML5 + JavaScript slide show), `s5`
-    (S5 HTML and JavaScript slide show), or the path of a custom
-    lua writer (see [Custom writers], below). (`markdown_github`
-    provides deprecated and less accurate support for
-    Github-Flavored Markdown; please use `gfm` instead, unless
-    you use extensions that do not work with `gfm`.) Note that `odt`,
-    `epub`, and `epub3` output will not be directed to *stdout*;
-    an output filename must be specified using the `-o/--output`
-    option. If `+lhs` is appended to `markdown`, `rst`, `latex`,
-    `beamer`, `html4`, or `html5`, the output will be rendered as
-    literate Haskell source: see [Literate Haskell support],
-    below.  Markdown syntax extensions can be individually
-    enabled or disabled by appending `+EXTENSION` or
-    `-EXTENSION` to the format name, as described above under `-f`.
-    See `--list-output-formats` and `--list-extensions`, below.
+    (reStructuredText), `html4` (XHTML 1.0 Transitional), `html` or
+    `html5` (HTML5/XHTML [polyglot markup]), `latex` (LaTeX), `beamer`
+    (LaTeX beamer slide show), `context` (ConTeXt), `man` (groff man),
+    `mediawiki` (MediaWiki markup), `dokuwiki` (DokuWiki markup),
+    `zimwiki` (ZimWiki markup), `textile` (Textile), `org` (Emacs Org
+    mode), `texinfo` (GNU Texinfo), `opml` (OPML), `docbook` or
+    `docbook4` (DocBook 4), `docbook5` (DocBook 5), `jats` (JATS XML),
+    `opendocument` (OpenDocument), `odt` (OpenOffice text document),
+    `docx` (Word docx), `haddock` (Haddock markup), `rtf` (rich text
+    format), `epub2` (EPUB v2 book), `epub` or `epub3` (EPUB v3),
+    `fb2` (FictionBook2 e-book), `asciidoc` (AsciiDoc), `icml`
+    (InDesign ICML), `tei` (TEI Simple), `slidy` (Slidy HTML and
+    JavaScript slide show), `slideous` (Slideous HTML and JavaScript
+    slide show), `dzslides` (DZSlides HTML5 + JavaScript slide show),
+    `revealjs` (reveal.js HTML5 + JavaScript slide show), `s5` (S5
+    HTML and JavaScript slide show), `pptx` (PowerPoint slide show) or
+    the path of a custom lua writer (see [Custom writers],
+    below). (`markdown_github` provides deprecated and less accurate
+    support for Github-Flavored Markdown; please use `gfm` instead,
+    unless you use extensions that do not work with `gfm`.) Note that
+    `odt`, `epub`, and `epub3` output will not be directed to
+    *stdout*; an output filename must be specified using the
+    `-o/--output` option. If `+lhs` is appended to `markdown`, `rst`,
+    `latex`, `beamer`, `html4`, or `html5`, the output will be
+    rendered as literate Haskell source: see [Literate Haskell
+    support], below.  Markdown syntax extensions can be individually
+    enabled or disabled by appending `+EXTENSION` or `-EXTENSION` to
+    the format name, as described above under `-f`.  See
+    `--list-output-formats` and `--list-extensions`, below.
 
 `-o` *FILE*, `--output=`*FILE*
 
@@ -426,6 +426,13 @@ Reader options
 `--base-header-level=`*NUMBER*
 
 :   Specify the base level for headers (defaults to 1).
+
+`--strip-empty-paragraphs`
+
+:   *Deprecated.  Use the `+empty_paragraphs` extension instead.*
+    Ignore paragraphs with no content.  This option is useful
+    for converting word processing documents where users have
+    used empty paragraphs to create inter-paragraph space.
 
 `--indented-code-classes=`*CLASSES*
 
@@ -685,8 +692,16 @@ General writer options
     Instead of a *STYLE* name, a JSON file with extension
     `.theme` may be supplied.  This will be parsed as a KDE
     syntax highlighting theme and (if valid) used as the
-    highlighting style.  To see a sample theme that can be
-    modified, `pandoc --print-default-data-file default.theme`.
+    highlighting style.
+
+    To generate the JSON version of an existing style,
+    use `--print-highlight-style`.
+
+`--print-highlight-style=`*STYLE*|*FILE*
+
+:   Prints a JSON version of a highlighting style, which can
+    be modified, saved with a `.theme` extension, and used
+    with `--highlight-style`.
 
 `--syntax-definition=`*FILE*
 
@@ -1516,6 +1531,11 @@ LaTeX variables are used when [creating a PDF].
 
 `natbiboptions`
 :   list of options for natbib.
+
+`pagestyle`
+:   An option for LaTeX's `\pagestyle{}`. The default article class
+    supports 'plain' (default), 'empty', and 'headings'; headings puts
+    section titles in the header.
 
 [`article`]: https://ctan.org/pkg/article
 [`report`]: https://ctan.org/pkg/report
@@ -2617,7 +2637,10 @@ and lists, and cannot span multiple lines.  If a pipe table contains a
 row whose printable content is wider than the column width (see
 `--columns`), then the cell contents will wrap, with the
 relative cell widths determined by the widths of the separator
-lines.
+lines.  (In this case, the table will take up the full text
+width.)  If no lines are wider than column width, then
+cell contents will not be wrapped, and the cells will be sized
+to their contents.
 
 Note:  pandoc also recognizes pipe tables of the following
 form, as can be produced by Emacs' orgtbl-mode:
@@ -3803,6 +3826,12 @@ in several respects:
     we must either disallow lazy wrapping or require a blank line between
     list items.
 
+#### Extension: `empty_paragraphs` ####
+
+Allows empty paragraphs.  By default empty paragraphs are
+omitted.  This affects the `docx` reader and writer, the
+`opendocument` and `odt` writer, and all HTML-based readers and writers.
+
 Markdown variants
 -----------------
 
@@ -3846,8 +3875,9 @@ extensions on `commonmark`:
 
     These can all be individually disabled. Note, however, that
     `commonmark` and `gfm` have limited support for extensions:
-    extensions other than those listed above (and `smart`) will have
-    no effect on `commonmark` or `gfm`.
+    extensions other than those listed above (and `smart` and
+    `raw_tex`) will have no effect on `commonmark` or `gfm`.
+    And `raw_tex` only affects `gfm` output, not input.
 
 Extensions with formats other than Markdown
 -------------------------------------------
@@ -3869,7 +3899,8 @@ Producing slide shows with pandoc
 You can use pandoc to produce an HTML + JavaScript slide presentation
 that can be viewed via a web browser.  There are five ways to do this,
 using [S5], [DZSlides], [Slidy], [Slideous], or [reveal.js].
-You can also produce a PDF slide show using LaTeX [`beamer`].
+You can also produce a PDF slide show using LaTeX [`beamer`], or
+slides shows in Microsoft [PowerPoint] format.
 
 Here's the Markdown source for a simple slide show, `habits.txt`:
 
@@ -3930,6 +3961,10 @@ To produce a PDF slide show using beamer, type
 
 Note that a reveal.js slide show can also be converted to a PDF
 by printing it to a file from the browser.
+
+To produce a Powerpoint slide show, type
+
+    pandoc habits.txt -o habits.pptx
 
 Structuring the slide show
 --------------------------

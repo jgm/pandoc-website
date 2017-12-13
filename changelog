@@ -1,3 +1,261 @@
+pandoc (2.0.5)
+
+  * Fix a bug in 2.0.4, whereby pandoc could not read the theme files
+    generated with `--print-highlight-style` (#4133).  Improve JSON
+    serialization of styles.
+
+  * Fix CSS issues involving line numbers (#4128).
+    Highlighted code blocks are now enclosed in a div with class `sourceCode`.
+    Highlighting CSS no longer sets a generic color for pre and code; we only
+    set these for class `sourceCode`.
+
+  * `--pdf-engine-opt`: fix bug where option order was reversed (#4137).
+
+  * Add PowerPoint (pptx) writer (Jesse Rosenthal).
+    It works following the standard Pandoc conventions for making other
+    sorts of slides. Caveats:
+
+    + Syntax highlighting is not yet implemented. (This is difficult
+      because there are no character classes in Powerpoint.)
+    + Footnotes and Definition lists are not yet implemented. (Notes will
+      usually take the form of a final slide.
+    + Image placement and auto-resizing has a few glitches.
+    + Reference powerpoint files don't work dependably from the command
+      line. This will be implemented, but at the moment users are advised
+      to change themes from within Powerpoint.
+
+  * Create shared Text.Pandoc.Writers.OOXML module (Jesse Rosenthal).
+    This is for functions used by both Powerpoint and Docx writers.
+
+  * Add default pptx data for Powerpoint writer (Jesse Rosenthal).
+
+  * Add `empty_paragraphs` extension.
+
+    + Deprecate `--strip-empty-paragraphs` option.  Instead we now
+      use an `empty_paragraphs` extension that can be enabled on
+      the reader or writer.  By default, disabled.
+    + Add `Ext_empty_paragraphs` constructor to `Extension`.
+    + Revert "Docx reader: don't strip out empty paragraphs."
+      This reverts commit d6c58eb836f033a48955796de4d9ffb3b30e297b.
+    + Implement `empty_paragraphs` extension in docx reader and writer,
+      opendocument writer, html reader and writer.
+    + Add tests for `empty_paragraphs` extension.
+
+  * Markdown reader:
+
+    + Don't parse native div as table caption (#4119).
+    + Improved computation of column widths in pipe tables.
+      Pipe tables with lines longer than the text width (as set
+      by `--columns`) are now scaled to text width, with the relative
+      widths of columns determined by the ratios between the
+      header lines.  Previously we computed column widths using
+      the ratio of header line lengths to column width, so that
+      tables with narrow header lines were extremely thin, which
+      was very rarely the desired result.
+
+  * LaTeX reader: fix `\` before newline (#4134).  This should be a space,
+    as long as it's not followed by a blank line. This has been fixed at the
+    tokenizer level.
+
+  * Muse reader (Alexander Krotov):
+
+    + Add test for `#disable-tables` directive in Emacs mode.
+    + Don't allow emphasis to be preceded by letter.
+    + Add underline support in Emacs Muse mode..
+    + Support multiline directives in Amusewiki mode
+
+  * Man writer: omit internal links (#4136).  That is, just print the link
+    text without the URL.
+
+  * Markdown reader: accept processing instructions as raw HTML (#4125).
+
+  * Lua filters (Albert Krewinkel):
+
+    + Use script to initialize the interpreter.  The file `init.lua` is
+      used to initialize the Lua interpreter which is used in Lua filters.
+      This gives users the option to require libraries which they want to
+      use in all of their filters, and to extend default modules.
+    + Fix package loading for Lua 5.1.  The list of package searchers is
+      named `package.loaders` in Lua 5.1 and LuaJIT, and `package.searchers`
+      in Lua 5.2 and later.
+    + Refactor lua module handling.  The integration with Lua's package/module
+      system is improved: A pandoc-specific package searcher is prepended to
+      the searchers in `package.searchers`. The modules `pandoc` and
+      `pandoc.mediabag` can now be loaded via `require`.
+    + Bump lower bound of hslua.  The release hslua 0.9.3 contains a new
+      function which makes using Haskell functions as package loaders much
+      easier.
+
+  * reveal.js template:  add title-slide identifier to title slide (#4120).
+    This allows it to be styled more easily.
+
+  * LaTeX template: Added support for `pagestyle` variable (#4135,
+    Thomas Hodgson)
+
+  * Add `-threaded` to ghc-options for executable (#4130, fixes a build
+    error on linux).
+
+
+pandoc (2.0.4)
+
+  * Add `--print-highlight-style` option.  This generates a JSON version
+    of a highlighting style, which can be saved as a `.theme` file, modified,
+    and used with `--highlight-style` (#4106, #4096).
+
+  * Add `--strip-empty-paragraphs` option.  This works for any input format.
+    It is primarily intended for use with docx and odt documents where
+    empty paragraphs have been used for inter-paragraph spaces.
+
+  * Support `--webtex` for `gfm` output.
+
+  * Recognize `.muse` file extension.
+
+  * Support beamer `\alert` in LaTeX reader. Closes #4091.
+
+  * Docx reader: don't strip out empty paragraphs (#2252).
+    Users who have a conversion pipeline from docx may want to consider adding
+    `--strip-empty-paragraphs` to the command line.
+
+  * Org reader (Albert Krewinkel): Allow empty list items (#4090).
+
+  * Muse reader (Alexander Krotov):
+
+    + Parse markup in definition list terms.
+    + Allow definition to end with EOF.
+    + Make code blocks round trip.
+    + Drop common space prefix from list items.
+    + Add partial round trip test.
+    + Don't interpret XML entities.
+    + Remove `nested`.
+    + Parse `~~` as non-breaking space in Emacs mode.
+    + Correctly remove indentation from notes.  Exactly one space is
+      required and considered to be part of the marker.
+    + Allow list items to be empty.
+    + Add ordered list test.
+    + Add more multiline definition tests.
+    + Don't allow blockquotes within lists.
+    + Fix reading of multiline definitions.
+    + Add inline `<literal>` support.
+    + Concatenate inlines of the same type
+
+  * Docx writer: allow empty paragraphs (#2252).
+
+  * CommonMark/gfm writer:
+
+    + Use raw html for native divs/spans (#4113).  This allows a pandoc
+      markdown native div or span to be rendered in gfm using raw html tags.
+    + Implement `raw_html` and `raw_tex` extensions.  Note that `raw_html`
+      is enabled by default for `gfm`, while `raw_tex` is disabled by default.
+
+  * Muse writer (Alexander Krotov):
+
+    + Test that inline math conversion result is normalized.
+      Without normalization this test produced
+      `<em>a</em><em>b</em><em>c</em>`.
+    + Improve inline list normalization and move to writer.
+    + Escape hash symbol.
+    + Escape `----` to avoid accidental horizontal rules.
+    + Escape only `</code>` inside code tag.
+    + Additional `<verbatim>` is not needed as `<code>` is verbatim already.
+
+  * LaTeX writer:
+
+    + Allow specifying just width or height for image size.
+      Previously both needed to be specified (unless the image was
+      being resized to be smaller than its original size).
+      If height but not width is specified, we now set width to
+      textwidth. If width but not height is specified, we now set
+      height to textheight.  Since we have `keepaspectratio`, this
+      yields the desired result.
+    + Escape `~` and `_` in code with `--listings` (#4111).
+
+  * HTML writer: export `tagWithAttributes`.  This is a helper allowing
+    other writers to create single HTML tags.
+
+  * Let papersizes `a0`, `a1`, `a2`, ... be case-insensitive by
+    converting the case as needed in LaTeX and ConTeXt writers.
+
+  * Change `fixDisplayMath` from `Text.Pandoc.Writers.Shared`
+    so that it no longer produces empty `Para`'s as an artifact.
+
+  * `Text.Pandoc.Shared.blocksToInlines`:  rewrote using builder.
+    This gives us automatic normalization, so we don't get
+    for example two consecutive Spaces.
+
+  * Include default CSS for 'underline' class in HTML-based templates.
+
+  * revealjs template:  add `tex2jax` configuration for the
+    math plugin.  With the next release of reveal.js, this will
+    fix the problem of `$`s outside of math contexts being
+    interpreted as math delimiters (#4027).
+
+  * `pandoc.lua` module for use in lua filters (Albert Krewinkel):
+
+    + Add basic lua List module (#4099, #4081).  The List module is
+      automatically loaded, but not assigned to a global variable. It can be
+      included in filters by calling `List = require 'List'`.  Lists of blocks,
+      lists of inlines, and lists of classes are now given `List` as a metatable,
+      making working with them more convenient.  E.g., it is now possible to
+      concatenate lists of inlines using Lua's concatenation operator `..`
+      (requires at least one of the operants to have `List` as a metatable):
+
+          function Emph (emph)
+            local s = {pandoc.Space(), pandoc.Str 'emphasized'}
+            return pandoc.Span(emph.content .. s)
+          end
+
+      The `List` metatable is assigned to the tables which get passed to
+      the constructors `MetaBlocks`, `MetaInline`, and `MetaList`. This
+      enables the use of the resulting objects as lists.
+    + `Lua/StackInstances`: push Pandoc and Meta via constructor.
+      Pandoc and Meta elements are now pushed by calling the respective
+      constructor functions of the pandoc Lua module. This makes serialization
+      consistent with the way blocks and inlines are pushed to lua and allows
+      to use List methods with the `blocks` value.
+    + Add documentation for pandoc.List in `lua-filters.md`.
+
+  * Use latest tagsoup.  This fixes a bug in parsing HTML tags with
+    `&` (but not a valid entity) following them (#4094, #4088).
+
+  * Use skylighting 0.4.4.1, fixing the color of unmarked code text
+    when `numberLines` is used (#4103).
+
+  * Make `normalizeDate` more forgiving (Mauro Bieg, #4101), not
+    requiring a leading 0 on single-digit days.
+
+  * Fix `--help` output for `--highlight-style` to include `FILE` (Mauro
+    Bieg, #4095).
+
+  * Clearer deprecation warning for `--latexmathml, --asciimathml, -m`.
+    Previously we only mentioned `--latexmathml`, even if `-m` was
+    used.
+
+  * Changelog: fix description of lua filters in 2.0 release
+    (Albert Krewinkel).  Lua filters were initially run *after* conventional
+    (JSON) filters.  However, this was changed later to make it easier to deal
+    with files in the mediabag. The changelog is updated to describe that
+    feature of the 2.0 release correctly.
+
+  * Change Generic JSON instances to TemplateHaskell (Jasper Van der Jeugt,
+    #4085).  This reduces compile time and memory usage significantly.
+
+  * `lua-filters.md`: Added tikz filter example.
+
+  * Create alternative zip file for macOS binaries.
+
+  * Create alternative zip file for Windows binaries.
+
+  * Update INSTALL.md since we now provide zips for binaries.
+
+  * Relax `http-types` dependency (Justus Sagemüller, #4084).
+
+  * Add `epub.md`, `getting-started.md` to docs.  These used to live in
+    the website repo.
+
+  * Add `packages` target to Makefile.
+
+  * Bump bounds for binary, http-types, tasty-hunit
+
 pandoc (2.0.3)
 
   * Lua filters: preload text module (Albert Krewinkel, #4077).
@@ -378,7 +636,7 @@ pandoc (2.0)
   * Added lua filters (Albert Krewinkel, #3514).  The new `--lua-filter`
     option works like `--filter` but takes pathnames of special lua filters
     and uses the lua interpreter baked into pandoc, so that no external
-    interpreter is needed.  Note that lua filters are all applied after
+    interpreter is needed.  Note that lua filters are all applied before
     regular filters, regardless of their position on the command line.
     For documentation of lua filters, see `doc/lua-filters.md`.
 
@@ -423,7 +681,7 @@ pandoc (2.0)
     specified if the `--resource-path` option is used.
 
   * Added --abbreviations=FILE option for custom abbreviations file
-    (#256).  Dfault abbreviations file (`data/abbreviations`) contains
+    (#256).  Default abbreviations file (`data/abbreviations`) contains
     a list of strings that will be recognized by pandoc's
     Markdown parser as abbreviations.  (A nonbreaking space will
     be inserted after the period, preventing a sentence space in
@@ -499,9 +757,9 @@ pandoc (2.0)
 
   * Add `space_in_atx_header` extension (#3512).  This is enabled by default
     in pandoc and GitHub markdown but not the other flavors.
-    This requirse a space between the opening #'s and the header
+    This requires a space between the opening #'s and the header
     text in ATX headers (as CommonMark does but many other implementations
-    do not).  This is desirable to avoid falsely capturing things ilke
+    do not).  This is desirable to avoid falsely capturing things like
 
         #hashtag
 
@@ -1295,7 +1553,7 @@ pandoc (2.0)
       interpreted using Markdown rules.
     + Preserve classes in JS obfuscated links (Timm Albers, #2989).
       HTML links containing classes originally now preserve them when using
-      javascript email obfuscation.
+      JavaScript email obfuscation.
     + Render `SmallCaps` as a native span when `native_spans` are enabled.
     + Always write attributes with `bracketed_spans` (d-dorazio).
 
