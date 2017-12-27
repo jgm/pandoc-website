@@ -72,7 +72,13 @@ $(SITE)/% : %
 SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/lua-filters.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua
 
 update :
-	cp $(SOURCES) .
+	cp $(SOURCES) . ; \
+         tmpfile=$$(mktemp /tmp/newreleases.XXXXXX) ; \
+         (perl -pe 'if (/^#/) {exit};' releases.txt ; \
+          perl -pe 'use POSIX; my $$date=strftime("%e %B %Y", localtime); if (/^p/){ $$x++ }  ; if ($$x == 2){ exit }; s/^pandoc \(([^)]*)\)/# pandoc \1 ($$date)/;' changelog ; \
+          perl -ne 'if (/^#/) {$$x=1}; print if $$x == 1;' releases.txt \
+         ) > $$tmpfile ; \
+         cp $$tmpfile releases.txt
 
 %.1.html : %.1
 	groff -Txhtml -mandoc $< > $@
