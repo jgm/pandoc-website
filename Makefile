@@ -76,7 +76,7 @@ update :
          tmpfile=$$(mktemp /tmp/newreleases.XXXXXX) ; \
          (perl -pe 'if (/^#/) {exit};' releases.txt ; \
           perl -pe 'use POSIX; my $$date=strftime("%e %B %Y", localtime); if (/^p/){ $$x++ }  ; if ($$x == 2){ exit }; s/^pandoc \(([^)]*)\)/# pandoc \1 ($$date)/;' changelog ; \
-          perl -ne 'if (/^#/) {$$x=1}; print if $$x == 1;' releases.txt \
+          perl -ne 'if (/^# pandoc ([0-9.]*)/) {if ($$1 ne "$(VERSION)") {$$x=1}}; print if $$x;' releases.txt \
          ) > $$tmpfile ; \
          cp $$tmpfile releases.txt
 
