@@ -9,9 +9,6 @@ header .small { font-size: 22pt; color: gray; }
 
 ul ul { margin-bottom: 0.5em }
 
-div#TOC { font-size: 10pt; margin: 2em 0 1em 0; padding: 0; background-color: white; }
-div#TOC ul > ul { margin-left: 1em; }
-
 dd { margin-left: 2em; }
 
 hr { height: 1px; color: #aaa; background-color: #aaa; border: 0; margin: .2em 0 .2em 0; }
@@ -50,6 +47,17 @@ nav label { }
 content: "\00A0\25BE";
 }
 
+div#toc {
+  float: right;
+  margin: 10px 0 60px 10px;
+  background: white;
+}
+div#toc:before {
+  content: "Table of contents";
+  margin: 0 0 15px 40px;
+  font-weight: bold;
+  display: block;
+}
 div#toc li { list-style:none; }
 
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
