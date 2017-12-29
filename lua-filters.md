@@ -166,15 +166,18 @@ those elements accessible through the filter function parameter.
 
 Some pandoc functions have been made available in lua:
 
-- `walk_block` and `walk_inline` allow filters to be applied
-  inside specific block or inline elements.
-- `read` allows filters to parse strings into pandoc documents
-- `pipe` runs an external command with input from and output to
-  strings
-- `sha1` generates a SHA1 hash
-- The `mediabag` module allows access to the "mediabag,"
-  which stores binary content such as images that may be
-  included in the final document.
+- [`walk_block`](#walk_block) and [`walk_inline`](#walk_inline)
+  allow filters to be applied inside specific block or inline
+  elements;
+- [`read`](#read) allows filters to parse strings into pandoc
+  documents;
+- [`pipe`](#pipe) runs an external command with input from and
+  output to strings;
+- the [`pandoc.mediabag`](#module-pandoc.mediabag) module allows
+  access to the "mediabag," which stores binary content such as
+  images that may be included in the final document;
+- the [`pandoc.utils`](#module-pandoc.utils) module contains
+  various utility functions.
 
 # Lua interpreter initialization
 
@@ -1397,27 +1400,16 @@ Lua functions for pandoc scripts.
     Usage:
 
         -- within a file defining a pandoc filter:
+        local text = require('text')
         function Str(text)
-          return pandoc.Str(utf8.upper(text))
+          return pandoc.Str(text.upper(text))
         end
 
         return {pandoc.global_filter()}
-        -- the above is equivallent to
+        -- the above is equivalent to
         -- return {{Str = Str}}
 
-[`sha1 (contents)`]{#mediabag-sha1}
-
-:   Returns the SHA1 has of the contents.
-
-    Returns:
-
-    -   SHA1 hash of the contents.
-
-    Usage:
-
-        local fp = pandoc.mediabag.sha1("foobar")
-
-[`pipe (command, args, input)`]{#mediabag-sha1}
+[`pipe (command, args, input)`]{#pipe}
 
 :   Runs command with arguments, passing it some input,
     and returns the output.
@@ -1436,9 +1428,96 @@ Lua functions for pandoc scripts.
 
         local output = pandoc.pipe("sed", {"-e","s/a/b/"}, "abc")
 
-# Submodule mediabag
 
-The submodule `mediabag` allows accessing pandoc's media
+# Module pandoc.utils
+
+This module exposes internal pandoc functions and utility
+functions.
+
+[`hierarchicalize (blocks)`]{#utils-hierarchicalize}
+
+:   Convert list of blocks into an hierarchical list. An
+    hierarchical elements is either a normal block (but no
+    Header), or a `Sec` element. The latter has the following
+    fields:
+
+    -   level: level in the document hierarchy;
+    -   numbering: list of integers of length `level`,
+        specifying the absolute position of the section in the
+        document;
+    -   attr: section attributes (see [Attr](#Attr));
+    -   contents: nested list of hierarchical elements.
+
+    Returns:
+
+    -   List of hierarchical elements
+
+    Usage:
+
+        local blocks = {
+          pandoc.Header(2, pandoc.Str 'first'),
+          pandoc.Header(2, pandoc.Str 'second'),
+        }
+        local elements = pandoc.utils.hierarchicalize(blocks)
+        print(table.concat(elements[1].numbering, '.')) -- 0.1
+        print(table.concat(elements[2].numbering, '.')) -- 0.2
+
+[`normalize_date (date_string)`]{#utils-normalize_date}
+
+:   Parse a date and convert (if possible) to "YYYY-MM-DD"
+    format. We limit years to the range 1601-9999 (ISO 8601
+    accepts greater than or equal to 1583, but MS Word only
+    accepts dates starting 1601).
+
+    Returns:
+
+    -   A date string, or nil when the conversion failed.
+
+[`sha1 (contents)`]{#utils-sha1}
+
+:   Returns the SHA1 has of the contents.
+
+    Returns:
+
+    -   SHA1 hash of the contents.
+
+    Usage:
+
+        local fp = pandoc.utils.sha1("foobar")
+
+[`stringify (element)`]{#utils-stringify}
+
+:   Converts the given element (Pandoc, Meta, Block, or Inline)
+    into a string with all formatting removed.
+
+    Returns:
+
+    -   A plain string representation of the given element.
+
+    Usage:
+
+        local inline = pandoc.Emph{pandoc.Str 'Moin'}
+        -- outputs "Moin"
+        print(pandoc.utils.stringify(inline))
+
+[`to_roman_numeral (integer)`]{#utils-to_roman_numeral}
+
+:   Converts an integer < 4000 to uppercase roman numeral.
+
+    Returns:
+
+    -   A roman numeral string.
+
+    Usage:
+
+        local to_roman_numeral = pandoc.utils.to_roman_numeral
+        local pandoc_birth_year = to_roman_numeral(2006)
+        -- pandoc_birth_year == 'MMVI'
+
+
+# Module pandoc.mediabag
+
+The `pandoc.mediabag` module allows accessing pandoc's media
 storage. The "media bag" is used when pandoc is called with the
 `--extract-media` or `--standalone`/`-s` option.
 

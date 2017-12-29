@@ -242,14 +242,12 @@ function OrderedList(items)
   return "<ol>\n" .. table.concat(buffer, "\n") .. "\n</ol>"
 end
 
--- Revisit association list STackValue instance.
 function DefinitionList(items)
   local buffer = {}
   for _,item in pairs(items) do
-    for k, v in pairs(item) do
-      table.insert(buffer,"<dt>" .. k .. "</dt>\n<dd>" ..
-                        table.concat(v,"</dd>\n<dd>") .. "</dd>")
-    end
+    local k, v = next(item)
+    table.insert(buffer, "<dt>" .. k .. "</dt>\n<dd>" ..
+                   table.concat(v, "</dd>\n<dd>") .. "</dd>")
   end
   return "<dl>\n" .. table.concat(buffer, "\n") .. "\n</dl>"
 end
@@ -288,7 +286,7 @@ function Table(caption, aligns, widths, headers, rows)
   end
   if widths and widths[1] ~= 0 then
     for _, w in pairs(widths) do
-      add('<col width="' .. string.format("%d%%", w * 100) .. '" />')
+      add('<col width="' .. string.format("%.0f%%", w * 100) .. '" />')
     end
   end
   local header_row = {}
