@@ -101,4 +101,4 @@ $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
 		--pdf-engine=xelatex
 
 upload :
-	rsync -avz --delete --copy-links -e "ssh"  --exclude 'demo/reveal.js/.git' $(SITE)/* website:pandoc.org/
+	rsync -avz --delete --copy-links -e "ssh"  --exclude 'demo/reveal.js/.git' $(SITE)/* $(SITE)/.htaccess website:pandoc.org/
