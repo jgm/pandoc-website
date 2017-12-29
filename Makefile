@@ -2,7 +2,7 @@ SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
 JS = js/nav.js
-ALL = $(patsubst %,$(SITE)/%,index.html installing.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.txt filters.html lua-filters.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html css js $(CSS) $(JS))
+ALL = $(patsubst %,$(SITE)/%,index.html installing.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.txt filters.html lua-filters.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) -t html5 --toc -s --highlight-style tango -B nav.html --template=template.html
