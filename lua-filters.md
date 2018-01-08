@@ -1,9 +1,9 @@
 ---
-title: Pandoc Lua Filters
 author:
 - Albert Krewinkel
 - John MacFarlane
 date: 'December 6, 2017'
+title: Pandoc Lua Filters
 ---
 
 # Introduction
@@ -37,7 +37,7 @@ JSON to stdout and reading it from stdin.
 Here is an example of a lua filter that converts strong emphasis
 to small caps:
 
-``` lua
+``` {.lua}
 return {
   {
     Strong = function (elem)
@@ -49,7 +49,7 @@ return {
 
 or equivalently,
 
-``` lua
+``` {.lua}
 function Strong(elem)
   return pandoc.SmallCaps(elem.c)
 end
@@ -88,11 +88,10 @@ then it would be applied like this:
 
     pandoc --lua-filter=current-date.lua -f markdown MANUAL.txt
 
-The `--lua-filter` can be supplied multiple times, causing the
-filters to be applied sequentially in the order they were given.
-If other, non-Lua filters are given as well (via `--filter`),
-then those are executed *after* all Lua filters have been
-applied.
+The `--lua-filter` option may be supplied multiple times. Pandoc
+applies all filters (including JSON filters specified via
+`--filter` and lua filters specified via `--lua-filter`) in the
+order they appear on the command line.
 
 Pandoc expects each lua file to return a list of filters. The
 filters in that list are called sequentially, each on the result
@@ -133,8 +132,8 @@ function. Two fallback functions are supported, `Inline` and
 
 Elements without matching functions are left untouched.
 
-See [module documentation](#module-pandoc) for a list of
-pandoc elements.
+See [module documentation](#module-pandoc) for a list of pandoc
+elements.
 
 The global `FORMAT` is set to the format of the pandoc writer
 being used (`html5`, `latex`, etc.), so the behavior of a filter
@@ -166,18 +165,18 @@ those elements accessible through the filter function parameter.
 
 Some pandoc functions have been made available in lua:
 
-- [`walk_block`](#walk_block) and [`walk_inline`](#walk_inline)
-  allow filters to be applied inside specific block or inline
-  elements;
-- [`read`](#read) allows filters to parse strings into pandoc
-  documents;
-- [`pipe`](#pipe) runs an external command with input from and
-  output to strings;
-- the [`pandoc.mediabag`](#module-pandoc.mediabag) module allows
-  access to the "mediabag," which stores binary content such as
-  images that may be included in the final document;
-- the [`pandoc.utils`](#module-pandoc.utils) module contains
-  various utility functions.
+-   [`walk_block`](#walk_block) and
+    [`walk_inline`](#walk_inline) allow filters to be applied
+    inside specific block or inline elements;
+-   [`read`](#read) allows filters to parse strings into pandoc
+    documents;
+-   [`pipe`](#pipe) runs an external command with input from and
+    output to strings;
+-   the [`pandoc.mediabag`](#module-pandoc.mediabag) module
+    allows access to the "mediabag," which stores binary content
+    such as images that may be included in the final document;
+-   the [`pandoc.utils`](#module-pandoc.utils) module contains
+    various utility functions.
 
 # Lua interpreter initialization
 
@@ -186,7 +185,7 @@ placing a file `init.lua` in pandoc's data directory. The
 default init file loads the `pandoc` and `pandoc.mediabag`
 modules:
 
-``` lua
+``` {.lua}
 pandoc = require 'pandoc'
 pandoc.mediabag = require 'pandoc.mediabag'
 ```
@@ -197,7 +196,7 @@ adds all unicode-aware functions defined in the [`text`
 module](#module-text) to the default `string` module, prefixed
 with the string `uc_`.
 
-```lua
+``` {.lua}
 for name, fn in pairs(require 'text') do
   string['uc_' .. name] = fn
 end
@@ -206,7 +205,6 @@ end
 This makes it possible to apply these functions on strings using
 colon syntax (`mystring:uc_upper()`).
 
-
 # Examples
 
 ## Macro substitution.
@@ -214,7 +212,7 @@ colon syntax (`mystring:uc_upper()`).
 The following filter converts the string `{{helloworld}}` into
 emphasized text "Hello, World".
 
-``` lua
+``` {.lua}
 return {
   {
     Str = function (elem)
@@ -234,7 +232,7 @@ This filter causes metadata defined in an external file
 (`metadata-file.yaml`) to be used as default values in a
 document's metadata:
 
-``` lua
+``` {.lua}
 -- read metadata file into string
 local metafile = io.open('metadata-file.yaml', 'r')
 local content = metafile:read("*a")
@@ -261,7 +259,7 @@ return {
 This filter sets the date in the document's metadata to the
 current date:
 
-``` lua
+``` {.lua}
 function Meta(m)
   m.date = os.date("%B %e, %Y")
   return m
@@ -273,7 +271,7 @@ end
 This filter prints a table of all the URLs linked to in the
 document, together with the number of links to that URL.
 
-``` lua
+``` {.lua}
 links = {}
 
 function Link (el)
@@ -314,7 +312,7 @@ Passing information from a higher level (e.g., metadata) to a
 lower level (e.g., inlines) is still possible by using two
 filters living in the same file:
 
-``` lua
+``` {.lua}
 local vars = {}
 
 function get_vars (meta)
@@ -369,13 +367,12 @@ will output:
 
 ## Modifying pandoc's `MANUAL.txt` for man pages
 
-This is the filter we use when converting `MANUAL.txt`
-to man pages.  It converts level-1 headers to uppercase
-(using `walk_block` to transform inline elements
-inside headers), removes footnotes, and replaces links
-with regular text.
+This is the filter we use when converting `MANUAL.txt` to man
+pages. It converts level-1 headers to uppercase (using
+`walk_block` to transform inline elements inside headers),
+removes footnotes, and replaces links with regular text.
 
-``` lua
+``` {.lua}
 -- we use preloaded text to get a UTF-8 aware 'upper' function
 local text = require('text')
 
@@ -399,13 +396,13 @@ end
 
 ## Creating a handout from a paper
 
-This filter extracts all the numbered examples, section
-headers, block quotes, and figures from a document, in addition
-to any divs with class `handout`.  (Note that only blocks
-at the "outer level" are included; this ignores blocks inside
-nested constructs, like list items.)
+This filter extracts all the numbered examples, section headers,
+block quotes, and figures from a document, in addition to any
+divs with class `handout`. (Note that only blocks at the "outer
+level" are included; this ignores blocks inside nested
+constructs, like list items.)
 
-``` lua
+``` {.lua}
 -- creates a handout from an article, using its headings,
 -- blockquotes, numbered examples, figures, and any
 -- Divs with class "handout"
@@ -428,14 +425,13 @@ end
 ## Counting words in a document
 
 This filter counts the words in the body of a document (omitting
-metadata like titles and abstracts), including words in code.
-It should be more accurate than `wc -w` run directly on a
-Markdown document, since the latter will count markup
-characters, like the `#` in front of an ATX header, or
-tags in HTML documents, as words.  To run it,
-`pandoc --lua-filter wordcount.lua myfile.md`.
+metadata like titles and abstracts), including words in code. It
+should be more accurate than `wc -w` run directly on a Markdown
+document, since the latter will count markup characters, like
+the `#` in front of an ATX header, or tags in HTML documents, as
+words. To run it, `pandoc --lua-filter wordcount.lua myfile.md`.
 
-``` lua
+``` {.lua}
 -- counts words in a document
 
 words = 0
@@ -469,18 +465,18 @@ end
 
 ## Converting ABC code to music notation
 
-This filter replaces code blocks with class `abc` with
-images created by running their contents through `abcm2ps`
-and ImageMagick's `convert`.  (For more on ABC notation, see
+This filter replaces code blocks with class `abc` with images
+created by running their contents through `abcm2ps` and
+ImageMagick's `convert`. (For more on ABC notation, see
 <http://abcnotation.com>.)
 
-Images are added to the mediabag.  For output to binary
-formats, pandoc will use images in the mediabag.  For textual
-formats, use `--extract-media` to specify a directory where
-the files in the mediabag will be written, or (for HTML only)
-use `--self-contained`.
+Images are added to the mediabag. For output to binary formats,
+pandoc will use images in the mediabag. For textual formats, use
+`--extract-media` to specify a directory where the files in the
+mediabag will be written, or (for HTML only) use
+`--self-contained`.
 
-``` lua
+``` {.lua}
 -- Pandoc filter to process code blocks with class "abc" containing
 -- ABC notation into images.
 --
@@ -512,18 +508,17 @@ end
 
 ## Building images with tikz
 
-This filter converts raw LaTeX tikz environments into images.
-It works with both PDF and HTML output.  The tikz code is
-compiled to an image using `pdflatex`, and the image is
-converted (if necessary) from pdf to png format using
-ImageMagick's `convert`, so both of these must be in the system
-path.  Converted images are cached in the working directory
-and given filenames based on a hash of the source, so that
-they need not be regenerated each time the document is built.
-(A more sophisticated version of this might put these in a special
-cache directory.)
+This filter converts raw LaTeX tikz environments into images. It
+works with both PDF and HTML output. The tikz code is compiled
+to an image using `pdflatex`, and the image is converted (if
+necessary) from pdf to png format using ImageMagick's `convert`,
+so both of these must be in the system path. Converted images
+are cached in the working directory and given filenames based on
+a hash of the source, so that they need not be regenerated each
+time the document is built. (A more sophisticated version of
+this might put these in a special cache directory.)
 
-```lua
+``` {.lua}
 local function tikz2image(src, filetype, outfile)
     local tmp = os.tmpname()
     local tmpdir = string.match(tmp, "^(.*[\\/])") or "."
@@ -573,33 +568,31 @@ end
 
 Example of use:
 
-```
-pandoc --lua-filter tikz.lua -s -o cycle.html <<EOF
-Here is a diagram of the cycle:
+    pandoc --lua-filter tikz.lua -s -o cycle.html <<EOF
+    Here is a diagram of the cycle:
 
-\begin{tikzpicture}
+    \begin{tikzpicture}
 
-\def \n {5}
-\def \radius {3cm}
-\def \margin {8} % margin in angles, depends on the radius
+    \def \n {5}
+    \def \radius {3cm}
+    \def \margin {8} % margin in angles, depends on the radius
 
-\foreach \s in {1,...,\n}
-{
-  \node[draw, circle] at ({360/\n * (\s - 1)}:\radius) {$\s$};
-  \draw[->, >=latex] ({360/\n * (\s - 1)+\margin}:\radius)
-    arc ({360/\n * (\s - 1)+\margin}:{360/\n * (\s)-\margin}:\radius);
-}
-\end{tikzpicture}
-EOF
-```
+    \foreach \s in {1,...,\n}
+    {
+      \node[draw, circle] at ({360/\n * (\s - 1)}:\radius) {$\s$};
+      \draw[->, >=latex] ({360/\n * (\s - 1)+\margin}:\radius)
+        arc ({360/\n * (\s - 1)+\margin}:{360/\n * (\s)-\margin}:\radius);
+    }
+    \end{tikzpicture}
+    EOF
 
 # Module text
 
 UTF-8 aware text manipulation functions, implemented in Haskell.
-These are available to any lua filter.  However, the module must
+These are available to any lua filter. However, the module must
 be explicitly loaded:
 
-```lua
+``` {.lua}
 -- uppercase all regular text in a document:
 text = require 'text'
 function Str (s)
@@ -628,7 +621,6 @@ end
 
 :   Returns a substring of a UTF-8 string, using lua's string
     indexing rules.
-
 
 # Module pandoc
 
@@ -741,7 +733,7 @@ Lua functions for pandoc scripts.
     `content`:
     :   list of items
 
-    Returns: block quote element
+    Returns: bullet list element
 
 [`CodeBlock (text[, attr])`]{#CodeBlock}
 
@@ -767,7 +759,7 @@ Lua functions for pandoc scripts.
     `content`:
     :   list of items
 
-    Returns: block quote element
+    Returns: definition list element
 
 [`Div (content[, attr])`]{#Div}
 
@@ -781,11 +773,11 @@ Lua functions for pandoc scripts.
     `attr`:
     :   element attributes
 
-    Returns: code block element
+    Returns: div element
 
 [`Header (level, content[, attr])`]{#Header}
 
-:   Creates a block quote element.
+:   Creates a header element.
 
     Parameters:
 
@@ -815,7 +807,7 @@ Lua functions for pandoc scripts.
     `content`:
     :   inline content
 
-    Returns: block quote element
+    Returns: line block element
 
 [`Null ()`]{#Null}
 
@@ -835,7 +827,7 @@ Lua functions for pandoc scripts.
     `listAttributes`:
     :   list parameters
 
-    Returns:
+    Returns: ordered list element
 
 [`Para (content)`]{#Para}
 
@@ -846,7 +838,7 @@ Lua functions for pandoc scripts.
     `content`:
     :   inline content
 
-    Returns: block quote element
+    Returns: paragraph element
 
 [`Plain (content)`]{#Plain}
 
@@ -857,7 +849,7 @@ Lua functions for pandoc scripts.
     `content`:
     :   inline content
 
-    Returns: block quote element
+    Returns: plain element
 
 [`RawBlock (format, text)`]{#RawBlock}
 
@@ -871,7 +863,7 @@ Lua functions for pandoc scripts.
     `text`:
     :   string content
 
-    Returns: block quote element
+    Returns: raw block element
 
 [`Table (caption, aligns, widths, headers, rows)`]{#Table}
 
@@ -894,7 +886,7 @@ Lua functions for pandoc scripts.
     `rows`:
     :   table rows
 
-    Returns: block quote element
+    Returns: table element
 
 ## Inline
 
@@ -1180,7 +1172,7 @@ Lua functions for pandoc scripts.
 
     Returns: strong element
 
-## Helpers
+## Element components
 
 [`Attr ([identifier[, classes[, attributes]]])`]{#Attr}
 
@@ -1333,12 +1325,30 @@ Lua functions for pandoc scripts.
 
     See also: [OrderedList](#OrderedList)
 
-## Helper Functions
+## Helper functions
+
+[`pipe (command, args, input)`]{#pipe}
+
+:   Runs command with arguments, passing it some input, and
+    returns the output.
+
+    Returns:
+
+    -   Output of command.
+
+    Raises:
+
+    -   A table containing the keys `command`, `error_code`, and
+        `output` is thrown if the command exits with a non-zero
+        error code.
+
+    Usage:
+
+        local output = pandoc.pipe("sed", {"-e","s/a/b/"}, "abc")
 
 [`walk_block (element, filter)`]{#walk_block}
 
-:   Apply a filter inside a block element, walking its
-    contents.
+:   Apply a filter inside a block element, walking its contents.
 
     Parameters:
 
@@ -1346,8 +1356,8 @@ Lua functions for pandoc scripts.
     :   the block element
 
     `filter`:
-    :   a lua filter (table of functions) to be applied
-        within the block element
+    :   a lua filter (table of functions) to be applied within
+        the block element
 
     Returns: the transformed block element
 
@@ -1362,8 +1372,8 @@ Lua functions for pandoc scripts.
     :   the inline element
 
     `filter`:
-    :   a lua filter (table of functions) to be applied
-        within the inline element
+    :   a lua filter (table of functions) to be applied within
+        the inline element
 
     Returns: the transformed inline element
 
@@ -1389,45 +1399,6 @@ Lua functions for pandoc scripts.
         local block = document.blocks[1]
         -- The inline element in that block is an `Emph`
         assert(block.content[1].t == "Emph")
-
-[`global_filter ()`]{#global_filter}
-
-:   Use functions defined in the global namespace to create a
-    pandoc filter.
-
-    Returns: A list of filter functions
-
-    Usage:
-
-        -- within a file defining a pandoc filter:
-        local text = require('text')
-        function Str(text)
-          return pandoc.Str(text.upper(text))
-        end
-
-        return {pandoc.global_filter()}
-        -- the above is equivalent to
-        -- return {{Str = Str}}
-
-[`pipe (command, args, input)`]{#pipe}
-
-:   Runs command with arguments, passing it some input,
-    and returns the output.
-
-    Returns:
-
-    -   Output of command.
-
-    Raises:
-
-    -   A table containing the keys `command`, `error_code`, and
-        `output` is thrown if the command exits with a non-zero
-        error code.
-
-    Usage:
-
-        local output = pandoc.pipe("sed", {"-e","s/a/b/"}, "abc")
-
 
 # Module pandoc.utils
 
@@ -1502,7 +1473,7 @@ functions.
 
 [`to_roman_numeral (integer)`]{#utils-to_roman_numeral}
 
-:   Converts an integer < 4000 to uppercase roman numeral.
+:   Converts an integer \< 4000 to uppercase roman numeral.
 
     Returns:
 
@@ -1513,7 +1484,6 @@ functions.
         local to_roman_numeral = pandoc.utils.to_roman_numeral
         local pandoc_birth_year = to_roman_numeral(2006)
         -- pandoc_birth_year == 'MMVI'
-
 
 # Module pandoc.mediabag
 
@@ -1584,9 +1554,9 @@ storage. The "media bag" is used when pandoc is called with the
 
 [`fetch (source, base_url)`]{#mediabag-fetch}
 
-:   Fetches the given source from a URL or local file.
-    Returns two values:  the contents of the file and the mime
-    type (or an empty string).
+:   Fetches the given source from a URL or local file. Returns
+    two values: the contents of the file and the mime type (or
+    an empty string).
 
     Returns:
 
