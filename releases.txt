@@ -100,6 +100,8 @@ a low-volume mailing list that is just for announcements of new releases.
       supported.
     + Added more tests.
 
+  * OpenDocument/ODT writers: improved rendering of formulas (#4170, oltolm).
+
   * Lua filters (Albert Krewinkel):
 
     + `data/pandoc.lua`: drop 'pandoc-api-version' from Pandoc objects
