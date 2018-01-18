@@ -1,5 +1,5 @@
 .\"t
-.TH PANDOC 1 "January 7, 2018" "pandoc 2.1"
+.TH PANDOC 1 "January 18, 2018" "pandoc 2.1.1"
 .SH NAME
 pandoc - general markup converter
 .SH SYNOPSIS
@@ -346,7 +346,7 @@ To enable bash completion with pandoc, add this to your
 .IP
 .nf
 \f[C]
-\ eval\ "$(pandoc\ \-\-bash\-completion)"
+eval\ "$(pandoc\ \-\-bash\-completion)"
 \f[]
 .fi
 .RE
@@ -1487,7 +1487,7 @@ specified
 .TP
 .B \f[C]toc\-title\f[]
 title of table of contents (works only with EPUB, opendocument, odt,
-docx)
+docx, pptx)
 .RS
 .RE
 .TP
@@ -1524,23 +1524,12 @@ stored in the additional variables \f[C]babel\-lang\f[],
 \f[C]polyglossia\-lang\f[] (LaTeX) and \f[C]context\-lang\f[] (ConTeXt).
 .RS
 .PP
-Native pandoc \f[C]span\f[]s and \f[C]div\f[]s with the lang attribute
-(value in BCP 47) can be used to switch the language in that range.
-.RE
-.TP
-.B \f[C]otherlangs\f[]
-a list of other languages used in the document in the YAML metadata,
-according to BCP 47.
-For example: \f[C]otherlangs:\ [en\-GB,\ fr]\f[].
-This is automatically generated from the \f[C]lang\f[] attributes in all
-\f[C]span\f[]s and \f[C]div\f[]s but can be overridden.
-Currently only used by LaTeX through the generated
-\f[C]babel\-otherlangs\f[] and \f[C]polyglossia\-otherlangs\f[]
-variables.
-The LaTeX writer outputs polyglossia commands in the text but the
-\f[C]babel\-newcommands\f[] variable contains mappings for them to the
-corresponding babel.
-.RS
+Native pandoc Spans and Divs with the lang attribute (value in BCP 47)
+can be used to switch the language in that range.
+In LaTeX output, \f[C]babel\-otherlangs\f[] and
+\f[C]polyglossia\-otherlangs\f[] variables will be generated
+automatically based on the \f[C]lang\f[] attributes of Spans and Divs in
+the document.
 .RE
 .TP
 .B \f[C]dir\f[]
@@ -2360,6 +2349,12 @@ to Emacs Muse markup.
 .PP
 Some aspects of Pandoc\[aq]s Markdown citation syntax are also accepted
 in \f[C]org\f[] input.
+.SS Extension: \f[C]ntb\f[]
+.PP
+In the \f[C]context\f[] output format this enables the use of Natural
+Tables (TABLE) instead of the default Extreme Tables (xtables).
+Natural tables allow more fine\-grained global customization but come at
+a performance penalty compared to extreme tables.
 .SH PANDOC\[aq]S MARKDOWN
 .PP
 Pandoc understands an extended and slightly revised version of John
@@ -3714,6 +3709,23 @@ $endif$
 $endfor$
 \f[]
 .fi
+.PP
+Raw content to include in the document\[aq]s header may be specified
+using \f[C]header\-includes\f[]; however, it is important to mark up
+this content as raw code for a particular output format, using the
+\f[C]raw_attribute\f[] extension), or it will be interpreted as
+markdown.
+For example:
+.IP
+.nf
+\f[C]
+header\-includes:
+\-\ ```{=latex}
+\ \ \\let\\oldsection\\section
+\ \ \\renewcommand{\\section}[1]{\\clearpage\\oldsection{#1}}
+\ \ ```
+\f[]
+.fi
 .SS Backslash escapes
 .SS Extension: \f[C]all_symbols_escapable\f[]
 .PP
@@ -4157,13 +4169,15 @@ $\\tuple{a,\ b,\ c}$
 \f[]
 .fi
 .PP
-In LaTeX output, the macro definitions will not be passed through as raw
-LaTeX.
+Note that LaTeX macros will not be applied if they occur inside inside a
+raw span or block marked with the \f[C]raw_attribute\f[] extension.
 .PP
-When \f[C]latex_macros\f[] is disabled, the macro definitions will be
-passed through as raw LaTeX, and the raw LaTeX and math will not have
-macros applied.
+When \f[C]latex_macros\f[] is disabled, the raw LaTeX and math will not
+have macros applied.
 This is usually a better approach when you are targeting LaTeX or PDF.
+.PP
+Whether or not \f[C]latex_macros\f[] is enabled, the macro definitions
+will still be passed through as raw LaTeX.
 .SS Links
 .PP
 Markdown allows links to be specified in several ways.
@@ -4359,7 +4373,7 @@ One way to do this is to insert a nonbreaking space after the image:
 .IP
 .nf
 \f[C]
-![This\ image\ won\[aq]t\ be\ a\ figure](/url/of/image.png)\\\ 
+![This\ image\ won\[aq]t\ be\ a\ figure](/url/of/image.png)\\
 \f[]
 .fi
 .PP
