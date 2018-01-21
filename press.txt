@@ -62,6 +62,10 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 
 # Blog posts
 
+- Phillips, Lee (2018-01-11).  ["Technical Writing with Pandoc and
+  Panflute"](https://lee-phillips.org/panflute-gnuplot/).
+  Reproduced with permission from *Linux Journal*, September, 2017.
+
 - Pullum, Geoffrey (2017-03-13).  ["Word-Processing
   Misery"](http://www.chronicle.com/blogs/linguafranca/2017/03/13/word-processing-hell/).
   The Chronicle of Higher Education Blogs: Lingua Franca.
