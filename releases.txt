@@ -1374,7 +1374,7 @@ a low-volume mailing list that is just for announcements of new releases.
 
         [b]: url
 
-    This was previously enabled by default; now it is now forbidden by default.
+    This was previously enabled by default; now it is forbidden by default.
 
   * Add `space_in_atx_header` extension (#3512).  This is enabled by default
     in pandoc and GitHub markdown but not the other flavors.
