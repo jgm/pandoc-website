@@ -6,11 +6,15 @@ Here are some books, articles, and blogs that discuss pandoc:
 
 - [Pandoc](http://en.wikipedia.org/wiki/Pandoc) on Wikipedia.
 
+- Phillips, Lee.  ["Technical Writing with Pandoc and
+  Panflute"](https://lee-phillips.org/panflute-gnuplot/).
+  Reproduced with permission from *Linux Journal*, September, 2017.
+
 - Krewinkel, Albert and Robert Winkler.  ["Formatting Open
-Science: agile creation of multiple document types by writing
-academic manuscripts in pandoc
-markdown."](https://peerj.com/preprints/2648/).
-*PeerJ Preprints*.
+  Science: agile creation of multiple document types by writing
+  academic manuscripts in pandoc
+  markdown."](https://peerj.com/preprints/2648/).
+  *PeerJ Preprints*.
 
 - Krijnen, Jacco, Doaitse Swierstra, and Marcos O. Viera. ["Expand:
   Towards an Extensible Pandoc
@@ -62,9 +66,9 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 
 # Blog posts
 
-- Phillips, Lee (2018-01-11).  ["Technical Writing with Pandoc and
-  Panflute"](https://lee-phillips.org/panflute-gnuplot/).
-  Reproduced with permission from *Linux Journal*, September, 2017.
+- Krewinkel, Albert (2017-12-23). ["Extending pandoc with
+  Lua"](http://lua.space/general/extending-pandoc-with-lua).
+  Lua.Space.
 
 - Pullum, Geoffrey (2017-03-13).  ["Word-Processing
   Misery"](http://www.chronicle.com/blogs/linguafranca/2017/03/13/word-processing-hell/).
