@@ -336,7 +336,7 @@ use `throwError`.
 In addition to errors, which stop execution of the conversion
 pipeline, one can generate informational messages.
 Use `report` from [Text.Pandoc.Class] to issue a `LogMessage`.
-For a list of cosntructors for `LogMessage`, see
+For a list of constructors for `LogMessage`, see
 [Text.Pandoc.Logging].  Note that each type of log message
 is associated with a verbosity level.  The verbosity level
 (`setVerbosity`/`getVerbosity`) determines whether the report
