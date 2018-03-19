@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% January 18, 2018
+% March 17, 2018
 
 Synopsis
 ========
@@ -200,8 +200,8 @@ PDF output can be controlled using [variables for LaTeX] (if
 LaTeX is used) and [variables for ConTeXt] (if ConTeXt is used).
 When using an HTML/CSS-to-PDF-engine, `--css` affects the output.
 If `wkhtmltopdf` is used, then the variables `margin-left`,
-`margin-right`, `margin-top`, `margin-bottom`, and `papersize`
-will affect the output.
+`margin-right`, `margin-top`, `margin-bottom`, `footer-html`,
+`header-html` and `papersize` will affect the output.
 
 To debug the PDF creation, it can be useful to look at the intermediate
 representation: instead of `-o test.pdf`, use for example `-s -o test.tex`
@@ -772,13 +772,13 @@ Options affecting specific writers
 
 :   Produce a standalone HTML file with no external dependencies, using
     `data:` URIs to incorporate the contents of linked scripts, stylesheets,
-    images, and videos. The resulting file should be "self-contained,"
-    in the sense that it needs no external files and no net access to be
-    displayed properly by a browser. This option works only with HTML output
-    formats, including `html4`, `html5`, `html+lhs`, `html5+lhs`, `s5`,
-    `slidy`, `slideous`, `dzslides`, and `revealjs`. Scripts, images, and
-    stylesheets at absolute URLs will be downloaded; those at relative URLs
-    will be sought relative to the working directory (if the first source
+    images, and videos. Implies `--standalone`. The resulting file should be
+    "self-contained," in the sense that it needs no external files and no net
+    access to be displayed properly by a browser. This option works only with
+    HTML output formats, including `html4`, `html5`, `html+lhs`, `html5+lhs`,
+    `s5`, `slidy`, `slideous`, `dzslides`, and `revealjs`. Scripts, images,
+    and stylesheets at absolute URLs will be downloaded; those at relative
+    URLs will be sought relative to the working directory (if the first source
     file is local) or relative to the base URL (if the first source
     file is remote).  Elements with the attribute
     `data-external="1"` will be left alone; the documents they
@@ -961,6 +961,30 @@ Options affecting specific writers
         custom-reference.odt`.  Then open `custom-reference.odt` in
         LibreOffice, modify the styles as you wish, and save the
         file.
+
+    PowerPoint
+
+    :   Any template included with a recent install of Microsoft
+        PowerPoint (either with `.pptx` or `.potx` extension) should
+        work, as will most templates derived from these.
+
+        The specific requirement is that the template should contain
+        the following four layouts as its first four layouts:
+
+        1. Title Slide
+        2. Title and Content
+        3. Section Header
+        4. Two Content
+
+        All templates included with a recent version of MS PowerPoint
+        will fit these criteria. (You can click on `Layout` under the
+        `Home` menu to check.)
+
+        You can also modify the default `reference.pptx`: first run
+        `pandoc --print-default-data-file reference.pptx >
+        custom-reference.pptx`, and then modify
+        `custom-reference.pptx` in MS PowerPoint (pandoc will use the
+        first four layout slides, as mentioned above).
 
 `--epub-cover-image=`*FILE*
 
@@ -1600,12 +1624,22 @@ Variables for ConTeXt
 `lof`, `lot`
 :   include list of figures, list of tables
 
+`pdfa`
+:   adds to the preamble the setup necessary to generate PDF/A-1b:2005.
+    To successfully generate PDF/A the required ICC color profiles have to
+    be available and the content and all included files (such as images)
+    have to be standard conforming.  The ICC profiles can be obtained
+    from [ConTeXt ICC Profiles].  See also [ConTeXt PDFA] for more
+    details.
+
 [ConTeXt Paper Setup]: http://wiki.contextgarden.net/PaperSetup
 [ConTeXt Layout]: http://wiki.contextgarden.net/Layout
 [ConTeXt Font Switching]: http://wiki.contextgarden.net/Font_Switching
 [ConTeXt Color]: http://wiki.contextgarden.net/Color
 [ConTeXt Headers and Footers]: http://wiki.contextgarden.net/Headers_and_Footers
 [ConTeXt Indentation]: http://wiki.contextgarden.net/Indentation
+[ConTeXt ICC Profiles]: http://wiki.contextgarden.net/PDFX#ICC_profiles
+[ConTeXt PDFA]: http://wiki.contextgarden.net/PDF/A
 [`setupwhitespace`]: http://wiki.contextgarden.net/Command/setupwhitespace
 [`setupinterlinespace`]: http://wiki.contextgarden.net/Command/setupinterlinespace
 [`setuppagenumbering`]: http://wiki.contextgarden.net/Command/setuppagenumbering
@@ -1950,6 +1984,16 @@ input formats
 output formats
 :  `markdown`, `docx`, `odt`, `opendocument`, `html`
 
+#### Extension: `styles` #### {#ext-styles}
+
+Read all docx styles as divs (for paragraph styles) and spans (for
+character styles) regardless of whether pandoc understands the meaning
+of these styles. This can be used with [docx custom
+styles](#custom-styles-in-docx). Disabled by default.
+
+input formats
+:  `docx`
+
 #### Extension: `amuse` ####
 
 In the `muse` input format, this enables Text::Amuse
@@ -2265,11 +2309,11 @@ this syntax:
 Here `mycode` is an identifier, `haskell` and `numberLines` are classes, and
 `startFrom` is an attribute with value `100`. Some output formats can use this
 information to do syntax highlighting. Currently, the only output formats
-that uses this information are HTML, LaTeX, Docx, and Ms. If highlighting
-is supported for your output format and language, then the code block above
-will appear highlighted, with numbered lines. (To see which languages are
-supported, type `pandoc --list-highlight-languages`.) Otherwise, the code
-block above will appear as follows:
+that uses this information are HTML, LaTeX, Docx, Ms, and PowerPoint. If
+highlighting is supported for your output format and language, then the code
+block above will appear highlighted, with numbered lines. (To see which
+languages are supported, type `pandoc --list-highlight-languages`.) Otherwise,
+the code block above will appear as follows:
 
     <pre id="mycode" class="haskell numberLines" startFrom="100">
       <code>
@@ -4214,14 +4258,38 @@ Incremental lists
 By default, these writers produce lists that display "all at once."
 If you want your lists to display incrementally (one item at a time),
 use the `-i` option. If you want a particular list to depart from the
-default (that is, to display incrementally without the `-i` option and
-all at once with the `-i` option), put it in a block quote:
+default, put it in a `div` block with class `incremental` or
+`nonincremental`. So, for example, using the `fenced div` syntax, the
+following would be incremental regardless of the document default:
+
+    ::: incremental
+
+    - Eat spaghetti
+    - Drink wine
+
+    :::
+
+or
+
+    ::: nonincremental
+
+    - Eat spaghetti
+    - Drink wine
+
+    :::
+
+While using `incremental` and `nonincremental` divs are the
+recommended method of setting incremental lists on a per-case basis,
+an older method is also supported: putting lists inside a blockquote
+will depart from the document default (that is, it will display
+incrementally without the `-i` option and all at once with the `-i`
+option):
 
     > - Eat spaghetti
     > - Drink wine
 
-In this way incremental and nonincremental lists can be mixed in
-a single document.
+Both methods allow incremental and nonincremental lists to be mixed
+in a single document.
 
 Inserting pauses
 ----------------
@@ -4276,8 +4344,8 @@ bibliographies:
 Speaker notes
 -------------
 
-reveal.js has good support for speaker notes.  You can add notes to your
-Markdown document thus:
+Speaker notes are supported in reveal.js and PowerPoint (pptx)
+output. You can add notes to your Markdown document thus:
 
     ::: notes
 
@@ -4288,7 +4356,10 @@ Markdown document thus:
 
     :::
 
-To show the notes window, press `s` while viewing the presentation.
+To show the notes window in reveal.js, press `s` while viewing the
+presentation. Speaker notes in PowerPoint will be available, as usual,
+in handouts and presenter view.
+
 Notes are not yet supported for other slide formats, but the notes
 will not appear on the slides themselves.
 
@@ -4322,6 +4393,50 @@ All of the other frame attributes described in Section 8.1 of
 the [Beamer User's Guide] may also be used: `allowdisplaybreaks`,
 `allowframebreaks`, `b`, `c`, `t`, `environment`, `label`, `plain`,
 `shrink`.
+
+Background in reveal.js
+-----------------------
+
+Background images can be added to self-contained reveal.js slideshows.
+
+For the same image on every slide, use the reveal.js configuration
+option `parallaxBackgroundImage` either in the YAML metadata block
+or as a command-line variable. You can also set
+`parallaxBackgroundHorizontal` and `parallaxBackgroundVertical` the same
+way and must also set `parallaxBackgroundSize` to have your values
+take effect.
+
+To set an image for a particular slide, add
+`{data-background-image="/path/to/image"}`
+to the first slide-level header on the slide (which may even be empty).
+
+In reveal.js's overview mode, the parallaxBackgroundImage will show up
+only on the first slide.
+
+Other background settings also work on individual slides, including
+`data-background-size`, `data-background-repeat`, `data-background-color`,
+`data-transition`, and `data-transition-speed`.
+
+See the [reveal.js
+documentation](https://github.com/hakimel/reveal.js#slide-backgrounds)
+for more details.
+
+For example:
+
+```
+---
+title: My Slideshow
+parallaxBackgroundImage: /path/to/my/background_image.png
+---
+
+## Slide One
+
+Slide 1 has background_image.png as its background.
+
+## {data-background-image="/path/to/special_image.jpg"}
+
+Slide 2 has a special image for its background, even though the header has no content.
+```
 
 Creating EPUBs with pandoc
 ==========================
@@ -4463,8 +4578,59 @@ To disable highlighting, use the `--no-highlight` option.
 
 [skylighting]: https://github.com/jgm/skylighting
 
-Custom Styles in Docx Output
-============================
+Custom Styles in Docx
+=====================
+
+Input
+-----
+
+The docx reader, by default, only reads those styles that it can
+convert into pandoc elements, either by direct conversion or
+interpreting the derivation of the input document's styles.
+
+By enabling the [`styles` extension](#ext-styles) in the docx reader
+(`-f docx+styles`), you can produce output that maintains the styles
+of the input document, using the `custom-style` class. Paragraph
+styles are interpreted as divs, while character styles are interpreted
+as spans.
+
+For example, using the `custom-style-reference.docx` file in the test
+directory, we have the following different outputs:
+
+Without the `+styles` extension:
+
+    $ pandoc test/docx/custom-style-reference.docx -f docx -t markdown
+    This is some text.
+
+    This is text with an *emphasized* text style. And this is text with a
+    **strengthened** text style.
+
+    > Here is a styled paragraph that inherits from Block Text.
+
+And with the extension:
+
+    $ pandoc test/docx/custom-style-reference.docx -f docx+styles -t markdown
+
+    ::: {custom-style="FirstParagraph"}
+    This is some text.
+    :::
+
+    ::: {custom-style="BodyText"}
+    This is text with an [emphasized]{custom-style="Emphatic"} text style.
+    And this is text with a [strengthened]{custom-style="Strengthened"}
+    text style.
+    :::
+
+    ::: {custom-style="MyBlockStyle"}
+    > Here is a styled paragraph that inherits from Block Text.
+    :::
+
+With these custom styles, you can use your input document as a
+reference-doc while creating docx output (see below), and maintain the
+same styles in your input and output files.
+
+Output
+------
 
 By default, pandoc's docx output applies a predefined set of styles for
 blocks such as paragraphs and block quotes, and uses largely default
