@@ -150,7 +150,7 @@ a low-volume mailing list that is just for announcements of new releases.
 
   * appveyor: use VS 2013 environment instead of VS 2015 for Windows builds.
 
-# pandoc 2.1.2 (released March 2, 2018)
+# pandoc 2.1.2 (2 March, 2018)
 
   * Markdown reader:
 
