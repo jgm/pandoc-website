@@ -130,7 +130,7 @@ Copyright 2006-2017 [John MacFarlane].
 [citeproc-hs]:  http://hackage.haskell.org/package/citeproc-hs
 [pandoc-citeproc]:  http://hackage.haskell.org/package/pandoc-citeproc
 [AsciiDoc]:  http://www.methods.co.nz/asciidoc/
-[docx]: http://www.microsoft.com/interop/openup/openxml/default.aspx
+[docx]: https://en.wikipedia.org/wiki/Office_Open_XML
 [DZSlides]: http://paulrouget.com/dzslides/
 [CSL]: http://citationstyles.org/
 [Slideous]: http://goessner.net/articles/slideous/
