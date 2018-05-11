@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% April 26, 2018
+% May 10, 2018
 
 Synopsis
 ========
@@ -568,7 +568,7 @@ Reader options
 
 :   Set the metadata field *KEY* to the value *VAL*.  A value specified
     on the command line overrides a value specified in the document
-    using [YAML metadata blocks][Extension:`yaml_metadata_block`].
+    using [YAML metadata blocks][Extension: `yaml_metadata_block`].
     Values will be parsed as YAML boolean or string values. If no value is
     specified, the value will be treated as Boolean true.  Like
     `--variable`, `--metadata` causes template variables to be set.
@@ -642,7 +642,8 @@ General writer options
 :   Produce output with an appropriate header and footer (e.g. a
     standalone HTML, LaTeX, TEI, or RTF file, not a fragment).  This option
     is set automatically for `pdf`, `epub`, `epub3`, `fb2`, `docx`, and `odt`
-    output.
+    output.  For `native` output, this option causes metadata to
+    be included; otherwise, metadata is suppressed.
 
 `--template=`*FILE*
 
@@ -1216,9 +1217,21 @@ of the following options.
     not specified, a link to the KaTeX CDN will be inserted. Note that this
     option does not imply `--katex`.
 
+`--gladtex`
+
+:   Enclose TeX math in `<eq>` tags in HTML output.  The resulting HTML
+    can then be processed by [GladTeX] to produce images of the typeset
+    formulas and an HTML file with links to these images.
+    So, the procedure is:
+
+        pandoc -s --gladtex input.md -o myfile.htex
+        gladtex -d myfile-images myfile.htex
+        # produces myfile.html and images in myfile-images
+
 [MathML]: http://www.w3.org/Math/
 [MathJax]: https://www.mathjax.org
 [KaTeX]: https://github.com/Khan/KaTeX
+[GladTeX]: http://humenda.github.io/GladTeX/
 
 Options for wrapper scripts
 ---------------------------
@@ -1273,7 +1286,7 @@ Templates contain *variables*, which allow for the inclusion of
 arbitrary information at any point in the file. They may be set at the
 command line using the `-V/--variable` option. If a variable is not set,
 pandoc will look for the key in the document's metadata – which can be set
-using either [YAML metadata blocks][Extension:`yaml_metadata_block`]
+using either [YAML metadata blocks][Extension: `yaml_metadata_block`]
 or with the `--metadata` option.
 
 Variables set by pandoc
@@ -1700,10 +1713,24 @@ Templates may contain conditionals.  The syntax is as follows:
     Y
     $endif$
 
-This will include `X` in the template if `variable` has a non-null
-value; otherwise it will include `Y`. `X` and `Y` are placeholders for
-any valid template text, and may include interpolated variables or other
-conditionals. The `$else$` section may be omitted.
+This will include `X` in the template if `variable` has a truthy
+value; otherwise it will include `Y`. Here a truthy value is any
+of the following:
+
+- a string that is not entirely white space,
+- a non-empty array where the first value is truthy,
+- any number (including zero),
+- any object,
+- the boolean `true` (to specify the boolean `true`
+  value using YAML metadata or the `--metadata` flag,
+  use `y`, `Y`, `yes`, `Yes`, `YES`, `true`, `True`,
+  `TRUE`, `on`, `On`, or `ON`; with the `--variable`
+  flag, simply omit a value for the variable, e.g.
+  `--variable draft`).
+
+`X` and `Y` are placeholders for any valid template text,
+and may include interpolated variables or other conditionals.
+The `$else$` section may be omitted.
 
 When variables can have multiple values (for example, `author` in
 a multi-author document), you can use the `$for$` keyword:
@@ -2909,10 +2936,12 @@ legal (though ugly) pipe table:
 The cells of pipe tables cannot contain block elements like paragraphs
 and lists, and cannot span multiple lines.  If a pipe table contains a
 row whose printable content is wider than the column width (see
-`--columns`), then the cell contents will wrap, with the
-relative cell widths determined by the widths of the separator
-lines.  (In this case, the table will take up the full text
-width.)  If no lines are wider than column width, then
+`--columns`), then the table will take up the full text width and
+the cell contents will wrap, with the relative cell widths determined
+by the number of dashes in the line separating the table header from
+the table body. (For example `---|-` would make the first column 3/4
+and the second column 1/4 of the full text width.)
+On the other hand, if no lines are wider than column width, then
 cell contents will not be wrapped, and the cells will be sized
 to their contents.
 
