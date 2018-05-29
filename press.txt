@@ -6,6 +6,11 @@ Here are some books, articles, and blogs that discuss pandoc:
 
 - [Pandoc](http://en.wikipedia.org/wiki/Pandoc) on Wikipedia.
 
+- Julien Dehut, ["En finir avec Word ! Pour une analyse des
+  enjeux relatifs aux traitements de texte et à leur
+  utilisation"](https://eriac.hypotheses.org/80),
+  *L'Atelier des Savoirs*, January 23, 2018.
+
 - Phillips, Lee.  ["Technical Writing with Pandoc and
   Panflute"](https://lee-phillips.org/panflute-gnuplot/).
   Reproduced with permission from *Linux Journal*, September, 2017.
