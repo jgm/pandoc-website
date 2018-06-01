@@ -138,7 +138,7 @@ Copyright 2006-2017 [John MacFarlane].
 [Haddock markup]: http://www.haskell.org/haddock/doc/html/ch03s08.html
 [lua]: http://www.lua.org
 [reveal.js]: http://lab.hakim.se/reveal-js/
-[InDesign ICML]: https://www.adobe.com/content/dam/Adobe/en/devnet/indesign/cs55-docs/IDML/idml-specification.pdf
+[InDesign ICML]: http://wwwimages.adobe.com/content/dam/acom/en/devnet/indesign/sdk/cs6/idml/idml-specification.pdf
 [OPML]: http://dev.opml.org/spec2.html
 [DokuWiki markup]: https://www.dokuwiki.org/wiki:syntax
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
