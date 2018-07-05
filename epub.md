@@ -144,6 +144,20 @@ Of course, this isn't much help if you want EPUB2 output (`pandoc -t epub2`)
 or target readers that don't support MathML. Then you should try using the
 `--webtex` option, which will use a web service to convert the TeX to an image.
 
+## Audio and Video
+
+If you are generating your EPUB from markdown source and want to include
+multimedia content, you can simply use
+[raw HTML](http://pandoc.org/MANUAL.html#extension-raw_html)
+inside your markdown file, for example:
+
+    <audio controls="1">
+      <source src="./toccata.mp3" type="audio/mpeg"></source>
+    </audio>
+
+By default, pandoc will then
+[include the file in the EPUB](http://pandoc.org/MANUAL.html#linked-media).
+
 [KindleGen]: http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000234621
 [EPUB]:  http://en.wikipedia.org/wiki/EPUB
 [Pro Git]: http://progit.org/
