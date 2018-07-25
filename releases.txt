@@ -26,7 +26,7 @@ a low-volume mailing list that is just for announcements of new releases.
   * Add missing `rollingLinks` option to revealjs template (#4778,
     Igor Khorlo).
 
-pandoc 2.2.2 (16 July 2018)
+# pandoc 2.2.2 (16 July 2018)
 
   * Use HsYAML instead of yaml for translations and YAML metadata (#4747).
     yaml wraps a C library; HsYAML is pure Haskell.  Advances #4535.
