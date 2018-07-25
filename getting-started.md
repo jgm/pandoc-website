@@ -17,7 +17,7 @@ your platform](installing.html).
 Pandoc is a command-line tool.  There is no graphic user interface.
 So, to use it, you'll need to open a terminal window:
 
-- On macOS, the Terminal application can be found in
+- On OS X, the Terminal application can be found in
   `/Applications/Utilities`.  Open a Finder window and go to
   `Applications`, then `Utilities`.  Then double click on
   `Terminal`.  (Or, click the spotlight icon in the upper right
@@ -150,7 +150,7 @@ for you to type something.  Type this:
     - two
 
 When you're finished (the cursor should be at the beginning of the line),
-type `Ctrl-D` on macOS or Linux, or `Ctrl-Z` followed
+type `Ctrl-D` on OS X or Linux, or `Ctrl-Z` followed
 by `Enter` on Windows.  You should now see your text converted to HTML!
 
     <p>Hello <em>pandoc</em>!</p>
@@ -188,11 +188,10 @@ You'll probably want to use pandoc to convert a file, not to read
 text from the terminal.  That's easy, but first we need to create
 a text file in our `pandoc-test` subdirectory.
 
-**Important:**  To create a text file, you'll need to use a plain text
+**Important:**  To create a text file, you'll need to use a text
 editor, *not* a word processor like Microsoft Word.  On Windows, you
-can use Notepad (in `Accessories`).  On macOS, you can use `TextEdit`
-(in `Applications`), and when starting a new file select `Make Plain
-Text` from the `Format` menu. On Linux, different platforms come
+can use Notepad (in `Accessories`).  On OS X, you can use
+`TextEdit` (in `Applications`).  On Linux, different platforms come
 with different text editors:  Gnome has `GEdit`, and KDE has `Kate`.
 
 Start up your text editor.  Type the following:
@@ -208,8 +207,8 @@ Now save your file as `test1.md` in the directory
 `Documents/pandoc-test`.
 
 Note:  If you use plain text a lot, you'll want a better editor than
-`Notepad` or `TextEdit`.  You might want to look at [Atom](https://atom.io/),
-[Sublime Text](http://www.sublimetext.com/), or (if you're willing
+`Notepad` or `TextEdit`.  You might want to look at
+[Sublime Text](http://www.sublimetext.com/) or (if you're willing
 to put in some time learning an unfamiliar interface)
 [Vim](http://www.vim.org) or [Emacs](http://www.gnu.org/software/emacs).
 
@@ -239,7 +238,7 @@ is to convert from markdown to HTML, but it doesn't hurt to
 include them.
 
 Check that the file was created by typing `ls` again.  You
-should see `test1.html`.  Now open this in a browser.  On macOS,
+should see `test1.html`.  Now open this in a browser.  On OS X,
 you can type
 
     open test1.html
@@ -268,7 +267,7 @@ Pandoc knows you're trying to create a LaTeX document, because of the
 Now try creating a Word document (with extension `docx`).
 
 If you want to create a PDF, you'll need to have LaTeX installed.
-(See [MacTeX](http://tug.org/mactex/) on macOS,
+(See [MacTeX](http://tug.org/mactex/) on OS X,
 [MiKTeX](http://miktex.org) on Windows, or install the texlive
 package in linux.)  Then do
 
@@ -300,7 +299,7 @@ can always do
 
 to get a list of all the supported options.
 
-On macOS or Linux systems, you can also do
+On OS X or Linux systems, you can also do
 
     man pandoc
 

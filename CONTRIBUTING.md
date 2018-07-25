@@ -144,13 +144,10 @@ Please follow these guidelines:
 9.  It is better not to introduce new dependencies.  Dependencies on
     external C libraries should especially be avoided.
 
-10. We aim for compatibility with ghc versions from 7.8.3 to the
+10. We aim for compatibility with ghc versions from 7.10.3 to the
     latest release.  All pull requests and commits are tested
     automatically on <travis-ci.org>, using GHC versions in the
-    `Tested-With` stanza of `pandoc.cabal`.  We currently relax
-    the "`-Wall` clean" requirement for GHC 7.10.x, because
-    there are so many warnings relating to the addition of type
-    classes to the Prelude.
+    `Tested-With` stanza of `pandoc.cabal`.
 
 Tests
 -----
@@ -267,7 +264,7 @@ The library is structured as follows:
   - `Text.Pandoc.Definition` (in `pandoc-types`) defines the types
     used for representing a pandoc document.
   - `Text.Pandoc.Builder` (in `pandoc-types`) provides functions for
-    building pandoc documents programatically.
+    building pandoc documents programmatically.
   - `Text.Pandoc.Generics` (in `pandoc-types`) provides functions allowing
     you to promote functions that operate on parts of pandoc documents
     to functions that operate on whole pandoc documents, walking the

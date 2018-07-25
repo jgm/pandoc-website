@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% May 10, 2018
+% July 19, 2018
 
 Synopsis
 ========
@@ -225,9 +225,9 @@ General options
     - `epub` ([EPUB])
     - `fb2` ([FictionBook2] e-book)
     - `gfm` ([GitHub-Flavored Markdown]),
-      or `markdown_github`, which provides deprecated and less accurate
-      support for Github-Flavored Markdown; please use `gfm` instead,
-      unless you need to use extensions other than `smart`.
+      or the deprecated and less accurate `markdown_github`;
+      use [`markdown_github`](#markdown-variants) only
+      if you need extensions not supported in [`gfm`](#markdown-variants).
     - `haddock` ([Haddock markup])
     - `html` ([HTML])
     - `jats` ([JATS] XML)
@@ -274,9 +274,9 @@ General options
     - `epub2` (EPUB v2)
     - `fb2` ([FictionBook2] e-book)
     - `gfm` ([GitHub-Flavored Markdown]),
-      or `markdown_github`, which provides deprecated and less accurate
-      support for Github-Flavored Markdown; please use `gfm` instead,
-      unless you use extensions that do not work with `gfm`.
+      or the deprecated and less accurate `markdown_github`;
+      use [`markdown_github`](#markdown-variants) only
+      if you need extensions not supported in [`gfm`](#markdown-variants).
     - `haddock` ([Haddock markup])
     - `html` or `html5` ([HTML], i.e. [HTML5]/XHTML [polyglot markup])
     - `html4` ([XHTML] 1.0 Transitional)
@@ -493,7 +493,7 @@ Reader options
     footnotes and links will not work across files. Reading binary
     files (docx, odt, epub) implies `--file-scope`.
 
-`--filter=`*PROGRAM*
+`-F` *PROGRAM*, `--filter=`*PROGRAM*
 
 :   Specify an executable to be used as a filter transforming the
     pandoc AST after the input is parsed and before the output is
@@ -645,10 +645,10 @@ General writer options
     output.  For `native` output, this option causes metadata to
     be included; otherwise, metadata is suppressed.
 
-`--template=`*FILE*
+`--template=`*FILE*|*URL*
 
-:   Use *FILE* as a custom template for the generated document. Implies
-    `--standalone`. See [Templates], below, for a description
+:   Use the specified file as a custom template for the generated document.
+    Implies `--standalone`. See [Templates], below, for a description
     of template syntax. If no extension is specified, an extension
     corresponding to the writer will be added, so that `--template=special`
     looks for `special.html` for HTML output.  If the template is not
@@ -713,8 +713,9 @@ General writer options
 :   Include an automatically generated table of contents (or, in
     the case of `latex`, `context`, `docx`, `odt`,
     `opendocument`, `rst`, or `ms`, an instruction to create
-    one) in the output document. This option has no effect on
-    `man`, `docbook4`, `docbook5`, or `jats` output.
+    one) in the output document. This option has no effect
+    unless `-s/--standalone` is used, and it has no effect
+    on `man`, `docbook4`, `docbook5`, or `jats` output.
 
 `--toc-depth=`*NUMBER*
 
@@ -808,7 +809,8 @@ General writer options
 :   Set the request header *NAME* to the value *VAL* when making
     HTTP requests (for example, when a URL is given on the
     command line, or when resources used in a document must be
-    downloaded).
+    downloaded). If you're behind a proxy, you also need to set
+    the environment variable `http_proxy` to `http://...`.
 
 Options affecting specific writers
 ----------------------------------
@@ -1723,8 +1725,7 @@ of the following:
 - any object,
 - the boolean `true` (to specify the boolean `true`
   value using YAML metadata or the `--metadata` flag,
-  use `y`, `Y`, `yes`, `Yes`, `YES`, `true`, `True`,
-  `TRUE`, `on`, `On`, or `ON`; with the `--variable`
+  use `true`, `True`, or `TRUE`; with the `--variable`
   flag, simply omit a value for the variable, e.g.
   `--variable draft`).
 
@@ -3057,7 +3058,9 @@ Metadata will be taken from the fields of the YAML object and added to any
 existing document metadata.  Metadata can contain lists and objects (nested
 arbitrarily), but all string scalars will be interpreted as Markdown.  Fields
 with names ending in an underscore will be ignored by pandoc.  (They may be
-given a role by external processors.)
+given a role by external processors.)  Field names must not be
+interpretable as YAML numbers or boolean values (so, for
+example, `yes`, `True`, and `15` cannot be used as field names).
 
 A document may contain multiple metadata blocks.  The metadata fields will
 be combined through a *left-biased union*:  if two metadata blocks attempt
@@ -3079,7 +3082,7 @@ when the field contains blank lines or block-level formatting:
     author:
     - Author One
     - Author Two
-    tags: [nothing, nothingness]
+    keywords: [nothing, nothingness]
     abstract: |
       This is the abstract.
 
@@ -3290,8 +3293,13 @@ them and they won't be treated as math delimiters.
 TeX math will be printed in all output formats. How it is rendered
 depends on the output format:
 
-Markdown, LaTeX, Emacs Org mode, ConTeXt, ZimWiki
-  ~ It will appear verbatim between `$` characters.
+LaTeX
+  ~ It will appear verbatim surrounded by `\(...\)` (for inline
+    math) or `\[...\]` (for display math).
+
+Markdown, Emacs Org mode, ConTeXt, ZimWiki
+  ~ It will appear verbatim surrounded by `$...$` (for inline
+    math) or `$$...$$` (for display math).
 
 reStructuredText
   ~ It will be rendered using an [interpreted text role `:math:`].
@@ -3976,7 +3984,7 @@ For more information, see the [pandoc-citeproc man page].
 [Chicago Manual of Style]: http://chicagomanualofstyle.org
 [Citation Style Language]: http://citationstyles.org
 [Zotero Style Repository]: https://www.zotero.org/styles
-[finding and editing styles]: http://citationstyles.org/styles/
+[finding and editing styles]: https://citationstyles.org/authors/
 [CSL locale files]: https://github.com/citation-style-language/locales
 [pandoc-citeproc man page]: https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md
 
@@ -4178,7 +4186,7 @@ individually disabled.
 Also, `raw_tex` only affects `gfm` output, not input.
 
 `gfm` (GitHub-Flavored Markdown)
-:   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
+:   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `gfm_auto_identifiers`,
     `ascii_identifiers`, `backtick_code_blocks`, `autolink_bare_uris`,
     `intraword_underscores`, `strikeout`, `hard_line_breaks`, `emoji`,
     `shortcut_reference_links`, `angle_brackets_escapable`.
@@ -4438,7 +4446,7 @@ introducing the slide:
 All of the other frame attributes described in Section 8.1 of
 the [Beamer User's Guide] may also be used: `allowdisplaybreaks`,
 `allowframebreaks`, `b`, `c`, `t`, `environment`, `label`, `plain`,
-`shrink`.
+`shrink`, `standout`, `noframenumbering`.
 
 Background in reveal.js
 -----------------------
@@ -4593,8 +4601,9 @@ The following fields are recognized:
 Linked media
 ------------
 
-By default, pandoc will download linked media (including audio and
-video) and include it in the EPUB container, yielding a completely
+By default, pandoc will download media referenced from any `<img>`, `<audio>`,
+`<video>` or `<source>` element present in the generated EPUB,
+and include it in the EPUB container, yielding a completely
 self-contained EPUB.  If you want to link to external media resources
 instead, use raw HTML in your source and add `data-external="1"` to the tag
 with the `src` attribute.  For example:
