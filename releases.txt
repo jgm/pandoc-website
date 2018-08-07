@@ -4,11 +4,15 @@ Want to know when a new release is available?  Subscribe to
 [`pandoc-announce`](http://groups.google.com/group/pandoc-announce),
 a low-volume mailing list that is just for announcements of new releases.
 
-# pandoc 2.2.3.1 ( 6 August 2018)
+# pandoc 2.2.3.2 ( 7 August 2018)
 
-  * Markdown reader: Fix parsing of embedded mappings in YAML metadata
-    (#4817).  This fixes a regression in 2.2.3 which caused embedded
-    mappings (e.g. mappings in sequences) not to work in YAML metadata.
+  * Markdown reader: Properly handle boolean values in YAML metadata (#4819).
+    This fixes a regression in 2.2.3, which cause boolean values to
+    be parsed as MetaInlines instead of MetaBool.
+
+    We here record another undocumented (but desirable) change in 2.2.3:
+    numerical metadata fields are now parsed as MetaInlines rather than
+    MetaString.
 
 # pandoc 2.2.2.1 (19 July 2018)
 
