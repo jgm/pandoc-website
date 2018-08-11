@@ -13,7 +13,7 @@ On linux or OSX:
     for f in *.txt; do pandoc "$f" -s -o "${f%.txt}.rtf"; done
 
 
-## I used pandoc to convert a document to ICML (or OPML or RTF) and, and when I try to open it in InDesign (or OmniOutliner or a word processor), I'm told it's invalid.  What have I done wrong?
+## I used pandoc to convert a document to ICML (or OPML or RTF), and when I try to open it in InDesign (or OmniOutliner or a word processor), I'm told it's invalid.  What have I done wrong?
 
 Be sure to use the `-s` or `--standalone` flag, or you just get a
 fragment, not a full document with the required header:
