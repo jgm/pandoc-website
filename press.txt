@@ -71,6 +71,10 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 
 # Blog posts
 
+- Grandesso, Piero (2018-03-23). ["A pandoc-based layout workflow for
+  scholarly journals"](http://pierog.it/en/2018/03/markdown-workflow/).
+  Piero G: Notes on Open Access, Scholarly Publishing etc.
+
 - Krewinkel, Albert (2017-12-23). ["Extending pandoc with
   Lua"](http://lua.space/general/extending-pandoc-with-lua).
   Lua.Space.
