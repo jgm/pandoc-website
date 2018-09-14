@@ -57,7 +57,7 @@ Or
     -V geometry:"left=3cm, width=10cm"
 
 For more options, see the documentation for the LaTeX [geometry
-package](ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/geometry/geometry.pdf).
+package](https://www.ctan.org/pkg/geometry).
 
 ## How does pandoc compare to multimarkdown?
 
