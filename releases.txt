@@ -12350,7 +12350,7 @@ a low-volume mailing list that is just for announcements of new releases.
     Previously `markdown2pdf test.txt -o test.en.pdf` would produce
     `test.pdf`, not `test.en.pdf`.  Thanks to Paolo Tanimoto for the fix.
 
-# pandoc 1.8.0.1 (2001-01-31)
+# pandoc 1.8.0.1 (2011-01-31)
 
   * Revised Interact.hs so that it works with the CPP macros
     in the UTF8 module.
