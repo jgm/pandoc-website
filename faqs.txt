@@ -15,7 +15,7 @@ fragment, not a full document with the required header:
 
     pandoc -s -f markdown -t icml -o my.icml my.md
 
-## I get a blank document when I try to convert a markdown document in Chinese to pdf using `pandoc -o test.pdf test.markdown`.
+## I get a blank document when I try to convert a markdown document in Chinese to PDF
 
 By default, pandoc uses pdflatex to generate the PDF, and pdflatex
 doesn't handle Chinese characters. But you can change the default to
@@ -24,7 +24,7 @@ with Chinese glyphs.  For example:
 
     pandoc -o c.pdf --pdf-engine=xelatex -V mainfont='Adobe Ming Std'
 
-## The new Windows installer (starting with 1.11) does a single user install, rather than installing pandoc for all users. How can I install pandoc for all users?
+## The Windows installer does a single user install, rather than installing pandoc for all users. How can I install pandoc for all users?
 
 Run the following command as admin:
 
@@ -59,19 +59,6 @@ package](https://www.ctan.org/pkg/geometry).
 Here is a [wiki
 page](https://github.com/jgm/pandoc/wiki/Pandoc-vs-Multimarkdown)
 comparing the two.
-
-## Pandoc hangs when I try to use `--bibliography`.
-
-Most likely this is a packaging problem.  If you are running the
-version of pandoc 1.9.1 packaged in Ubuntu 12.04, you should
-be able to fix the problem by doing
-
-    sudo apt-get install libghc-citeproc-hs-data
-
-## After upgrading to 1.8.1.2, markdown2pdf messes up tables when used with my custom latex template.
-
-You need to add the line `\usepackage{ctable}` to your
-custom latex template, preferably right after the line `$if(tables)$`.
 
 :::
 
