@@ -5,7 +5,7 @@ JS = js/nav.js
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.txt filters.html lua-filters.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
-MKPAGE = $(PANDOC) -t html5 --toc -s --highlight-style tango -B nav.html --template=template.html --lua-filter tools/option-anchors.lua
+MKPAGE = $(PANDOC) -t html5 --toc -s --highlight-style tango -B nav.html --template=template.html --lua-filter tools/option-anchors.lua --lua-filter tools/faq-panels.lua
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
@@ -65,8 +65,6 @@ $(SITE)/diagram.jpg : $(SITE)/diagram.png
 $(SITE)/diagram.png : $(SITE)/diagram.dot
 	dot -Tpng -o$@ $<
 
-$(SITE)/% : %
-	cp $< $@
 
 # 'make update' pulls in source files from the pandoc source directory
 SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/lua-filters.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua

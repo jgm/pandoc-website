@@ -1,17 +1,12 @@
 % FAQs
 
-<style type="text/css">
-h2 { border-bottom: none; border-left: 10px solid #aaa; font-size: 94%;
-font-weight: bold; margin-top: 1.5em; padding-left: 1em; }
-#toc li { padding-top: 1em; }
-</style>
+::: faqs
 
 ## How can I convert a whole directory of files from Markdown to RTF?
 
 On linux or OSX:
 
     for f in *.txt; do pandoc "$f" -s -o "${f%.txt}.rtf"; done
-
 
 ## I used pandoc to convert a document to ICML (or OPML or RTF), and when I try to open it in InDesign (or OmniOutliner or a word processor), I'm told it's invalid.  What have I done wrong?
 
@@ -77,3 +72,6 @@ be able to fix the problem by doing
 
 You need to add the line `\usepackage{ctable}` to your
 custom latex template, preferably right after the line `$if(tables)$`.
+
+:::
+
