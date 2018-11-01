@@ -5,7 +5,7 @@ pandoc is your swiss-army knife.  Pandoc can convert documents
 in (several dialects of) [Markdown], [reStructuredText],
 [textile], [HTML], [DocBook], [LaTeX], [MediaWiki markup],
 [TWiki markup], [TikiWiki markup], [Creole 1.0], [Vimwiki
-markup], [Groff man], [OPML], Emacs [Org-Mode], Emacs [Muse],
+markup], [roff man], [OPML], Emacs [Org-Mode], Emacs [Muse],
 [txt2tags], Microsoft Word [docx], LibreOffice [ODT], [EPUB], or
 [Haddock markup] to
 
@@ -26,7 +26,7 @@ Ebooks
 Documentation formats
 
 :   [DocBook] version 4 or 5, [TEI Simple],
-    [GNU TexInfo], [Groff man], [Groff ms], [Haddock markup]
+    [GNU TexInfo], [roff man], [roff ms], [Haddock markup]
 
 Archival formats
 
@@ -74,7 +74,7 @@ LaTeX math (and even macros) can be used in markdown documents.  Several
 different methods of rendering math in HTML are provided, including
 MathJax and translation to MathML. LaTeX math is converted (as needed
 by the output format) to unicode, native Word equation objects,
-MathML, or groff eqn.
+MathML, or roff eqn.
 
 Pandoc includes a powerful system for automatic citations and
 bibliographies, using [pandoc-citeproc] (which derives from
@@ -117,8 +117,8 @@ Copyright 2006-2017 [John MacFarlane].
 [DocBook]: http://www.docbook.org/
 [OpenDocument XML]: http://opendocument.xml.org/
 [MediaWiki markup]: http://www.mediawiki.org/wiki/Help:Formatting
-[groff man]: http://www.gnu.org/software/groff/groff.html
-[groff ms]: http://www.gnu.org/software/groff/groff.html
+[roff man]: http://www.gnu.org/software/groff/groff.html
+[roff ms]: http://www.gnu.org/software/groff/groff.html
 [GNU Texinfo]: http://www.gnu.org/software/texinfo/
 [Haskell]:  http://www.haskell.org/
 [GHC]:  http://www.haskell.org/ghc/
