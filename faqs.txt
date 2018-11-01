@@ -28,7 +28,7 @@ with Chinese glyphs.  For example:
 
 Run the following command as admin:
 
-    msiexec /i pandoc-1.xx.msi ALLUSERS=1
+    msiexec /i pandoc-VERSION.msi ALLUSERS=1
 
 This will put pandoc in `C:\Program Files\Pandoc`.
 You can install Pandoc to a different directory by setting APPLICATIONFOLDER parameter,
