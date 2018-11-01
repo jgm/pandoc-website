@@ -60,5 +60,26 @@ Here is a [wiki
 page](https://github.com/jgm/pandoc/wiki/Pandoc-vs-Multimarkdown)
 comparing the two.
 
+## When I specify an image width of 50% and convert to LaTeX, pandoc sets the height to textheight and the aspect ratio isn't preserved. How can I prevent this?
+
+For example, if you convert an image with `{width="50%"}`, the LaTeX produced
+will be `\includegraphics[width=0.5\textwidth,height=\textheight]`.
+
+This output presupposes the following code in pandoc's default latex
+template:
+
+```
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+```
+
+If you don't have this in your custom template, you should
+add it.  If we didn't set the `height` explicitly in this way,
+the image would not be resized correctly unless it was
+being resized to smaller than its original size.
+
+
 :::
 

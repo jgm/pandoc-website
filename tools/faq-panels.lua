@@ -1,6 +1,8 @@
 local function makepanel(ident, bs)
   local headb = bs[1]
   table.remove(bs, 1)
+  table.insert(bs, pandoc.Div({pandoc.Plain{pandoc.Link({pandoc.Span({}, pandoc.Attr("",{"glyphicon","glyphicon-link"}))},"#"..ident)}},
+                     pandoc.Attr("",{"link"})))
   local body = pandoc.Div(bs, pandoc.Attr("", {"panel-body"}))
   local head = pandoc.Div({headb}, pandoc.Attr("", {"panel-heading"}))
   return pandoc.Div(
@@ -35,6 +37,9 @@ function Div(el)
       elseif seen_header then
         table.insert(nextchunk, b)
       end
+    end
+    if #nextchunk > 0 then
+      chunks[#chunks + 1] = makepanel(ident, nextchunk)
     end
     return pandoc.Div(chunks)
   end
