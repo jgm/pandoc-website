@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% September 27, 2018
+% November 01, 2018
 
 Synopsis
 ========
@@ -285,13 +285,13 @@ General options {.options}
     - `jats` ([JATS] XML)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
-    - `man` ([groff man])
+    - `man` ([roff man])
     - `markdown` ([Pandoc's Markdown])
     - `markdown_mmd` ([MultiMarkdown])
     - `markdown_phpextra` ([PHP Markdown Extra])
     - `markdown_strict` (original unextended [Markdown])
     - `mediawiki` ([MediaWiki markup])
-    - `ms` ([groff ms])
+    - `ms` ([roff ms])
     - `muse` ([Muse]),
     - `native` (native Haskell),
     - `odt` ([OpenOffice text document][ODT])
@@ -442,8 +442,8 @@ General options {.options}
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
 [Haddock markup]: https://www.haskell.org/haddock/doc/html/ch03s08.html
 [Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
-[groff man]: http://man7.org/linux/man-pages/man7/groff_man.7.html
-[groff ms]: http://man7.org/linux/man-pages/man7/groff_ms.7.html
+[roff man]: http://man7.org/linux/man-pages/man7/groff_man.7.html
+[roff ms]: http://man7.org/linux/man-pages/man7/groff_ms.7.html
 [Haskell]: https://www.haskell.org
 [GNU Texinfo]: http://www.gnu.org/software/texinfo/
 [Emacs Org mode]: http://orgmode.org
@@ -859,9 +859,12 @@ Options affecting specific writers {.options}
 `--ascii`
 
 :   Use only ASCII characters in output.  Currently supported for
-    XML and HTML formats (which use numerical entities instead of
-    UTF-8 when this option is selected) and for groff ms and man
-    (which use hexadecimal escapes).
+    XML and HTML formats (which use entities instead of
+    UTF-8 when this option is selected), Markdown (which uses
+    entities), roff ms (which use hexadecimal escapes), and to
+    a limited degree LaTeX (which uses standard commands for
+    accented characters when possible).  roff man output uses
+    ASCII by default.
 
 `--reference-links`
 
@@ -879,7 +882,7 @@ Options affecting specific writers {.options}
 
 `--atx-headers`
 
-:   Use ATX-style headers in Markdown and AsciiDoc output. The default is
+:   Use ATX-style headers in Markdown output. The default is
     to use setext-style headers for levels 1-2, and then ATX headers.
     (Note: for `gfm` output, ATX headers are always used.)
 
@@ -973,8 +976,8 @@ Options affecting specific writers {.options}
     include multiple files. They will be included in the order specified.
 
     A stylesheet is required for generating EPUB.  If none is
-    provided using this option (or the `stylesheet` metadata
-    field), pandoc will look for a file `epub.css` in the
+    provided using this option (or the `css` or `stylesheet`
+    metadata fields), pandoc will look for a file `epub.css` in the
     user data directory (see `--data-dir`).  If it is not
     found there, sensible defaults will be used.
 
@@ -1521,13 +1524,13 @@ LaTeX variables are used when [creating a PDF].
     `fontfamily` set to [`mathpazo`] provides Palatino with old-style
     figures and true small caps; may be repeated for multiple options
 
-`mainfont`, `sansfont`, `monofont`, `mathfont`, `CJKmainfont`
+`mainfont`, `romanfont`, `sansfont`, `monofont`, `mathfont`, `CJKmainfont`
 :   font families for use with `xelatex` or
     `lualatex`: take the name of any system font, using the
     [`fontspec`] package.  Note that if `CJKmainfont` is used,
     the [`xecjk`] package must be available.
 
-`mainfontoptions`, `sansfontoptions`, `monofontoptions`, `mathfontoptions`, `CJKoptions`
+`mainfontoptions`, `romanfontoptions`, `sansfontoptions`, `monofontoptions`, `mathfontoptions`, `CJKoptions`
 :   options to use with `mainfont`, `sansfont`, `monofont`, `mathfont`,
     `CJKmainfont` in `xelatex` and `lualatex`.  Allow for any choices
     available through [`fontspec`], such as the OpenType features
@@ -3331,7 +3334,7 @@ AsciiDoc
 Texinfo
   ~ It will be rendered inside a `@math` command.
 
-groff man
+roff man
   ~ It will be rendered verbatim without `$`'s.
 
 MediaWiki, DokuWiki
@@ -3379,8 +3382,14 @@ Markdown allows it, but it has been made an extension so that it can
 be disabled if desired.)
 
 The raw HTML is passed through unchanged in HTML, S5, Slidy, Slideous,
-DZSlides, EPUB, Markdown, Emacs Org mode, and Textile output, and suppressed
-in other formats.
+DZSlides, EPUB, Markdown, CommonMark, Emacs Org mode, and Textile
+output, and suppressed in other formats.
+
+In the CommonMark format, if `raw_html` is enabled, superscripts,
+subscripts, strikeouts and small capitals will be represented as HTML.
+Otherwise, plain-text fallbacks will be used. Note that even if
+`raw_html` is disabled, tables will be rendered with HTML syntax if
+they cannot use pipe syntax.
 
 #### Extension: `markdown_in_html_blocks` ####
 
@@ -3465,7 +3474,7 @@ Emacs Org mode, and ConTeXt.
 Inline spans and fenced code blocks with a special
 kind of attribute will be parsed as raw content with the
 designated format.  For example, the following produces a raw
-groff `ms` block:
+roff `ms` block:
 
     ```{=ms}
     .MYMACRO
@@ -3702,10 +3711,12 @@ For example:
   formats.  Use the `--dpi` option to specify the number of pixels per
   inch.  The default is 96dpi.
 - The `%` unit is generally relative to some available space.
-  For example the above example will render to
-  `<img href="file.jpg" style="width: 50%;" />` (HTML),
-  `\includegraphics[width=0.5\textwidth]{file.jpg}` (LaTeX), or
-  `\externalfigure[file.jpg][width=0.5\textwidth]` (ConTeXt).
+  For example the above example will render to the following.
+  - HTML: `<img href="file.jpg" style="width: 50%;" />`
+  - LaTeX: `\includegraphics[width=0.5\textwidth,height=\textheight]{file.jpg}`
+    (If you're using a custom template, you need to configure `graphicx`
+    as in the default template.)
+  - ConTeXt: `\externalfigure[file.jpg][width=0.5\textwidth]`
 - Some output formats have a notion of a class
   ([ConTeXt](http://wiki.contextgarden.net/Using_Graphics#Multiple_Image_Settings))
   or a unique identifier (LaTeX `\caption`), or both (HTML).
@@ -4604,7 +4615,7 @@ The following fields are recognized:
 `cover-image`
   ~ A string value (path to cover image).
 
-`stylesheet`
+`css` (or legacy: `stylesheet`)
   ~ A string value (path to CSS stylesheet).
 
 `page-progression-direction`

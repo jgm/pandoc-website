@@ -39,7 +39,8 @@
   - For PDF output, you'll also need LaTeX.  Because a full [MacTeX]
     installation takes more than a gigabyte of disk space, we recommend
     installing [BasicTeX](http://www.tug.org/mactex/morepackages.html)
-    (64M) and using the `tlmgr` tool to install additional packages
+    (64M) or [TinyTeX](https://yihui.name/tinytex/)
+    and using the `tlmgr` tool to install additional packages
     as needed.  If you get errors warning of fonts not found, try
 
         tlmgr install collection-fontsrecommended
@@ -91,6 +92,19 @@
   - For PDF output, you'll need LaTeX.  We recommend installing
     [TeX Live](http://www.tug.org/texlive/) via your package
     manager.  (On Debian/Ubuntu, `apt-get install texlive`.)
+
+## Chrome OS
+
+On Chrome OS, pandoc can be installed using the
+[chromebrew](https://github.com/skycocker/chromebrew) package manager
+with the command:
+
+```sh
+crew install pandoc
+```
+
+This will automatically build and configure pandoc for the specific
+device you are using.
 
 ## BSD
 
