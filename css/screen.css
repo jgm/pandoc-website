@@ -4,6 +4,7 @@ body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
 code { font-size: 11pt; }
 pre code { font-size: 11pt; }
+header code { background-color: transparent; }
 
 header        { }
 header span   { font-family: Arial, Verdana, sans-serif; }
