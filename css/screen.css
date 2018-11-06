@@ -2,9 +2,8 @@ html { color: black; padding: 20px 10px 10px 10px; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
-code { font-size: 11pt; }
-pre code { font-size: 11pt; }
-header code { background-color: transparent; }
+code { font-size: 89%; background-color: transparent; }
+pre code { font-size: 89%; }
 
 header        { }
 header span   { font-family: Arial, Verdana, sans-serif; }
