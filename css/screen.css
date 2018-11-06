@@ -18,7 +18,7 @@ dd { margin-left: 2em; }
 hr { height: 1px; color: #aaa; background-color: #aaa; border: 0; margin: .2em 0 .2em 0; }
 
 h1.title { font-size: 24pt; }
-h1, h2, h3, { font-weight: normal; border-bottom: 1px solid black; }
+h1, h2, h3 { font-weight: normal; border-bottom: 1px solid black; }
 h4 { font-size: 14pt; font-style: bold; margin-top: 1em; }
 h1 { font-size: 20pt; }
 h2 { font-size: 18pt; }
