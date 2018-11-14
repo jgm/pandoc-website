@@ -58,11 +58,12 @@ package](https://www.ctan.org/pkg/geometry).
 
 Add
 
-````
+```
 subparagraph: true
 ```
 
-to your template.  The default template redefines `\paragraph`
+to your metadata, or use `--metadata subparagraph` on the
+command line.  The default template redefines `\paragraph`
 in a way that is incompatible with titlesec, in order to make
 all header levels appear as section headings.
 
