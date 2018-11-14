@@ -54,6 +54,18 @@ Or
 For more options, see the documentation for the LaTeX [geometry
 package](https://www.ctan.org/pkg/geometry).
 
+## I get LaTeX errors when I add `\usepackage{titlesec}` in `header-includes`
+
+Add
+
+````
+subparagraph: true
+```
+
+to your template.  The default template redefines `\paragraph`
+in a way that is incompatible with titlesec, in order to make
+all header levels appear as section headings.
+
 ## How does pandoc compare to multimarkdown?
 
 Here is a [wiki
