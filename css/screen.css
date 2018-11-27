@@ -2,6 +2,8 @@ html { color: black; padding: 20px 10px 10px 10px; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
+.btn { font-family: sans-serif; }
+
 code { font-size: 89%; background-color: transparent; }
 span.nowrap code { white-space: nowrap; }
 pre code { font-size: 89%; }
