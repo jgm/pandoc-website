@@ -13,9 +13,7 @@
     to a directory of your choice.
     
   - Alternatively, you can install pandoc using
-    [chocolatey](https://chocolatey.org):
-    
-        choco install pandoc
+    [chocolatey](https://chocolatey.org): `choco install pandoc`.
 
   - For PDF output, you'll also need to install LaTeX.
     We recommend [MiKTeX](http://miktex.org/).
@@ -33,17 +31,10 @@
     whatever directory you like.
 
   - Alternatively, you can install pandoc using
-    [Homebrew](http://brew.sh):
-    
-        brew install pandoc
-
-    This does not include pandoc's citation parser, installed separately:
-    
-        brew install pandoc-citeproc
-    
-    Note: On unsupported versions of macOS (more than three releases old),
-    this method installs pandoc from source, which takes additional time
-    and disk space for the `ghc` compiler and dependent Haskell libraries.
+    [homebrew](http://brew.sh): `brew install pandoc`.
+    Note: If you are using macOS < 10.10, this method installs 
+    pandoc from source, so it will take a long time and a lot of 
+    disk space for the ghc compiler and dependent Haskell libraries.
 
   - For PDF output, you'll also need LaTeX.  Because a full [MacTeX]
     installation takes more than a gigabyte of disk space, we recommend
