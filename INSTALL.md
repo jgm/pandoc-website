@@ -7,7 +7,10 @@ Look out for the following name for your platform:
 - macOS: `*-macOS.pkg`
 - Linux: `*-amd64.deb`
 
-**[Download the latest installer][download button]**
+<a href="https://github.com/jgm/pandoc/releases/latest"
+class="btn btn-block btn-primary"><span style="font-size:
+140%">Download the latest
+installer</span></a>
 
 For alternative ways to install pandoc, see below
 under the heading for your operating system.
@@ -23,12 +26,21 @@ under the heading for your operating system.
     a zip file that contains pandoc's binaries and
     documentation.  Simply unzip this file and move the binaries
     to a directory of your choice.
-    
-  - Alternatively, you can install pandoc using
-    [chocolatey](https://chocolatey.org): `choco install pandoc`.
 
-  - For PDF output, you'll also need to install LaTeX.
-    We recommend [MiKTeX](http://miktex.org/).
+  - Alternatively, you can install pandoc using
+    [Chocolatey](https://chocolatey.org):
+
+        choco install pandoc
+
+    Chocolatey can also install other software that integrates with Pandoc.
+    For example, to install `rsvg-convert` (from [librsvg], covering formats
+    without SVG support), [Python] (to use Pandoc filters), and
+    [MiKTeX] (to typeset PDFs with [LaTeX]):
+
+        choco install rsvg-convert python miktex
+
+  - By default, Pandoc creates PDFs using LaTeX.
+    We recommend installing it via [MiKTeX].
 
 ## macOS
 
@@ -38,22 +50,35 @@ under the heading for your operating system.
     and running it with `perl uninstall-pandoc.pl`.
 
   - Alternatively, you can install pandoc using
-    [homebrew](http://brew.sh): `brew install pandoc`.
-    Note: If you are using macOS < 10.10, this method installs 
-    pandoc from source, so it will take a long time and a lot of 
-    disk space for the ghc compiler and dependent Haskell libraries.
-    
+    [Homebrew](http://brew.sh):
+
+         brew install pandoc
+
+    To include pandoc's citation parser:
+
+         brew install pandoc-citeproc
+
+    Homebrew can also install other software that integrates with Pandoc.
+    For example, to install [librsvg] (its `rsvg-convert` covers formats
+    without SVG support), [Python] (to use Pandoc filters), and
+    [BasicTeX] (to typeset PDFs with [LaTeX]):
+
+         brew install librsvg python homebrew/cask/basictex
+
+    Note: On unsupported versions of macOS (more than three releases old),
+    Homebrew installs from source, which takes additional time and disk space
+    for the `ghc` compiler and dependent Haskell libraries.
+
   - We also provide a zip file containing the binaries and man
     pages, for those who prefer not to use the installer.  Simply
     unzip the file and move the binaries and man pages to
     whatever directory you like.
 
-  - For PDF output, you'll also need LaTeX.  Because a full [MacTeX]
-    installation takes more than a gigabyte of disk space, we recommend
-    installing [BasicTeX](http://www.tug.org/mactex/morepackages.html)
-    (64M) or [TinyTeX](https://yihui.name/tinytex/)
+  - By default, Pandoc creates PDFs using LaTeX.  Because a full [MacTeX]
+    installation uses four gigabytes of disk space, we recommend
+    [BasicTeX] or [TinyTeX](https://yihui.name/tinytex/)
     and using the `tlmgr` tool to install additional packages
-    as needed.  If you get errors warning of fonts not found, try
+    as needed.  If you receive errors warning of fonts not found:
 
         tlmgr install collection-fontsrecommended
 
@@ -65,7 +90,7 @@ under the heading for your operating system.
 
   - To get the latest release, we provide a binary package for amd64
     architecture on the **[download page]**.
-    
+
     This provides both `pandoc` and `pandoc-citeproc`.
     The executables are statically linked and
     have no dynamic dependencies or dependencies on external
@@ -150,9 +175,9 @@ the last released version.
 
 ### Quick stack method
 
-The easiest way to build pandoc from source is to use [stack]:
+The easiest way to build pandoc from source is to use [stack][stack]:
 
-1.  Install [stack]. Note that Pandoc requires stack >= 1.6.0.
+1.  Install [stack][stack]. Note that Pandoc requires stack >= 1.7.0.
 
 2.  Change to the pandoc source directory and issue the following commands:
 
@@ -218,7 +243,7 @@ The easiest way to build pandoc from source is to use [stack]:
 
     Note that this requires the `text-icu` library, which in turn
     depends on the C library `icu4c`.  Installation directions
-    vary by platform.  Here is how it might work on macOS with homebrew:
+    vary by platform.  Here is how it might work on macOS with Homebrew:
 
         brew install icu4c
         cabal install --extra-lib-dirs=/usr/local/Cellar/icu4c/51.1/lib \
@@ -362,16 +387,20 @@ To run just the markdown benchmarks:
 [Haskell platform]: http://hackage.haskell.org/platform/
 [MacPorts]: http://trac.macports.org/browser/trunk/dports/textproc/pandoc/Portfile
 [MacTeX]: https://tug.org/mactex/
+[BasicTeX]: http://www.tug.org/mactex/morepackages.html
+[LaTeX]: https://www.latex-project.org
+[MiKTeX]: http://miktex.org/
+[librsvg]: https://wiki.gnome.org/Projects/LibRsvg
+[Python]: https://www.python.org
 [NetBSD]: http://pkgsrc.se/wip/pandoc
 [NixOS]: https://nixos.org/nixos/packages.html
 [Slackware]: https://www.slackbuilds.org/result/?search=pandoc&sv=
 [Ubuntu]: https://packages.ubuntu.com/pandoc
-[download button]: https://github.com/jgm/pandoc/releases/latest {.btn .btn-block .btn-primary}
 [download page]: https://github.com/jgm/pandoc/releases/latest
 [gentoo]: http://packages.gentoo.org/package/app-text/pandoc
 [haskell repository]: https://wiki.archlinux.org/index.php/Haskell_Package_Guidelines#.5Bhaskell.5D
 [openSUSE]: https://software.opensuse.org/package/pandoc
 [source tarball]: http://hackage.haskell.org/package/pandoc
-[stack]: http://docs.haskellstack.org/en/stable/install_and_upgrade.html
+[stack]: https://docs.haskellstack.org/en/stable/install_and_upgrade.html
 [cabal-install]: http://hackage.haskell.org/package/cabal-install
 [uninstaller]: https://raw.githubusercontent.com/jgm/pandoc/master/macos/uninstall-pandoc.pl
