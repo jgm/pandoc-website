@@ -39,9 +39,7 @@
       if (assets[0]) {
         var btn = document.getElementById('downloadInstallerBtn');
         btn.setAttribute('href', assets[0].browser_download_url);
-        var div = document.createElement('div');
-        div.innerHTML = 'Detected: ' + detected;
-        btn.parentNode.appendChild(div);
+        btn.innerHTML = 'Download the latest installer for ' + detected;
       }
     });
   }

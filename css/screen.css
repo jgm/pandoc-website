@@ -72,9 +72,7 @@ div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }
 
 #downloadInstallerBtn {
   font-size: 1em;
-  margin: 1em 0;
-  padding: 0.5em 2em;
-}
-#downloadInstallerBtn ~ div {
-  marginBottom: 1.5em;
+  margin: auto;
+  padding: 0.5em;
+  width: 20em;
 }

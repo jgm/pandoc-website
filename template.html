@@ -30,6 +30,11 @@ $endif$
             type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="js/nav.js"></script>
+$if(installbtn)$
+  <script src="js/downloadInstallerBtn.js">
+    document.getElementById('downloadInstallerBtn').onclick(
+  </script>
+$endif$
   <script type="text/javascript">
 
   var _gaq = _gaq || [];
