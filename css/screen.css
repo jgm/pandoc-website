@@ -70,3 +70,11 @@ div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
 div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }
 
+#downloadInstallerBtn {
+  font-size: 1em;
+  margin: 1em 0;
+  padding: 0.5em 2em;
+}
+#downloadInstallerBtn ~ div {
+  marginBottom: 1.5em;
+}
