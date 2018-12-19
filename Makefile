@@ -84,7 +84,7 @@ update :
 %.5.html : %.5
 	groff -Txhtml -mandoc $< > $@
 
-$(SITE)/installing.html : $(SITE)/installing.txt
+$(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@ -V installbtn
 
 %.html : %.txt nav.html template.html
