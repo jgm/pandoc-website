@@ -4,10 +4,10 @@ If you need to convert files from one markup format into another,
 pandoc is your swiss-army knife.  Pandoc can convert documents
 in (several dialects of) [Markdown], [reStructuredText],
 [textile], [HTML], [DocBook], [LaTeX], [MediaWiki markup],
-[TWiki markup], [TikiWiki markup], [Creole 1.0], [Vimwiki
-markup], [roff man], [OPML], Emacs [Org-Mode], Emacs [Muse],
-[txt2tags], Microsoft Word [docx], LibreOffice [ODT], [EPUB], or
-[Haddock markup] to
+[TWiki markup], [TikiWiki markup], [DokuWiki markup],
+[Creole 1.0], [Vimwiki markup], [roff man], [OPML],
+Emacs [Org-Mode], Emacs [Muse], [txt2tags], Microsoft Word [docx],
+LibreOffice [ODT], [EPUB], or [Haddock markup] to
 
 HTML formats
 
