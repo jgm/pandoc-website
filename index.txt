@@ -7,7 +7,8 @@ in (several dialects of) [Markdown], [reStructuredText],
 [TWiki markup], [TikiWiki markup], [DokuWiki markup],
 [Creole 1.0], [Vimwiki markup], [roff man], [OPML],
 Emacs [Org-Mode], Emacs [Muse], [txt2tags], Microsoft Word [docx],
-LibreOffice [ODT], [EPUB], or [Haddock markup] to
+LibreOffice [ODT], [EPUB], Jupyter notebooks [ipynb],
+or [Haddock markup] to
 
 HTML formats
 
@@ -56,6 +57,10 @@ Lightweight markup formats
     Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
     [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
     [TWiki markup], [Vimwiki markup], and [ZimWiki markup].
+
+Interactive notebook formats
+
+:   [ipynb]
 
 Custom formats
 
@@ -154,3 +159,4 @@ Copyright 2006-2017 [John MacFarlane].
 [Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
+[ipynb]: https://nbformat.readthedocs.io/en/latest/
