@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% November 25, 2018
+% January 30, 2019
 
 Synopsis
 ========
@@ -128,12 +128,9 @@ To do this, specify an output file with a `.pdf` extension, as before,
 but add the `--pdf-engine` option or `-t context`, `-t html`, or `-t ms`
 to the command line (`-t html` defaults to `--pdf-engine=wkhtmltopdf`).
 
-PDF output can be controlled using [variables for LaTeX] (if
-LaTeX is used) and [variables for ConTeXt] (if ConTeXt is used).
-When using an HTML/CSS-to-PDF-engine, `--css` affects the output.
-If `wkhtmltopdf` is used, then the variables `margin-left`,
-`margin-right`, `margin-top`, `margin-bottom`, `footer-html`,
-`header-html` and `papersize` will affect the output.
+PDF output uses [variables for LaTeX] (with a LaTeX engine);
+[variables for ConTeXt] (with ConTeXt); or [variables for `wkhtmltopdf`]
+(an HTML/CSS-to-PDF engine; `--css` also affects the output).
 
 To debug the PDF creation, it can be useful to look at the intermediate
 representation: instead of `-o test.pdf`, use for example `-s -o test.tex`
@@ -145,11 +142,11 @@ When using LaTeX, the following packages need to be available
 [`ifxetex`], [`ifluatex`], [`listings`] (if the
 `--listings` option is used), [`fancyvrb`], [`longtable`],
 [`booktabs`], [`graphicx`] and [`grffile`] (if the document
-contains images), [`hyperref`], [`xcolor`] (with `colorlinks`),
+contains images), [`hyperref`], [`xcolor`],
 [`ulem`], [`geometry`] (with the `geometry` variable set),
 [`setspace`] (with `linestretch`), and
 [`babel`] (with `lang`).  The use of `xelatex` or `lualatex` as
-the LaTeX engine requires [`fontspec`].  `xelatex` uses
+the PDF engine requires [`fontspec`].  `xelatex` uses
 [`polyglossia`] (with `lang`), [`xecjk`], and [`bidi`] (with the
 `dir` variable set). If the `mathspec` variable is set,
 `xelatex` will use [`mathspec`] instead of [`unicode-math`].
@@ -158,41 +155,57 @@ available, and [`csquotes`] will be used for [typography]
 if `\usepackage{csquotes}` is present in the template or
 included via `/H/--include-in-header`.  The [`natbib`],
 [`biblatex`], [`bibtex`], and [`biber`] packages can optionally
-be used for [citation rendering].
+be used for [citation rendering].  The following packages
+will be used to improve output quality if present, but
+pandoc does not require them to be present:
+[`upquote`] (for straight quotes in verbatim environments),
+[`microtype`] (for better spacing adjustments),
+[`parskip`] (for better inter-paragraph spaces),
+[`xurl`] (for better line breaks in URLs),
+[`bookmark`] (for better PDF bookmarks),
+and [`footnotehyper`] or [`footnote`] (to allow footnotes in tables).
 
+[TeX Live]: http://www.tug.org/texlive/
 [`amsfonts`]: https://ctan.org/pkg/amsfonts
 [`amsmath`]: https://ctan.org/pkg/amsmath
-[`lm`]: https://ctan.org/pkg/lm
-[`ifxetex`]: https://ctan.org/pkg/ifxetex
-[`ifluatex`]: https://ctan.org/pkg/ifluatex
-[`listings`]: https://ctan.org/pkg/listings
-[`fancyvrb`]: https://ctan.org/pkg/fancyvrb
-[`longtable`]: https://ctan.org/pkg/longtable
-[`booktabs`]: https://ctan.org/pkg/booktabs
-[`graphicx`]: https://ctan.org/pkg/graphicx
-[`grffile`]: https://ctan.org/pkg/grffile
-[`geometry`]: https://ctan.org/pkg/geometry
-[`setspace`]: https://ctan.org/pkg/setspace
-[`xecjk`]: https://ctan.org/pkg/xecjk
-[`hyperref`]: https://ctan.org/pkg/hyperref
-[`ulem`]: https://ctan.org/pkg/ulem
 [`babel`]: https://ctan.org/pkg/babel
-[`bidi`]: https://ctan.org/pkg/bidi
-[`mathspec`]: https://ctan.org/pkg/mathspec
-[`unicode-math`]: https://ctan.org/pkg/unicode-math
-[`polyglossia`]: https://ctan.org/pkg/polyglossia
-[`fontspec`]: https://ctan.org/pkg/fontspec
-[`upquote`]: https://ctan.org/pkg/upquote
-[`microtype`]: https://ctan.org/pkg/microtype
-[`csquotes`]: https://ctan.org/pkg/csquotes
-[`natbib`]: https://ctan.org/pkg/natbib
+[`biber`]: https://ctan.org/pkg/biber
 [`biblatex`]: https://ctan.org/pkg/biblatex
 [`bibtex`]: https://ctan.org/pkg/bibtex
-[`biber`]: https://ctan.org/pkg/biber
-[TeX Live]: http://www.tug.org/texlive/
-[`wkhtmltopdf`]: https://wkhtmltopdf.org
-[`weasyprint`]: http://weasyprint.org
+[`bidi`]: https://ctan.org/pkg/bidi
+[`bookmark`]: https://ctan.org/pkg/bookmark
+[`booktabs`]: https://ctan.org/pkg/booktabs
+[`csquotes`]: https://ctan.org/pkg/csquotes
+[`fancyvrb`]: https://ctan.org/pkg/fancyvrb
+[`fontspec`]: https://ctan.org/pkg/fontspec
+[`footnote`]: https://ctan.org/pkg/footnote
+[`footnotehyper`]: https://ctan.org/pkg/footnotehyper
+[`geometry`]: https://ctan.org/pkg/geometry
+[`graphicx`]: https://ctan.org/pkg/graphicx
+[`grffile`]: https://ctan.org/pkg/grffile
+[`hyperref`]: https://ctan.org/pkg/hyperref
+[`ifluatex`]: https://ctan.org/pkg/ifluatex
+[`ifxetex`]: https://ctan.org/pkg/ifxetex
+[`listings`]: https://ctan.org/pkg/listings
+[`lm`]: https://ctan.org/pkg/lm
+[`longtable`]: https://ctan.org/pkg/longtable
+[`mathspec`]: https://ctan.org/pkg/mathspec
+[`microtype`]: https://ctan.org/pkg/microtype
+[`natbib`]: https://ctan.org/pkg/natbib
+[`parskip`]: https://ctan.org/pkg/parskip
+[`polyglossia`]: https://ctan.org/pkg/polyglossia
 [`prince`]: https://www.princexml.com/
+[`setspace`]: https://ctan.org/pkg/setspace
+[`ulem`]: https://ctan.org/pkg/ulem
+[`unicode-math`]: https://ctan.org/pkg/unicode-math
+[`upquote`]: https://ctan.org/pkg/upquote
+[`weasyprint`]: http://weasyprint.org
+[`wkhtmltopdf`]: https://wkhtmltopdf.org
+[`xcolor`]: https://ctan.org/pkg/xcolor
+[`xecjk`]: https://ctan.org/pkg/xecjk
+[`xurl`]: https://ctan.org/pkg/xurl
+
+
 
 Reading from the Web
 --------------------
@@ -223,6 +236,7 @@ General options {.options}
     - `creole` ([Creole 1.0])
     - `docbook` ([DocBook])
     - `docx` ([Word docx])
+    - `dokuwiki` ([DokuWiki markup])
     - `epub` ([EPUB])
     - `fb2` ([FictionBook2] e-book)
     - `gfm` ([GitHub-Flavored Markdown]),
@@ -231,6 +245,7 @@ General options {.options}
       if you need extensions not supported in [`gfm`](#markdown-variants).
     - `haddock` ([Haddock markup])
     - `html` ([HTML])
+    - `ipynb` ([Jupyter notebook])
     - `jats` ([JATS] XML)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
@@ -283,6 +298,7 @@ General options {.options}
     - `html` or `html5` ([HTML], i.e. [HTML5]/XHTML [polyglot markup])
     - `html4` ([XHTML] 1.0 Transitional)
     - `icml` ([InDesign ICML])
+    - `ipynb` ([Jupyter notebook])
     - `jats` ([JATS] XML)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
@@ -454,6 +470,7 @@ General options {.options}
 [PDF]: https://www.adobe.com/pdf/
 [reveal.js]: http://lab.hakim.se/reveal-js/
 [FictionBook2]: http://www.fictionbook.org/index.php/Eng:XML_Schema_Fictionbook_2.1
+[Jupyter notebook]: https://nbformat.readthedocs.io/en/latest/
 [InDesign ICML]: http://wwwimages.adobe.com/www.adobe.com/content/dam/acom/en/devnet/indesign/sdk/cs6/idml/idml-cookbook.pdf
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
 [Muse]: https://amusewiki.org/library/manual
@@ -713,6 +730,8 @@ General writer options {.options}
     where there are nonsemantic newlines in the source, there
     will be nonsemantic newlines in the output as well).
     Automatic wrapping does not currently work in HTML output.
+    In `ipynb` output, this option affects wrapping of the
+    contents of markdown cells.
 
 `--columns=`*NUMBER*
 
@@ -779,7 +798,7 @@ General writer options {.options}
     new languages or to use altered syntax definitions for
     existing languages.
 
-`-H` *FILE*, `--include-in-header=`*FILE*
+`-H` *FILE*, `--include-in-header=`*FILE*|*URL*
 
 :   Include contents of *FILE*, verbatim, at the end of the header.
     This can be used, for example, to include special
@@ -787,7 +806,7 @@ General writer options {.options}
     repeatedly to include multiple files in the header.  They will be
     included in the order specified.  Implies `--standalone`.
 
-`-B` *FILE*, `--include-before-body=`*FILE*
+`-B` *FILE*, `--include-before-body=`*FILE*|*URL*
 
 :   Include contents of *FILE*, verbatim, at the beginning of the
     document body (e.g. after the `<body>` tag in HTML, or the
@@ -796,7 +815,7 @@ General writer options {.options}
     used repeatedly to include multiple files. They will be included in
     the order specified.  Implies `--standalone`.
 
-`-A` *FILE*, `--include-after-body=`*FILE*
+`-A` *FILE*, `--include-after-body=`*FILE*|*URL*
 
 :   Include contents of *FILE*, verbatim, at the end of the document
     body (before the `</body>` tag in HTML, or the
@@ -885,6 +904,7 @@ Options affecting specific writers {.options}
 :   Use ATX-style headers in Markdown output. The default is
     to use setext-style headers for levels 1-2, and then ATX headers.
     (Note: for `gfm` output, ATX headers are always used.)
+    This option also affects markdown cells in `ipynb` output.
 
 `--top-level-division=[default|section|chapter|part]`
 
@@ -1004,16 +1024,51 @@ Options affecting specific writers {.options}
         custom-reference.docx`.  Then open `custom-reference.docx`
         in Word, modify the styles as you wish, and save the file.
         For best results, do not make changes to this file other
-        than modifying the styles used by pandoc: [paragraph]
-        Normal, Body Text, First Paragraph, Compact, Title,
-        Subtitle, Author, Date, Abstract, Bibliography, Heading 1,
-        Heading 2, Heading 3, Heading 4, Heading 5, Heading 6,
-        Heading 7, Heading 8, Heading 9, Block Text, Footnote Text,
-        Definition Term, Definition, Caption, Table Caption,
-        Image Caption, Figure, Captioned Figure, TOC Heading;
-        [character] Default Paragraph Font, Body Text Char,
-        Verbatim Char, Footnote Reference, Hyperlink; [table]
-        Table.
+        than modifying the styles used by pandoc:
+        
+        Paragraph styles:
+        
+        - Normal
+        - Body Text
+        - First Paragraph
+        - Compact
+        - Title
+        - Subtitle
+        - Author
+        - Date
+        - Abstract
+        - Bibliography
+        - Heading 1
+        - Heading 2
+        - Heading 3
+        - Heading 4
+        - Heading 5
+        - Heading 6
+        - Heading 7
+        - Heading 8
+        - Heading 9
+        - Block Text
+        - Footnote Text
+        - Definition Term
+        - Definition
+        - Caption
+        - Table Caption
+        - Image Caption
+        - Figure
+        - Captioned Figure
+        - TOC Heading
+        
+        Character styles:
+        
+        - Default Paragraph Font
+        - Body Text Char
+        - Verbatim Char
+        - Footnote Reference
+        - Hyperlink
+        
+        Table style:
+        
+        - Table
 
     ODT
 
@@ -1300,7 +1355,7 @@ directory (see `--data-dir`, above). *Exceptions:*
   (or the `default.context` template, if you use `-t context`,
   or the `default.ms` template, if you use `-t ms`, or the
   `default.html` template, if you use `-t html`).
-- `docx` has no template (however, you can use
+- `docx` and `pptx` have no template (however, you can use
   `--reference-doc` to customize the output).
 
 Templates contain *variables*, which allow for the inclusion of
@@ -1308,13 +1363,484 @@ arbitrary information at any point in the file. They may be set at the
 command line using the `-V/--variable` option. If a variable is not set,
 pandoc will look for the key in the document's metadata – which can be set
 using either [YAML metadata blocks][Extension: `yaml_metadata_block`]
-or with the `--metadata` option.
+or with the `-M/--metadata` option.
 
-Variables set by pandoc
+Metadata variables
+------------------
+
+`title`, `author`, `date`
+:   allow identification of basic aspects of the document.  Included
+    in PDF metadata through LaTeX and ConTeXt.  These can be set
+    through a [pandoc title block][Extension: `pandoc_title_block`],
+    which allows for multiple authors, or through a YAML metadata block:
+
+        ---
+        author:
+        - Aristotle
+        - Peter Abelard
+        ...
+
+`subtitle`
+:   document subtitle, included in HTML, EPUB, LaTeX, ConTeXt, and docx
+    documents
+
+`abstract`
+:   document summary, included in LaTeX, ConTeXt, AsciiDoc, and docx
+    documents
+
+`keywords`
+:   list of keywords to be included in HTML, PDF, ODT, pptx, docx
+    and AsciiDoc metadata; repeat as for `author`, above
+
+`subject`
+:   document subject, included in ODT, docx and pptx metadata
+
+`description`
+:   document description, included in ODT, docx and pptx metadata. Some
+    applications show this as `Comments` metadata.
+
+`category`
+:   document category, included in docx and pptx metadata
+
+Additionally,
+any root-level string metadata, not included in ODT, docx
+or pptx metadata is added as a *custom property*.
+The following YAML metadata block for instance:
+
+    ---
+    title:  'This is the title'
+    subtitle: "This is the subtitle"
+    author:
+    - Author One
+    - Author Two
+    description: |
+        This is a long
+        description.
+
+        It consists of two paragraphs
+    ...
+
+will include `title`, `author` and `description` as standard document
+properties and `subtitle` as a custom property when converting to docx,
+ODT or pptx.
+
+Language variables
+------------------
+
+`lang`
+:   identifies the main language of the document using IETF language
+    tags (following the [BCP 47] standard), such as `en` or `en-GB`.
+    The [Language subtag lookup] tool can look up or verify these tags.
+    This affects most formats, and controls hyphenation in PDF output
+    when using LaTeX (through [`babel`] and [`polyglossia`]) or ConTeXt.
+    
+    Use native pandoc [Divs and Spans] with the `lang` attribute to
+    switch the language:
+    
+        ---
+        lang: en-GB
+        ...
+
+        Text in the main document language (British English).
+
+        ::: {lang=fr-CA}
+        > Cette citation est écrite en français canadien.
+        :::
+
+        More text in English. ['Zitat auf Deutsch.']{lang=de}
+    
+`dir`
+:   the base script direction, either `rtl` (right-to-left)
+    or `ltr` (left-to-right).
+
+    For bidirectional documents, native pandoc `span`s and `div`s
+    with the `dir` attribute (value `rtl` or `ltr`) can be used to
+    override the base direction in some output formats.
+    This may not always be necessary if the final renderer
+    (e.g. the browser, when generating HTML) supports the
+    [Unicode Bidirectional Algorithm].
+
+    When using LaTeX for bidirectional documents, only the `xelatex` engine
+    is fully supported (use `--pdf-engine=xelatex`).
+
+[BCP 47]: https://tools.ietf.org/html/bcp47
+[Unicode Bidirectional Algorithm]: http://www.w3.org/International/articles/inline-bidi-markup/uba-basics
+[Language subtag lookup]: https://r12a.github.io/app-subtags/
+
+Variables for HTML slides
+-------------------------
+
+These affect HTML output when [producing slide shows with pandoc].
+All [reveal.js configuration options] are available as variables.
+
+`revealjs-url`
+:   base URL for reveal.js documents (defaults to `reveal.js`)
+
+`s5-url`
+:   base URL for S5 documents (defaults to `s5/default`)
+
+`slidy-url`
+:   base URL for Slidy documents (defaults to
+    `https://www.w3.org/Talks/Tools/Slidy2`)
+
+`slideous-url`
+:   base URL for Slideous documents (defaults to `slideous`)
+
+[reveal.js configuration options]: https://github.com/hakimel/reveal.js#configuration
+
+Variables for Beamer slides
+---------------------------
+
+These variables change the appearance of PDF slides using [`beamer`].
+
+`aspectratio`
+:   slide aspect ratio (`43` for 4:3 [default], `169` for 16:9,
+    `1610` for 16:10, `149` for 14:9, `141` for 1.41:1, `54` for 5:4,
+    `32` for 3:2)
+
+`beamerarticle`
+:   produce an article from Beamer slides
+
+`beameroption`
+:   add extra beamer option with `\setbeameroption{}`
+
+`institute`
+:   author affiliations: can be a list when there are multiple authors
+
+`logo`
+:   logo image for slides
+
+`navigation`
+:   controls navigation symbols (default is `empty` for no navigation
+    symbols; other valid values are `frame`, `vertical`, and `horizontal`)
+
+`section-titles`
+:   enables "title pages" for new sections (default is true)
+
+`theme`, `colortheme`, `fonttheme`, `innertheme`, `outertheme`
+:   beamer themes: 
+
+`themeoptions`
+:   options for LaTeX beamer themes (a list).
+
+`titlegraphic`
+:   image for title slide
+
+Variables for LaTeX
+-------------------
+
+Pandoc uses these variables when [creating a PDF] with a LaTeX engine.
+
+### Layout
+
+`classoption`
+:   option for document class, e.g. `oneside`; repeat for multiple options
+
+`documentclass`
+:   document class: usually one of the standard classes, [`article`], [`report`],
+    and [`book`]; the [KOMA-Script] equivalents, `scrartcl`, `scrreprt`,
+    and `scrbook`, which default to smaller margins; or [`memoir`]
+
+`geometry`
+:   option for [`geometry`] package, e.g. `margin=1in`;
+    repeat for multiple options
+
+`indent`
+:   uses document class settings for indentation (the default LaTeX template
+    otherwise removes indentation and adds space between paragraphs)
+
+`linestretch`
+:   adjusts line spacing using the [`setspace`]
+    package, e.g. `1.25`, `1.5`
+
+`margin-left`, `margin-right`, `margin-top`, `margin-bottom`
+:   sets margins if `geometry` is not used (otherwise `geometry`
+    overrides these)
+
+`pagestyle`
+:   control `\pagestyle{}`: the default article class
+    supports `plain` (default), `empty` (no running heads or page numbers),
+    and `headings` (section titles in running heads)
+
+`papersize`
+:   paper size, e.g. `letter`, `a4`
+
+`secnumdepth`
+:   numbering depth for sections (with `--number-sections` option
+    or `numbersections` variable)
+
+`subparagraph`
+:   disables default behavior of LaTeX template that redefines (sub)paragraphs
+    as sections, changing the appearance of nested headings in some classes
+
+### Fonts
+
+`fontenc`
+:   allows font encoding to be specified through `fontenc` package (with `pdflatex`);
+    default is `T1` (see [LaTeX font encodings guide])
+
+`fontfamily`
+:   font package for use with `pdflatex`:
+    [TeX Live] includes many options, documented in the [LaTeX Font Catalogue].
+    The default is [Latin Modern][`lm`].
+
+`fontfamilyoptions`
+:   options for package used as `fontfamily`; repeat for multiple options.
+    For example, to use the Libertine font with proportional lowercase
+    (old-style) figures through the [`libertinus`] package:
+    
+        ---
+        fontfamily: libertinus
+        fontfamilyoptions:
+        - osf
+        - p
+        ...
+
+`fontsize`
+:   font size for body text. The standard classes allow 10pt, 11pt, and 12pt.
+    To use another size, set `documentclass` to one of the [KOMA-Script] classes,
+    such as `scrartcl` or `scrbook`.
+
+`mainfont`, `sansfont`, `monofont`, `mathfont`, `CJKmainfont`
+:   font families for use with `xelatex` or
+    `lualatex`: take the name of any system font, using the
+    [`fontspec`] package.  `CJKmainfont` uses the [`xecjk`] package.
+
+`mainfontoptions`, `sansfontoptions`, `monofontoptions`, `mathfontoptions`, `CJKoptions`
+:   options to use with `mainfont`, `sansfont`, `monofont`, `mathfont`,
+    `CJKmainfont` in `xelatex` and `lualatex`.  Allow for any choices
+    available through [`fontspec`]; repeat for multiple options. For example,
+    to use the [TeX Gyre] version of Palatino with lowercase figures:
+
+        ---
+        mainfont: TeX Gyre Pagella
+        mainfontoptions:
+        - Numbers=Lowercase
+        - Numbers=Proportional
+        ...
+
+`microtypeoptions`
+:    options to pass to the microtype package
+
+### Links
+
+`colorlinks`
+:   add color to link text; automatically enabled if any of
+    `linkcolor`, `filecolor`, `citecolor`, `urlcolor`, or `toccolor` are set
+
+`linkcolor`, `filecolor`, `citecolor`, `urlcolor`, `toccolor`
+:   color for internal links, external links, citation links, linked
+    URLs, and links in table of contents, respectively: uses options
+    allowed by [`xcolor`], including the `dvipsnames`, `svgnames`, and
+    `x11names` lists
+
+`links-as-notes`
+:   causes links to be printed as footnotes
+
+### Front matter
+
+`lof`, `lot`
+:   include list of figures, list of tables
+
+`thanks`
+:   contents of acknowledgments footnote after document title
+
+`toc`
+:   include table of contents (can also be set using `--toc/--table-of-contents`)
+
+`toc-depth`
+:   level of section to include in table of contents
+
+### BibLaTeX Bibliographies
+
+These variables function when using BibLaTeX for [citation rendering].
+
+`biblatexoptions`
+:   list of options for biblatex
+
+`biblio-style`
+:   bibliography style, when used with `--natbib` and `--biblatex`.
+
+`biblio-title`
+:   bibliography title, when used with `--natbib` and `--biblatex`.
+
+`bibliography`
+:   bibliography to use for resolving references
+
+`natbiboptions`
+:   list of options for natbib
+
+[KOMA-Script]: https://ctan.org/pkg/koma-script
+[LaTeX Font Catalogue]: http://www.tug.dk/FontCatalogue/
+[LaTeX font encodings guide]: https://ctan.org/pkg/encguide
+[TeX Gyre]: http://www.gust.org.pl/projects/e-foundry/tex-gyre
+[`article`]: https://ctan.org/pkg/article
+[`book`]: https://ctan.org/pkg/book
+[`libertinus`]: https://ctan.org/pkg/libertinus
+[`memoir`]: https://ctan.org/pkg/memoir
+[`report`]: https://ctan.org/pkg/report
+
+Variables for ConTeXt
+---------------------
+
+Pandoc uses these variables when [creating a PDF] with ConTeXt.
+
+`fontsize`
+:   font size for body text (e.g. `10pt`, `12pt`)
+
+`headertext`, `footertext`
+:   text to be placed in running header or footer (see [ConTeXt Headers and Footers]);
+    repeat up to four times for different placement
+
+`indenting`
+:   controls indentation of paragraphs, e.g. `yes,small,next` (see [ConTeXt Indentation]);
+    repeat for multiple options
+
+`interlinespace`
+:   adjusts line spacing, e.g. `4ex` (using [`setupinterlinespace`]);
+    repeat for multiple options
+
+`layout`
+:   options for page margins and text arrangement (see [ConTeXt Layout]);
+    repeat for multiple options
+
+`linkcolor`, `contrastcolor`
+:   color for links outside and inside a page, e.g. `red`, `blue` (see [ConTeXt Color])
+
+`linkstyle`
+:   typeface style for links, e.g. `normal`, `bold`, `slanted`, `boldslanted`, `type`, `cap`, `small`
+
+`lof`, `lot`
+:   include list of figures, list of tables
+
+`mainfont`, `sansfont`, `monofont`, `mathfont`
+:   font families: take the name of any system font (see [ConTeXt Font Switching])
+
+`margin-left`, `margin-right`, `margin-top`, `margin-bottom`
+:   sets margins, if `layout` is not used (otherwise `layout`
+    overrides these)
+
+`pagenumbering`
+:   page number style and location (using [`setuppagenumbering`]);
+    repeat for multiple options
+
+`papersize`
+:   paper size, e.g. `letter`, `A4`, `landscape` (see [ConTeXt Paper Setup]);
+    repeat for multiple options
+
+`pdfa`
+:   adds to the preamble the setup necessary to generate PDF/A-1b:2005.
+    To successfully generate PDF/A the required ICC color profiles have to
+    be available and the content and all included files (such as images)
+    have to be standard conforming.  The ICC profiles can be obtained
+    from [ConTeXt ICC Profiles].  See also [ConTeXt PDFA] for more
+    details.
+
+`toc`
+:   include table of contents (can also be set using `--toc/--table-of-contents`)
+
+`whitespace`
+:   spacing between paragraphs, e.g. `none`, `small` (using [`setupwhitespace`])
+
+[ConTeXt Paper Setup]: https://wiki.contextgarden.net/PaperSetup
+[ConTeXt Layout]: https://wiki.contextgarden.net/Layout
+[ConTeXt Font Switching]: https://wiki.contextgarden.net/Font_Switching
+[ConTeXt Color]: https://wiki.contextgarden.net/Color
+[ConTeXt Headers and Footers]: https://wiki.contextgarden.net/Headers_and_Footers
+[ConTeXt Indentation]: https://wiki.contextgarden.net/Indentation
+[ConTeXt ICC Profiles]: https://wiki.contextgarden.net/PDFX#ICC_profiles
+[ConTeXt PDFA]: https://wiki.contextgarden.net/PDF/A
+[`setupwhitespace`]: https://wiki.contextgarden.net/Command/setupwhitespace
+[`setupinterlinespace`]: https://wiki.contextgarden.net/Command/setupinterlinespace
+[`setuppagenumbering`]: https://wiki.contextgarden.net/Command/setuppagenumbering
+
+Variables for `wkhtmltopdf`
+---------------------------
+
+Pandoc uses these variables when [creating a PDF] with [`wkhtmltopdf`].
+The `--css` option also affects the output.
+
+`footer-html`, `header-html`
+:   add information to the header and footer
+
+`margin-left`, `margin-right`, `margin-top`, `margin-bottom`
+:   set the page margins
+
+`papersize`
+:   sets the PDF paper size
+
+Variables for man pages
 -----------------------
 
-Some variables are set automatically by pandoc.  These vary somewhat
-depending on the output format, but include the following:
+`adjusting`
+:   adjusts text to left (`l`), right (`r`), center (`c`),
+    or both (`b`) margins
+
+`footer`
+:   footer in man pages
+
+`header`
+:   header in man pages
+
+`hyphenate`
+:   if `true` (the default), hyphenation will be used
+
+`section`
+:   section number in man pages
+
+Variables for ms
+----------------
+
+`fontfamily`
+:    font family (e.g. `T` or `P`)
+
+`indent`
+:    paragraph indent (e.g. `2m`)
+
+`lineheight`
+:    line height (e.g. `12p`)
+
+`pointsize`
+:    point size (e.g. `10p`)
+
+Structural variables
+--------------------
+
+Pandoc sets these variables automatically in response to [options] or
+document contents; users can also modify them. These vary depending
+on the output format, and include the following:
+
+`body`
+:   body of document
+
+`date-meta`
+:   the `date` variable converted to ISO 8601 YYYY-MM-DD,
+    included in all HTML based formats (dzslides, epub,
+    html, html4, html5, revealjs, s5, slideous, slidy).
+    The recognized formats for `date` are: `mm/dd/yyyy`,
+    `mm/dd/yy`, `yyyy-mm-dd` (ISO 8601), `dd MM yyyy`
+    (e.g. either `02 Apr 2018` or `02 April 2018`),
+    `MM dd, yyyy` (e.g. `Apr. 02, 2018` or `April 02, 2018),
+    `yyyy[mm[dd]]]` (e.g. `20180402, `201804` or `2018`).
+
+`header-includes`
+:   contents specified by `-H/--include-in-header` (may have multiple
+    values)
+
+`include-before`
+:   contents specified by `-B/--include-before-body` (may have
+    multiple values)
+
+`include-after`
+:   contents specified by `-A/--include-after-body` (may have
+    multiple values)
+
+`meta-json`
+:   JSON representation of all of the document's metadata. Field
+    values are transformed to the selected output format.
+
+`numbersections`
+:   non-null value if `-N/--number-sections` was specified
 
 `sourcefile`, `outputfile`
 :   source and destination filenames, as given on the command line.
@@ -1332,388 +1858,12 @@ depending on the output format, but include the following:
 
     Similarly, `outputfile` can be `-` if output goes to the terminal.
 
-`title`, `author`, `date`
-:   allow identification of basic aspects of the document.  Included
-    in PDF metadata through LaTeX and ConTeXt.  These can be set
-    through a [pandoc title block][Extension: `pandoc_title_block`],
-    which allows for multiple authors, or through a YAML metadata block:
-
-        ---
-        author:
-        - Aristotle
-        - Peter Abelard
-        ...
-
-`subtitle`
-:   document subtitle, included in HTML, EPUB, LaTeX, ConTeXt, and Word docx;
-    renders in LaTeX only when using a document class that supports
-    `\subtitle`, such as `beamer` or the [KOMA-Script] series (`scrartcl`,
-    `scrreprt`, `scrbook`).[^subtitle]
-
-`institute`
-:   author affiliations (in LaTeX and Beamer only).  Can be a
-    list, when there are multiple authors.
-
-`abstract`
-:   document summary, included in LaTeX, ConTeXt, AsciiDoc, and Word docx
-
-`keywords`
-:   list of keywords to be included in HTML, PDF, and AsciiDoc metadata;
-    may be repeated as for `author`, above
-
-`header-includes`
-:   contents specified by `-H/--include-in-header` (may have multiple
-    values)
-
 `toc`
 :   non-null value if `--toc/--table-of-contents` was specified
 
 `toc-title`
 :   title of table of contents (works only with EPUB,
     opendocument, odt, docx, pptx, beamer, LaTeX)
-
-`include-before`
-:   contents specified by `-B/--include-before-body` (may have
-    multiple values)
-
-`include-after`
-:   contents specified by `-A/--include-after-body` (may have
-    multiple values)
-
-`body`
-:   body of document
-
-`meta-json`
-:   JSON representation of all of the document's metadata. Field
-    values are transformed to the selected output format.
-
-[^subtitle]: To make `subtitle` work with other LaTeX
-    document classes, you can add the following to `header-includes`:
-
-        \providecommand{\subtitle}[1]{%
-          \usepackage{titling}
-          \posttitle{%
-            \par\large#1\end{center}}
-        }
-
-Language variables
-------------------
-
-`lang`
-:   identifies the main language of the document,
-    using a code according to [BCP 47] (e.g. `en` or `en-GB`).
-    For some output formats, pandoc will convert it to an appropriate
-    format stored in the additional variables `babel-lang`,
-    `polyglossia-lang` (LaTeX) and `context-lang` (ConTeXt).
-
-    Native pandoc Spans and Divs with the lang attribute
-    (value in BCP 47) can be used to switch the language in
-    that range.  In LaTeX output, `babel-otherlangs` and
-    `polyglossia-otherlangs` variables will be generated
-    automatically based on the `lang` attributes of Spans
-    and Divs in the document.
-
-`dir`
-:   the base direction of the document, either `rtl` (right-to-left)
-    or `ltr` (left-to-right).
-
-    For bidirectional documents, native pandoc `span`s and `div`s
-    with the `dir` attribute (value `rtl` or `ltr`) can be used to
-    override the base direction in some output formats.
-    This may not always be necessary if the final renderer
-    (e.g. the browser, when generating HTML) supports the
-    [Unicode Bidirectional Algorithm].
-
-    When using LaTeX for bidirectional documents, only the `xelatex` engine
-    is fully supported (use `--pdf-engine=xelatex`).
-
-[BCP 47]: https://tools.ietf.org/html/bcp47
-[Unicode Bidirectional Algorithm]: http://www.w3.org/International/articles/inline-bidi-markup/uba-basics
-
-Variables for slides
---------------------
-
-Variables are available for [producing slide shows with pandoc],
-including all [reveal.js configuration options].
-
-`titlegraphic`
-:   title graphic for Beamer documents
-
-`logo`
-:   logo for Beamer documents
-
-`slidy-url`
-:   base URL for Slidy documents (defaults to
-    `https://www.w3.org/Talks/Tools/Slidy2`)
-
-`slideous-url`
-:   base URL for Slideous documents (defaults to `slideous`)
-
-`s5-url`
-:   base URL for S5 documents (defaults to `s5/default`)
-
-`revealjs-url`
-:   base URL for reveal.js documents (defaults to `reveal.js`)
-
-`theme`, `colortheme`, `fonttheme`, `innertheme`, `outertheme`
-:   themes for LaTeX [`beamer`] documents
-
-`themeoptions`
-:   options for LaTeX beamer themes (a list).
-
-`navigation`
-:   controls navigation symbols in `beamer` documents
-    (default is `empty` for no navigation symbols; other valid values
-    are `frame`, `vertical`, and `horizontal`).
-
-`section-titles`
-:   enables on "title pages" for new sections in `beamer`
-    documents (default = true).
-
-`beamerarticle`
-:   when true, the `beamerarticle` package is loaded (for
-    producing an article from beamer slides).
-
-`aspectratio`
-:   aspect ratio of slides (for beamer only, `1610` for 16:10, `169` for 16:9,
-    `149` for 14:9, `141` for 1.41:1, `54` for 5:4, `43` for 4:3 which is the
-    default, and `32` for 3:2).
-
-[reveal.js configuration options]: https://github.com/hakimel/reveal.js#configuration
-
-Variables for LaTeX
--------------------
-
-LaTeX variables are used when [creating a PDF].
-
-`papersize`
-:   paper size, e.g. `letter`, `a4`
-
-`fontsize`
-:   font size for body text (e.g. `10pt`, `12pt`)
-
-`documentclass`
-:   document class, e.g. [`article`], [`report`], [`book`], [`memoir`]
-
-`classoption`
-:   option for document class, e.g. `oneside`; may be repeated
-    for multiple options
-
-`beameroption`
-:   In beamer, add extra beamer option with `\setbeameroption{}`
-
-`geometry`
-:   option for [`geometry`] package, e.g. `margin=1in`;
-    may be repeated for multiple options
-
-`margin-left`, `margin-right`, `margin-top`, `margin-bottom`
-:   sets margins, if `geometry` is not used (otherwise `geometry`
-    overrides these)
-
-`linestretch`
-:   adjusts line spacing using the [`setspace`]
-    package, e.g. `1.25`, `1.5`
-
-`fontfamily`
-:   font package for use with `pdflatex`:
-    [TeX Live] includes many options, documented in the [LaTeX Font Catalogue].
-    The default is [Latin Modern][`lm`].
-
-`fontfamilyoptions`
-:   options for package used as `fontfamily`: e.g. `osf,sc` with
-    `fontfamily` set to [`mathpazo`] provides Palatino with old-style
-    figures and true small caps; may be repeated for multiple options
-
-`mainfont`, `romanfont`, `sansfont`, `monofont`, `mathfont`, `CJKmainfont`
-:   font families for use with `xelatex` or
-    `lualatex`: take the name of any system font, using the
-    [`fontspec`] package.  Note that if `CJKmainfont` is used,
-    the [`xecjk`] package must be available.
-
-`mainfontoptions`, `romanfontoptions`, `sansfontoptions`, `monofontoptions`, `mathfontoptions`, `CJKoptions`
-:   options to use with `mainfont`, `sansfont`, `monofont`, `mathfont`,
-    `CJKmainfont` in `xelatex` and `lualatex`.  Allow for any choices
-    available through [`fontspec`], such as the OpenType features
-    `Numbers=OldStyle,Numbers=Proportional`. May be repeated for multiple options.
-
-`fontenc`
-:   allows font encoding to be specified through `fontenc` package (with `pdflatex`);
-    default is `T1` (see guide to [LaTeX font encodings])
-
-`microtypeoptions`
-:    options to pass to the microtype package
-
-`colorlinks`
-:   add color to link text; automatically enabled if any of
-    `linkcolor`, `filecolor`, `citecolor`, `urlcolor`, or `toccolor` are set
-
-`linkcolor`, `filecolor`, `citecolor`, `urlcolor`, `toccolor`
-:   color for internal links, external links, citation links, linked
-    URLs, and links in table of contents, respectively: uses options
-    allowed by [`xcolor`], including the `dvipsnames`, `svgnames`, and
-    `x11names` lists
-
-`links-as-notes`
-:   causes links to be printed as footnotes
-
-`indent`
-:   uses document class settings for indentation (the default LaTeX template
-    otherwise removes indentation and adds space between paragraphs)
-
-`subparagraph`
-:   disables default behavior of LaTeX template that redefines (sub)paragraphs
-    as sections, changing the appearance of nested headings in some classes
-
-`thanks`
-:   specifies contents of acknowledgments footnote after document title.
-
-`toc`
-:   include table of contents (can also be set using `--toc/--table-of-contents`)
-
-`toc-depth`
-:   level of section to include in table of contents
-
-`secnumdepth`
-:   numbering depth for sections, if sections are numbered
-
-`lof`, `lot`
-:   include list of figures, list of tables
-
-`bibliography`
-:   bibliography to use for resolving references
-
-`biblio-style`
-:   bibliography style, when used with `--natbib` and `--biblatex`.
-
-`biblio-title`
-:   bibliography title, when used with `--natbib` and `--biblatex`.
-
-`biblatexoptions`
-:   list of options for biblatex.
-
-`natbiboptions`
-:   list of options for natbib.
-
-`pagestyle`
-:   An option for LaTeX's `\pagestyle{}`. The default article class
-    supports 'plain' (default), 'empty', and 'headings'; headings puts
-    section titles in the header.
-
-[`article`]: https://ctan.org/pkg/article
-[`report`]: https://ctan.org/pkg/report
-[`book`]: https://ctan.org/pkg/book
-[KOMA-Script]: https://ctan.org/pkg/koma-script
-[`memoir`]: https://ctan.org/pkg/memoir
-[`xcolor`]: https://ctan.org/pkg/xcolor
-[LaTeX Font Catalogue]: http://www.tug.dk/FontCatalogue/
-[`mathpazo`]: https://ctan.org/pkg/mathpazo
-[LaTeX font encodings]: https://ctan.org/pkg/encguide
-
-Variables for ConTeXt
----------------------
-
-`papersize`
-:   paper size, e.g. `letter`, `A4`, `landscape` (see [ConTeXt Paper Setup]);
-    may be repeated for multiple options
-
-`layout`
-:   options for page margins and text arrangement (see [ConTeXt Layout]);
-    may be repeated for multiple options
-
-`margin-left`, `margin-right`, `margin-top`, `margin-bottom`
-:   sets margins, if `layout` is not used (otherwise `layout`
-    overrides these)
-
-`fontsize`
-:   font size for body text (e.g. `10pt`, `12pt`)
-
-`mainfont`, `sansfont`, `monofont`, `mathfont`
-:   font families: take the name of any system font (see [ConTeXt Font Switching])
-
-`linkcolor`, `contrastcolor`
-:   color for links outside and inside a page, e.g. `red`, `blue` (see [ConTeXt Color])
-
-`linkstyle`
-:   typeface style for links, e.g. `normal`, `bold`, `slanted`, `boldslanted`, `type`, `cap`, `small`
-
-`indenting`
-:   controls indentation of paragraphs, e.g. `yes,small,next` (see [ConTeXt Indentation]);
-    may be repeated for multiple options
-
-`whitespace`
-:   spacing between paragraphs, e.g. `none`, `small` (using [`setupwhitespace`])
-
-`interlinespace`
-:   adjusts line spacing, e.g. `4ex` (using [`setupinterlinespace`]);
-    may be repeated for multiple options
-
-`headertext`, `footertext`
-:   text to be placed in running header or footer (see [ConTeXt Headers and Footers]);
-    may be repeated up to four times for different placement
-
-`pagenumbering`
-:   page number style and location (using [`setuppagenumbering`]);
-    may be repeated for multiple options
-
-`toc`
-:   include table of contents (can also be set using `--toc/--table-of-contents`)
-
-`lof`, `lot`
-:   include list of figures, list of tables
-
-`pdfa`
-:   adds to the preamble the setup necessary to generate PDF/A-1b:2005.
-    To successfully generate PDF/A the required ICC color profiles have to
-    be available and the content and all included files (such as images)
-    have to be standard conforming.  The ICC profiles can be obtained
-    from [ConTeXt ICC Profiles].  See also [ConTeXt PDFA] for more
-    details.
-
-[ConTeXt Paper Setup]: https://wiki.contextgarden.net/PaperSetup
-[ConTeXt Layout]: https://wiki.contextgarden.net/Layout
-[ConTeXt Font Switching]: https://wiki.contextgarden.net/Font_Switching
-[ConTeXt Color]: https://wiki.contextgarden.net/Color
-[ConTeXt Headers and Footers]: https://wiki.contextgarden.net/Headers_and_Footers
-[ConTeXt Indentation]: https://wiki.contextgarden.net/Indentation
-[ConTeXt ICC Profiles]: https://wiki.contextgarden.net/PDFX#ICC_profiles
-[ConTeXt PDFA]: https://wiki.contextgarden.net/PDF/A
-[`setupwhitespace`]: https://wiki.contextgarden.net/Command/setupwhitespace
-[`setupinterlinespace`]: https://wiki.contextgarden.net/Command/setupinterlinespace
-[`setuppagenumbering`]: https://wiki.contextgarden.net/Command/setuppagenumbering
-
-Variables for man pages
------------------------
-
-`section`
-:   section number in man pages
-
-`header`
-:   header in man pages
-
-`footer`
-:   footer in man pages
-
-`adjusting`
-:   adjusts text to left (`l`), right (`r`), center (`c`),
-    or both (`b`) margins
-
-`hyphenate`
-:   if `true` (the default), hyphenation will be used
-
-Variables for ms
-----------------
-
-`pointsize`
-:    point size (e.g. `10p`)
-
-`lineheight`
-:    line height (e.g. `12p`)
-
-`fontfamily`
-:    font family (e.g. `T` or `P`)
-
-`indent`
-:    paragraph indent (e.g. `2m`)
 
 Using variables in templates
 ----------------------------
@@ -1766,6 +1916,9 @@ consecutive items:
 
     $for(author)$$author$$sep$, $endfor$
 
+Note that the separator needs to be specified immediately before the `$endfor` 
+keyword.
+
 A dot can be used to select a field of a variable that takes
 an object as its value.  So, for example:
 
@@ -1799,6 +1952,10 @@ Extensions only used by them are therefore covered in the
 section [Pandoc's Markdown] below (See [Markdown variants] for
 `commonmark` and `gfm`.) In the following, extensions that also work
 for other formats are covered.
+
+Note that markdown extensions added to the `ipynb` format
+affect Markdown cells in Jupyter notebooks (as do command-line
+options like `--atx-headers`).
 
 Typography
 ----------
@@ -1857,7 +2014,8 @@ header text is:
 
   - Remove all formatting, links, etc.
   - Remove all footnotes.
-  - Remove all punctuation, except underscores, hyphens, and periods.
+  - Remove all non-alphanumeric characters,
+    except underscores, hyphens, and periods.
   - Replace all spaces and newlines with hyphens.
   - Convert all alphabetic characters to lowercase.
   - Remove everything up to the first letter (identifiers may
@@ -1869,6 +2027,7 @@ Thus, for example,
   Header                            Identifier
   -------------------------------   ----------------------------
   `Header identifiers in HTML`      `header-identifiers-in-html`
+  `Maître d'hôtel`                  `maître-dhôtel`
   `*Dogs*?--in *my* house?`         `dogs--in-my-house`
   `[HTML], [S5], or [RTF]?`         `html-s5-or-rtf`
   `3. Applications`                 `applications`
@@ -1947,10 +2106,18 @@ This extension can be enabled/disabled for the following formats
 
 input formats
 :  `latex`, `org`, `textile`, `html` (environments, `\ref`, and
-   `\eqref` only)
+   `\eqref` only), `ipynb`
 
 output formats
 :  `textile`, `commonmark`
+
+Note: as applied to `ipynb`, `raw_html` and `raw_tex` affect not
+only raw TeX in markdown cells, but data with mime type
+`text/html` in output cells.  Since the `ipynb` reader attempts
+to preserve the richest possible outputs when several options
+are given, you will get best results if you disable `raw_html`
+and `raw_tex` when converting to formats like `docx` which don't
+allow raw `html` or `tex`.
 
 #### Extension: `native_divs` {#native_divs}
 
@@ -2051,7 +2218,7 @@ output formats
 Read all docx styles as divs (for paragraph styles) and spans (for
 character styles) regardless of whether pandoc understands the meaning
 of these styles. This can be used with [docx custom
-styles](#custom-styles-in-docx). Disabled by default.
+styles](#custom-styles). Disabled by default.
 
 input formats
 :  `docx`
@@ -2612,6 +2779,12 @@ If default list markers are desired, use `#.`:
     #.  two
     #.  three
 
+#### Extension: `task_lists` ####
+
+Pandoc supports task lists, using the syntax of GitHub-Flavored Markdown.
+
+    - [ ] an unchecked task list item
+    - [x] checked item
 
 ### Definition lists ###
 
@@ -3396,6 +3569,9 @@ The raw HTML is passed through unchanged in HTML, S5, Slidy, Slideous,
 DZSlides, EPUB, Markdown, CommonMark, Emacs Org mode, and Textile
 output, and suppressed in other formats.
 
+For a more explicit way of including raw HTML in a Markdown
+document, see the [`raw_attribute` extension][Extension: `raw_attribute`].
+
 In the CommonMark format, if `raw_html` is enabled, superscripts,
 subscripts, strikeouts and small capitals will be represented as HTML.
 Otherwise, plain-text fallbacks will be used. Note that even if
@@ -3474,6 +3650,10 @@ Note that in LaTeX environments, like
 
 the material between the begin and end tags will be interpreted as raw
 LaTeX, not as Markdown.
+
+For a more explicit and flexible way of including raw TeX in a
+Markdown document, see the [`raw_attribute`
+extension][Extension: `raw_attribute`].
 
 Inline LaTeX is ignored in output formats other than Markdown, LaTeX,
 Emacs Org mode, and ConTeXt.
@@ -3992,7 +4172,7 @@ You can also write an in-text citation, as follows:
 If the style calls for a list of works cited, it will be placed
 in a div with id `refs`, if one exists:
 
-    ::: #refs
+    ::: {#refs}
     :::
 
 Otherwise, it will be placed at the end of the document.
@@ -4223,7 +4403,7 @@ variants are supported:
 :   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
     `gfm_auto_identifiers`, `backtick_code_blocks`,
     `autolink_bare_uris`, `space_in_atx_header`,
-    `intraword_underscores`, `strikeout`, `emoji`,
+    `intraword_underscores`, `strikeout`, `task_lists`, `emoji`,
     `shortcut_reference_links`, `angle_brackets_escapable`,
     `lists_without_preceding_blankline`.
 
@@ -4245,16 +4425,16 @@ We also support `commonmark` and `gfm` (GitHub-Flavored Markdown,
 which is implemented as a set of extensions on `commonmark`).
 
 Note, however, that `commonmark` and `gfm` have limited support
-for extensions. Only those  listed below (and `smart` and
-`raw_tex`) will work. The extensions can, however, all be
-individually disabled.
-Also, `raw_tex` only affects `gfm` output, not input.
+for extensions. Only those  listed below (and `smart`,
+`raw_tex`, and `hard_line_breaks`) will work. The extensions
+can, however, all be individually disabled.  Also, `raw_tex`
+only affects `gfm` output, not input.
 
 `gfm` (GitHub-Flavored Markdown)
 :   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
     `gfm_auto_identifiers`, `backtick_code_blocks`,
     `autolink_bare_uris`, `space_in_atx_header`,
-    `intraword_underscores`, `strikeout`, `emoji`,
+    `intraword_underscores`, `strikeout`, `task_lists`, `emoji`,
     `shortcut_reference_links`, `angle_brackets_escapable`,
     `lists_without_preceding_blankline`.
 
@@ -4313,7 +4493,7 @@ For Slidy, Slideous, reveal.js, and S5, the file produced by pandoc with the
 assumed to be available at the relative path `s5/default` (for S5), `slideous`
 (for Slideous), `reveal.js` (for reveal.js), or at the Slidy website at
 `w3.org` (for Slidy).  (These paths can be changed by setting the `slidy-url`,
-`slideous-url`, `revealjs-url`, or `s5-url` variables; see [Variables for slides],
+`slideous-url`, `revealjs-url`, or `s5-url` variables; see [Variables for HTML slides],
 above.) For DZSlides, the (relatively short) JavaScript and CSS are included in
 the file by default.
 
@@ -4726,6 +4906,114 @@ with the `src` attribute.  For example:
       </source>
     </audio>
 
+Creating Jupyter notebooks with pandoc
+======================================
+
+When creating a [Jupyter notebook], pandoc will try to infer the
+notebook structure.  Code blocks with the class `code` will be
+taken as code cells, and intervening content will be taken as
+Markdown cells.  Attachments will automatically be created for
+images in Markdown cells. Metadata will be taken from the
+`jupyter` metadata field.  For example:
+
+````
+---
+title: My notebook
+jupyter:
+  nbformat: 4
+  nbformat_minor: 5
+  kernelspec:
+     display_name: Python 2
+     language: python
+     name: python2
+  language_info:
+     codemirror_mode:
+       name: ipython
+       version: 2
+     file_extension: ".py"
+     mimetype: "text/x-python"
+     name: "python"
+     nbconvert_exporter: "python"
+     pygments_lexer: "ipython2"
+     version: "2.7.15"
+---
+
+# Lorem ipsum
+
+**Lorem ipsum** dolor sit amet, consectetur adipiscing elit. Nunc luctus
+bibendum felis dictum sodales.
+
+``` code
+print("hello")
+```
+
+## Pyout
+
+``` code
+from IPython.display import HTML
+HTML("""
+<script>
+console.log("hello");
+</script>
+<b>HTML</b>
+""")
+```
+
+## Image
+
+This image ![image](myimage.png) will be
+included as a cell attachment.
+````
+
+If you want to add cell attributes, group cells differently, or
+add output to code cells, then you need to include divs to
+indicate the structure. You can use either [fenced
+divs][Extension: `fenced_divs`] or [native divs][Extension:
+`native_divs`] for this.  Here is an example:
+
+````
+:::::: {.cell .markdown}
+# Lorem
+
+**Lorem ipsum** dolor sit amet, consectetur adipiscing elit. Nunc luctus
+bibendum felis dictum sodales.
+::::::
+
+:::::: {.cell .code execution_count=1}
+``` {.python}
+print("hello")
+```
+
+::: {.output .stream .stdout}
+```
+hello
+```
+:::
+::::::
+
+:::::: {.cell .code execution_count=2}
+``` {.python}
+from IPython.display import HTML
+HTML("""
+<script>
+console.log("hello");
+</script>
+<b>HTML</b>
+""")
+```
+
+::: {.output .execute_result execution_count=2}
+```{=html}
+<script>
+console.log("hello");
+</script>
+<b>HTML</b>
+hello
+```
+:::
+::::::
+````
+
 Syntax highlighting
 ===================
 
@@ -4763,8 +5051,10 @@ To disable highlighting, use the `--no-highlight` option.
 
 [skylighting]: https://github.com/jgm/skylighting
 
-Custom Styles in Docx
-=====================
+Custom Styles
+=============
+
+Custom styles can be used in the docx and ICML formats.
 
 Input
 -----
@@ -4817,8 +5107,8 @@ same styles in your input and output files.
 Output
 ------
 
-By default, pandoc's docx output applies a predefined set of styles for
-blocks such as paragraphs and block quotes, and uses largely default
+By default, pandoc's docx and ICML output applies a predefined set of styles
+for blocks such as paragraphs and block quotes, and uses largely default
 formatting (italics, bold) for inlines. This will work for most
 purposes, especially alongside a `reference.docx` file. However, if you
 need to apply your own styles to blocks, or match a preexisting set of
@@ -4843,9 +5133,9 @@ style `Emphatically`. Similarly, using the `fenced_divs` syntax,
 
 would style the two contained lines with the `Poetry` paragraph style.
 
-If the styles are not yet in your reference.docx, they will be defined
-in the output file as inheriting from normal text. If they are already
-defined, pandoc will not alter the definition.
+For docx output, styles will be defined in the output file as inheriting
+from normal text, if the styles are not yet in your reference.docx.
+If they are already defined, pandoc will not alter the definition.
 
 This feature allows for greatest customization in conjunction with
 [pandoc filters]. If you want all paragraphs after block quotes to be
@@ -4912,7 +5202,7 @@ application, here are some things to keep in mind:
 Authors
 =======
 
-Copyright 2006-2017 John MacFarlane (jgm@berkeley.edu). Released
+Copyright 2006--2019 John MacFarlane (jgm@berkeley.edu). Released
 under the [GPL], version 2 or greater.  This software carries no
 warranty of any kind.  (See COPYRIGHT for full copyright and
 warranty notices.) For a full list of contributors, see the file
