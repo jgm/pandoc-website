@@ -57,14 +57,19 @@ div#toc {
   float: right;
   margin: 10px 0 60px 10px;
   background: white;
+  width: 40%;
 }
+/*
 div#toc:before {
   content: "Table of contents";
   margin: 0 0 15px 40px;
   font-weight: bold;
   display: block;
 }
+*/
 div#toc li { list-style:none; }
+
+#tocbtn { width: 100%; text-align: right; }
 
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
