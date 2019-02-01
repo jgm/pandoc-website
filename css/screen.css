@@ -69,7 +69,11 @@ div#toc:before {
 */
 div#toc li { list-style:none; }
 
-#tocbtn { width: 100%; text-align: right; }
+#tocbtn {
+    width: 100%;
+    text-align: right;
+    font-size: 11pt;
+}
 
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
