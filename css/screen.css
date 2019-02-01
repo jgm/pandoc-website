@@ -57,7 +57,7 @@ div#toc {
   float: right;
   margin: 10px 0 60px 10px;
   background: white;
-  width: 40%;
+  max-width: 40%;
 }
 /*
 div#toc:before {
@@ -73,6 +73,7 @@ div#toc li { list-style:none; }
     width: 100%;
     text-align: right;
     font-size: 11pt;
+    padding-left: 1em;
 }
 
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
