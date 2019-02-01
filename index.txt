@@ -60,7 +60,7 @@ Lightweight markup formats
 
 Interactive notebook formats
 
-:   [ipynb]
+:   Jupyter notebook ([ipynb])
 
 Custom formats
 
