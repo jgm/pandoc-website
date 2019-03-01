@@ -7,6 +7,7 @@ body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 code { font-size: 89%; background-color: transparent; }
 span.nowrap code { white-space: nowrap; }
 pre code { font-size: 89%; }
+a.option code { color: inherit; }
 
 header        { }
 header span   { font-family: Arial, Verdana, sans-serif; }
