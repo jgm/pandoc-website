@@ -184,7 +184,7 @@ a low-volume mailing list that is just for announcements of new releases.
 
   * HTML5 template: Add ARIA role `doc-toc` for table of contents (#4213).
 
-  * Make --metadata-file use pandoc-markdown (#5279, #5272, Mauro Bieg).
+  * Make `--metadata-file` use selected extensions (#5279, #5272, Mauro Bieg).
 
   * Text.Pandoc.Shared:
 
