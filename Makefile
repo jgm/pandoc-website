@@ -94,11 +94,16 @@ $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@
 
 $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
-	$(PANDOC) $< -o $@ --toc -s --template template.tex \
-		--variable mainfont="Georgia" --variable sansfont="Arial" \
+	$(PANDOC) $< -o $@ --toc -s \
+	        --variable papersize=letter \
+		--variable geometry='total={6in,9in}' \
+	        --variable documentclass=scrbook \
+		--variable mainfont="Palatino" \
+		--variable sansfont="Arial" \
 		--variable monofont="Menlo" \
-		--variable fontsize=11pt --variable version="$(VERSION)" \
-		--variable geometry='margin=1.2in' \
+		--variable fontsize=11pt \
+		--variable linestretch=1.1 \
+		--variable version="$(VERSION)" \
 		--pdf-engine=xelatex
 
 upload :
