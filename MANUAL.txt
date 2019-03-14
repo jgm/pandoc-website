@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% January 30, 2019
+% March 2, 2019
 
 Synopsis
 ========
@@ -279,7 +279,7 @@ General options {.options}
 :   Specify output format.  *FORMAT* can be:
 
     ::: {#output-formats}
-    - `asciidoc` ([AsciiDoc])
+    - `asciidoc` ([AsciiDoc]) or `asciidoctor` ([AsciiDoctor])
     - `beamer` ([LaTeX beamer][`beamer`] slide show)
     - `commonmark` ([CommonMark] Markdown)
     - `context` ([ConTeXt])
@@ -349,18 +349,13 @@ General options {.options}
 
 :   Specify the user data directory to search for pandoc data files.
     If this option is not specified, the default user data directory
-    will be used.  This is, in UNIX:
-
-        $HOME/.pandoc
-
-    in Windows XP:
-
-        C:\Documents And Settings\USERNAME\Application Data\pandoc
-
-    and in Windows Vista or later:
-
-        C:\Users\USERNAME\AppData\Roaming\pandoc
-
+    will be used.  On \*nix and macOS systems this will be the `pandoc`
+    subdirectory of the XDG data directory (by default,
+    `$HOME/.local/share`, overridable by setting the `XDG_DATA_HOME`
+    environment variable).  If that directory does not exist,
+    `$HOME/.pandoc` will be used (for backwards compatibility).
+    In Windows the default user data directory is
+    `C:\Users\USERNAME\AppData\Roaming\pandoc`.
     You can find the default user data directory on your system by
     looking at the output of `pandoc --version`.
     A `reference.odt`, `reference.docx`, `epub.css`, `templates`,
@@ -465,6 +460,7 @@ General options {.options}
 [GNU Texinfo]: http://www.gnu.org/software/texinfo/
 [Emacs Org mode]: http://orgmode.org
 [AsciiDoc]: http://www.methods.co.nz/asciidoc/
+[AsciiDoctor]: https://asciidoctor.org/
 [DZSlides]: http://paulrouget.com/dzslides/
 [Word docx]: https://en.wikipedia.org/wiki/Office_Open_XML
 [PDF]: https://www.adobe.com/pdf/
@@ -1025,9 +1021,9 @@ Options affecting specific writers {.options}
         in Word, modify the styles as you wish, and save the file.
         For best results, do not make changes to this file other
         than modifying the styles used by pandoc:
-        
+
         Paragraph styles:
-        
+
         - Normal
         - Body Text
         - First Paragraph
@@ -1057,17 +1053,17 @@ Options affecting specific writers {.options}
         - Figure
         - Captioned Figure
         - TOC Heading
-        
+
         Character styles:
-        
+
         - Default Paragraph Font
         - Body Text Char
         - Verbatim Char
         - Footnote Reference
         - Hyperlink
-        
+
         Table style:
-        
+
         - Table
 
     ODT
@@ -1191,17 +1187,29 @@ Options affecting specific writers {.options}
     the EPUB-specific contents.  The default is `EPUB`.  To put
     the EPUB contents in the top level, use an empty string.
 
-`--pdf-engine=pdflatex`|`lualatex`|`xelatex`|`wkhtmltopdf`|`weasyprint`|`prince`|`context`|`pdfroff`
+`--ipynb-output=all|none|best`
+
+:   Determines how ipynb output cells are treated. `all` means
+    that all of the data formats included in the original are
+    preserved.  `none` means that the contents of data cells
+    are omitted.  `best` causes pandoc to try to pick the
+    richest data block in each output cell that is compatible
+    with the output format.  The default is `best`.
+
+`--pdf-engine=`*PROGRAM*
 
 :   Use the specified engine when producing PDF output.
+    Valid values are `pdflatex`, `lualatex`, `xelatex`, `latexmk`,
+    `wkhtmltopdf`, `weasyprint`, `prince`, `context`, and `pdfroff`.
     The default is `pdflatex`.  If the engine is not in your PATH,
     the full path of the engine may be specified here.
 
 `--pdf-engine-opt=`*STRING*
 
 :   Use the given string as a command-line argument to the `pdf-engine`.
-    If used multiple times, the arguments are provided with spaces between
-    them. Note that no check for duplicate options is done.
+    For example, to use a persistent directory `foo` for `latexmk`'s
+    auxiliary files, use `--pdf-engine-opt=-outdir=foo`.
+    Note that no check for duplicate options is done.
 
 [Dublin Core elements]: http://dublincore.org/documents/dces/
 [ISO 8601 format]: http://www.w3.org/TR/NOTE-datetime
@@ -1393,7 +1401,7 @@ Metadata variables
     and AsciiDoc metadata; repeat as for `author`, above
 
 `subject`
-:   document subject, included in ODT, docx and pptx metadata
+:   document subject, included in ODT, PDF, docx and pptx metadata
 
 `description`
 :   document description, included in ODT, docx and pptx metadata. Some
@@ -1433,10 +1441,10 @@ Language variables
     The [Language subtag lookup] tool can look up or verify these tags.
     This affects most formats, and controls hyphenation in PDF output
     when using LaTeX (through [`babel`] and [`polyglossia`]) or ConTeXt.
-    
+
     Use native pandoc [Divs and Spans] with the `lang` attribute to
     switch the language:
-    
+
         ---
         lang: en-GB
         ...
@@ -1448,7 +1456,7 @@ Language variables
         :::
 
         More text in English. ['Zitat auf Deutsch.']{lang=de}
-    
+
 `dir`
 :   the base script direction, either `rtl` (right-to-left)
     or `ltr` (left-to-right).
@@ -1588,7 +1596,7 @@ Pandoc uses these variables when [creating a PDF] with a LaTeX engine.
 :   options for package used as `fontfamily`; repeat for multiple options.
     For example, to use the Libertine font with proportional lowercase
     (old-style) figures through the [`libertinus`] package:
-    
+
         ---
         fontfamily: libertinus
         fontfamilyoptions:
@@ -1924,6 +1932,8 @@ an object as its value.  So, for example:
 
     $author.name$ ($author.affiliation$)
 
+The value of a variable will be indented to the same level as the variable.
+
 If you use custom templates, you may need to revise them as pandoc
 changes.  We recommend tracking the changes in the default templates,
 and modifying your custom templates accordingly. An easy way to do this
@@ -2215,10 +2225,11 @@ output formats
 
 #### Extension: `styles` #### {#ext-styles}
 
-Read all docx styles as divs (for paragraph styles) and spans (for
-character styles) regardless of whether pandoc understands the meaning
-of these styles. This can be used with [docx custom
-styles](#custom-styles). Disabled by default.
+When converting from docx, read all docx styles as divs (for
+paragraph styles) and spans (for character styles) regardless
+of whether pandoc understands the meaning of these styles.
+This can be used with [docx custom styles](#custom-styles).
+Disabled by default.
 
 input formats
 :  `docx`
@@ -3513,7 +3524,11 @@ reStructuredText
   ~ It will be rendered using an [interpreted text role `:math:`].
 
 AsciiDoc
-  ~ It will be rendered as `latexmath:[...]`.
+  ~ For AsciiDoc output format (`-t asciidoc`) it will appear verbatim
+    surrounded by `latexmath:[$...$]` (for inline math) or
+    `[latexmath]++++\[...\]+++` (for display math).
+    For AsciiDoctor output format (`-t asciidoctor`) the LaTex delimiters
+    (`$..$` and `\[..\]`) are omitted.
 
 Texinfo
   ~ It will be rendered inside a `@math` command.
@@ -4535,9 +4550,9 @@ rules:
   * Headers *above* the slide level in the hierarchy create
     "title slides," which just contain the section title
     and help to break the slide show into sections.
-
-  * Content *above* the slide level will not appear in the slide
-    show.
+    Non-slide content under these headers will be included
+    on the title slide (for HTML slide shows) or in a
+    subsequent slide with the same title (for beamer).
 
   * A title page is constructed automatically from the document's title
     block, if present.  (In the case of beamer, this can be disabled
@@ -5056,6 +5071,52 @@ Custom Styles
 
 Custom styles can be used in the docx and ICML formats.
 
+Output
+------
+
+By default, pandoc's docx and ICML output applies a predefined set of styles
+for blocks such as paragraphs and block quotes, and uses largely default
+formatting (italics, bold) for inlines. This will work for most
+purposes, especially alongside a `reference.docx` file. However, if you
+need to apply your own styles to blocks, or match a preexisting set of
+styles, pandoc allows you to define custom styles for blocks and text
+using `div`s and `span`s, respectively.
+
+If you define a `div` or `span` with the attribute `custom-style`,
+pandoc will apply your specified style to the contained elements. So,
+for example using the `bracketed_spans` syntax,
+
+    [Get out]{custom-style="Emphatically"}, he said.
+
+would produce a docx file with "Get out" styled with character
+style `Emphatically`. Similarly, using the `fenced_divs` syntax,
+
+    Dickinson starts the poem simply:
+
+    ::: {custom-style="Poetry"}
+    | A Bird came down the Walk---
+    | He did not know I saw---
+    :::
+
+would style the two contained lines with the `Poetry` paragraph style.
+
+For docx output, styles will be defined in the output file as inheriting
+from normal text, if the styles are not yet in your reference.docx.
+If they are already defined, pandoc will not alter the definition.
+
+This feature allows for greatest customization in conjunction with
+[pandoc filters]. If you want all paragraphs after block quotes to be
+indented, you can write a filter to apply the styles necessary. If you
+want all italics to be transformed to the `Emphasis` character style
+(perhaps to change their color), you can write a filter which will
+transform all italicized inlines to inlines within an `Emphasis`
+custom-style `span`.
+
+For docx output, you don't need to enable any extensions for
+custom styles to work.
+
+[pandoc filters]: http://pandoc.org/filters.html
+
 Input
 -----
 
@@ -5103,49 +5164,6 @@ And with the extension:
 With these custom styles, you can use your input document as a
 reference-doc while creating docx output (see below), and maintain the
 same styles in your input and output files.
-
-Output
-------
-
-By default, pandoc's docx and ICML output applies a predefined set of styles
-for blocks such as paragraphs and block quotes, and uses largely default
-formatting (italics, bold) for inlines. This will work for most
-purposes, especially alongside a `reference.docx` file. However, if you
-need to apply your own styles to blocks, or match a preexisting set of
-styles, pandoc allows you to define custom styles for blocks and text
-using `div`s and `span`s, respectively.
-
-If you define a `div` or `span` with the attribute `custom-style`,
-pandoc will apply your specified style to the contained elements. So,
-for example using the `bracketed_spans` syntax,
-
-    [Get out]{custom-style="Emphatically"}, he said.
-
-would produce a docx file with "Get out" styled with character
-style `Emphatically`. Similarly, using the `fenced_divs` syntax,
-
-    Dickinson starts the poem simply:
-
-    ::: {custom-style="Poetry"}
-    | A Bird came down the Walk---
-    | He did not know I saw---
-    :::
-
-would style the two contained lines with the `Poetry` paragraph style.
-
-For docx output, styles will be defined in the output file as inheriting
-from normal text, if the styles are not yet in your reference.docx.
-If they are already defined, pandoc will not alter the definition.
-
-This feature allows for greatest customization in conjunction with
-[pandoc filters]. If you want all paragraphs after block quotes to be
-indented, you can write a filter to apply the styles necessary. If you
-want all italics to be transformed to the `Emphasis` character style
-(perhaps to change their color), you can write a filter which will
-transform all italicized inlines to inlines within an `Emphasis`
-custom-style `span`.
-
-[pandoc filters]: http://pandoc.org/filters.html
 
 Custom writers
 ==============
