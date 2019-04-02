@@ -56,7 +56,8 @@ Lightweight markup formats
     [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
     Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
     [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
-    [TWiki markup], [Vimwiki markup], and [ZimWiki markup].
+    [TWiki markup], [Vimwiki markup], [XWiki markup],
+    and [ZimWiki markup].
 
 Interactive notebook formats
 
@@ -158,5 +159,6 @@ Copyright 2006-2017 [John MacFarlane].
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
 [Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
+[XWiki markup]: https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiSyntax/
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [ipynb]: https://nbformat.readthedocs.io/en/latest/
