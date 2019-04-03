@@ -54,10 +54,13 @@ Lightweight markup formats
 
 :   [Markdown] (including [CommonMark] and
     [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
-    Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags],
-    [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
+    Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags]
+
+Wiki markup formats
+
+:   [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
     [TWiki markup], [Vimwiki markup], [XWiki markup],
-    and [ZimWiki markup].
+    [ZimWiki markup]
 
 Interactive notebook formats
 
