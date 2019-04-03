@@ -12,13 +12,17 @@ or [Haddock markup] to
 
 HTML formats
 
-:   XHTML, HTML5, and HTML slide shows using [Slidy],
-   [reveal.js], [Slideous], [S5], or [DZSlides]
+:   XHTML, HTML5
+
+Slide show formats
+
+:   [LaTeX Beamer], [Slidy],
+    [reveal.js], [Slideous], [S5], or [DZSlides]
 
 Word processor formats
 
 :   Microsoft Word [docx], OpenOffice/LibreOffice
-   [ODT], [OpenDocument XML], Microsoft [PowerPoint].
+    [ODT], [OpenDocument XML], Microsoft [PowerPoint].
 
 Ebooks
 
@@ -43,7 +47,7 @@ Outline formats
 
 TeX formats
 
-:   [LaTeX], [ConTeXt], LaTeX Beamer slides
+:   [LaTeX], [ConTeXt]
 
 PDF
 
@@ -165,3 +169,4 @@ Copyright 2006--2019 [John MacFarlane].
 [XWiki markup]: https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiSyntax/
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [ipynb]: https://nbformat.readthedocs.io/en/latest/
+[LaTeX Beamer]: https://ctan.org/pkg/beamer
