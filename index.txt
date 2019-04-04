@@ -7,7 +7,8 @@ in (several dialects of) [Markdown], [reStructuredText],
 [TWiki markup], [TikiWiki markup], [DokuWiki markup],
 [Creole 1.0], [Vimwiki markup], [roff man], [OPML],
 Emacs [Org-Mode], Emacs [Muse], [txt2tags], Microsoft Word [docx],
-LibreOffice [ODT], [EPUB], Jupyter notebooks [ipynb],
+LibreOffice [ODT], [EPUB], [FictionBook 2],
+[JATS], Jupyter notebooks [ipynb],
 or [Haddock markup] to
 
 HTML formats
