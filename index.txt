@@ -1,79 +1,96 @@
 % About pandoc
 
 If you need to convert files from one markup format into another,
-pandoc is your swiss-army knife.  Pandoc can convert documents
-in (several dialects of) [Markdown], [reStructuredText],
-[textile], [HTML], [DocBook], [LaTeX], [MediaWiki markup],
-[TWiki markup], [TikiWiki markup], [DokuWiki markup],
-[Creole 1.0], [Vimwiki markup], [roff man], [OPML],
-Emacs [Org-Mode], Emacs [Muse], [txt2tags], Microsoft Word [docx],
-LibreOffice [ODT], [EPUB], [FictionBook 2],
-[JATS], Jupyter notebooks [ipynb],
-or [Haddock markup] to
+pandoc is your swiss-army knife.  Pandoc can convert between the
+following formats:
+
+(&larr; = conversion from; &rarr; = conversion to; &harr; = conversion from and to)
 
 HTML formats
 
-:   (X)HTML 4, HTML5
+:   &harr; (X)HTML 4\
+    &harr; HTML5
 
 Word processor formats
 
-:   Microsoft Word [docx], OpenOffice/LibreOffice
-    [ODT], [OpenDocument XML], Microsoft [PowerPoint].
+:   &harr; Microsoft Word [docx]\
+    &harr; OpenOffice/LibreOffice [ODT]\
+    &rarr; [OpenDocument XML]\
+    &rarr; Microsoft [PowerPoint]
 
 Ebooks
 
-:   [EPUB] version 2 or 3, [FictionBook2]
+:   &harr; [EPUB] version 2 or 3\
+    &harr; [FictionBook2]
 
 Documentation formats
 
-:   [DocBook] version 4 or 5, [TEI Simple],
-    [GNU TexInfo], [roff man], [roff ms], [Haddock markup]
+:   &harr; [DocBook] version 4 or 5\
+    &rarr; [TEI Simple]\
+    &rarr; [GNU TexInfo]\
+    &harr; [roff man]\
+    &rarr; [roff ms]\
+    &harr; [Haddock markup]
 
 Archival formats
 
-:   [JATS]
+:   &harr; [JATS]
 
 Page layout formats
 
-:   [InDesign ICML]
+:   &rarr; [InDesign ICML]
 
 Outline formats
 
-:   [OPML]
+:   &harr; [OPML]
 
 TeX formats
 
-:   [LaTeX], [ConTeXt]
+:   &harr; [LaTeX]\
+    &rarr; [ConTeXt]
 
 PDF
 
-:   via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
+:   &rarr; via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
    `wkhtml2pdf`, `prince`, or `weasyprint`.
 
 Lightweight markup formats
 
-:   [Markdown] (including [CommonMark] and
-    [GitHub-flavored Markdown]), [reStructuredText], [AsciiDoc],
-    Emacs [Org-Mode], Emacs [Muse], [Textile], [txt2tags]
+:   &harr; [Markdown] (including [CommonMark] and
+    [GitHub-flavored Markdown])\
+    &harr; [reStructuredText]\
+    &rarr; [AsciiDoc]\
+    &harr; Emacs [Org-Mode]\
+    &harr; Emacs [Muse]\
+    &rarr; [Textile]\
+    &larr; [txt2tags]
 
 Wiki markup formats
 
-:   [MediaWiki markup], [DokuWiki markup], [TikiWiki markup],
-    [TWiki markup], [Vimwiki markup], [XWiki markup],
-    [ZimWiki markup]
+:   &harr; [MediaWiki markup]\
+    &harr; [DokuWiki markup]\
+    &larr; [TikiWiki markup]\
+    &larr; [TWiki markup]\
+    &rarr; [Vimwiki markup]\
+    &rarr; [XWiki markup]\
+    &rarr; [ZimWiki markup]
 
 Slide show formats
 
-:   [LaTeX Beamer], [Slidy],
-    [reveal.js], [Slideous], [S5], or [DZSlides]
+:   &rarr; [LaTeX Beamer]\
+    &rarr; [Slidy]\
+    &rarr; [reveal.js]\
+    &rarr; [Slideous]\
+    &rarr; [S5]\
+    &rarr; [DZSlides]
 
 Interactive notebook formats
 
-:   Jupyter notebook ([ipynb])
+:   &harr; Jupyter notebook ([ipynb])
 
 Custom formats
 
-:   custom writers can be written in [lua].
+:   &rarr; custom writers can be written in [lua].
 
 Pandoc understands a number of useful markdown syntax extensions,
 including document metadata (title, author, date); footnotes; tables;
