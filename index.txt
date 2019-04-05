@@ -6,6 +6,17 @@ following formats:
 
 (&larr; = conversion from; &rarr; = conversion to; &harr; = conversion from and to)
 
+Lightweight markup formats
+
+:   &harr; [Markdown] (including [CommonMark] and
+    [GitHub-flavored Markdown])\
+    &harr; [reStructuredText]\
+    &rarr; [AsciiDoc]\
+    &harr; Emacs [Org-Mode]\
+    &harr; Emacs [Muse]\
+    &rarr; [Textile]\
+    &larr; [txt2tags]
+
 HTML formats
 
 :   &harr; (X)HTML 4\
@@ -23,18 +34,23 @@ Ebooks
 :   &harr; [EPUB] version 2 or 3\
     &harr; [FictionBook2]
 
-Documentation formats
+TeX formats
+
+:   &harr; [LaTeX]\
+    &rarr; [ConTeXt]
+
+XML formats
 
 :   &harr; [DocBook] version 4 or 5\
-    &rarr; [TEI Simple]\
-    &rarr; [GNU TexInfo]\
+    &harr; [JATS]\
+    &rarr; [TEI Simple]
+
+Documentation formats
+
+:   &rarr; [GNU TexInfo]\
     &harr; [roff man]\
     &rarr; [roff ms]\
     &harr; [Haddock markup]
-
-Archival formats
-
-:   &harr; [JATS]
 
 Page layout formats
 
@@ -44,26 +60,10 @@ Outline formats
 
 :   &harr; [OPML]
 
-TeX formats
-
-:   &harr; [LaTeX]\
-    &rarr; [ConTeXt]
-
 PDF
 
 :   &rarr; via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
    `wkhtml2pdf`, `prince`, or `weasyprint`.
-
-Lightweight markup formats
-
-:   &harr; [Markdown] (including [CommonMark] and
-    [GitHub-flavored Markdown])\
-    &harr; [reStructuredText]\
-    &rarr; [AsciiDoc]\
-    &harr; Emacs [Org-Mode]\
-    &harr; Emacs [Muse]\
-    &rarr; [Textile]\
-    &larr; [txt2tags]
 
 Wiki markup formats
 
