@@ -2,6 +2,15 @@ html { color: black; padding: 20px 10px 10px 10px; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
+div.twocol { -webkit-column-count: 3; /* Chrome, Safari, Opera */
+             -moz-column-count: 3; /* Firefox */
+             column-count: 2; }
+
+div.col {
+-webkit-column-break-inside: avoid;
+               break-inside: avoid; }
+
+
 .btn { font-family: sans-serif; }
 
 code { font-size: 89%; background-color: transparent; }

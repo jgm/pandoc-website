@@ -6,6 +6,10 @@ following formats:
 
 (&larr; = conversion from; &rarr; = conversion to; &harr; = conversion from and to)
 
+:::: twocol
+
+::: col
+
 Lightweight markup formats
 
 :   &harr; [Markdown] (including [CommonMark] and
@@ -22,17 +26,17 @@ HTML formats
 :   &harr; (X)HTML 4\
     &harr; HTML5
 
-Word processor formats
-
-:   &harr; Microsoft Word [docx]\
-    &harr; OpenOffice/LibreOffice [ODT]\
-    &rarr; [OpenDocument XML]\
-    &rarr; Microsoft [PowerPoint]
-
 Ebooks
 
 :   &harr; [EPUB] version 2 or 3\
     &harr; [FictionBook2]
+
+Documentation formats
+
+:   &rarr; [GNU TexInfo]\
+    &harr; [roff man]\
+    &rarr; [roff ms]\
+    &harr; [Haddock markup]
 
 TeX formats
 
@@ -45,12 +49,20 @@ XML formats
     &harr; [JATS]\
     &rarr; [TEI Simple]
 
-Documentation formats
+Interactive notebook formats
 
-:   &rarr; [GNU TexInfo]\
-    &harr; [roff man]\
-    &rarr; [roff ms]\
-    &harr; [Haddock markup]
+:   &harr; Jupyter notebook ([ipynb])
+
+:::
+
+::: col
+
+Word processor formats
+
+:   &harr; Microsoft Word [docx]\
+    &harr; OpenOffice/LibreOffice [ODT]\
+    &rarr; [OpenDocument XML]\
+    &rarr; Microsoft [PowerPoint]
 
 Page layout formats
 
@@ -59,11 +71,6 @@ Page layout formats
 Outline formats
 
 :   &harr; [OPML]
-
-PDF
-
-:   &rarr; via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
-   `wkhtml2pdf`, `prince`, or `weasyprint`.
 
 Wiki markup formats
 
@@ -84,13 +91,18 @@ Slide show formats
     &rarr; [S5]\
     &rarr; [DZSlides]
 
-Interactive notebook formats
-
-:   &harr; Jupyter notebook ([ipynb])
-
 Custom formats
 
 :   &rarr; custom writers can be written in [lua].
+
+PDF
+
+:   &rarr; via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
+   `wkhtml2pdf`, `prince`, or `weasyprint`.
+
+:::
+
+::::
 
 Pandoc understands a number of useful markdown syntax extensions,
 including document metadata (title, author, date); footnotes; tables;
