@@ -13,14 +13,14 @@ In Windows Powershell:
 
     gci -r -i *.txt |foreach{$rtf=$_.directoryname+"\"+$_.basename+".rtf";pandoc -f markdown -s $_.name -o $rtf}
 
-## I used pandoc to convert a document to ICML (or OPML or RTF), and when I try to open it in InDesign (or OmniOutliner or a word processor), I'm told it's invalid.  What have I done wrong?
+## I used pandoc to convert a document to ICML (or OPML or RTF), and when I try to open it I'm told it's invalid.  What have I done wrong?
 
 Be sure to use the `-s` or `--standalone` flag, or you just get a
 fragment, not a full document with the required header:
 
     pandoc -s -f markdown -t icml -o my.icml my.md
 
-## I get a blank document when I try to convert a markdown document in Chinese to PDF
+## I get a blank document when I try to convert a markdown document in Chinese to PDF.
 
 By default, pandoc uses pdflatex to generate the PDF, and pdflatex
 doesn't handle Chinese characters. But you can change the default to
@@ -59,19 +59,6 @@ Or
 For more options, see the documentation for the LaTeX [geometry
 package](https://www.ctan.org/pkg/geometry).
 
-## I get LaTeX errors when I add `\usepackage{titlesec}` in `header-includes`
-
-Add
-
-```
-subparagraph: true
-```
-
-to your metadata, or use `--metadata subparagraph` on the
-command line.  The default template redefines `\paragraph`
-in a way that is incompatible with titlesec, in order to make
-all header levels appear as section headings.
-
 ## How does pandoc compare to multimarkdown?
 
 Here is a [wiki
@@ -97,6 +84,12 @@ If you don't have this in your custom template, you should
 add it.  If we didn't set the `height` explicitly in this way,
 the image would not be resized correctly unless it was
 being resized to smaller than its original size.
+
+## Pandoc sometimes uses too much memory. How can I limit the memory used by pandoc?
+
+`pandoc +RTS -M30m -RTS` will limit heap memory to 30MB.
+When converting a document requires more than this, an out of
+memory error will be issued.
 
 
 :::
