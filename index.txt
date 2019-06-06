@@ -80,7 +80,8 @@ Wiki markup formats
     &larr; [TWiki markup]\
     &rarr; [Vimwiki markup]\
     &rarr; [XWiki markup]\
-    &rarr; [ZimWiki markup]
+    &rarr; [ZimWiki markup]\
+    &rarr; [Jira wiki markup]
 
 Slide show formats
 
@@ -200,3 +201,4 @@ Copyright 2006--2019 [John MacFarlane].
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [ipynb]: https://nbformat.readthedocs.io/en/latest/
 [LaTeX Beamer]: https://ctan.org/pkg/beamer
+[Jira wiki markup]: https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all
