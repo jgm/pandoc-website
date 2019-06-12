@@ -11,7 +11,7 @@ title: Pandoc Lua Filters
 Pandoc has long supported filters, which allow the pandoc
 abstract syntax tree (AST) to be manipulated between the parsing
 and the writing phase. [Traditional pandoc
-filters](filters.html) accept a JSON representation of the
+filters](https://pandoc.org/filters.html) accept a JSON representation of the
 pandoc AST and produce an altered JSON representation of the
 AST. They may be written in any programming language, and
 invoked from pandoc using the `--filter` option.
@@ -151,21 +151,21 @@ variables.
 :   Table of the options which were provided to the parser.
 
 `PANDOC_VERSION`
-:   Contains the pandoc version as a numerically indexed table,
-    most significant number first. E.g., for pandoc 2.1.1, the
-    value of the variable is a table `{2, 1, 1}`. Use
-    `table.concat(PANDOC_VERSION, '.')` to produce a version
-    string. This variable is also set in custom writers.
+:   Contains the pandoc version as a [Version object] which
+    behaves like a numerically indexed table, most significant
+    number first. E.g., for pandoc 2.7.3, the value of the
+    variable is equivalent to a table `{2, 7, 3}`. Use
+    `tostring(PANDOC_VERSION)` to produce a version string. This
+    variable is also set in custom writers.
 
 `PANDOC_API_VERSION`
 :   Contains the version of the pandoc-types API against which
     pandoc was compiled. It is given as a numerically indexed
     table, most significant number first. E.g., if pandoc was
     compiled against pandoc-types 1.17.3, then the value of the
-    variable will be a table `{1, 17, 3}`. Use
-    `table.concat(PANDOC_API_VERSION, '.')` to produce a version
-    string from this table. This variable is also set in custom
-    writers.
+    variable will behave like the table `{1, 17, 3}`. Use
+    `tostring(PANDOC_API_VERSION)` to produce a version string.
+    This variable is also set in custom writers.
 
 `PANDOC_SCRIPT_FILE`
 :   The name used to involve the filter. This value can be used
@@ -177,6 +177,8 @@ variables.
     pandoc to collect and pass information. The value of this
     variable is of type [CommonState](#type-ref-CommonState) and
     is read-only.
+
+[Version object]: #type-ref-Version
 
 # Pandoc Module
 
@@ -508,7 +510,7 @@ end
 This filter replaces code blocks with class `abc` with images
 created by running their contents through `abcm2ps` and
 ImageMagick's `convert`. (For more on ABC notation, see
-<http://abcnotation.com>.)
+<https://abcnotation.com>.)
 
 Images are added to the mediabag. For output to binary formats,
 pandoc will use images in the mediabag. For textual formats, use
@@ -550,8 +552,8 @@ end
 
 This filter converts raw LaTeX tikz environments into images. It
 works with both PDF and HTML output. The tikz code is compiled
-to an image using `pdflatex`, and the image is converted (if
-necessary) from pdf to png format using ImageMagick's `convert`,
+to an image using `pdflatex`, and the image is converted from pdf
+to svg format using [`pdf2svg`](https://github.com/dawbarton/pdf2svg),
 so both of these must be in the system path. Converted images
 are cached in the working directory and given filenames based on
 a hash of the source, so that they need not be regenerated each
@@ -563,7 +565,7 @@ local function tikz2image(src, filetype, outfile)
     local tmp = os.tmpname()
     local tmpdir = string.match(tmp, "^(.*[\\/])") or "."
     local f = io.open(tmp .. ".tex", 'w')
-    f:write("\\documentclass{standalone}\n\\usepackage{tikz}\n\\begin{document}\n")
+    f:write("\\documentclass{standalone}\n\\usepackage{xcolor}\n\\usepackage{tikz}\n\\begin{document}\n\\nopagecolor\n")
     f:write(src)
     f:write("\n\\end{document}\n")
     f:close()
@@ -571,7 +573,7 @@ local function tikz2image(src, filetype, outfile)
     if filetype == 'pdf' then
         os.rename(tmp .. ".pdf", outfile)
     else
-        os.execute("convert " .. tmp .. ".pdf " .. outfile)
+        os.execute("pdf2svg " .. tmp .. ".pdf " .. outfile)
     end
     os.remove(tmp .. ".tex")
     os.remove(tmp .. ".pdf")
@@ -580,9 +582,9 @@ local function tikz2image(src, filetype, outfile)
 end
 
 extension_for = {
-    html = 'png',
-    html4 = 'png',
-    html5 = 'png',
+    html = 'svg',
+    html4 = 'svg',
+    html5 = 'svg',
     latex = 'pdf',
     beamer = 'pdf' }
 
@@ -596,13 +598,22 @@ local function file_exists(name)
     end
 end
 
+local function starts_with(start, str)
+   return str:sub(1, #start) == start
+end
+
+
 function RawBlock(el)
-    local filetype = extension_for[FORMAT] or "png"
-    local fname = pandoc.sha1(el.text) .. "." .. filetype
-    if not file_exists(fname) then
-        tikz2image(el.text, filetype, fname)
+    if starts_with("\\begin{tikzpicture}", el.text) then
+        local filetype = extension_for[FORMAT] or "svg"
+        local fname = pandoc.sha1(el.text) .. "." .. filetype
+        if not file_exists(fname) then
+            tikz2image(el.text, filetype, fname)
+        end
+        return pandoc.Para({pandoc.Image({}, fname)})
+    else
+       return el
     end
-    return pandoc.Para({pandoc.Image({}, fname)})
 end
 ```
 
@@ -1037,7 +1048,7 @@ Hyperlink: alt text (list of inlines), target
 ### Math {#type-ref-Math}
 TeX math (literal)
 
-`mathype`
+`mathtype`
 :   specifier determining whether the math content should be
     shown inline (`InlineMath`) or on a separate line
     (`DisplayMath`) (string)
@@ -1343,6 +1354,51 @@ available to readers and writers.
 
 A pandoc log message. Object have no fields, but can be converted
 to a string via `tostring`.
+
+## Version {#type-ref-Version}
+
+A version object. This represents a software version like
+"2.7.3". The object behaves like a numerically indexed table,
+i.e., if `version` represents the version `2.7.3`, then
+
+    version[1] == 2
+    version[2] == 7
+    version[3] == 3
+    #version == 3   -- length
+
+Comparisons are performed element-wise, i.e.
+
+    Version '1.12' > Version '1.9'
+
+### `must_be_at_least`
+
+`must_be_at_least(actual, expected [, error_message])`
+
+Raise an error message if the actual version is older than the
+expected version; does nothing if actual is equal to or newer
+than the expected version.
+
+Parameters:
+
+`actual`
+:   actual version specifier ([Version](#type-ref-Version))
+
+`expected`
+:   minimum expected version ([Version](#type-ref-Version))
+
+`error_message`
+:   optional error message template. The string is used as format
+    string, with the expected and actual versions as arguments.
+    Defaults to `"expected version %s or newer, got %s"`.
+
+Usage:
+
+    PANDOC_VERSION:must_be_at_least '2.7.3'
+    PANDOC_API_VERSION:must_be_at_least(
+      '1.17.4',
+      'pandoc-types is too old: expected version %s, got %s'
+    )
+
 
 [Block]: #type-ref-Block
 [List]: #module-pandoc.list
@@ -2392,8 +2448,25 @@ The module is loaded as part of module `pandoc` and can either be
 accessed via the `pandoc.mediabag` field, or explicitly required,
 e.g.:
 
-
     local mb = require 'pandoc.mediabag'
+
+### delete {#mediabag-delete}
+
+`delete (filepath)`
+
+Removes a single entry from the media bag.
+
+Parameters:
+
+`filepath`:
+:   filename of the item to be deleted. The media bag will be
+    left unchanged if no entry with the given filename exists.
+
+### empty {#mediabag-empty}
+
+`empty ()`
+
+Clear-out the media bag, deleting all items.
 
 ### insert {#mediabag-insert}
 
@@ -2417,7 +2490,34 @@ Usage:
     local fp = "media/hello.txt"
     local mt = "text/plain"
     local contents = "Hello, World!"
-    pandoc.mediabag(fp, mt, contents)
+    pandoc.mediabag.insert(fp, mt, contents)
+
+### items {#mediabag-items}
+
+`items ()`
+
+Returns an iterator triple to be used with Lua's generic `for`
+statement. The iterator returns the filepath, MIME type, and
+content of a media bag item on each invocation. Items are
+processed one-by-one to avoid excessive memory use.
+
+This function should be used only when full access to all items,
+including their contents, is required. For all other cases,
+[`list`](#mediabag-list) should be preferred.
+
+Returns:
+
+  - The iterator function; must be called with the iterator state
+    and the current iterator value.
+  - Iterator state – an opaque value to be passed to the iterator
+    function.
+  - Initial iterator value.
+
+Usage:
+
+    for fp, mt, contents in pandoc.mediabag.items() do
+      -- print(fp, mt, contents)
+    end
 
 ### list {#mediabag-list}
 
@@ -2609,3 +2709,133 @@ Parameters:
 
 Returns: a new list containing all items for which \`test\`
 was true.
+
+# Module pandoc.system
+
+Access to system information and functionality.
+
+## Static Fields {#system-fields}
+
+### arch {#system-arch}
+
+The machine architecture on which the program is running.
+
+### os {#system-os}
+
+The operating system on which the program is running.
+
+## Functions {#system-functions}
+
+### environment {#system-environment}
+
+`environment ()`
+
+Retrieve the entire environment as a string-indexed table.
+
+Returns:
+
+- A table mapping environment variables names to their string value
+  (table).
+
+### get\_working\_directory {#system-get_working_directory}
+
+`get_working_directory ()`
+
+Obtain the current working directory as an absolute path.
+
+Returns:
+
+- The current working directory (string).
+
+### with\_environment {#system-with_environment}
+
+`with_environment (environment, callback)`
+
+Run an action within a custom environment. Only the environment
+variables given by `environment` will be set, when `callback` is
+called. The original environment is restored after this function
+finishes, even if an error occurs while running the callback
+action.
+
+Parameters:
+
+`environment`
+:   Environment variables and their values to be set before
+    running `callback`. (table with string keys and string
+    values)
+
+`callback`
+:   Action to execute in the custom environment (function)
+
+Returns:
+
+-   The result(s) of the call to `callback`
+
+### with\_temporary\_directory {#system-with_temporary_directory}
+
+`with_temporary_directory ([parent_dir,] templ, callback)`
+
+Create and use a temporary directory inside the given directory.
+The directory is deleted after the callback returns.
+
+Parameters:
+
+`parent_dir`
+:   Parent directory to create the directory in (string). If this
+    parameter is omitted, the system's canonical temporary
+    directory is used.
+
+`templ`
+:   Directory name template (string).
+
+`callback`
+:   Function which takes the name of the temporary directory as its
+    first argument (function).
+
+Returns:
+
+-   The result of the call to `callback`.
+
+### with\_working\_directory {#system-with_working_directory}
+
+`with_working_directory (directory, callback)`
+
+Run an action within a different directory. This function will
+change the working directory to `directory`, execute `callback`,
+then switch back to the original working directory, even if an
+error occurs while running the callback action.
+
+Parameters:
+
+`directory`
+:   Directory in which the given `callback` should be executed
+    (string)
+
+`callback`
+:   Action to execute in the given directory (function)
+
+Returns:
+
+-   The result(s) of the call to `callback`
+
+
+# Module pandoc.types
+
+Constructors for types which are not part of the pandoc AST.
+
+### Version {#pandoc.types.Version}
+
+`Version (version_specifier)`
+
+Creates a Version object.
+
+Parameters:
+
+`version`:
+:   Version specifier: this can be a version string like
+    `'2.7.3'`, a list of integers like `{2, 7, 3}`, a single
+    integer, or a [Version](#type-ref-Version).
+
+Returns:
+
+-   A new [Version](#type-ref-Version) object.

@@ -1,6 +1,6 @@
 % Pandoc User's Guide
 % John MacFarlane
-% April 5, 2019
+% June 11, 2019
 
 Synopsis
 ========
@@ -300,6 +300,7 @@ General options {.options}
     - `icml` ([InDesign ICML])
     - `ipynb` ([Jupyter notebook])
     - `jats` ([JATS] XML)
+    - `jira` ([Jira] wiki markup)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
     - `man` ([roff man])
@@ -442,6 +443,7 @@ General options {.options}
 [Rich Text Format]: http://en.wikipedia.org/wiki/Rich_Text_Format
 [DocBook]: http://docbook.org
 [JATS]: https://jats.nlm.nih.gov
+[Jira]: https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all
 [txt2tags]: http://txt2tags.org
 [EPUB]: http://idpf.org/epub
 [OPML]: http://dev.opml.org/spec2.html
@@ -750,6 +752,12 @@ General writer options {.options}
     one) in the output document. This option has no effect
     unless `-s/--standalone` is used, and it has no effect
     on `man`, `docbook4`, `docbook5`, or `jats` output.
+
+    Note that if you are producing a PDF via `ms`, the table
+    of contents will appear at the beginning of the
+    document, before the title.  If you would prefer it to
+    be at the end of the document, use the option
+    `--pdf-engine-opt=--no-toc-relocation`.
 
 `--toc-depth=`*NUMBER*
 
@@ -1397,6 +1405,12 @@ Metadata variables
         - Peter Abelard
         ...
 
+    Note that if you just want to set PDF or HTML metadata, without
+    including a title block in the document itself, you can
+    set the `title-meta`, `author-meta`, and `date-meta`
+    variables.  (By default these are set automatically, based
+    on `title`, `author`, and `date`.)
+
 `subtitle`
 :   document subtitle, included in HTML, EPUB, LaTeX, ConTeXt, and docx
     documents
@@ -1904,6 +1918,11 @@ on the output format, and include the following:
         $endif$
 
     Similarly, `outputfile` can be `-` if output goes to the terminal.
+
+    If you need absolute paths, use e.g. `$curdir$/$sourcefile$`.
+
+`curdir`
+:   working directory from which pandoc is run.
 
 `toc`
 :   non-null value if `--toc/--table-of-contents` was specified
@@ -2418,7 +2437,7 @@ Note that although this syntax allows assignment of classes and key/value
 attributes, writers generally don't use all of this information.  Identifiers,
 classes, and key/value attributes are used in HTML and HTML-based formats such
 as EPUB and slidy.  Identifiers are used for labels and link anchors in the
-LaTeX, ConTeXt, Textile, and AsciiDoc writers.
+LaTeX, ConTeXt, Textile, Jira markup, and AsciiDoc writers.
 
 Headings with the class `unnumbered` will not be numbered, even if
 `--number-sections` is specified.  A single hyphen (`-`) in an attribute
@@ -3575,7 +3594,7 @@ AsciiDoc
 Texinfo
   ~ It will be rendered inside a `@math` command.
 
-roff man
+roff man, Jira markup
   ~ It will be rendered verbatim without `$`'s.
 
 MediaWiki, DokuWiki
@@ -3773,7 +3792,7 @@ all output formats, not just LaTeX:
     $\tuple{a, b, c}$
 
 Note that LaTeX macros will not be applied if they occur
-inside inside a raw span or block marked with the
+inside a raw span or block marked with the
 [`raw_attribute` extension](#extension-raw_attribute).
 
 When `latex_macros` is disabled, the raw LaTeX and math will
@@ -4933,17 +4952,24 @@ abstract                          frontmatter
 acknowledgments                   frontmatter
 copyright-page                    frontmatter
 dedication                        frontmatter
+credits                           frontmatter
+keywords                          frontmatter
+imprint                           frontmatter
+contributors                      frontmatter
+other-credits                     frontmatter
+errata                            frontmatter
+revision-history                  frontmatter
+titlepage                         frontmatter
+halftitlepage                     frontmatter
+seriespage                        frontmatter
 foreword                          frontmatter
-halftitle,                        frontmatter
-introduction                      frontmatter
 preface                           frontmatter
 seriespage                        frontmatter
 titlepage                         frontmatter
-afterword                         backmatter
 appendix                          backmatter
 colophon                          backmatter
-conclusion                        backmatter
-epigraph                          backmatter
+bibliography                      backmatter
+index                             backmatter
 
 [epub-type]: http://www.idpf.org/epub/31/spec/epub-contentdocs.html#sec-epub-type-attribute
 
