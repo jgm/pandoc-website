@@ -77,7 +77,24 @@ div#toc:before {
   display: block;
 }
 */
-div#toc li { list-style:none; }
+div#toc li {
+  list-style:none;
+}
+#toc > ul > li {
+  position: relative;
+  padding-bottom: 6px;
+}
+#toc .toggle {
+  cursor: pointer;
+  position: absolute;
+  left: -28px;
+  top: -2px;
+  padding: 2px 10px;
+  color: #337ab7;
+}
+#toc .toggle:hover {
+  opacity: 0.5;
+}
 
 #tocbtn {
     width: 100%;
