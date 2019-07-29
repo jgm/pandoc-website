@@ -1,8 +1,24 @@
 (function() {
-  var toc = document.getElementById('toc');
-  var tocul = toc.getElementsByTagName('ul')[0];
-  tocul.setAttribute('id', 'tocul');
-  tocul.setAttribute('class', 'collapse in');
-  toc.innerHTML = '<div id="tocbtn"><a id="tocbtnlink" data-toggle="collapse" href="#tocul" role="button">[contents]</a></div>' + toc.innerHTML;
-  tocul.setAttribute('aria-expanded', 'true');
+  jQuery('#toc > ul > li').each(function(i, li) {
+    console.log('li', li.children.length)
+    if (li.children.length > 1) {
+      var toggle = document.createElement('span');
+      toggle.className = 'toggle';
+      toggle.innerHTML = '▸';
+      toggle.onclick = function() {
+        var sublist = li.getElementsByTagName('ul')[0];
+        if (sublist) {
+          if (sublist.style.display === 'none') {
+            sublist.style.display = 'block'
+            toggle.innerHTML = '▾';
+          } else {
+            sublist.style.display = 'none';
+            toggle.innerHTML = '▸';
+          }
+        }
+      };
+      li.appendChild(toggle);
+      toggle.click();
+    }
+  });
 })();
