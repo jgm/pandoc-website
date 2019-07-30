@@ -1,6 +1,5 @@
 (function() {
-  jQuery('#toc > ul > li').each(function(i, li) {
-    console.log('li', li.children.length)
+  document.querySelectorAll('#toc > ul > li').forEach( function(li) {
     if (li.children.length > 1) {
       var toggle = document.createElement('span');
       toggle.className = 'toggle';
