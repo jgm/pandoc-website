@@ -38,8 +38,8 @@ Documentation formats
 
 Roff formats
 
-:   &harr; [roff man]
-:   &rarr; [roff ms]
+:   &harr; [roff man]\
+    &rarr; [roff ms]
 
 TeX formats
 
@@ -51,6 +51,10 @@ XML formats
 :   &harr; [DocBook] version 4 or 5\
     &harr; [JATS]\
     &rarr; [TEI Simple]
+
+Outline formats
+
+:   &harr; [OPML]
 
 :::
 
@@ -70,10 +74,6 @@ Interactive notebook formats
 Page layout formats
 
 :   &rarr; [InDesign ICML]
-
-Outline formats
-
-:   &harr; [OPML]
 
 Wiki markup formats
 
