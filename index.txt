@@ -34,9 +34,12 @@ Ebooks
 Documentation formats
 
 :   &rarr; [GNU TexInfo]\
-    &harr; [roff man]\
-    &rarr; [roff ms]\
     &harr; [Haddock markup]
+
+Roff formats
+
+:   &harr; [roff man]
+:   &rarr; [roff ms]
 
 TeX formats
 
@@ -49,10 +52,6 @@ XML formats
     &harr; [JATS]\
     &rarr; [TEI Simple]
 
-Interactive notebook formats
-
-:   &harr; Jupyter notebook ([ipynb])
-
 :::
 
 ::: col
@@ -63,6 +62,10 @@ Word processor formats
     &harr; OpenOffice/LibreOffice [ODT]\
     &rarr; [OpenDocument XML]\
     &rarr; Microsoft [PowerPoint]
+
+Interactive notebook formats
+
+:   &harr; Jupyter notebook ([ipynb])
 
 Page layout formats
 
