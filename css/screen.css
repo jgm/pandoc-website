@@ -108,6 +108,7 @@ div#toc li {
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
 div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }
+div#github-sponsors { float: right; font-size: 12pt; font-family: sans-serif; border-radius: 25px; background-color: cyan; width: 6em; text-align: center; font-weight: bold; font-size: 10pt; }
 
 #downloadInstallerBtn {
   font-size: 1em;
