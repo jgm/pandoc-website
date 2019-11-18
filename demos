@@ -170,3 +170,6 @@ click on the name of the output file:
 
 @   pandoc @@MANUAL.epub@@ -t plain -o @@example36.text@@
 
+37. Using a template to produce a table from structured data:
+
+@   pandoc @@fishwatch.yaml@@ -t rst --template @@fishtable.rst@@ -o @@fish.rst@@
