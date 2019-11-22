@@ -81,7 +81,7 @@ under the heading for your operating system.
 
   - Check whether the pandoc version in your package manager is
     not outdated. Pandoc is in the [Debian], [Ubuntu], [Slackware],
-    [Arch], [Fedora], [NiXOS], [openSUSE], and [gentoo] repositories.
+    [Arch], [Fedora], [NiXOS], [openSUSE], [gentoo] and [Void] repositories.
 
   - To get the latest release, we provide a binary package for amd64
     architecture on the **[download page]**.
@@ -241,9 +241,10 @@ The easiest way to build pandoc from source is to use [stack][stack]:
     vary by platform.  Here is how it might work on macOS with Homebrew:
 
         brew install icu4c
-        cabal install --extra-lib-dirs=/usr/local/Cellar/icu4c/51.1/lib \
-          --extra-include-dirs=/usr/local/Cellar/icu4c/51.1/include \
-          -funicode_collation text-icu pandoc-citeproc
+        stack install pandoc-citeproc \
+          --flag "pandoc-citeproc:unicode_collation" \
+          --extra-lib-dirs=/usr/local/opt/icu4c/lib \
+          --extra-include-dirs=/usr/local/opt/icu4c/include
 
 6.  The `pandoc.1` man page will be installed automatically.  cabal shows
     you where it is installed: you may need to set your `MANPATH`
@@ -398,4 +399,5 @@ To run just the markdown benchmarks:
 [source tarball]: http://hackage.haskell.org/package/pandoc
 [stack]: https://docs.haskellstack.org/en/stable/install_and_upgrade.html
 [cabal-install]: http://hackage.haskell.org/package/cabal-install
+[Void]: https://voidlinux.org/
 [uninstaller]: https://raw.githubusercontent.com/jgm/pandoc/master/macos/uninstall-pandoc.pl

@@ -1,5 +1,5 @@
 .\"t
-.TH PANDOC 1 "June 11, 2019" "pandoc 2.7.3"
+.TH PANDOC 1 "November 22, 2019" "pandoc 2.8"
 .SH NAME
 pandoc - general markup converter
 .SH SYNOPSIS
@@ -183,9 +183,8 @@ set).
 If the \f[C]mathspec\f[R] variable is set, \f[C]xelatex\f[R] will use
 \f[C]mathspec\f[R] instead of \f[C]unicode-math\f[R].
 The \f[C]upquote\f[R] and \f[C]microtype\f[R] packages are used if
-available, and \f[C]csquotes\f[R] will be used for typography if
-\f[C]\[rs]usepackage{csquotes}\f[R] is present in the template or
-included via \f[C]/H/--include-in-header\f[R].
+available, and \f[C]csquotes\f[R] will be used for typography if the
+\f[C]csquotes\f[R] variable or metadata field is set to a true value.
 The \f[C]natbib\f[R], \f[C]biblatex\f[R], \f[C]bibtex\f[R], and
 \f[C]biber\f[R] packages can optionally be used for citation rendering.
 The following packages will be used to improve output quality if
@@ -219,7 +218,7 @@ pandoc -f html -t markdown --request-header User-Agent:\[dq]Mozilla/5.0\[dq] \[r
 .SH OPTIONS
 .SS General options
 .TP
-.B \f[C]-f\f[R] \f[I]FORMAT\f[R], \f[C]-r\f[R] \f[I]FORMAT\f[R], \f[C]--from=\f[R]\f[I]FORMAT\f[R], \f[C]--read=\f[R]\f[I]FORMAT\f[R]
+\f[B]\f[CB]-f\f[B]\f[R] \f[I]FORMAT\f[R], \f[B]\f[CB]-r\f[B]\f[R] \f[I]FORMAT\f[R], \f[B]\f[CB]--from=\f[B]\f[R]\f[I]FORMAT\f[R], \f[B]\f[CB]--read=\f[B]\f[R]\f[I]FORMAT\f[R]
 Specify input format.
 \f[I]FORMAT\f[R] can be:
 .RS
@@ -295,7 +294,7 @@ See \f[C]--list-input-formats\f[R] and \f[C]--list-extensions\f[R],
 below.
 .RE
 .TP
-.B \f[C]-t\f[R] \f[I]FORMAT\f[R], \f[C]-w\f[R] \f[I]FORMAT\f[R], \f[C]--to=\f[R]\f[I]FORMAT\f[R], \f[C]--write=\f[R]\f[I]FORMAT\f[R]
+\f[B]\f[CB]-t\f[B]\f[R] \f[I]FORMAT\f[R], \f[B]\f[CB]-w\f[B]\f[R] \f[I]FORMAT\f[R], \f[B]\f[CB]--to=\f[B]\f[R]\f[I]FORMAT\f[R], \f[B]\f[CB]--write=\f[B]\f[R]\f[I]FORMAT\f[R]
 Specify output format.
 \f[I]FORMAT\f[R] can be:
 .RS
@@ -371,6 +370,8 @@ HTML5/XHTML polyglot markup)
 .IP \[bu] 2
 \f[C]org\f[R] (Emacs Org mode)
 .IP \[bu] 2
+\f[C]pdf\f[R] (PDF)
+.IP \[bu] 2
 \f[C]plain\f[R] (plain text),
 .IP \[bu] 2
 \f[C]pptx\f[R] (PowerPoint slide show)
@@ -401,8 +402,9 @@ HTML5/XHTML polyglot markup)
 .IP \[bu] 2
 the path of a custom lua writer, see Custom writers below
 .PP
-Note that \f[C]odt\f[R], \f[C]docx\f[R], and \f[C]epub\f[R] output will
-not be directed to \f[I]stdout\f[R] unless forced with \f[C]-o -\f[R].
+Note that \f[C]odt\f[R], \f[C]docx\f[R], \f[C]epub\f[R], and
+\f[C]pdf\f[R] output will not be directed to \f[I]stdout\f[R] unless
+forced with \f[C]-o -\f[R].
 .PP
 Extensions can be individually enabled or disabled by appending
 \f[C]+EXTENSION\f[R] or \f[C]-EXTENSION\f[R] to the format name.
@@ -411,13 +413,13 @@ See \f[C]--list-output-formats\f[R] and \f[C]--list-extensions\f[R],
 below.
 .RE
 .TP
-.B \f[C]-o\f[R] \f[I]FILE\f[R], \f[C]--output=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]-o\f[B]\f[R] \f[I]FILE\f[R], \f[B]\f[CB]--output=\f[B]\f[R]\f[I]FILE\f[R]
 Write output to \f[I]FILE\f[R] instead of \f[I]stdout\f[R].
 If \f[I]FILE\f[R] is \f[C]-\f[R], output will go to \f[I]stdout\f[R],
 even if a non-textual format (\f[C]docx\f[R], \f[C]odt\f[R],
 \f[C]epub2\f[R], \f[C]epub3\f[R]) is specified.
 .TP
-.B \f[C]--data-dir=\f[R]\f[I]DIRECTORY\f[R]
+\f[B]\f[CB]--data-dir=\f[B]\f[R]\f[I]DIRECTORY\f[R]
 Specify the user data directory to search for pandoc data files.
 If this option is not specified, the default user data directory will be
 used.
@@ -436,7 +438,21 @@ A \f[C]reference.odt\f[R], \f[C]reference.docx\f[R], \f[C]epub.css\f[R],
 \f[C]s5\f[R] directory placed in this directory will override
 pandoc\[aq]s normal defaults.
 .TP
-.B \f[C]--bash-completion\f[R]
+\f[B]\f[CB]-d\f[B]\f[R] \f[I]FILE\f[R], \f[B]\f[CB]--defaults=\f[B]\f[R]\f[I]FILE\f[R]
+Specify a set of default option settings.
+\f[I]FILE\f[R] is a YAML file whose fields correspond to command-line
+option settings.
+All options for document conversion, including input and output files,
+can be set using a defaults file.
+The file will be searched for first in the working directory, and then
+in the \f[C]defaults\f[R] subdirectory of the user data directory (see
+\f[C]--data-dir\f[R]).
+The \f[C].yaml\f[R] extension may be omitted.
+See the section Default files for more information on the file format.
+Settings from the defaults file may be overridden or extended by
+subsequent options on the command line.
+.TP
+\f[B]\f[CB]--bash-completion\f[B]\f[R]
 Generate a bash completion script.
 To enable bash completion with pandoc, add this to your
 \f[C].bashrc\f[R]:
@@ -449,77 +465,93 @@ eval \[dq]$(pandoc --bash-completion)\[dq]
 .fi
 .RE
 .TP
-.B \f[C]--verbose\f[R]
+\f[B]\f[CB]--verbose\f[B]\f[R]
 Give verbose debugging output.
 Currently this only has an effect with PDF output.
 .TP
-.B \f[C]--quiet\f[R]
+\f[B]\f[CB]--quiet\f[B]\f[R]
 Suppress warning messages.
 .TP
-.B \f[C]--fail-if-warnings\f[R]
+\f[B]\f[CB]--fail-if-warnings\f[B]\f[R]
 Exit with error status if there are any warnings.
 .TP
-.B \f[C]--log=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--log=\f[B]\f[R]\f[I]FILE\f[R]
 Write log messages in machine-readable JSON format to \f[I]FILE\f[R].
 All messages above DEBUG level will be written, regardless of verbosity
 settings (\f[C]--verbose\f[R], \f[C]--quiet\f[R]).
 .TP
-.B \f[C]--list-input-formats\f[R]
+\f[B]\f[CB]--list-input-formats\f[B]\f[R]
 List supported input formats, one per line.
 .TP
-.B \f[C]--list-output-formats\f[R]
+\f[B]\f[CB]--list-output-formats\f[B]\f[R]
 List supported output formats, one per line.
 .TP
-.B \f[C]--list-extensions\f[R][\f[C]=\f[R]\f[I]FORMAT\f[R]]
-List supported extensions, one per line, preceded by a \f[C]+\f[R] or
-\f[C]-\f[R] indicating whether it is enabled by default in
-\f[I]FORMAT\f[R].
+\f[B]\f[CB]--list-extensions\f[B]\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]FORMAT\f[R]]
+List supported extensions for \f[I]FORMAT\f[R], one per line, preceded
+by a \f[C]+\f[R] or \f[C]-\f[R] indicating whether it is enabled by
+default in \f[I]FORMAT\f[R].
 If \f[I]FORMAT\f[R] is not specified, defaults for pandoc\[aq]s Markdown
 are given.
 .TP
-.B \f[C]--list-highlight-languages\f[R]
+\f[B]\f[CB]--list-highlight-languages\f[B]\f[R]
 List supported languages for syntax highlighting, one per line.
 .TP
-.B \f[C]--list-highlight-styles\f[R]
+\f[B]\f[CB]--list-highlight-styles\f[B]\f[R]
 List supported styles for syntax highlighting, one per line.
 See \f[C]--highlight-style\f[R].
 .TP
-.B \f[C]-v\f[R], \f[C]--version\f[R]
+\f[B]\f[CB]-v\f[B]\f[R], \f[B]\f[CB]--version\f[B]\f[R]
 Print version.
 .TP
-.B \f[C]-h\f[R], \f[C]--help\f[R]
+\f[B]\f[CB]-h\f[B]\f[R], \f[B]\f[CB]--help\f[B]\f[R]
 Show usage message.
 .SS Reader options
 .TP
-.B \f[C]--base-header-level=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--shift-heading-level-by=\f[B]\f[R]\f[I]NUMBER\f[R]
+Shift heading levels by a positive or negative integer.
+For example, with \f[C]--shift-heading-level-by=-1\f[R], level 2
+headings become level 1 headings, and level 3 headings become level 2
+headings.
+Headings cannot have a level less than 1, so a heading that would be
+shifted below level 1 becomes a regular paragraph.
+Exception: with a shift of -1, a level-1 heading at the beginning of the
+document replaces the metadata title.
+Conversely, with a shift of +1, a nonempty metadata title becomes a
+level-1 heading at the beginning of the document.
+\f[C]--shift-heading-level-by=-1\f[R] is a good choice when converting
+HTML or Markdown documents that use an initial level-1 heading for the
+document title and level-2+ headings for sections.
+.TP
+\f[B]\f[CB]--base-header-level=\f[B]\f[R]\f[I]NUMBER\f[R]
+\f[I]Deprecated. Use \f[CI]--shift-heading-level-by\f[I] instead.\f[R]
 Specify the base level for headings (defaults to 1).
 .TP
-.B \f[C]--strip-empty-paragraphs\f[R]
+\f[B]\f[CB]--strip-empty-paragraphs\f[B]\f[R]
 \f[I]Deprecated. Use the \f[CI]+empty_paragraphs\f[I] extension
 instead.\f[R] Ignore paragraphs with no content.
 This option is useful for converting word processing documents where
 users have used empty paragraphs to create inter-paragraph space.
 .TP
-.B \f[C]--indented-code-classes=\f[R]\f[I]CLASSES\f[R]
+\f[B]\f[CB]--indented-code-classes=\f[B]\f[R]\f[I]CLASSES\f[R]
 Specify classes to use for indented code blocks--for example,
 \f[C]perl,numberLines\f[R] or \f[C]haskell\f[R].
 Multiple classes may be separated by spaces or commas.
 .TP
-.B \f[C]--default-image-extension=\f[R]\f[I]EXTENSION\f[R]
+\f[B]\f[CB]--default-image-extension=\f[B]\f[R]\f[I]EXTENSION\f[R]
 Specify a default extension to use when image paths/URLs have no
 extension.
 This allows you to use the same source for formats that require
 different kinds of images.
 Currently this option only affects the Markdown and LaTeX readers.
 .TP
-.B \f[C]--file-scope\f[R]
+\f[B]\f[CB]--file-scope\f[B]\f[R]
 Parse each file individually before combining for multifile documents.
 This will allow footnotes in different files with the same identifiers
 to work as expected.
 If this option is set, footnotes and links will not work across files.
 Reading binary files (docx, odt, epub) implies \f[C]--file-scope\f[R].
 .TP
-.B \f[C]-F\f[R] \f[I]PROGRAM\f[R], \f[C]--filter=\f[R]\f[I]PROGRAM\f[R]
+\f[B]\f[CB]-F\f[B]\f[R] \f[I]PROGRAM\f[R], \f[B]\f[CB]--filter=\f[B]\f[R]\f[I]PROGRAM\f[R]
 Specify an executable to be used as a filter transforming the pandoc AST
 after the input is parsed and before the output is written.
 The executable should read JSON from stdin and write JSON to stdout.
@@ -567,7 +599,7 @@ Filters and lua-filters are applied in the order specified on the
 command line.
 .RE
 .TP
-.B \f[C]--lua-filter=\f[R]\f[I]SCRIPT\f[R]
+\f[B]\f[CB]-L\f[B]\f[R] \f[I]SCRIPT\f[R], \f[B]\f[CB]--lua-filter=\f[B]\f[R]\f[I]SCRIPT\f[R]
 Transform the document in a similar fashion as JSON filters (see
 \f[C]--filter\f[R]), but use pandoc\[aq]s build-in lua filtering system.
 The given lua script is expected to return a list of lua filters which
@@ -606,7 +638,7 @@ a specified full or relative path (executable or non-executable)
 above).
 .RE
 .TP
-.B \f[C]-M\f[R] \f[I]KEY\f[R][\f[C]=\f[R]\f[I]VAL\f[R]], \f[C]--metadata=\f[R]\f[I]KEY\f[R][\f[C]:\f[R]\f[I]VAL\f[R]]
+\f[B]\f[CB]-M\f[B]\f[R] \f[I]KEY\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]VAL\f[R]], \f[B]\f[CB]--metadata=\f[B]\f[R]\f[I]KEY\f[R][\f[B]\f[CB]:\f[B]\f[R]\f[I]VAL\f[R]]
 Set the metadata field \f[I]KEY\f[R] to the value \f[I]VAL\f[R].
 A value specified on the command line overrides a value specified in the
 document using YAML metadata blocks.
@@ -619,24 +651,29 @@ metadata of the underlying document (which is accessible from filters
 and may be printed in some output formats) and metadata values will be
 escaped when inserted into the template.
 .TP
-.B \f[C]--metadata-file=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--metadata-file=\f[B]\f[R]\f[I]FILE\f[R]
 Read metadata from the supplied YAML (or JSON) file.
 This option can be used with every input format, but string scalars in
 the YAML file will always be parsed as Markdown.
 Generally, the input will be handled the same as in YAML metadata
 blocks.
+This option can be used repeatedly to include multiple metadata files;
+values in files specified later on the command line will be preferred
+over those specified in earlier files.
 Metadata values specified inside the document, or by using \f[C]-M\f[R],
 overwrite values specified with this option.
 .TP
-.B \f[C]-p\f[R], \f[C]--preserve-tabs\f[R]
-Preserve tabs instead of converting them to spaces (the default).
+\f[B]\f[CB]-p\f[B]\f[R], \f[B]\f[CB]--preserve-tabs\f[B]\f[R]
+Preserve tabs instead of converting them to spaces.
+(By default, pandoc converts tabs to spaces before parsing its input.)
 Note that this will only affect tabs in literal code spans and code
-blocks; tabs in regular text will be treated as spaces.
+blocks.
+Tabs in regular text are always treated as spaces.
 .TP
-.B \f[C]--tab-stop=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--tab-stop=\f[B]\f[R]\f[I]NUMBER\f[R]
 Specify the number of spaces per tab (default is 4).
 .TP
-.B \f[C]--track-changes=accept\f[R]|\f[C]reject\f[R]|\f[C]all\f[R]
+\f[B]\f[CB]--track-changes=accept\f[B]\f[R]|\f[B]\f[CB]reject\f[B]\f[R]|\f[B]\f[CB]all\f[B]\f[R]
 Specifies what to do with insertions, deletions, and comments produced
 by the MS Word \[dq]Track Changes\[dq] feature.
 \f[C]accept\f[R] (the default), inserts all insertions, and ignores all
@@ -656,7 +693,7 @@ produces a span with the class
 affected paragraph break.
 This option only affects the docx reader.
 .TP
-.B \f[C]--extract-media=\f[R]\f[I]DIR\f[R]
+\f[B]\f[CB]--extract-media=\f[B]\f[R]\f[I]DIR\f[R]
 Extract images and other media contained in or linked from the source
 document to the path \f[I]DIR\f[R], creating it if necessary, and adjust
 the images references in the document so they point to the extracted
@@ -667,7 +704,7 @@ used.
 Otherwise the media is read from the file system or downloaded, and new
 filenames are constructed based on SHA1 hashes of the contents.
 .TP
-.B \f[C]--abbreviations=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--abbreviations=\f[B]\f[R]\f[I]FILE\f[R]
 Specifies a custom abbreviations file, with abbreviations one to a line.
 If this option is not specified, pandoc will read the data file
 \f[C]abbreviations\f[R] from the user data directory or fall back on a
@@ -680,7 +717,7 @@ by a nonbreaking space, so that the period will not produce
 sentence-ending space in formats like LaTeX.
 .SS General writer options
 .TP
-.B \f[C]-s\f[R], \f[C]--standalone\f[R]
+\f[B]\f[CB]-s\f[B]\f[R], \f[B]\f[CB]--standalone\f[B]\f[R]
 Produce output with an appropriate header and footer (e.g.
 a standalone HTML, LaTeX, TEI, or RTF file, not a fragment).
 This option is set automatically for \f[C]pdf\f[R], \f[C]epub\f[R],
@@ -689,7 +726,7 @@ output.
 For \f[C]native\f[R] output, this option causes metadata to be included;
 otherwise, metadata is suppressed.
 .TP
-.B \f[C]--template=\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
+\f[B]\f[CB]--template=\f[B]\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
 Use the specified file as a custom template for the generated document.
 Implies \f[C]--standalone\f[R].
 See Templates, below, for a description of template syntax.
@@ -702,43 +739,49 @@ If the template is not found, pandoc will search for it in the
 If this option is not used, a default template appropriate for the
 output format will be used (see \f[C]-D/--print-default-template\f[R]).
 .TP
-.B \f[C]-V\f[R] \f[I]KEY\f[R][\f[C]=\f[R]\f[I]VAL\f[R]], \f[C]--variable=\f[R]\f[I]KEY\f[R][\f[C]:\f[R]\f[I]VAL\f[R]]
+\f[B]\f[CB]-V\f[B]\f[R] \f[I]KEY\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]VAL\f[R]], \f[B]\f[CB]--variable=\f[B]\f[R]\f[I]KEY\f[R][\f[B]\f[CB]:\f[B]\f[R]\f[I]VAL\f[R]]
 Set the template variable \f[I]KEY\f[R] to the value \f[I]VAL\f[R] when
 rendering the document in standalone mode.
-This is generally only useful when the \f[C]--template\f[R] option is
-used to specify a custom template, since pandoc automatically sets the
-variables used in the default templates.
 If no \f[I]VAL\f[R] is specified, the key will be given the value
 \f[C]true\f[R].
 .TP
-.B \f[C]-D\f[R] \f[I]FORMAT\f[R], \f[C]--print-default-template=\f[R]\f[I]FORMAT\f[R]
+\f[B]\f[CB]-D\f[B]\f[R] \f[I]FORMAT\f[R], \f[B]\f[CB]--print-default-template=\f[B]\f[R]\f[I]FORMAT\f[R]
 Print the system default template for an output \f[I]FORMAT\f[R].
 (See \f[C]-t\f[R] for a list of possible \f[I]FORMAT\f[R]s.) Templates
 in the user data directory are ignored.
 This option may be used with \f[C]-o\f[R]/\f[C]--output\f[R] to redirect
 output to a file, but \f[C]-o\f[R]/\f[C]--output\f[R] must come before
 \f[C]--print-default-template\f[R] on the command line.
+.RS
+.PP
+Note that some of the default templates use partials, for example
+\f[C]styles.html\f[R].
+To print the partials, use \f[C]--print-default-data-file\f[R]: for
+example, \f[C]--print-default-data-file=templates/styles.html\f[R].
+.RE
 .TP
-.B \f[C]--print-default-data-file=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--print-default-data-file=\f[B]\f[R]\f[I]FILE\f[R]
 Print a system default data file.
 Files in the user data directory are ignored.
 This option may be used with \f[C]-o\f[R]/\f[C]--output\f[R] to redirect
 output to a file, but \f[C]-o\f[R]/\f[C]--output\f[R] must come before
 \f[C]--print-default-data-file\f[R] on the command line.
 .TP
-.B \f[C]--eol=crlf\f[R]|\f[C]lf\f[R]|\f[C]native\f[R]
+\f[B]\f[CB]--eol=crlf\f[B]\f[R]|\f[B]\f[CB]lf\f[B]\f[R]|\f[B]\f[CB]native\f[B]\f[R]
 Manually specify line endings: \f[C]crlf\f[R] (Windows), \f[C]lf\f[R]
 (macOS/Linux/UNIX), or \f[C]native\f[R] (line endings appropriate to the
 OS on which pandoc is being run).
 The default is \f[C]native\f[R].
 .TP
-.B \f[C]--dpi\f[R]=\f[I]NUMBER\f[R]
-Specify the dpi (dots per inch) value for conversion from pixels to
-inch/centimeters and vice versa.
-The default is 96dpi.
-Technically, the correct term would be ppi (pixels per inch).
+\f[B]\f[CB]--dpi\f[B]\f[R]=\f[I]NUMBER\f[R]
+Specify the default dpi (dots per inch) value for conversion from pixels
+to inch/centimeters and vice versa.
+(Technically, the correct term would be ppi: pixels per inch.) The
+default is 96dpi.
+When images contain information about dpi internally, the encoded value
+is used instead of the default specified by this option.
 .TP
-.B \f[C]--wrap=auto\f[R]|\f[C]none\f[R]|\f[C]preserve\f[R]
+\f[B]\f[CB]--wrap=auto\f[B]\f[R]|\f[B]\f[CB]none\f[B]\f[R]|\f[B]\f[CB]preserve\f[B]\f[R]
 Determine how text is wrapped in the output (the source code, not the
 rendered version).
 With \f[C]auto\f[R] (the default), pandoc will attempt to wrap lines to
@@ -752,14 +795,14 @@ Automatic wrapping does not currently work in HTML output.
 In \f[C]ipynb\f[R] output, this option affects wrapping of the contents
 of markdown cells.
 .TP
-.B \f[C]--columns=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--columns=\f[B]\f[R]\f[I]NUMBER\f[R]
 Specify length of lines in characters.
 This affects text wrapping in the generated source code (see
 \f[C]--wrap\f[R]).
 It also affects calculation of column widths for plain text tables (see
 Tables below).
 .TP
-.B \f[C]--toc\f[R], \f[C]--table-of-contents\f[R]
+\f[B]\f[CB]--toc\f[B]\f[R], \f[B]\f[CB]--table-of-contents\f[B]\f[R]
 Include an automatically generated table of contents (or, in the case of
 \f[C]latex\f[R], \f[C]context\f[R], \f[C]docx\f[R], \f[C]odt\f[R],
 \f[C]opendocument\f[R], \f[C]rst\f[R], or \f[C]ms\f[R], an instruction
@@ -775,23 +818,23 @@ If you would prefer it to be at the end of the document, use the option
 \f[C]--pdf-engine-opt=--no-toc-relocation\f[R].
 .RE
 .TP
-.B \f[C]--toc-depth=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--toc-depth=\f[B]\f[R]\f[I]NUMBER\f[R]
 Specify the number of section levels to include in the table of
 contents.
 The default is 3 (which means that level-1, 2, and 3 headings will be
 listed in the contents).
 .TP
-.B \f[C]--strip-comments\f[R]
+\f[B]\f[CB]--strip-comments\f[B]\f[R]
 Strip out HTML comments in the Markdown or Textile source, rather than
 passing them on to Markdown, Textile or HTML output as raw HTML.
 This does not apply to HTML comments inside raw HTML blocks when the
 \f[C]markdown_in_html_blocks\f[R] extension is not set.
 .TP
-.B \f[C]--no-highlight\f[R]
+\f[B]\f[CB]--no-highlight\f[B]\f[R]
 Disables syntax highlighting for code blocks and inlines, even when a
 language attribute is given.
 .TP
-.B \f[C]--highlight-style=\f[R]\f[I]STYLE\f[R]|\f[I]FILE\f[R]
+\f[B]\f[CB]--highlight-style=\f[B]\f[R]\f[I]STYLE\f[R]|\f[I]FILE\f[R]
 Specifies the coloring style to be used in highlighted source code.
 Options are \f[C]pygments\f[R] (the default), \f[C]kate\f[R],
 \f[C]monochrome\f[R], \f[C]breezeDark\f[R], \f[C]espresso\f[R],
@@ -810,7 +853,7 @@ To generate the JSON version of an existing style, use
 \f[C]--print-highlight-style\f[R].
 .RE
 .TP
-.B \f[C]--print-highlight-style=\f[R]\f[I]STYLE\f[R]|\f[I]FILE\f[R]
+\f[B]\f[CB]--print-highlight-style=\f[B]\f[R]\f[I]STYLE\f[R]|\f[I]FILE\f[R]
 Prints a JSON version of a highlighting style, which can be modified,
 saved with a \f[C].theme\f[R] extension, and used with
 \f[C]--highlight-style\f[R].
@@ -818,13 +861,14 @@ This option may be used with \f[C]-o\f[R]/\f[C]--output\f[R] to redirect
 output to a file, but \f[C]-o\f[R]/\f[C]--output\f[R] must come before
 \f[C]--print-highlight-style\f[R] on the command line.
 .TP
-.B \f[C]--syntax-definition=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--syntax-definition=\f[B]\f[R]\f[I]FILE\f[R]
 Instructs pandoc to load a KDE XML syntax definition file, which will be
 used for syntax highlighting of appropriately marked code blocks.
 This can be used to add support for new languages or to use altered
 syntax definitions for existing languages.
+This option may be repeated to add multiple syntax definitions.
 .TP
-.B \f[C]-H\f[R] \f[I]FILE\f[R], \f[C]--include-in-header=\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
+\f[B]\f[CB]-H\f[B]\f[R] \f[I]FILE\f[R], \f[B]\f[CB]--include-in-header=\f[B]\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
 Include contents of \f[I]FILE\f[R], verbatim, at the end of the header.
 This can be used, for example, to include special CSS or JavaScript in
 HTML documents.
@@ -833,7 +877,7 @@ header.
 They will be included in the order specified.
 Implies \f[C]--standalone\f[R].
 .TP
-.B \f[C]-B\f[R] \f[I]FILE\f[R], \f[C]--include-before-body=\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
+\f[B]\f[CB]-B\f[B]\f[R] \f[I]FILE\f[R], \f[B]\f[CB]--include-before-body=\f[B]\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
 Include contents of \f[I]FILE\f[R], verbatim, at the beginning of the
 document body (e.g.
 after the \f[C]<body>\f[R] tag in HTML, or the
@@ -844,7 +888,7 @@ This option can be used repeatedly to include multiple files.
 They will be included in the order specified.
 Implies \f[C]--standalone\f[R].
 .TP
-.B \f[C]-A\f[R] \f[I]FILE\f[R], \f[C]--include-after-body=\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
+\f[B]\f[CB]-A\f[B]\f[R] \f[I]FILE\f[R], \f[B]\f[CB]--include-after-body=\f[B]\f[R]\f[I]FILE\f[R]|\f[I]URL\f[R]
 Include contents of \f[I]FILE\f[R], verbatim, at the end of the document
 body (before the \f[C]</body>\f[R] tag in HTML, or the
 \f[C]\[rs]end{document}\f[R] command in LaTeX).
@@ -852,7 +896,7 @@ This option can be used repeatedly to include multiple files.
 They will be included in the order specified.
 Implies \f[C]--standalone\f[R].
 .TP
-.B \f[C]--resource-path=\f[R]\f[I]SEARCHPATH\f[R]
+\f[B]\f[CB]--resource-path=\f[B]\f[R]\f[I]SEARCHPATH\f[R]
 List of paths to search for images and other resources.
 The paths should be separated by \f[C]:\f[R] on Linux, UNIX, and macOS
 systems, and by \f[C];\f[R] on Windows.
@@ -870,7 +914,7 @@ embeds images (for example, \f[C]docx\f[R], \f[C]pdf\f[R], or
 together with \f[C]--extract-media\f[R].
 .RE
 .TP
-.B \f[C]--request-header=\f[R]\f[I]NAME\f[R]\f[C]:\f[R]\f[I]VAL\f[R]
+\f[B]\f[CB]--request-header=\f[B]\f[R]\f[I]NAME\f[R]\f[B]\f[CB]:\f[B]\f[R]\f[I]VAL\f[R]
 Set the request header \f[I]NAME\f[R] to the value \f[I]VAL\f[R] when
 making HTTP requests (for example, when a URL is given on the command
 line, or when resources used in a document must be downloaded).
@@ -878,7 +922,7 @@ If you\[aq]re behind a proxy, you also need to set the environment
 variable \f[C]http_proxy\f[R] to \f[C]http://...\f[R].
 .SS Options affecting specific writers
 .TP
-.B \f[C]--self-contained\f[R]
+\f[B]\f[CB]--self-contained\f[B]\f[R]
 Produce a standalone HTML file with no external dependencies, using
 \f[C]data:\f[R] URIs to incorporate the contents of linked scripts,
 stylesheets, images, and videos.
@@ -903,10 +947,10 @@ work with \f[C]--mathjax\f[R], and some advanced features (e.g.
 zoom or speaker notes) may not work in an offline
 \[dq]self-contained\[dq] \f[C]reveal.js\f[R] slide show.
 .TP
-.B \f[C]--html-q-tags\f[R]
+\f[B]\f[CB]--html-q-tags\f[B]\f[R]
 Use \f[C]<q>\f[R] tags for quotes in HTML.
 .TP
-.B \f[C]--ascii\f[R]
+\f[B]\f[CB]--ascii\f[B]\f[R]
 Use only ASCII characters in output.
 Currently supported for XML and HTML formats (which use entities instead
 of UTF-8 when this option is selected), CommonMark, gfm, and Markdown
@@ -915,35 +959,35 @@ limited degree LaTeX (which uses standard commands for accented
 characters when possible).
 roff man output uses ASCII by default.
 .TP
-.B \f[C]--reference-links\f[R]
+\f[B]\f[CB]--reference-links\f[B]\f[R]
 Use reference-style links, rather than inline links, in writing Markdown
 or reStructuredText.
 By default inline links are used.
 The placement of link references is affected by the
 \f[C]--reference-location\f[R] option.
 .TP
-.B \f[C]--reference-location = block\f[R]|\f[C]section\f[R]|\f[C]document\f[R]
+\f[B]\f[CB]--reference-location = block\f[B]\f[R]|\f[B]\f[CB]section\f[B]\f[R]|\f[B]\f[CB]document\f[B]\f[R]
 Specify whether footnotes (and references, if \f[C]reference-links\f[R]
 is set) are placed at the end of the current (top-level) block, the
 current section, or the document.
 The default is \f[C]document\f[R].
 Currently only affects the markdown writer.
 .TP
-.B \f[C]--atx-headers\f[R]
+\f[B]\f[CB]--atx-headers\f[B]\f[R]
 Use ATX-style headings in Markdown output.
 The default is to use setext-style headings for levels 1 to 2, and then
 ATX headings.
 (Note: for \f[C]gfm\f[R] output, ATX headings are always used.) This
 option also affects markdown cells in \f[C]ipynb\f[R] output.
 .TP
-.B \f[C]--top-level-division=[default|section|chapter|part]\f[R]
+\f[B]\f[CB]--top-level-division=[default|section|chapter|part]\f[B]\f[R]
 Treat top-level headings as the given division type in LaTeX, ConTeXt,
 DocBook, and TEI output.
 The hierarchy order is part, chapter, then section; all headings are
 shifted such that the top-level heading becomes the specified type.
 The default behavior is to determine the best division type via
 heuristics: unless other conditions apply, \f[C]section\f[R] is chosen.
-When the LaTeX document class is set to \f[C]report\f[R],
+When the \f[C]documentclass\f[R] variable is set to \f[C]report\f[R],
 \f[C]book\f[R], or \f[C]memoir\f[R] (unless the \f[C]article\f[R] option
 is specified), \f[C]chapter\f[R] is implied as the setting for this
 option.
@@ -952,13 +996,13 @@ If \f[C]beamer\f[R] is the output format, specifying either
 become \f[C]\[rs]part{..}\f[R], while second-level headings remain as
 their default type.
 .TP
-.B \f[C]-N\f[R], \f[C]--number-sections\f[R]
+\f[B]\f[CB]-N\f[B]\f[R], \f[B]\f[CB]--number-sections\f[B]\f[R]
 Number section headings in LaTeX, ConTeXt, HTML, or EPUB output.
 By default, sections are not numbered.
 Sections with class \f[C]unnumbered\f[R] will never be numbered, even if
 \f[C]--number-sections\f[R] is specified.
 .TP
-.B \f[C]--number-offset=\f[R]\f[I]NUMBER\f[R][\f[C],\f[R]\f[I]NUMBER\f[R]\f[C],\f[R]\f[I]...\f[R]]
+\f[B]\f[CB]--number-offset=\f[B]\f[R]\f[I]NUMBER\f[R][\f[B]\f[CB],\f[B]\f[R]\f[I]NUMBER\f[R]\f[B]\f[CB],\f[B]\f[R]\f[I]...\f[R]]
 Offset for section headings in HTML output (ignored in other output
 formats).
 The first number is added to the section number for top-level headings,
@@ -971,18 +1015,18 @@ numbered \[dq]1.5\[dq], specify \f[C]--number-offset=1,4\f[R].
 Offsets are 0 by default.
 Implies \f[C]--number-sections\f[R].
 .TP
-.B \f[C]--listings\f[R]
+\f[B]\f[CB]--listings\f[B]\f[R]
 Use the \f[C]listings\f[R] package for LaTeX code blocks.
 The package does not support multi-byte encoding for source code.
 To handle UTF-8 you would need to use a custom template.
 This issue is fully documented here: Encoding issue with the listings
 package.
 .TP
-.B \f[C]-i\f[R], \f[C]--incremental\f[R]
+\f[B]\f[CB]-i\f[B]\f[R], \f[B]\f[CB]--incremental\f[B]\f[R]
 Make list items in slide shows display incrementally (one by one).
 The default is for lists to be displayed all at once.
 .TP
-.B \f[C]--slide-level=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--slide-level=\f[B]\f[R]\f[I]NUMBER\f[R]
 Specifies that headings with the specified level create slides (for
 \f[C]beamer\f[R], \f[C]s5\f[R], \f[C]slidy\f[R], \f[C]slideous\f[R],
 \f[C]dzslides\f[R]).
@@ -994,13 +1038,13 @@ not appear in the slide show.
 The default is to set the slide level based on the contents of the
 document; see Structuring the slide show.
 .TP
-.B \f[C]--section-divs\f[R]
+\f[B]\f[CB]--section-divs\f[B]\f[R]
 Wrap sections in \f[C]<section>\f[R] tags (or \f[C]<div>\f[R] tags for
 \f[C]html4\f[R]), and attach identifiers to the enclosing
 \f[C]<section>\f[R] (or \f[C]<div>\f[R]) rather than the heading itself.
 See Heading identifiers, below.
 .TP
-.B \f[C]--email-obfuscation=none\f[R]|\f[C]javascript\f[R]|\f[C]references\f[R]
+\f[B]\f[CB]--email-obfuscation=none\f[B]\f[R]|\f[B]\f[CB]javascript\f[B]\f[R]|\f[B]\f[CB]references\f[B]\f[R]
 Specify a method for obfuscating \f[C]mailto:\f[R] links in HTML
 documents.
 \f[C]none\f[R] leaves \f[C]mailto:\f[R] links as they are.
@@ -1009,20 +1053,20 @@ documents.
 decimal or hexadecimal character references.
 The default is \f[C]none\f[R].
 .TP
-.B \f[C]--id-prefix=\f[R]\f[I]STRING\f[R]
+\f[B]\f[CB]--id-prefix=\f[B]\f[R]\f[I]STRING\f[R]
 Specify a prefix to be added to all identifiers and internal links in
 HTML and DocBook output, and to footnote numbers in Markdown and Haddock
 output.
 This is useful for preventing duplicate identifiers when generating
 fragments to be included in other pages.
 .TP
-.B \f[C]-T\f[R] \f[I]STRING\f[R], \f[C]--title-prefix=\f[R]\f[I]STRING\f[R]
+\f[B]\f[CB]-T\f[B]\f[R] \f[I]STRING\f[R], \f[B]\f[CB]--title-prefix=\f[B]\f[R]\f[I]STRING\f[R]
 Specify \f[I]STRING\f[R] as a prefix at the beginning of the title that
 appears in the HTML header (but not in the title as it appears at the
 beginning of the HTML body).
 Implies \f[C]--standalone\f[R].
 .TP
-.B \f[C]-c\f[R] \f[I]URL\f[R], \f[C]--css=\f[R]\f[I]URL\f[R]
+\f[B]\f[CB]-c\f[B]\f[R] \f[I]URL\f[R], \f[B]\f[CB]--css=\f[B]\f[R]\f[I]URL\f[R]
 Link to a CSS style sheet.
 This option can be used repeatedly to include multiple files.
 They will be included in the order specified.
@@ -1036,12 +1080,12 @@ If none is provided using this option (or the \f[C]css\f[R] or
 If it is not found there, sensible defaults will be used.
 .RE
 .TP
-.B \f[C]--reference-doc=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--reference-doc=\f[B]\f[R]\f[I]FILE\f[R]
 Use the specified file as a style reference in producing a docx or ODT
 file.
 .RS
 .TP
-.B Docx
+Docx
 For best results, the reference docx should be a modified version of a
 docx file produced using pandoc.
 The contents of the reference docx are ignored, but its stylesheets and
@@ -1138,7 +1182,7 @@ Table style:
 Table
 .RE
 .TP
-.B ODT
+ODT
 For best results, the reference ODT should be a modified version of an
 ODT produced using pandoc.
 The contents of the reference ODT are ignored, but its stylesheets are
@@ -1156,7 +1200,7 @@ Then open \f[C]custom-reference.odt\f[R] in LibreOffice, modify the
 styles as you wish, and save the file.
 .RE
 .TP
-.B PowerPoint
+PowerPoint
 Templates included with Microsoft PowerPoint 2013 (either with
 \f[C].pptx\f[R] or \f[C].potx\f[R] extension) are known to work, as are
 most templates derived from these.
@@ -1185,7 +1229,7 @@ will use the first four layout slides, as mentioned above).
 .RE
 .RE
 .TP
-.B \f[C]--epub-cover-image=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--epub-cover-image=\f[B]\f[R]\f[I]FILE\f[R]
 Use the specified image as the EPUB cover.
 It is recommended that the image be less than 1000px in width and
 height.
@@ -1193,7 +1237,7 @@ Note that in a Markdown source document you can also specify
 \f[C]cover-image\f[R] in a YAML metadata block (see EPUB Metadata,
 below).
 .TP
-.B \f[C]--epub-metadata=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--epub-metadata=\f[B]\f[R]\f[I]FILE\f[R]
 Look in the specified XML file for metadata for the EPUB.
 The file should contain a series of Dublin Core elements.
 For example:
@@ -1220,7 +1264,7 @@ document can be used instead.
 See below under EPUB Metadata.
 .RE
 .TP
-.B \f[C]--epub-embed-font=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--epub-embed-font=\f[B]\f[R]\f[I]FILE\f[R]
 Embed the specified font in the EPUB.
 This option can be repeated to embed multiple fonts.
 Wildcards can also be used: for example, \f[C]DejaVuSans-*.ttf\f[R].
@@ -1262,7 +1306,7 @@ body { font-family: \[dq]DejaVuSans\[dq]; }
 .fi
 .RE
 .TP
-.B \f[C]--epub-chapter-level=\f[R]\f[I]NUMBER\f[R]
+\f[B]\f[CB]--epub-chapter-level=\f[B]\f[R]\f[I]NUMBER\f[R]
 Specify the heading level at which to split the EPUB into separate
 \[dq]chapter\[dq] files.
 The default is to split into chapters at level-1 headings.
@@ -1272,13 +1316,13 @@ Some readers may be slow if the chapter files are too large, so for
 large documents with few level-1 headings, one might want to use a
 chapter level of 2 or 3.
 .TP
-.B \f[C]--epub-subdirectory=\f[R]\f[I]DIRNAME\f[R]
+\f[B]\f[CB]--epub-subdirectory=\f[B]\f[R]\f[I]DIRNAME\f[R]
 Specify the subdirectory in the OCF container that is to hold the
 EPUB-specific contents.
 The default is \f[C]EPUB\f[R].
 To put the EPUB contents in the top level, use an empty string.
 .TP
-.B \f[C]--ipynb-output=all|none|best\f[R]
+\f[B]\f[CB]--ipynb-output=all|none|best\f[B]\f[R]
 Determines how ipynb output cells are treated.
 \f[C]all\f[R] means that all of the data formats included in the
 original are preserved.
@@ -1287,7 +1331,7 @@ original are preserved.
 each output cell that is compatible with the output format.
 The default is \f[C]best\f[R].
 .TP
-.B \f[C]--pdf-engine=\f[R]\f[I]PROGRAM\f[R]
+\f[B]\f[CB]--pdf-engine=\f[B]\f[R]\f[I]PROGRAM\f[R]
 Use the specified engine when producing PDF output.
 Valid values are \f[C]pdflatex\f[R], \f[C]lualatex\f[R],
 \f[C]xelatex\f[R], \f[C]latexmk\f[R], \f[C]tectonic\f[R],
@@ -1297,7 +1341,7 @@ The default is \f[C]pdflatex\f[R].
 If the engine is not in your PATH, the full path of the engine may be
 specified here.
 .TP
-.B \f[C]--pdf-engine-opt=\f[R]\f[I]STRING\f[R]
+\f[B]\f[CB]--pdf-engine-opt=\f[B]\f[R]\f[I]STRING\f[R]
 Use the given string as a command-line argument to the
 \f[C]pdf-engine\f[R].
 For example, to use a persistent directory \f[C]foo\f[R] for
@@ -1306,7 +1350,7 @@ For example, to use a persistent directory \f[C]foo\f[R] for
 Note that no check for duplicate options is done.
 .SS Citation rendering
 .TP
-.B \f[C]--bibliography=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--bibliography=\f[B]\f[R]\f[I]FILE\f[R]
 Set the \f[C]bibliography\f[R] field in the document\[aq]s metadata to
 \f[I]FILE\f[R], overriding any value set in the metadata, and process
 citations using \f[C]pandoc-citeproc\f[R].
@@ -1318,27 +1362,27 @@ citations using \f[C]pandoc-citeproc\f[R].
 If you supply this argument multiple times, each \f[I]FILE\f[R] will be
 added to bibliography.
 .TP
-.B \f[C]--csl=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--csl=\f[B]\f[R]\f[I]FILE\f[R]
 Set the \f[C]csl\f[R] field in the document\[aq]s metadata to
 \f[I]FILE\f[R], overriding any value set in the metadata.
 (This is equivalent to \f[C]--metadata csl=FILE\f[R].) This option is
 only relevant with \f[C]pandoc-citeproc\f[R].
 .TP
-.B \f[C]--citation-abbreviations=\f[R]\f[I]FILE\f[R]
+\f[B]\f[CB]--citation-abbreviations=\f[B]\f[R]\f[I]FILE\f[R]
 Set the \f[C]citation-abbreviations\f[R] field in the document\[aq]s
 metadata to \f[I]FILE\f[R], overriding any value set in the metadata.
 (This is equivalent to
 \f[C]--metadata citation-abbreviations=FILE\f[R].) This option is only
 relevant with \f[C]pandoc-citeproc\f[R].
 .TP
-.B \f[C]--natbib\f[R]
+\f[B]\f[CB]--natbib\f[B]\f[R]
 Use \f[C]natbib\f[R] for citations in LaTeX output.
 This option is not for use with the \f[C]pandoc-citeproc\f[R] filter or
 with PDF output.
 It is intended for use in producing a LaTeX file that can be processed
 with \f[C]bibtex\f[R].
 .TP
-.B \f[C]--biblatex\f[R]
+\f[B]\f[CB]--biblatex\f[B]\f[R]
 Use \f[C]biblatex\f[R] for citations in LaTeX output.
 This option is not for use with the \f[C]pandoc-citeproc\f[R] filter or
 with PDF output.
@@ -1355,7 +1399,7 @@ However, this gives acceptable results only for basic math, usually you
 will want to use \f[C]--mathjax\f[R] or another of the following
 options.
 .TP
-.B \f[C]--mathjax\f[R][\f[C]=\f[R]\f[I]URL\f[R]]
+\f[B]\f[CB]--mathjax\f[B]\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]URL\f[R]]
 Use MathJax to display embedded TeX math in HTML output.
 TeX math will be put between \f[C]\[rs](...\[rs])\f[R] (for inline math)
 or \f[C]\[rs][...\[rs]]\f[R] (for display math) and wrapped in
@@ -1365,7 +1409,7 @@ The \f[I]URL\f[R] should point to the \f[C]MathJax.js\f[R] load script.
 If a \f[I]URL\f[R] is not provided, a link to the Cloudflare CDN will be
 inserted.
 .TP
-.B \f[C]--mathml\f[R]
+\f[B]\f[CB]--mathml\f[B]\f[R]
 Convert TeX math to MathML (in \f[C]epub3\f[R], \f[C]docbook4\f[R],
 \f[C]docbook5\f[R], \f[C]jats\f[R], \f[C]html4\f[R] and
 \f[C]html5\f[R]).
@@ -1373,7 +1417,7 @@ This is the default in \f[C]odt\f[R] output.
 Note that currently only Firefox and Safari (and select e-book readers)
 natively support MathML.
 .TP
-.B \f[C]--webtex\f[R][\f[C]=\f[R]\f[I]URL\f[R]]
+\f[B]\f[CB]--webtex\f[B]\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]URL\f[R]]
 Convert TeX formulas to \f[C]<img>\f[R] tags that link to an external
 script that converts formulas to images.
 The formula will be URL-encoded and concatenated with the URL provided.
@@ -1385,7 +1429,7 @@ Note: the \f[C]--webtex\f[R] option will affect Markdown output as well
 as HTML, which is useful if you\[aq]re targeting a version of Markdown
 without native math support.
 .TP
-.B \f[C]--katex\f[R][\f[C]=\f[R]\f[I]URL\f[R]]
+\f[B]\f[CB]--katex\f[B]\f[R][\f[B]\f[CB]=\f[B]\f[R]\f[I]URL\f[R]]
 Use KaTeX to display embedded TeX math in HTML output.
 The \f[I]URL\f[R] is the base URL for the KaTeX library.
 That directory should contain a \f[C]katex.min.js\f[R] and a
@@ -1393,7 +1437,7 @@ That directory should contain a \f[C]katex.min.js\f[R] and a
 If a \f[I]URL\f[R] is not provided, a link to the KaTeX CDN will be
 inserted.
 .TP
-.B \f[C]--gladtex\f[R]
+\f[B]\f[CB]--gladtex\f[B]\f[R]
 Enclose TeX math in \f[C]<eq>\f[R] tags in HTML output.
 The resulting HTML can then be processed by GladTeX to produce images of
 the typeset formulas and an HTML file with links to these images.
@@ -1410,7 +1454,7 @@ gladtex -d myfile-images myfile.htex
 .RE
 .SS Options for wrapper scripts
 .TP
-.B \f[C]--dump-args\f[R]
+\f[B]\f[CB]--dump-args\f[B]\f[R]
 Print information about command-line arguments to \f[I]stdout\f[R], then
 exit.
 This option is intended primarily for use in wrapper scripts.
@@ -1423,7 +1467,7 @@ These do not include regular pandoc options and their arguments, but do
 include any options appearing after a \f[C]--\f[R] separator at the end
 of the line.
 .TP
-.B \f[C]--ignore-args\f[R]
+\f[B]\f[CB]--ignore-args\f[B]\f[R]
 Ignore command-line arguments (for use in wrapper scripts).
 Regular pandoc options are not ignored.
 Thus, for example,
@@ -1443,6 +1487,321 @@ pandoc -o foo.html -s
 \f[R]
 .fi
 .RE
+.SH EXIT CODES
+.PP
+If pandoc completes successfully, it will return exit code 0.
+Nonzero exit codes have the following meanings:
+.PP
+.TS
+tab(@);
+r l.
+T{
+Code
+T}@T{
+Error
+T}
+_
+T{
+3
+T}@T{
+PandocFailOnWarningError
+T}
+T{
+4
+T}@T{
+PandocAppError
+T}
+T{
+5
+T}@T{
+PandocTemplateError
+T}
+T{
+6
+T}@T{
+PandocOptionError
+T}
+T{
+21
+T}@T{
+PandocUnknownReaderError
+T}
+T{
+22
+T}@T{
+PandocUnknownWriterError
+T}
+T{
+23
+T}@T{
+PandocUnsupportedExtensionError
+T}
+T{
+31
+T}@T{
+PandocEpubSubdirectoryError
+T}
+T{
+43
+T}@T{
+PandocPDFError
+T}
+T{
+47
+T}@T{
+PandocPDFProgramNotFoundError
+T}
+T{
+61
+T}@T{
+PandocHttpError
+T}
+T{
+62
+T}@T{
+PandocShouldNeverHappenError
+T}
+T{
+63
+T}@T{
+PandocSomeError
+T}
+T{
+64
+T}@T{
+PandocParseError
+T}
+T{
+65
+T}@T{
+PandocParsecError
+T}
+T{
+66
+T}@T{
+PandocMakePDFError
+T}
+T{
+67
+T}@T{
+PandocSyntaxMapError
+T}
+T{
+83
+T}@T{
+PandocFilterError
+T}
+T{
+91
+T}@T{
+PandocMacroLoop
+T}
+T{
+92
+T}@T{
+PandocUTF8DecodingError
+T}
+T{
+93
+T}@T{
+PandocIpynbDecodingError
+T}
+T{
+97
+T}@T{
+PandocCouldNotFindDataFileError
+T}
+T{
+99
+T}@T{
+PandocResourceNotFound
+T}
+.TE
+.SH DEFAULT FILES
+.PP
+The \f[C]--defaults\f[R] option may be used to specify a package of
+options.
+Here is a sample defaults file demonstrating all of the fields that may
+be used:
+.IP
+.nf
+\f[C]
+from: markdown+emoji
+# reader: may be used instead of from:
+to: html5
+# writer: may be used instead of to:
+
+# leave blank for output to stdout:
+output-file:
+# leave blank for input from stdin, use [] for no input:
+input-files:
+- preface.md
+- content.md
+# or you may use input-file: with a single value
+
+template: letter
+standalone: true
+self-contained: false
+
+# note that structured variables may be specified:
+variables:
+  documentclass: book
+  classoption:
+    - twosides
+    - draft
+
+# metadata values specified here are parsed as literal
+# string text, not markdown:
+metadata:
+  author:
+  - Sam Smith
+  - Julie Liu
+metadata-files:
+- boilerplate.yaml
+# or you may use metadata-file: with a single value
+
+# Note that these take files, not their contents:
+include-before-body: []
+include-after-body: []
+include-in-header: []
+resource-path: [\[dq].\[dq]]
+
+# filters will be assumed to be lua filters if they have
+# the .lua extension, and json filters otherwise.  But
+# the filter type can also be specified explicitly, as shown:
+filters:
+- pandoc-citeproc
+- wordcount.lua
+- type: json
+  path: foo.lua
+
+file-scope: false
+
+data-dir:
+
+# ERROR, WARNING, or INFO
+verbosity: INFO
+log-file: log.json
+
+# citeproc, natbib, or biblatex
+cite-method: citeproc
+# part, chapter, section, or default:
+top-level-division: chapter
+abbreviations:
+
+pdf-engine: pdflatex
+pdf-engine-opts:
+- \[dq]-shell-escape\[dq]
+# you may also use pdf-engine-opt: with a single option
+# pdf-engine-opt: \[dq]-shell-escape\[dq]
+
+# auto, preserve, or none
+wrap: auto
+columns: 78
+dpi: 72
+
+extract-media: mediadir
+
+table-of-contents: true
+toc-depth: 2
+number-sections: false
+# a list of offsets at each heading level
+number-offset: [0,0,0,0,0,0]
+# toc: may also be used instead of table-of-contents:
+shift-heading-level-by: 1
+section-divs: true
+identifier-prefix: foo
+title-prefix: \[dq]\[dq]
+strip-empty-paragraphs: true
+# lf, crlf, or native
+eol: lf
+strip-comments: false
+indented-code-classes: []
+ascii: true
+default-image-extension: \[dq].jpg\[dq]
+
+# either a style name of a style definition file:
+highlight-style: pygments
+syntax-definitions:
+- c.xml
+# or you may use syntax-definition: with a single value
+listings: false
+
+reference-doc: myref.docx
+
+# method is plain, webtex, gladtex, mathml, mathjax, katex
+# you may specify a url with webtex, mathjax, katex
+html-math-method:
+  method: mathjax
+  url: \[dq]https://cdn.jsdelivr.net/npm/mathjax\[at]3/es5/tex-mml-chtml.js\[dq]
+# none, references, or javascript
+email-obfuscation: javascript
+
+tab-stop: 8
+preserve-tabs: true
+
+incremental: false
+slide-level: 2
+
+epub-subdirectory: EPUB
+epub-metadata: meta.xml
+epub-fonts:
+- foobar.otf
+epub-chapter-level: 1
+epub-cover-image: cover.jpg
+
+reference-links: true
+# block, section, or document
+reference-location: block
+atx-headers: false
+
+# accept, reject, or all
+track-changes: accept
+
+html-q-tags: false
+css:
+- site.css
+
+# none, all, or best
+ipynb-output: best
+
+# A list of two-element lists
+request-headers:
+- [\[dq]User-Agent\[dq], \[dq]Mozilla/5.0\[dq]]
+
+fail-if-warnings: false
+dump-args: false
+ignore-args: false
+trace: false
+\f[R]
+.fi
+.PP
+Fields that are omitted will just have their regular default values.
+So a defaults file can be as simple as one line:
+.IP
+.nf
+\f[C]
+verbosity: INFO
+\f[R]
+.fi
+.PP
+Default files can be placed in the \f[C]defaults\f[R] subdirectory of
+the user data directory and used from any directory.
+For example, one could create a file specifying defaults for writing
+letters, save it as \f[C]letter.yaml\f[R] in the \f[C]defaults\f[R]
+subdirectory of the user data directory, and then invoke these defaults
+from any directory using \f[C]pandoc --defaults letter\f[R] or
+\f[C]pandoc -dletter\f[R].
+.PP
+When multiple defaults are used, their contents will be combined.
+.PP
+Note that, where command-line arguments may be repeated
+(\f[C]--metadata-file\f[R], \f[C]--css\f[R],
+\f[C]--include-in-header\f[R], \f[C]--include-before-body\f[R],
+\f[C]--include-after-body\f[R], \f[C]--variable\f[R],
+\f[C]--metadata\f[R], \f[C]--syntax-definition\f[R]), the values
+specified on the command line will combine with values specified in the
+defaults file, rather than replacing them.
 .SH TEMPLATES
 .PP
 When the \f[C]-s/--standalone\f[R] option is used, pandoc uses a
@@ -1482,11 +1841,396 @@ arbitrary information at any point in the file.
 They may be set at the command line using the \f[C]-V/--variable\f[R]
 option.
 If a variable is not set, pandoc will look for the key in the
-document\[aq]s metadata \[en] which can be set using either YAML
-metadata blocks or with the \f[C]-M/--metadata\f[R] option.
+document\[aq]s metadata, which can be set using either YAML metadata
+blocks or with the \f[C]-M/--metadata\f[R] option.
+In addition, some variables are given default values by pandoc.
+See Variables below for a list of variables used in pandoc\[aq]s default
+templates.
+.PP
+If you use custom templates, you may need to revise them as pandoc
+changes.
+We recommend tracking the changes in the default templates, and
+modifying your custom templates accordingly.
+An easy way to do this is to fork the pandoc-templates repository and
+merge in changes after each pandoc release.
+.SS Template syntax
+.SS Comments
+.PP
+Anything between the sequence \f[C]$--\f[R] and the end of the line will
+be treated as a comment and omitted from the output.
+.SS Delimiters
+.PP
+To mark variables and control structures in the template, either
+\f[C]$\f[R]...\f[C]$\f[R] or \f[C]${\f[R]...\f[C]}\f[R] may be used as
+delimiters.
+The styles may also be mixed in the same template, but the opening and
+closing delimiter must match in each case.
+The opening delimiter may be followed by one or more spaces or tabs,
+which will be ignored.
+The closing delimiter may be followed by one or more spaces or tabs,
+which will be ignored.
+.PP
+To include a literal \f[C]$\f[R] in the document, use \f[C]$$\f[R].
+.SS Interpolated variables
+.PP
+A slot for an interpolated variable is a variable name surrounded by
+matched delimiters.
+Variable names must begin with a letter and can contain letters,
+numbers, \f[C]_\f[R], \f[C]-\f[R], and \f[C].\f[R].
+The keywords \f[C]it\f[R], \f[C]if\f[R], \f[C]else\f[R],
+\f[C]endif\f[R], \f[C]for\f[R], \f[C]sep\f[R], and \f[C]endfor\f[R] may
+not be used as variable names.
+Examples:
+.IP
+.nf
+\f[C]
+$foo$
+$foo.bar.baz$
+$foo_bar.baz-bim$
+$ foo $
+${foo}
+${foo.bar.baz}
+${foo_bar.baz-bim}
+${ foo }
+\f[R]
+.fi
+.PP
+Variable names with periods are used to get at structured variable
+values.
+So, for example, \f[C]employee.salary\f[R] will return the value of the
+\f[C]salary\f[R] field of the object that is the value of the
+\f[C]employee\f[R] field.
+.IP \[bu] 2
+If the value of the variable is simple value, it will be rendered
+verbatim.
+(Note that no escaping is done; the assumption is that the calling
+program will escape the strings appropriately for the output format.)
+.IP \[bu] 2
+If the value is a list, the values will be concatenated.
+.IP \[bu] 2
+If the value is a map, the string \f[C]true\f[R] will be rendered.
+.IP \[bu] 2
+Every other value will be rendered as the empty string.
+.SS Conditionals
+.PP
+A conditional begins with \f[C]if(variable)\f[R] (enclosed in matched
+delimiters) and ends with \f[C]endif\f[R] (enclosed in matched
+delimiters).
+It may optionally contain an \f[C]else\f[R] (enclosed in matched
+delimiters).
+The \f[C]if\f[R] section is used if \f[C]variable\f[R] has a non-empty
+value, otherwise the \f[C]else\f[R] section is used (if present).
+Examples:
+.IP
+.nf
+\f[C]
+$if(foo)$bar$endif$
+
+$if(foo)$
+  $foo$
+$endif$
+
+$if(foo)$
+part one
+$else$
+part two
+$endif$
+
+${if(foo)}bar${endif}
+
+${if(foo)}
+  ${foo}
+${endif}
+
+${if(foo)}
+${ foo.bar }
+${else}
+no foo!
+${endif}
+\f[R]
+.fi
+.PP
+The keyword \f[C]elseif\f[R] may be used to simplify complex nested
+conditionals:
+.IP
+.nf
+\f[C]
+$if(foo)$
+XXX
+$elseif(bar)$
+YYY
+$else$
+ZZZ
+$endif$
+\f[R]
+.fi
+.SS For loops
+.PP
+A for loop begins with \f[C]for(variable)\f[R] (enclosed in matched
+delimiters) and ends with \f[C]endfor\f[R] (enclosed in matched
+delimiters.
+.IP \[bu] 2
+If \f[C]variable\f[R] is an array, the material inside the loop will be
+evaluated repeatedly, with \f[C]variable\f[R] being set to each value of
+the array in turn, and concatenated.
+.IP \[bu] 2
+If the value of the associated variable is not an array or a map, a
+single iteration will be performed on its value.
+.PP
+Examples:
+.IP
+.nf
+\f[C]
+$for(foo)$$foo$$sep$, $endfor$
+
+$for(foo)$
+  - $foo.last$, $foo.first$
+$endfor$
+
+${ for(foo.bar) }
+  - ${ foo.bar.last }, ${ foo.bar.first }
+${ endfor }
+\f[R]
+.fi
+.PP
+You may optionally specify a separator between consecutive values using
+\f[C]sep\f[R] (enclosed in matched delimiters).
+The material between \f[C]sep\f[R] and the \f[C]endfor\f[R] is the
+separator.
+.IP
+.nf
+\f[C]
+${ for(foo) }${ foo }${ sep }, ${ endfor }
+\f[R]
+.fi
+.PP
+Instead of using \f[C]variable\f[R] inside the loop, the special
+anaphoric keyword \f[C]it\f[R] may be used.
+.IP
+.nf
+\f[C]
+${ for(foo.bar) }
+  - ${ it.last }, ${ it.first }
+${ endfor }
+\f[R]
+.fi
+.SS Partials
+.PP
+Partials (subtemplates stored in different files) may be included using
+the syntax
+.IP
+.nf
+\f[C]
+${ boilerplate() }
+\f[R]
+.fi
+.PP
+Partials will be sought in the directory containing the main template,
+and will be assumed to have the same extension as the main template if
+they lack an explicit extension.
+(If the partials are not found here, they will also be sought in the
+\f[C]templates\f[R] subdirectory of the user data directory.)
+.PP
+Partials may optionally be applied to variables using a colon:
+.IP
+.nf
+\f[C]
+${ date:fancy() }
+
+${ articles:bibentry() }
+\f[R]
+.fi
+.PP
+If \f[C]articles\f[R] is an array, this will iterate over its values,
+applying the partial \f[C]bibentry()\f[R] to each one.
+So the second example above is equivalent to
+.IP
+.nf
+\f[C]
+${ for(articles) }
+${ it:bibentry() }
+${ endfor }
+\f[R]
+.fi
+.PP
+Note that the anaphoric keyword \f[C]it\f[R] must be used when iterating
+over partials.
+In the above examples, the \f[C]bibentry\f[R] partial should contain
+\f[C]it.title\f[R] (and so on) instead of \f[C]articles.title\f[R].
+.PP
+Final newlines are omitted from included partials.
+.PP
+Partials may include other partials.
+.PP
+A separator between values of an array may be specified in square
+brackets, immediately after the variable name or partial:
+.IP
+.nf
+\f[C]
+${months[, ]}$
+
+${articles:bibentry()[; ]$
+\f[R]
+.fi
+.PP
+The separator in this case is literal and (unlike with \f[C]sep\f[R] in
+an explicit \f[C]for\f[R] loop) cannot contain interpolated variables or
+other template directives.
+.SS Nesting
+.PP
+To ensure that content is \[dq]nested,\[dq] that is, subsequent lines
+indented, use the \f[C]\[ha]\f[R] directive:
+.IP
+.nf
+\f[C]
+$item.number$  $\[ha]$$item.description$ ($item.price$)
+\f[R]
+.fi
+.PP
+In this example, if \f[C]item.description\f[R] has multiple lines, they
+will all be indented to line up with the first line:
+.IP
+.nf
+\f[C]
+00123  A fine bottle of 18-year old
+       Oban whiskey. ($148)
+\f[R]
+.fi
+.PP
+To nest multiple lines to the same level, align them with the
+\f[C]\[ha]\f[R] directive in the template.
+For example:
+.IP
+.nf
+\f[C]
+$item.number$  $\[ha]$$item.description$ ($item.price$)
+               (Available til $item.sellby$.)
+\f[R]
+.fi
+.PP
+will produce
+.IP
+.nf
+\f[C]
+00123  A fine bottle of 18-year old
+       Oban whiskey. ($148)
+       (Available til March 30, 2020.)
+\f[R]
+.fi
+.PP
+If a variable occurs by itself on a line, preceded by whitespace and not
+followed by further text or directives on the same line, and the
+variable\[aq]s value contains multiple lines, it will be nested
+automatically.
+.SS Breakable spaces
+.PP
+Normally, spaces in the template itself (as opposed to values of the
+interpolated variables) are not breakable, but they can be made
+breakable in part of the template by using the \f[C]\[ti]\f[R] keyword
+(ended with another \f[C]\[ti]\f[R]).
+.IP
+.nf
+\f[C]
+$\[ti]$This long line may break if the document is rendered
+with a short line length.$\[ti]$
+\f[R]
+.fi
+.SS Filters
+.PP
+A filter transforms the value of a variable or partial.
+Filters are specified using a slash (\f[C]/\f[R]) between the variable
+name (or partial) and the filter name.
+Example:
+.IP
+.nf
+\f[C]
+$for(name)$
+$name/uppercase$
+$endfor$
+
+$for(metadata/pairs)$
+- $it.key$: $it.value$
+$endfor$
+
+$employee:name()/uppercase$
+\f[R]
+.fi
+.PP
+Filters may be chained:
+.IP
+.nf
+\f[C]
+$for(employees/pairs)$
+$it.key/alpha/uppercase$. $it.name$
+$endfor$
+\f[R]
+.fi
+.PP
+Some filters take parameters:
+.IP
+.nf
+\f[C]
+|----------------------|------------|
+$for(employee)$
+$it.name.first/uppercase/left 20 \[dq]| \[dq]$$it.name.salary/right 10 \[dq] | \[dq] \[dq] |\[dq]$
+$endfor$
+|----------------------|------------|
+\f[R]
+.fi
+.PP
+Currently the following filters are predefined:
+.IP \[bu] 2
+\f[C]pairs\f[R]: Converts a map or array to an array of maps, each with
+\f[C]key\f[R] and \f[C]value\f[R] fields.
+If the original value was an array, the \f[C]key\f[R] will be the array
+index, starting with 1.
+.IP \[bu] 2
+\f[C]uppercase\f[R]: Converts a textual value to uppercase, and has no
+effect on other values.
+.IP \[bu] 2
+\f[C]lowercase\f[R]: Converts a textual value to lowercase, and has no
+effect on other values.
+.IP \[bu] 2
+\f[C]length\f[R]: Returns the length of the value: number of characters
+for a textual value, number of elements for a map or array.
+.IP \[bu] 2
+\f[C]reverse\f[R]: Reverses a textual value or array, and has no effect
+on other values.
+.IP \[bu] 2
+\f[C]chomp\f[R]: Removes trailing newlines (and breakable space) from a
+textual value, and has no effect on other values.
+.IP \[bu] 2
+\f[C]alpha\f[R]: Converts a textual value that can be read as an integer
+into a lowercase alphabetic character \f[C]a..z\f[R] (mod 26), and has
+no effect on other values.
+This can be used to get lettered enumeration from array indices.
+To get uppercase letters, chain with \f[C]uppercase\f[R].
+.IP \[bu] 2
+\f[C]roman\f[R]: Converts a textual value that can be read as an integer
+into a lowercase roman numerial, and has no effect on other values.
+This can be used to get lettered enumeration from array indices.
+To get uppercase roman, chain with \f[C]uppercase\f[R].
+.IP \[bu] 2
+\f[C]left n \[dq]leftborder\[dq] \[dq]rightborder\[dq]\f[R]: Renders a
+textual value in a block of width \f[C]n\f[R], aligned to the left, with
+an optional left and right border.
+Has no effect on other values.
+This can be used to align material in tables.
+Widths are positive integers indicating the number of characters.
+Borders are strings inside double quotes; literal \f[C]\[dq]\f[R] and
+\f[C]\[rs]\f[R] characters must be backslash-escaped.
+.IP \[bu] 2
+\f[C]right n \[dq]leftborder\[dq] \[dq]rightborder\[dq]\f[R]: Renders a
+textual value in a block of width \f[C]n\f[R], aligned to the right, and
+has no effect on other values.
+.IP \[bu] 2
+\f[C]center n \[dq]leftborder\[dq] \[dq]rightborder\[dq]\f[R]: Renders a
+textual value in a block of width \f[C]n\f[R], aligned to the center,
+and has no effect on other values.
+.SS Variables
 .SS Metadata variables
 .TP
-.B \f[C]title\f[R], \f[C]author\f[R], \f[C]date\f[R]
+\f[B]\f[CB]title\f[B]\f[R], \f[B]\f[CB]author\f[B]\f[R], \f[B]\f[CB]date\f[B]\f[R]
 allow identification of basic aspects of the document.
 Included in PDF metadata through LaTeX and ConTeXt.
 These can be set through a pandoc title block, which allows for multiple
@@ -1511,26 +2255,26 @@ variables.
 \f[C]author\f[R], and \f[C]date\f[R].)
 .RE
 .TP
-.B \f[C]subtitle\f[R]
+\f[B]\f[CB]subtitle\f[B]\f[R]
 document subtitle, included in HTML, EPUB, LaTeX, ConTeXt, and docx
 documents
 .TP
-.B \f[C]abstract\f[R]
+\f[B]\f[CB]abstract\f[B]\f[R]
 document summary, included in LaTeX, ConTeXt, AsciiDoc, and docx
 documents
 .TP
-.B \f[C]keywords\f[R]
+\f[B]\f[CB]keywords\f[B]\f[R]
 list of keywords to be included in HTML, PDF, ODT, pptx, docx and
 AsciiDoc metadata; repeat as for \f[C]author\f[R], above
 .TP
-.B \f[C]subject\f[R]
+\f[B]\f[CB]subject\f[B]\f[R]
 document subject, included in ODT, PDF, docx and pptx metadata
 .TP
-.B \f[C]description\f[R]
+\f[B]\f[CB]description\f[B]\f[R]
 document description, included in ODT, docx and pptx metadata.
 Some applications show this as \f[C]Comments\f[R] metadata.
 .TP
-.B \f[C]category\f[R]
+\f[B]\f[CB]category\f[B]\f[R]
 document category, included in docx and pptx metadata
 .PP
 Additionally, any root-level string metadata, not included in ODT, docx
@@ -1559,7 +2303,7 @@ as standard document properties and \f[C]subtitle\f[R] as a custom
 property when converting to docx, ODT or pptx.
 .SS Language variables
 .TP
-.B \f[C]lang\f[R]
+\f[B]\f[CB]lang\f[B]\f[R]
 identifies the main language of the document using IETF language tags
 (following the BCP 47 standard), such as \f[C]en\f[R] or
 \f[C]en-GB\f[R].
@@ -1589,7 +2333,7 @@ More text in English. [\[aq]Zitat auf Deutsch.\[aq]]{lang=de}
 .fi
 .RE
 .TP
-.B \f[C]dir\f[R]
+\f[B]\f[CB]dir\f[B]\f[R]
 the base script direction, either \f[C]rtl\f[R] (right-to-left) or
 \f[C]ltr\f[R] (left-to-right).
 .RS
@@ -1605,67 +2349,82 @@ Algorithm.
 When using LaTeX for bidirectional documents, only the \f[C]xelatex\f[R]
 engine is fully supported (use \f[C]--pdf-engine=xelatex\f[R]).
 .RE
+.SS Variables for HTML math
+.TP
+\f[B]\f[CB]classoption\f[B]\f[R]
+when using KaTeX, you can render display math equations flush left using
+YAML metadata or with \f[C]-M classoption=fleqn\f[R].
 .SS Variables for HTML slides
 .PP
 These affect HTML output when producing slide shows with pandoc.
+.PP
 All reveal.js configuration options are available as variables.
+To turn off boolean flags that default to true in reveal.js, use
+\f[C]0\f[R].
 .TP
-.B \f[C]revealjs-url\f[R]
+\f[B]\f[CB]revealjs-url\f[B]\f[R]
 base URL for reveal.js documents (defaults to \f[C]reveal.js\f[R])
 .TP
-.B \f[C]s5-url\f[R]
+\f[B]\f[CB]s5-url\f[B]\f[R]
 base URL for S5 documents (defaults to \f[C]s5/default\f[R])
 .TP
-.B \f[C]slidy-url\f[R]
+\f[B]\f[CB]slidy-url\f[B]\f[R]
 base URL for Slidy documents (defaults to
 \f[C]https://www.w3.org/Talks/Tools/Slidy2\f[R])
 .TP
-.B \f[C]slideous-url\f[R]
+\f[B]\f[CB]slideous-url\f[B]\f[R]
 base URL for Slideous documents (defaults to \f[C]slideous\f[R])
 .SS Variables for Beamer slides
 .PP
 These variables change the appearance of PDF slides using
 \f[C]beamer\f[R].
 .TP
-.B \f[C]aspectratio\f[R]
+\f[B]\f[CB]aspectratio\f[B]\f[R]
 slide aspect ratio (\f[C]43\f[R] for 4:3 [default], \f[C]169\f[R] for
 16:9, \f[C]1610\f[R] for 16:10, \f[C]149\f[R] for 14:9, \f[C]141\f[R]
 for 1.41:1, \f[C]54\f[R] for 5:4, \f[C]32\f[R] for 3:2)
 .TP
-.B \f[C]beamerarticle\f[R]
+\f[B]\f[CB]beamerarticle\f[B]\f[R]
 produce an article from Beamer slides
 .TP
-.B \f[C]beameroption\f[R]
+\f[B]\f[CB]beameroption\f[B]\f[R]
 add extra beamer option with \f[C]\[rs]setbeameroption{}\f[R]
 .TP
-.B \f[C]institute\f[R]
+\f[B]\f[CB]institute\f[B]\f[R]
 author affiliations: can be a list when there are multiple authors
 .TP
-.B \f[C]logo\f[R]
+\f[B]\f[CB]logo\f[B]\f[R]
 logo image for slides
 .TP
-.B \f[C]navigation\f[R]
+\f[B]\f[CB]navigation\f[B]\f[R]
 controls navigation symbols (default is \f[C]empty\f[R] for no
 navigation symbols; other valid values are \f[C]frame\f[R],
 \f[C]vertical\f[R], and \f[C]horizontal\f[R])
 .TP
-.B \f[C]section-titles\f[R]
+\f[B]\f[CB]section-titles\f[B]\f[R]
 enables \[dq]title pages\[dq] for new sections (default is true)
 .TP
-.B \f[C]theme\f[R], \f[C]colortheme\f[R], \f[C]fonttheme\f[R], \f[C]innertheme\f[R], \f[C]outertheme\f[R]
-beamer themes:
+\f[B]\f[CB]theme\f[B]\f[R], \f[B]\f[CB]colortheme\f[B]\f[R], \f[B]\f[CB]fonttheme\f[B]\f[R], \f[B]\f[CB]innertheme\f[B]\f[R], \f[B]\f[CB]outertheme\f[B]\f[R]
+beamer themes
 .TP
-.B \f[C]themeoptions\f[R]
+\f[B]\f[CB]themeoptions\f[B]\f[R]
 options for LaTeX beamer themes (a list).
 .TP
-.B \f[C]titlegraphic\f[R]
+\f[B]\f[CB]titlegraphic\f[B]\f[R]
 image for title slide
+.SS Variables for PowerPoint
+.PP
+These variables control the visual aspects of a slide show that are not
+easily controlled via templates.
+.TP
+\f[B]\f[CB]monofont\f[B]\f[R]
+font to use for code.
 .SS Variables for LaTeX
 .PP
 Pandoc uses these variables when creating a PDF with a LaTeX engine.
 .SS Layout
 .TP
-.B \f[C]block-headings\f[R]
+\f[B]\f[CB]block-headings\f[B]\f[R]
 make \f[C]\[rs]paragraph\f[R] and \f[C]\[rs]subparagraph\f[R] (fourth-
 and fifth-level headings, or fifth- and sixth-level with book classes)
 free-standing rather than run-in; requires further formatting to
@@ -1694,7 +2453,7 @@ header-includes: |
 .fi
 .RE
 .TP
-.B \f[C]classoption\f[R]
+\f[B]\f[CB]classoption\f[B]\f[R]
 option for document class, e.g.
 \f[C]oneside\f[R]; repeat for multiple options:
 .RS
@@ -1710,13 +2469,13 @@ classoption:
 .fi
 .RE
 .TP
-.B \f[C]documentclass\f[R]
+\f[B]\f[CB]documentclass\f[B]\f[R]
 document class: usually one of the standard classes, \f[C]article\f[R],
 \f[C]book\f[R], and \f[C]report\f[R]; the KOMA-Script equivalents,
 \f[C]scrartcl\f[R], \f[C]scrbook\f[R], and \f[C]scrreprt\f[R], which
 default to smaller margins; or \f[C]memoir\f[R]
 .TP
-.B \f[C]geometry\f[R]
+\f[B]\f[CB]geometry\f[B]\f[R]
 option for \f[C]geometry\f[R] package, e.g.
 \f[C]margin=1in\f[R]; repeat for multiple options:
 .RS
@@ -1733,43 +2492,60 @@ geometry:
 .fi
 .RE
 .TP
-.B \f[C]indent\f[R]
+\f[B]\f[CB]hyperrefoptions\f[B]\f[R]
+option for \f[C]hyperref\f[R] package, e.g.
+\f[C]linktoc=all\f[R]; repeat for multiple options:
+.RS
+.IP
+.nf
+\f[C]
+---
+hyperrefoptions:
+- linktoc=all
+- pdfwindowui
+- pdfpagemode=FullScreen
+\&...
+\f[R]
+.fi
+.RE
+.TP
+\f[B]\f[CB]indent\f[B]\f[R]
 uses document class settings for indentation (the default LaTeX template
 otherwise removes indentation and adds space between paragraphs)
 .TP
-.B \f[C]linestretch\f[R]
+\f[B]\f[CB]linestretch\f[B]\f[R]
 adjusts line spacing using the \f[C]setspace\f[R] package, e.g.
 \f[C]1.25\f[R], \f[C]1.5\f[R]
 .TP
-.B \f[C]margin-left\f[R], \f[C]margin-right\f[R], \f[C]margin-top\f[R], \f[C]margin-bottom\f[R]
+\f[B]\f[CB]margin-left\f[B]\f[R], \f[B]\f[CB]margin-right\f[B]\f[R], \f[B]\f[CB]margin-top\f[B]\f[R], \f[B]\f[CB]margin-bottom\f[B]\f[R]
 sets margins if \f[C]geometry\f[R] is not used (otherwise
 \f[C]geometry\f[R] overrides these)
 .TP
-.B \f[C]pagestyle\f[R]
+\f[B]\f[CB]pagestyle\f[B]\f[R]
 control \f[C]\[rs]pagestyle{}\f[R]: the default article class supports
 \f[C]plain\f[R] (default), \f[C]empty\f[R] (no running heads or page
 numbers), and \f[C]headings\f[R] (section titles in running heads)
 .TP
-.B \f[C]papersize\f[R]
+\f[B]\f[CB]papersize\f[B]\f[R]
 paper size, e.g.
 \f[C]letter\f[R], \f[C]a4\f[R]
 .TP
-.B \f[C]secnumdepth\f[R]
+\f[B]\f[CB]secnumdepth\f[B]\f[R]
 numbering depth for sections (with \f[C]--number-sections\f[R] option or
 \f[C]numbersections\f[R] variable)
 .SS Fonts
 .TP
-.B \f[C]fontenc\f[R]
+\f[B]\f[CB]fontenc\f[B]\f[R]
 allows font encoding to be specified through \f[C]fontenc\f[R] package
 (with \f[C]pdflatex\f[R]); default is \f[C]T1\f[R] (see LaTeX font
 encodings guide)
 .TP
-.B \f[C]fontfamily\f[R]
+\f[B]\f[CB]fontfamily\f[B]\f[R]
 font package for use with \f[C]pdflatex\f[R]: TeX Live includes many
 options, documented in the LaTeX Font Catalogue.
 The default is Latin Modern.
 .TP
-.B \f[C]fontfamilyoptions\f[R]
+\f[B]\f[CB]fontfamilyoptions\f[B]\f[R]
 options for package used as \f[C]fontfamily\f[R]; repeat for multiple
 options.
 For example, to use the Libertine font with proportional lowercase
@@ -1788,18 +2564,18 @@ fontfamilyoptions:
 .fi
 .RE
 .TP
-.B \f[C]fontsize\f[R]
+\f[B]\f[CB]fontsize\f[B]\f[R]
 font size for body text.
 The standard classes allow 10pt, 11pt, and 12pt.
 To use another size, set \f[C]documentclass\f[R] to one of the
 KOMA-Script classes, such as \f[C]scrartcl\f[R] or \f[C]scrbook\f[R].
 .TP
-.B \f[C]mainfont\f[R], \f[C]sansfont\f[R], \f[C]monofont\f[R], \f[C]mathfont\f[R], \f[C]CJKmainfont\f[R]
+\f[B]\f[CB]mainfont\f[B]\f[R], \f[B]\f[CB]sansfont\f[B]\f[R], \f[B]\f[CB]monofont\f[B]\f[R], \f[B]\f[CB]mathfont\f[B]\f[R], \f[B]\f[CB]CJKmainfont\f[B]\f[R]
 font families for use with \f[C]xelatex\f[R] or \f[C]lualatex\f[R]: take
 the name of any system font, using the \f[C]fontspec\f[R] package.
 \f[C]CJKmainfont\f[R] uses the \f[C]xecjk\f[R] package.
 .TP
-.B \f[C]mainfontoptions\f[R], \f[C]sansfontoptions\f[R], \f[C]monofontoptions\f[R], \f[C]mathfontoptions\f[R], \f[C]CJKoptions\f[R]
+\f[B]\f[CB]mainfontoptions\f[B]\f[R], \f[B]\f[CB]sansfontoptions\f[B]\f[R], \f[B]\f[CB]monofontoptions\f[B]\f[R], \f[B]\f[CB]mathfontoptions\f[B]\f[R], \f[B]\f[CB]CJKoptions\f[B]\f[R]
 options to use with \f[C]mainfont\f[R], \f[C]sansfont\f[R],
 \f[C]monofont\f[R], \f[C]mathfont\f[R], \f[C]CJKmainfont\f[R] in
 \f[C]xelatex\f[R] and \f[C]lualatex\f[R].
@@ -1821,185 +2597,213 @@ mainfontoptions:
 .fi
 .RE
 .TP
-.B \f[C]microtypeoptions\f[R]
+\f[B]\f[CB]microtypeoptions\f[B]\f[R]
 options to pass to the microtype package
 .SS Links
 .TP
-.B \f[C]colorlinks\f[R]
+\f[B]\f[CB]colorlinks\f[B]\f[R]
 add color to link text; automatically enabled if any of
 \f[C]linkcolor\f[R], \f[C]filecolor\f[R], \f[C]citecolor\f[R],
 \f[C]urlcolor\f[R], or \f[C]toccolor\f[R] are set
 .TP
-.B \f[C]linkcolor\f[R], \f[C]filecolor\f[R], \f[C]citecolor\f[R], \f[C]urlcolor\f[R], \f[C]toccolor\f[R]
+\f[B]\f[CB]linkcolor\f[B]\f[R], \f[B]\f[CB]filecolor\f[B]\f[R], \f[B]\f[CB]citecolor\f[B]\f[R], \f[B]\f[CB]urlcolor\f[B]\f[R], \f[B]\f[CB]toccolor\f[B]\f[R]
 color for internal links, external links, citation links, linked URLs,
 and links in table of contents, respectively: uses options allowed by
 \f[C]xcolor\f[R], including the \f[C]dvipsnames\f[R],
 \f[C]svgnames\f[R], and \f[C]x11names\f[R] lists
 .TP
-.B \f[C]links-as-notes\f[R]
+\f[B]\f[CB]links-as-notes\f[B]\f[R]
 causes links to be printed as footnotes
 .SS Front matter
 .TP
-.B \f[C]lof\f[R], \f[C]lot\f[R]
+\f[B]\f[CB]lof\f[B]\f[R], \f[B]\f[CB]lot\f[B]\f[R]
 include list of figures, list of tables
 .TP
-.B \f[C]thanks\f[R]
+\f[B]\f[CB]thanks\f[B]\f[R]
 contents of acknowledgments footnote after document title
 .TP
-.B \f[C]toc\f[R]
+\f[B]\f[CB]toc\f[B]\f[R]
 include table of contents (can also be set using
 \f[C]--toc/--table-of-contents\f[R])
 .TP
-.B \f[C]toc-depth\f[R]
+\f[B]\f[CB]toc-depth\f[B]\f[R]
 level of section to include in table of contents
 .SS BibLaTeX Bibliographies
 .PP
 These variables function when using BibLaTeX for citation rendering.
 .TP
-.B \f[C]biblatexoptions\f[R]
+\f[B]\f[CB]biblatexoptions\f[B]\f[R]
 list of options for biblatex
 .TP
-.B \f[C]biblio-style\f[R]
+\f[B]\f[CB]biblio-style\f[B]\f[R]
 bibliography style, when used with \f[C]--natbib\f[R] and
 \f[C]--biblatex\f[R].
 .TP
-.B \f[C]biblio-title\f[R]
+\f[B]\f[CB]biblio-title\f[B]\f[R]
 bibliography title, when used with \f[C]--natbib\f[R] and
 \f[C]--biblatex\f[R].
 .TP
-.B \f[C]bibliography\f[R]
+\f[B]\f[CB]bibliography\f[B]\f[R]
 bibliography to use for resolving references
 .TP
-.B \f[C]natbiboptions\f[R]
+\f[B]\f[CB]natbiboptions\f[B]\f[R]
 list of options for natbib
 .SS Variables for ConTeXt
 .PP
 Pandoc uses these variables when creating a PDF with ConTeXt.
 .TP
-.B \f[C]fontsize\f[R]
+\f[B]\f[CB]fontsize\f[B]\f[R]
 font size for body text (e.g.
 \f[C]10pt\f[R], \f[C]12pt\f[R])
 .TP
-.B \f[C]headertext\f[R], \f[C]footertext\f[R]
+\f[B]\f[CB]headertext\f[B]\f[R], \f[B]\f[CB]footertext\f[B]\f[R]
 text to be placed in running header or footer (see ConTeXt Headers and
 Footers); repeat up to four times for different placement
 .TP
-.B \f[C]indenting\f[R]
+\f[B]\f[CB]indenting\f[B]\f[R]
 controls indentation of paragraphs, e.g.
 \f[C]yes,small,next\f[R] (see ConTeXt Indentation); repeat for multiple
 options
 .TP
-.B \f[C]interlinespace\f[R]
+\f[B]\f[CB]interlinespace\f[B]\f[R]
 adjusts line spacing, e.g.
 \f[C]4ex\f[R] (using \f[C]setupinterlinespace\f[R]); repeat for multiple
 options
 .TP
-.B \f[C]layout\f[R]
+\f[B]\f[CB]layout\f[B]\f[R]
 options for page margins and text arrangement (see ConTeXt Layout);
 repeat for multiple options
 .TP
-.B \f[C]linkcolor\f[R], \f[C]contrastcolor\f[R]
+\f[B]\f[CB]linkcolor\f[B]\f[R], \f[B]\f[CB]contrastcolor\f[B]\f[R]
 color for links outside and inside a page, e.g.
 \f[C]red\f[R], \f[C]blue\f[R] (see ConTeXt Color)
 .TP
-.B \f[C]linkstyle\f[R]
+\f[B]\f[CB]linkstyle\f[B]\f[R]
 typeface style for links, e.g.
 \f[C]normal\f[R], \f[C]bold\f[R], \f[C]slanted\f[R],
 \f[C]boldslanted\f[R], \f[C]type\f[R], \f[C]cap\f[R], \f[C]small\f[R]
 .TP
-.B \f[C]lof\f[R], \f[C]lot\f[R]
+\f[B]\f[CB]lof\f[B]\f[R], \f[B]\f[CB]lot\f[B]\f[R]
 include list of figures, list of tables
 .TP
-.B \f[C]mainfont\f[R], \f[C]sansfont\f[R], \f[C]monofont\f[R], \f[C]mathfont\f[R]
+\f[B]\f[CB]mainfont\f[B]\f[R], \f[B]\f[CB]sansfont\f[B]\f[R], \f[B]\f[CB]monofont\f[B]\f[R], \f[B]\f[CB]mathfont\f[B]\f[R]
 font families: take the name of any system font (see ConTeXt Font
 Switching)
 .TP
-.B \f[C]margin-left\f[R], \f[C]margin-right\f[R], \f[C]margin-top\f[R], \f[C]margin-bottom\f[R]
+\f[B]\f[CB]margin-left\f[B]\f[R], \f[B]\f[CB]margin-right\f[B]\f[R], \f[B]\f[CB]margin-top\f[B]\f[R], \f[B]\f[CB]margin-bottom\f[B]\f[R]
 sets margins, if \f[C]layout\f[R] is not used (otherwise
 \f[C]layout\f[R] overrides these)
 .TP
-.B \f[C]pagenumbering\f[R]
+\f[B]\f[CB]pagenumbering\f[B]\f[R]
 page number style and location (using \f[C]setuppagenumbering\f[R]);
 repeat for multiple options
 .TP
-.B \f[C]papersize\f[R]
+\f[B]\f[CB]papersize\f[B]\f[R]
 paper size, e.g.
 \f[C]letter\f[R], \f[C]A4\f[R], \f[C]landscape\f[R] (see ConTeXt Paper
 Setup); repeat for multiple options
 .TP
-.B \f[C]pdfa\f[R]
-adds to the preamble the setup necessary to generate PDF/A-1b:2005.
+\f[B]\f[CB]pdfa\f[B]\f[R]
+adds to the preamble the setup necessary to generate PDF/A of the type
+specified, e.g.
+\f[C]1a:2005\f[R], \f[C]2a\f[R].
+If no type is specified (i.e.
+the value is set to True, by e.g.
+\f[C]--metadata=pdfa\f[R] or \f[C]pdfa: true\f[R] in a YAML metadata
+block), \f[C]1b:2005\f[R] will be used as default, for reasons of
+backwards compatibility.
+Using \f[C]--variable=pdfa\f[R] without specified value is not
+supported.
 To successfully generate PDF/A the required ICC color profiles have to
 be available and the content and all included files (such as images)
 have to be standard conforming.
-The ICC profiles can be obtained from ConTeXt ICC Profiles.
+The ICC profiles and output intent may be specified using the variables
+\f[C]pdfaiccprofile\f[R] and \f[C]pdfaintent\f[R].
 See also ConTeXt PDFA for more details.
 .TP
-.B \f[C]toc\f[R]
+\f[B]\f[CB]pdfaiccprofile\f[B]\f[R]
+when used in conjunction with \f[C]pdfa\f[R], specifies the ICC profile
+to use in the PDF, e.g.
+\f[C]default.cmyk\f[R].
+If left unspecified, \f[C]sRGB.icc\f[R] is used as default.
+May be repeated to include multiple profiles.
+Note that the profiles have to be available on the system.
+They can be obtained from ConTeXt ICC Profiles.
+.TP
+\f[B]\f[CB]pdfaintent\f[B]\f[R]
+when used in conjunction with \f[C]pdfa\f[R], specifies the output
+intent for the colors, e.g.
+\f[C]ISO coated v2 300\[rs]letterpercent\[rs]space (ECI)\f[R] If left
+unspecified, \f[C]sRGB IEC61966-2.1\f[R] is used as default.
+.TP
+\f[B]\f[CB]toc\f[B]\f[R]
 include table of contents (can also be set using
 \f[C]--toc/--table-of-contents\f[R])
 .TP
-.B \f[C]whitespace\f[R]
+\f[B]\f[CB]whitespace\f[B]\f[R]
 spacing between paragraphs, e.g.
 \f[C]none\f[R], \f[C]small\f[R] (using \f[C]setupwhitespace\f[R])
+.TP
+\f[B]\f[CB]includesource\f[B]\f[R]
+include all source documents as file attachments in the PDF file
 .SS Variables for \f[C]wkhtmltopdf\f[R]
 .PP
 Pandoc uses these variables when creating a PDF with
 \f[C]wkhtmltopdf\f[R].
 The \f[C]--css\f[R] option also affects the output.
 .TP
-.B \f[C]footer-html\f[R], \f[C]header-html\f[R]
+\f[B]\f[CB]footer-html\f[B]\f[R], \f[B]\f[CB]header-html\f[B]\f[R]
 add information to the header and footer
 .TP
-.B \f[C]margin-left\f[R], \f[C]margin-right\f[R], \f[C]margin-top\f[R], \f[C]margin-bottom\f[R]
+\f[B]\f[CB]margin-left\f[B]\f[R], \f[B]\f[CB]margin-right\f[B]\f[R], \f[B]\f[CB]margin-top\f[B]\f[R], \f[B]\f[CB]margin-bottom\f[B]\f[R]
 set the page margins
 .TP
-.B \f[C]papersize\f[R]
+\f[B]\f[CB]papersize\f[B]\f[R]
 sets the PDF paper size
 .SS Variables for man pages
 .TP
-.B \f[C]adjusting\f[R]
+\f[B]\f[CB]adjusting\f[B]\f[R]
 adjusts text to left (\f[C]l\f[R]), right (\f[C]r\f[R]), center
 (\f[C]c\f[R]), or both (\f[C]b\f[R]) margins
 .TP
-.B \f[C]footer\f[R]
+\f[B]\f[CB]footer\f[B]\f[R]
 footer in man pages
 .TP
-.B \f[C]header\f[R]
+\f[B]\f[CB]header\f[B]\f[R]
 header in man pages
 .TP
-.B \f[C]hyphenate\f[R]
+\f[B]\f[CB]hyphenate\f[B]\f[R]
 if \f[C]true\f[R] (the default), hyphenation will be used
 .TP
-.B \f[C]section\f[R]
+\f[B]\f[CB]section\f[B]\f[R]
 section number in man pages
 .SS Variables for ms
 .TP
-.B \f[C]fontfamily\f[R]
+\f[B]\f[CB]fontfamily\f[B]\f[R]
 font family (e.g.
 \f[C]T\f[R] or \f[C]P\f[R])
 .TP
-.B \f[C]indent\f[R]
+\f[B]\f[CB]indent\f[B]\f[R]
 paragraph indent (e.g.
 \f[C]2m\f[R])
 .TP
-.B \f[C]lineheight\f[R]
+\f[B]\f[CB]lineheight\f[B]\f[R]
 line height (e.g.
 \f[C]12p\f[R])
 .TP
-.B \f[C]pointsize\f[R]
+\f[B]\f[CB]pointsize\f[B]\f[R]
 point size (e.g.
 \f[C]10p\f[R])
-.SS Structural variables
+.SS Variables set automatically
 .PP
 Pandoc sets these variables automatically in response to options or
 document contents; users can also modify them.
 These vary depending on the output format, and include the following:
 .TP
-.B \f[C]body\f[R]
+\f[B]\f[CB]body\f[B]\f[R]
 body of document
 .TP
-.B \f[C]date-meta\f[R]
+\f[B]\f[CB]date-meta\f[B]\f[R]
 the \f[C]date\f[R] variable converted to ISO 8601 YYYY-MM-DD, included
 in all HTML based formats (dzslides, epub, html, html4, html5, revealjs,
 s5, slideous, slidy).
@@ -2012,26 +2816,26 @@ either \f[C]02 Apr 2018\f[R] or \f[C]02 April 2018\f[R]),
 \f[C]April 02, 2018),\f[R]yyyy[mm[dd]]]\f[C](e.g.\f[R]20180402,
 \f[C]201804\f[R] or \f[C]2018\f[R]).
 .TP
-.B \f[C]header-includes\f[R]
+\f[B]\f[CB]header-includes\f[B]\f[R]
 contents specified by \f[C]-H/--include-in-header\f[R] (may have
 multiple values)
 .TP
-.B \f[C]include-before\f[R]
+\f[B]\f[CB]include-before\f[B]\f[R]
 contents specified by \f[C]-B/--include-before-body\f[R] (may have
 multiple values)
 .TP
-.B \f[C]include-after\f[R]
+\f[B]\f[CB]include-after\f[B]\f[R]
 contents specified by \f[C]-A/--include-after-body\f[R] (may have
 multiple values)
 .TP
-.B \f[C]meta-json\f[R]
+\f[B]\f[CB]meta-json\f[B]\f[R]
 JSON representation of all of the document\[aq]s metadata.
 Field values are transformed to the selected output format.
 .TP
-.B \f[C]numbersections\f[R]
+\f[B]\f[CB]numbersections\f[B]\f[R]
 non-null value if \f[C]-N/--number-sections\f[R] was specified
 .TP
-.B \f[C]sourcefile\f[R], \f[C]outputfile\f[R]
+\f[B]\f[CB]sourcefile\f[B]\f[R], \f[B]\f[CB]outputfile\f[B]\f[R]
 source and destination filenames, as given on the command line.
 \f[C]sourcefile\f[R] can also be a list if input comes from multiple
 files, or empty if input is from stdin.
@@ -2057,113 +2861,15 @@ If you need absolute paths, use e.g.
 \f[C]$curdir$/$sourcefile$\f[R].
 .RE
 .TP
-.B \f[C]curdir\f[R]
+\f[B]\f[CB]curdir\f[B]\f[R]
 working directory from which pandoc is run.
 .TP
-.B \f[C]toc\f[R]
+\f[B]\f[CB]toc\f[B]\f[R]
 non-null value if \f[C]--toc/--table-of-contents\f[R] was specified
 .TP
-.B \f[C]toc-title\f[R]
+\f[B]\f[CB]toc-title\f[B]\f[R]
 title of table of contents (works only with EPUB, opendocument, odt,
 docx, pptx, beamer, LaTeX)
-.SS Using variables in templates
-.PP
-Variable names are sequences of alphanumerics, \f[C]-\f[R], and
-\f[C]_\f[R], starting with a letter.
-A variable name surrounded by \f[C]$\f[R] signs will be replaced by its
-value.
-For example, the string \f[C]$title$\f[R] in
-.IP
-.nf
-\f[C]
-<title>$title$</title>
-\f[R]
-.fi
-.PP
-will be replaced by the document title.
-.PP
-To write a literal \f[C]$\f[R] in a template, use \f[C]$$\f[R].
-.PP
-Templates may contain conditionals.
-The syntax is as follows:
-.IP
-.nf
-\f[C]
-$if(variable)$
-X
-$else$
-Y
-$endif$
-\f[R]
-.fi
-.PP
-This will include \f[C]X\f[R] in the template if \f[C]variable\f[R] has
-a truthy value; otherwise it will include \f[C]Y\f[R].
-Here a truthy value is any of the following:
-.IP \[bu] 2
-a string that is not entirely white space,
-.IP \[bu] 2
-a non-empty array where the first value is truthy,
-.IP \[bu] 2
-any number (including zero),
-.IP \[bu] 2
-any object,
-.IP \[bu] 2
-the boolean \f[C]true\f[R] (to specify the boolean \f[C]true\f[R] value
-using YAML metadata or the \f[C]--metadata\f[R] flag, use
-\f[C]true\f[R], \f[C]True\f[R], or \f[C]TRUE\f[R]; with the
-\f[C]--variable\f[R] flag, simply omit a value for the variable, e.g.
-\f[C]--variable draft\f[R]).
-.PP
-\f[C]X\f[R] and \f[C]Y\f[R] are placeholders for any valid template
-text, and may include interpolated variables or other conditionals.
-The \f[C]$else$\f[R] section may be omitted.
-.PP
-When variables can have multiple values (for example, \f[C]author\f[R]
-in a multi-author document), you can use the \f[C]$for$\f[R] keyword:
-.IP
-.nf
-\f[C]
-$for(author)$
-<meta name=\[dq]author\[dq] content=\[dq]$author$\[dq] />
-$endfor$
-\f[R]
-.fi
-.PP
-You can optionally specify a separator to be used between consecutive
-items:
-.IP
-.nf
-\f[C]
-$for(author)$$author$$sep$, $endfor$
-\f[R]
-.fi
-.PP
-Note that the separator needs to be specified immediately before the
-\f[C]$endfor\f[R] keyword.
-.PP
-A dot can be used to select a field of a variable that takes an object
-as its value.
-So, for example:
-.IP
-.nf
-\f[C]
-$author.name$ ($author.affiliation$)
-\f[R]
-.fi
-.PP
-The value of a variable will be indented to the same level as the
-variable.
-.PP
-If you use custom templates, you may need to revise them as pandoc
-changes.
-We recommend tracking the changes in the default templates, and
-modifying your custom templates accordingly.
-An easy way to do this is to fork the pandoc-templates repository and
-merge in changes after each pandoc release.
-.PP
-Templates may contain comments: anything on a line after \f[C]$--\f[R]
-will be treated as a comment and ignored.
 .SH EXTENSIONS
 .PP
 The behavior of some of the readers and writers can be adjusted by
@@ -2195,14 +2901,14 @@ Nonbreaking spaces are inserted after certain abbreviations, such as
 .PP
 This extension can be enabled/disabled for the following formats:
 .TP
-.B input formats
+input formats
 \f[C]markdown\f[R], \f[C]commonmark\f[R], \f[C]latex\f[R],
 \f[C]mediawiki\f[R], \f[C]org\f[R], \f[C]rst\f[R], \f[C]twiki\f[R]
 .TP
-.B output formats
+output formats
 \f[C]markdown\f[R], \f[C]latex\f[R], \f[C]context\f[R], \f[C]rst\f[R]
 .TP
-.B enabled by default in
+enabled by default in
 \f[C]markdown\f[R], \f[C]latex\f[R], \f[C]context\f[R] (both input and
 output)
 .PP
@@ -2227,14 +2933,14 @@ automatically assigned a unique identifier based on the heading text.
 .PP
 This extension can be enabled/disabled for the following formats:
 .TP
-.B input formats
+input formats
 \f[C]markdown\f[R], \f[C]latex\f[R], \f[C]rst\f[R], \f[C]mediawiki\f[R],
 \f[C]textile\f[R]
 .TP
-.B output formats
+output formats
 \f[C]markdown\f[R], \f[C]muse\f[R]
 .TP
-.B enabled by default in
+enabled by default in
 \f[C]markdown\f[R], \f[C]muse\f[R]
 .PP
 The default algorithm used to derive the identifier from the heading
@@ -2345,6 +3051,7 @@ GitHub\[aq]s method.
 Spaces are converted to dashes (\f[C]-\f[R]), uppercase characters to
 lowercase characters, and punctuation characters other than \f[C]-\f[R]
 and \f[C]_\f[R] are removed.
+Emojis are replaced by their names.
 .SS Math Input
 .PP
 The extensions \f[C]tex_math_dollars\f[R],
@@ -2372,12 +3079,12 @@ Allows raw LaTeX, TeX, and ConTeXt to be included in a document.
 This extension can be enabled/disabled for the following formats (in
 addition to \f[C]markdown\f[R]):
 .TP
-.B input formats
+input formats
 \f[C]latex\f[R], \f[C]org\f[R], \f[C]textile\f[R], \f[C]html\f[R]
 (environments, \f[C]\[rs]ref\f[R], and \f[C]\[rs]eqref\f[R] only),
 \f[C]ipynb\f[R]
 .TP
-.B output formats
+output formats
 \f[C]textile\f[R], \f[C]commonmark\f[R]
 .PP
 Note: as applied to \f[C]ipynb\f[R], \f[C]raw_html\f[R] and
@@ -2413,10 +3120,10 @@ Treat the document as literate Haskell source.
 .PP
 This extension can be enabled/disabled for the following formats:
 .TP
-.B input formats
+input formats
 \f[C]markdown\f[R], \f[C]rst\f[R], \f[C]latex\f[R]
 .TP
-.B output formats
+output formats
 \f[C]markdown\f[R], \f[C]rst\f[R], \f[C]latex\f[R], \f[C]html\f[R]
 .PP
 If you append \f[C]+lhs\f[R] (or \f[C]+literate_haskell\f[R]) to one of
@@ -2487,11 +3194,20 @@ By default empty paragraphs are omitted.
 .PP
 This extension can be enabled/disabled for the following formats:
 .TP
-.B input formats
+input formats
 \f[C]docx\f[R], \f[C]html\f[R]
 .TP
-.B output formats
+output formats
 \f[C]docx\f[R], \f[C]odt\f[R], \f[C]opendocument\f[R], \f[C]html\f[R]
+.SS Extension: \f[C]native_numbering\f[R]
+.PP
+Enables native numbering of figures and tables.
+Enumeration starts at 1.
+.PP
+This extension can be enabled/disabled for the following formats:
+.TP
+output formats
+\f[C]odt\f[R], \f[C]opendocument\f[R]
 .SS Extension: \f[C]styles\f[R]
 .PP
 When converting from docx, read all docx styles as divs (for paragraph
@@ -2500,7 +3216,7 @@ understands the meaning of these styles.
 This can be used with docx custom styles.
 Disabled by default.
 .TP
-.B input formats
+input formats
 \f[C]docx\f[R]
 .SS Extension: \f[C]amuse\f[R]
 .PP
@@ -2686,6 +3402,12 @@ is just the same as
 # My heading {.unnumbered}
 \f[R]
 .fi
+.PP
+If the \f[C]unlisted\f[R] class is present in addition to
+\f[C]unnumbered\f[R], the heading will not be included in a table of
+contents.
+(Currently this feature is only implemented for certain formats: those
+based on LaTeX and HTML, PowerPoint, and RTF.)
 .SS Extension: \f[C]implicit_header_references\f[R]
 .PP
 Pandoc behaves as if reference links have been defined for each heading.
@@ -3570,7 +4292,8 @@ can be omitted for a headerless table.
 The cells of grid tables may contain arbitrary block elements (multiple
 paragraphs, code blocks, lists, etc.).
 Cells that span multiple columns or rows are not supported.
-Grid tables can be created easily using Emacs table mode.
+Grid tables can be created easily using Emacs\[aq] table-mode
+(\f[C]M-x table-insert\f[R]).
 .PP
 Alignments can be specified as with pipe tables, by putting colons at
 the boundaries of the separator line after the header:
@@ -3811,9 +4534,8 @@ be interpretable as YAML numbers or boolean values (so, for example,
 names).
 .PP
 A document may contain multiple metadata blocks.
-The metadata fields will be combined through a \f[I]left-biased
-union\f[R]: if two metadata blocks attempt to set the same field, the
-value from the first block will be taken.
+If two metadata blocks attempt to set the same field, the value from the
+second block will be taken.
 .PP
 When pandoc is used with \f[C]-t markdown\f[R] to create a Markdown
 document, a YAML metadata block will be produced only if the
@@ -4031,12 +4753,15 @@ H\[ti]2\[ti]O is a liquid.  2\[ha]10\[ha] is 1024.
 \f[R]
 .fi
 .PP
+The text between \f[C]\[ha]...\[ha]\f[R] or \f[C]\[ti]...\[ti]\f[R] may
+not contain spaces or newlines.
 If the superscripted or subscripted text contains spaces, these spaces
 must be escaped with backslashes.
 (This is to prevent accidental superscripting and subscripting through
-the ordinary use of \f[C]\[ti]\f[R] and \f[C]\[ha]\f[R].) Thus, if you
-want the letter P with \[aq]a cat\[aq] in subscripts, use
-\f[C]P\[ti]a\[rs] cat\[ti]\f[R], not \f[C]P\[ti]a cat\[ti]\f[R].
+the ordinary use of \f[C]\[ti]\f[R] and \f[C]\[ha]\f[R], and also bad
+interactions with footnotes.) Thus, if you want the letter P with \[aq]a
+cat\[aq] in subscripts, use \f[C]P\[ti]a\[rs] cat\[ti]\f[R], not
+\f[C]P\[ti]a cat\[ti]\f[R].
 .SS Verbatim
 .PP
 To make a short span of text verbatim, put it inside backticks:
@@ -4123,62 +4848,62 @@ delimiters.
 TeX math will be printed in all output formats.
 How it is rendered depends on the output format:
 .TP
-.B LaTeX
+LaTeX
 It will appear verbatim surrounded by \f[C]\[rs](...\[rs])\f[R] (for
 inline math) or \f[C]\[rs][...\[rs]]\f[R] (for display math).
 .TP
-.B Markdown, Emacs Org mode, ConTeXt, ZimWiki
+Markdown, Emacs Org mode, ConTeXt, ZimWiki
 It will appear verbatim surrounded by \f[C]$...$\f[R] (for inline math)
 or \f[C]$$...$$\f[R] (for display math).
 .TP
-.B XWiki
+XWiki
 It will appear verbatim surrounded by
 \f[C]{{formula}}..{{/formula}}\f[R].
 .TP
-.B reStructuredText
+reStructuredText
 It will be rendered using an interpreted text role \f[C]:math:\f[R].
 .TP
-.B AsciiDoc
+AsciiDoc
 For AsciiDoc output format (\f[C]-t asciidoc\f[R]) it will appear
 verbatim surrounded by \f[C]latexmath:[$...$]\f[R] (for inline math) or
 \f[C][latexmath]++++\[rs][...\[rs]]+++\f[R] (for display math).
 For AsciiDoctor output format (\f[C]-t asciidoctor\f[R]) the LaTex
 delimiters (\f[C]$..$\f[R] and \f[C]\[rs][..\[rs]]\f[R]) are omitted.
 .TP
-.B Texinfo
+Texinfo
 It will be rendered inside a \f[C]\[at]math\f[R] command.
 .TP
-.B roff man, Jira markup
+roff man, Jira markup
 It will be rendered verbatim without \f[C]$\f[R]\[aq]s.
 .TP
-.B MediaWiki, DokuWiki
+MediaWiki, DokuWiki
 It will be rendered inside \f[C]<math>\f[R] tags.
 .TP
-.B Textile
+Textile
 It will be rendered inside \f[C]<span class=\[dq]math\[dq]>\f[R] tags.
 .TP
-.B RTF, OpenDocument
+RTF, OpenDocument
 It will be rendered, if possible, using Unicode characters, and will
 otherwise appear verbatim.
 .TP
-.B ODT
+ODT
 It will be rendered, if possible, using MathML.
 .TP
-.B DocBook
+DocBook
 If the \f[C]--mathml\f[R] flag is used, it will be rendered using MathML
 in an \f[C]inlineequation\f[R] or \f[C]informalequation\f[R] tag.
 Otherwise it will be rendered, if possible, using Unicode characters.
 .TP
-.B Docx
+Docx
 It will be rendered using OMML math markup.
 .TP
-.B FictionBook2
+FictionBook2
 If the \f[C]--webtex\f[R] option is used, formulas are rendered as
 images using CodeCogs or other compatible web service, downloaded and
 embedded in the e-book.
 Otherwise, they will appear verbatim.
 .TP
-.B HTML, Slidy, DZSlides, S5, EPUB
+HTML, Slidy, DZSlides, S5, EPUB
 The way math is rendered in HTML will depend on the command-line options
 selected.
 Therefore see Math rendering in HTML above.
@@ -4379,8 +5104,11 @@ When \f[C]latex_macros\f[R] is disabled, the raw LaTeX and math will not
 have macros applied.
 This is usually a better approach when you are targeting LaTeX or PDF.
 .PP
-Whether or not \f[C]latex_macros\f[R] is enabled, the macro definitions
-will still be passed through as raw LaTeX.
+Macro definitions in LaTeX will be passed through as raw LaTeX only if
+\f[C]latex_macros\f[R] is not enabled.
+Macro definitions in Markdown source (or other formats allowing
+\f[C]raw_tex\f[R]) will be passed through regardless of whether
+\f[C]latex_macros\f[R] is enabled.
 .SS Links
 .PP
 Markdown allows links to be specified in several ways.
@@ -4600,11 +5328,13 @@ and a reference ![image][ref] with attributes.
 (This syntax is compatible with PHP Markdown Extra when only
 \f[C]#id\f[R] and \f[C].class\f[R] are used.)
 .PP
-For HTML and EPUB, all attributes except \f[C]width\f[R] and
+For HTML and EPUB, all known HTML5 attributes except \f[C]width\f[R] and
 \f[C]height\f[R] (but including \f[C]srcset\f[R] and \f[C]sizes\f[R])
 are passed through as is.
-The other writers ignore attributes that are not supported by their
-output format.
+Unknown attributes are passed through as custom attributes, with
+\f[C]data-\f[R] prepended.
+The other writers ignore attributes that are not specifically supported
+by their output format.
 .PP
 The \f[C]width\f[R] and \f[C]height\f[R] attributes on images are
 treated specially.
@@ -4867,22 +5597,22 @@ In-field markup: In BibTeX and BibLaTeX databases, pandoc-citeproc
 parses a subset of LaTeX markup; in CSL YAML databases, pandoc Markdown;
 and in CSL JSON databases, an HTML-like markup:
 .TP
-.B \f[C]<i>...</i>\f[R]
+\f[B]\f[CB]<i>...</i>\f[B]\f[R]
 italics
 .TP
-.B \f[C]<b>...</b>\f[R]
+\f[B]\f[CB]<b>...</b>\f[B]\f[R]
 bold
 .TP
-.B \f[C]<span style=\[dq]font-variant:small-caps;\[dq]>...</span>\f[R] or \f[C]<sc>...</sc>\f[R]
+\f[B]\f[CB]<span style=\[dq]font-variant:small-caps;\[dq]>...</span>\f[B]\f[R] or \f[B]\f[CB]<sc>...</sc>\f[B]\f[R]
 small capitals
 .TP
-.B \f[C]<sub>...</sub>\f[R]
+\f[B]\f[CB]<sub>...</sub>\f[B]\f[R]
 subscript
 .TP
-.B \f[C]<sup>...</sup>\f[R]
+\f[B]\f[CB]<sup>...</sup>\f[B]\f[R]
 superscript
 .TP
-.B \f[C]<span class=\[dq]nocase\[dq]>...</span>\f[R]
+\f[B]\f[CB]<span class=\[dq]nocase\[dq]>...</span>\f[B]\f[R]
 prevent a phrase from being capitalized as title case
 .PP
 \f[C]pandoc-citeproc -j\f[R] and \f[C]-y\f[R] interconvert the CSL JSON
@@ -5232,12 +5962,17 @@ affect anything.
 .IP \[bu] 2
 Lazy wrapping of paragraphs is not allowed: the entire definition must
 be indented four spaces.
+.SS Extension: \f[C]gutenberg\f[R]
+.PP
+Use Project Gutenberg conventions for \f[C]plain\f[R] output: all-caps
+for strong emphasis, surround by underscores for regular emphasis, add
+extra blank space around headings.
 .SS Markdown variants
 .PP
 In addition to pandoc\[aq]s extended Markdown, the following Markdown
 variants are supported:
 .TP
-.B \f[C]markdown_phpextra\f[R] (PHP Markdown Extra)
+\f[B]\f[CB]markdown_phpextra\f[B]\f[R] (PHP Markdown Extra)
 \f[C]footnotes\f[R], \f[C]pipe_tables\f[R], \f[C]raw_html\f[R],
 \f[C]markdown_attribute\f[R], \f[C]fenced_code_blocks\f[R],
 \f[C]definition_lists\f[R], \f[C]intraword_underscores\f[R],
@@ -5245,7 +5980,7 @@ variants are supported:
 \f[C]abbreviations\f[R], \f[C]shortcut_reference_links\f[R],
 \f[C]spaced_reference_links\f[R].
 .TP
-.B \f[C]markdown_github\f[R] (deprecated GitHub-Flavored Markdown)
+\f[B]\f[CB]markdown_github\f[B]\f[R] (deprecated GitHub-Flavored Markdown)
 \f[C]pipe_tables\f[R], \f[C]raw_html\f[R], \f[C]fenced_code_blocks\f[R],
 \f[C]auto_identifiers\f[R], \f[C]gfm_auto_identifiers\f[R],
 \f[C]backtick_code_blocks\f[R], \f[C]autolink_bare_uris\f[R],
@@ -5254,7 +5989,7 @@ variants are supported:
 \f[C]shortcut_reference_links\f[R], \f[C]angle_brackets_escapable\f[R],
 \f[C]lists_without_preceding_blankline\f[R].
 .TP
-.B \f[C]markdown_mmd\f[R] (MultiMarkdown)
+\f[B]\f[CB]markdown_mmd\f[B]\f[R] (MultiMarkdown)
 \f[C]pipe_tables\f[R], \f[C]raw_html\f[R], \f[C]markdown_attribute\f[R],
 \f[C]mmd_link_attributes\f[R], \f[C]tex_math_double_backslash\f[R],
 \f[C]intraword_underscores\f[R], \f[C]mmd_title_block\f[R],
@@ -5266,7 +6001,7 @@ variants are supported:
 \f[C]backtick_code_blocks\f[R], \f[C]spaced_reference_links\f[R],
 \f[C]raw_attribute\f[R].
 .TP
-.B \f[C]markdown_strict\f[R] (Markdown.pl)
+\f[B]\f[CB]markdown_strict\f[B]\f[R] (Markdown.pl)
 \f[C]raw_html\f[R], \f[C]shortcut_reference_links\f[R],
 \f[C]spaced_reference_links\f[R].
 .PP
@@ -5281,7 +6016,7 @@ Only those listed below (and \f[C]smart\f[R], \f[C]raw_tex\f[R], and
 The extensions can, however, all be individually disabled.
 Also, \f[C]raw_tex\f[R] only affects \f[C]gfm\f[R] output, not input.
 .TP
-.B \f[C]gfm\f[R] (GitHub-Flavored Markdown)
+\f[B]\f[CB]gfm\f[B]\f[R] (GitHub-Flavored Markdown)
 \f[C]pipe_tables\f[R], \f[C]raw_html\f[R], \f[C]fenced_code_blocks\f[R],
 \f[C]auto_identifiers\f[R], \f[C]gfm_auto_identifiers\f[R],
 \f[C]backtick_code_blocks\f[R], \f[C]autolink_bare_uris\f[R],
@@ -5475,6 +6210,9 @@ incrementally without the \f[C]-i\f[R] option and all at once with the
 .PP
 Both methods allow incremental and nonincremental lists to be mixed in a
 single document.
+.PP
+Note: Neither the \f[C]-i/--incremental\f[R] option nor any of the
+methods described here currently works for PowerPoint output.
 .SS Inserting pauses
 .PP
 You can add \[dq]pauses\[dq] within a slide by including a paragraph
@@ -5491,6 +6229,8 @@ content before the pause
 content after the pause
 \f[R]
 .fi
+.PP
+Note: this feature is not yet implemented for PowerPoint output.
 .SS Styling the slides
 .PP
 You can change the style of HTML slides by putting customized CSS files
@@ -5686,7 +6426,7 @@ ibooks:
 .PP
 The following fields are recognized:
 .TP
-.B \f[C]identifier\f[R]
+\f[B]\f[CB]identifier\f[B]\f[R]
 Either a string value or an object with fields \f[C]text\f[R] and
 \f[C]scheme\f[R].
 Valid values for \f[C]scheme\f[R] are \f[C]ISBN-10\f[R],
@@ -5695,65 +6435,65 @@ Valid values for \f[C]scheme\f[R] are \f[C]ISBN-10\f[R],
 \f[C]Legal deposit number\f[R], \f[C]URN\f[R], \f[C]OCLC\f[R],
 \f[C]ISMN-13\f[R], \f[C]ISBN-A\f[R], \f[C]JP\f[R], \f[C]OLCC\f[R].
 .TP
-.B \f[C]title\f[R]
+\f[B]\f[CB]title\f[B]\f[R]
 Either a string value, or an object with fields \f[C]file-as\f[R] and
 \f[C]type\f[R], or a list of such objects.
 Valid values for \f[C]type\f[R] are \f[C]main\f[R], \f[C]subtitle\f[R],
 \f[C]short\f[R], \f[C]collection\f[R], \f[C]edition\f[R],
 \f[C]extended\f[R].
 .TP
-.B \f[C]creator\f[R]
+\f[B]\f[CB]creator\f[B]\f[R]
 Either a string value, or an object with fields \f[C]role\f[R],
 \f[C]file-as\f[R], and \f[C]text\f[R], or a list of such objects.
 Valid values for \f[C]role\f[R] are MARC relators, but pandoc will
 attempt to translate the human-readable versions (like \[dq]author\[dq]
 and \[dq]editor\[dq]) to the appropriate marc relators.
 .TP
-.B \f[C]contributor\f[R]
+\f[B]\f[CB]contributor\f[B]\f[R]
 Same format as \f[C]creator\f[R].
 .TP
-.B \f[C]date\f[R]
+\f[B]\f[CB]date\f[B]\f[R]
 A string value in \f[C]YYYY-MM-DD\f[R] format.
 (Only the year is necessary.) Pandoc will attempt to convert other
 common date formats.
 .TP
-.B \f[C]lang\f[R] (or legacy: \f[C]language\f[R])
+\f[B]\f[CB]lang\f[B]\f[R] (or legacy: \f[B]\f[CB]language\f[B]\f[R])
 A string value in BCP 47 format.
 Pandoc will default to the local language if nothing is specified.
 .TP
-.B \f[C]subject\f[R]
+\f[B]\f[CB]subject\f[B]\f[R]
 A string value or a list of such values.
 .TP
-.B \f[C]description\f[R]
+\f[B]\f[CB]description\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]type\f[R]
+\f[B]\f[CB]type\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]format\f[R]
+\f[B]\f[CB]format\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]relation\f[R]
+\f[B]\f[CB]relation\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]coverage\f[R]
+\f[B]\f[CB]coverage\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]rights\f[R]
+\f[B]\f[CB]rights\f[B]\f[R]
 A string value.
 .TP
-.B \f[C]cover-image\f[R]
+\f[B]\f[CB]cover-image\f[B]\f[R]
 A string value (path to cover image).
 .TP
-.B \f[C]css\f[R] (or legacy: \f[C]stylesheet\f[R])
+\f[B]\f[CB]css\f[B]\f[R] (or legacy: \f[B]\f[CB]stylesheet\f[B]\f[R])
 A string value (path to CSS stylesheet).
 .TP
-.B \f[C]page-progression-direction\f[R]
+\f[B]\f[CB]page-progression-direction\f[B]\f[R]
 Either \f[C]ltr\f[R] or \f[C]rtl\f[R].
 Specifies the \f[C]page-progression-direction\f[R] attribute for the
 \f[C]spine\f[R] element.
 .TP
-.B \f[C]ibooks\f[R]
+\f[B]\f[CB]ibooks\f[B]\f[R]
 iBooks-specific metadata, with the following fields:
 .RS
 .IP \[bu] 2
@@ -6137,8 +6877,9 @@ blocks and text using \f[C]div\f[R]s and \f[C]span\f[R]s, respectively.
 .PP
 If you define a \f[C]div\f[R] or \f[C]span\f[R] with the attribute
 \f[C]custom-style\f[R], pandoc will apply your specified style to the
-contained elements.
-So, for example using the \f[C]bracketed_spans\f[R] syntax,
+contained elements (with the exception of elements whose function
+depends on a style, like headings, code blocks, block quotes, or links).
+So, for example, using the \f[C]bracketed_spans\f[R] syntax,
 .IP
 .nf
 \f[C]
@@ -6214,17 +6955,17 @@ And with the extension:
 \f[C]
 $ pandoc test/docx/custom-style-reference.docx -f docx+styles -t markdown
 
-::: {custom-style=\[dq]FirstParagraph\[dq]}
+::: {custom-style=\[dq]First Paragraph\[dq]}
 This is some text.
 :::
 
-::: {custom-style=\[dq]BodyText\[dq]}
+::: {custom-style=\[dq]Body Text\[dq]}
 This is text with an [emphasized]{custom-style=\[dq]Emphatic\[dq]} text style.
 And this is text with a [strengthened]{custom-style=\[dq]Strengthened\[dq]}
 text style.
 :::
 
-::: {custom-style=\[dq]MyBlockStyle\[dq]}
+::: {custom-style=\[dq]My Block Style\[dq]}
 > Here is a styled paragraph that inherits from Block Text.
 :::
 \f[R]
@@ -6259,6 +7000,13 @@ needs, do
 pandoc --print-default-data-file sample.lua
 \f[R]
 .fi
+.PP
+Note that custom writers have no default template.
+If you want to use \f[C]--standalone\f[R] with a custom writer, you will
+need to specify a template manually using \f[C]--template\f[R] or add a
+new default template with the name
+\f[C]default.NAME_OF_CUSTOM_WRITER.lua\f[R] to the \f[C]templates\f[R]
+subdirectory of your user data directory (see Templates).
 .SH A NOTE ON SECURITY
 .PP
 If you use pandoc to convert user-contributed content in a web

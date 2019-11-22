@@ -30,15 +30,15 @@ executable.
 
 Starting with pandoc 2.0, we have made it possible to write
 filters in lua without any external dependencies at all. A lua
-interpreter and a lua library for creating pandoc filters is
-built into the pandoc executable. Pandoc data types are
-marshalled to lua directly, avoiding the overhead of writing
+interpreter (version 5.3) and a lua library for creating pandoc
+filters is built into the pandoc executable. Pandoc data types
+are marshalled to lua directly, avoiding the overhead of writing
 JSON to stdout and reading it from stdin.
 
 Here is an example of a lua filter that converts strong emphasis
 to small caps:
 
-``` {.lua}
+``` lua
 return {
   {
     Strong = function (elem)
@@ -50,7 +50,7 @@ return {
 
 or equivalently,
 
-``` {.lua}
+``` lua
 function Strong(elem)
   return pandoc.SmallCaps(elem.c)
 end
@@ -230,7 +230,7 @@ when added to `init.lua`. The snippet adds all unicode-aware
 functions defined in the [`text` module](#module-text) to the
 default `string` module, prefixed with the string `uc_`.
 
-``` {.lua}
+``` lua
 for name, fn in pairs(require 'text') do
   string['uc_' .. name] = fn
 end
@@ -250,7 +250,7 @@ available at <https://github.com/pandoc/lua-filters>.
 The following filter converts the string `{{helloworld}}` into
 emphasized text "Hello, World".
 
-``` {.lua}
+``` lua
 return {
   {
     Str = function (elem)
@@ -270,7 +270,7 @@ This filter causes metadata defined in an external file
 (`metadata-file.yaml`) to be used as default values in a
 document's metadata:
 
-``` {.lua}
+``` lua
 -- read metadata file into string
 local metafile = io.open('metadata-file.yaml', 'r')
 local content = metafile:read("*a")
@@ -297,7 +297,7 @@ return {
 This filter sets the date in the document's metadata to the
 current date:
 
-``` {.lua}
+``` lua
 function Meta(m)
   m.date = os.date("%B %e, %Y")
   return m
@@ -309,7 +309,7 @@ end
 This filter prints a table of all the URLs linked to in the
 document, together with the number of links to that URL.
 
-``` {.lua}
+``` lua
 links = {}
 
 function Link (el)
@@ -350,13 +350,13 @@ Passing information from a higher level (e.g., metadata) to a
 lower level (e.g., inlines) is still possible by using two
 filters living in the same file:
 
-``` {.lua}
+``` lua
 local vars = {}
 
 function get_vars (meta)
   for k, v in pairs(meta) do
-    if v.t == 'MetaInlines' then
-      vars["$" .. k .. "$"] = {table.unpack(v)}
+    if type(v) == 'table' and v.t == 'MetaInlines' then
+      vars["%" .. k .. "%"] = {table.unpack(v)}
     end
   end
 end
@@ -374,7 +374,7 @@ return {{Meta = get_vars}, {Str = replace}}
 
 If the contents of file `occupations.md` is
 
-``` {.markdown}
+``` markdown
 ---
 name: Samuel Q. Smith
 occupation: Professor of Phrenology
@@ -382,17 +382,17 @@ occupation: Professor of Phrenology
 
 Name
 
-: \$name\$
+:   %name%
 
 Occupation
 
-: \$occupation\$
+:   %occupation%
 ```
 
 then running `pandoc --lua-filter=meta-vars.lua occupations.md`
 will output:
 
-``` {.html}
+``` html
 <dl>
 <dt>Name</dt>
 <dd><p><span>Samuel Q. Smith</span></p>
@@ -410,7 +410,7 @@ pages. It converts level-1 headers to uppercase (using
 `walk_block` to transform inline elements inside headers),
 removes footnotes, and replaces links with regular text.
 
-``` {.lua}
+``` lua
 -- we use preloaded text to get a UTF-8 aware 'upper' function
 local text = require('text')
 
@@ -440,7 +440,7 @@ divs with class `handout`. (Note that only blocks at the "outer
 level" are included; this ignores blocks inside nested
 constructs, like list items.)
 
-``` {.lua}
+``` lua
 -- creates a handout from an article, using its headings,
 -- blockquotes, numbered examples, figures, and any
 -- Divs with class "handout"
@@ -469,7 +469,7 @@ document, since the latter will count markup characters, like
 the `#` in front of an ATX header, or tags in HTML documents, as
 words. To run it, `pandoc --lua-filter wordcount.lua myfile.md`.
 
-``` {.lua}
+``` lua
 -- counts words in a document
 
 words = 0
@@ -514,7 +514,7 @@ pandoc will use images in the mediabag. For textual formats, use
 mediabag will be written, or (for HTML only) use
 `--self-contained`.
 
-``` {.lua}
+``` lua
 -- Pandoc filter to process code blocks with class "abc" containing
 -- ABC notation into images.
 --
@@ -557,7 +557,7 @@ source, so that they need not be regenerated each time the
 document is built. (A more sophisticated version of this might
 put these in a special cache directory.)
 
-``` {.lua}
+``` lua
 local function tikz2image(src, filetype, outfile)
     local tmp = os.tmpname()
     local tmpdir = string.match(tmp, "^(.*[\\/])") or "."
@@ -1247,7 +1247,19 @@ Superscripted text
 
 ### Attr {#type-ref-Attr}
 
-A set of element attributes
+A set of element attributes. Values of this type can be created
+with the [`pandoc.Attr`](#Attr) constructor. For convenience, it
+is usually not necessary to construct the value directly if it is
+part of an element, and it is sufficient to pass an HTML-like
+table. E.g., to create a span with identifier "text" and classes
+"a" and "b", on can write:
+
+    local span = pandoc.Span('text', {id = 'text', class = 'a b'})
+
+This also works when using the `attr` setter:
+
+    local span = pandoc.Span 'text'
+    span.attr = {id = 'text', class = 'a b', other_attribute = '1'}
 
 Object equality is determined via
 [`pandoc.utils.equals`](#utils-equals).
@@ -1313,40 +1325,6 @@ Object equality is determined via
 `delimiter`
 :   delimiter of list numbers; one of `DefaultDelim`, `Period`,
     `OneParen`, and `TwoParens` (string)
-
-## Hierarchical Element {#type-ref-Element}
-
-Hierarchical elements can be either *Sec* (sections) or *Blk*
-(blocks). *Blk* elements are treated like
-[Block](#type-ref-Block)s.
-
-### Sec {#type-ref-Sec}
-
-Section elements used to provide hierarchical information on
-document contents.
-
-**Objects of this type are read-only.**
-
-`level`
-:   header level (integer)
-
-`numbering`
-:   section numbering ([list](#module-pandoc.list) of integers)
-
-`attr`
-:   header attributes ([Attr](#type-ref-Attr))
-
-`label`
-:   header content ([list](#module-pandoc.list) of
-    [Inline](#type-ref-Inline)s)
-
-`contents`
-:   list of contents in this section
-    ([list](#module-pandoc.list) of [hierarchical
-    element](#Element)s)
-
-`tag`, `t`
-:   constant `Sec` (string)
 
 ## ReaderOptions {#type-ref-ReaderOptions}
 
@@ -1478,7 +1456,7 @@ UTF-8 aware text manipulation functions, implemented in Haskell.
 The module is made available as part of the `pandoc` module via
 `pandoc.text`. The text module can also be loaded explicitly:
 
-``` {.lua}
+``` lua
 -- uppercase all regular text in a document:
 text = require 'text'
 function Str (s)
@@ -2392,23 +2370,23 @@ Returns:
 
 -   Whether the two objects represent the same element (boolean)
 
-### hierarchicalize {#utils-hierarchicalize}
+### make\_sections {#utils-make_sections}
 
-`hierarchicalize (blocks)`
+`make_sections (number_sections, base_level, blocks)`
 
-Convert list of [Blocks](#Blocks) into an hierarchical list. An
-hierarchical elements is either a normal block (but no Header),
-or a `Sec` element. The latter has the following fields:
-
--   level: level in the document hierarchy;
--   numbering: list of integers of length `level`, specifying
-    the absolute position of the section in the document;
--   attr: section attributes (see [Attr](#Attr));
--   contents: nested list of hierarchical elements.
+Converst list of [Blocks](#Blocks) into sections.
+`Div`s will be created beginning at each `Header`
+and containing following content until the next `Header`
+of comparable level.  If `number_sections` is true,
+a `number` attribute will be added to each `Header`
+containing the section number. If `base_level` is
+non-null, `Header` levels will be reorganized so
+that there are no gaps, and so that the base level
+is the level specified.
 
 Returns:
 
--   List of hierarchical elements.
+-   List of [Blocks](#Blocks).
 
 Usage:
 
@@ -2416,9 +2394,7 @@ Usage:
       pandoc.Header(2, pandoc.Str 'first'),
       pandoc.Header(2, pandoc.Str 'second'),
     }
-    local elements = pandoc.utils.hierarchicalize(blocks)
-    print(table.concat(elements[1].numbering, '.')) -- 0.1
-    print(table.concat(elements[2].numbering, '.')) -- 0.2
+    local newblocks = pandoc.utils.make_sections(true, 1, blocks)
 
 ### run\_json\_filter {#utils-run_json_filter}
 
@@ -2517,7 +2493,7 @@ Usage:
 
 The `pandoc.mediabag` module allows accessing pandoc's media
 storage. The "media bag" is used when pandoc is called with the
-`--extract-media` or `--standalone`/`-s` option.
+`--extract-media` or (for HTML only) `--self-contained` option.
 
 The module is loaded as part of module `pandoc` and can either
 be accessed via the `pandoc.mediabag` field, or explicitly
@@ -2610,7 +2586,7 @@ Usage:
     -- calculate the size of the media bag.
     local mb_items = pandoc.mediabag.list()
     local sum = 0
-    for i = 1, #mb_items:
+    for i = 1, #mb_items do
         sum = sum + mb_items[i].length
     end
     print(sum)
@@ -2653,7 +2629,7 @@ Returns:
 Usage:
 
     local diagram_url = "https://pandoc.org/diagram.jpg"
-    local contents = pandoc.mediabag.fetch(diagram_url, ".")
+    local mt, contents = pandoc.mediabag.fetch(diagram_url, ".")
 
 # Module pandoc.List
 

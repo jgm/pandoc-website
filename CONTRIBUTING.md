@@ -165,6 +165,41 @@ or, if you're using [stack],
 
 The test program is `test/test-pandoc.hs`.
 
+To run particular tests (pattern-matching on their names), use
+the `-p` option:
+
+    cabal install pandoc --enable-tests
+    cabal test --test-options='-p markdown'
+
+Or with stack:
+
+    stack test --test-arguments='-p markdown'
+
+It is often helpful to add `-j4` (run tests in parallel)
+and `--hide-successes` (don't clutter output with successes)
+to the test arguments as well.
+
+If you add a new feature to pandoc, please add tests as well, following
+the pattern of the existing tests. The test suite code is in
+`test/test-pandoc.hs`. If you are adding a new reader or writer, it is
+probably easiest to add some data files to the `test` directory, and
+modify `test/Tests/Old.hs`. Otherwise, it is better to modify the module
+under the `test/Tests` hierarchy corresponding to the pandoc module you
+are changing.  Alternatively, you may add a "command test" to
+the `/test/command/` hierarchy, following the pattern of the tests there.
+These test files should have a meaningful name, which can include the issue
+number and/or the feature that's being tested. For example, `5474-tables.md`
+refers to both issue and feature.
+
+You can rebuild the golden tests in `tests/` by passing
+`--accept` to the test script. (If you're using stack, `stack
+test --test-arguments "--accept"`; or `make TESTARGS=--accept`).
+Then check the changed golden files for accuracy, and
+commit the changes.  For docx or pptx tests, open the files in Word
+or Powerpoint to ensure that they weren't corrupted and that
+they had the expected result, and mention the Word/Powerpoint
+version and OS in your commit comment.
+
 Benchmarks
 ----------
 
@@ -178,10 +213,9 @@ With stack:
 
     stack bench
 
-You can also build pandoc with the `weigh-pandoc` flag and
-run `weigh-pandoc` to get some statistics on memory usage.
-(Eventually this should be incorporated into the benchmark
-suite.)
+You can also build `weigh-pandoc` (`stack build pandoc:weigh-pandoc`)
+to get some statistics on memory usage.  (Eventually this should
+be incorporated into the benchmark suite.)
 
 Using the REPL
 --------------
