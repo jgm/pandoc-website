@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: December 5, 2019
+date: December 12, 2019
 ---
 
 # Synopsis
@@ -988,7 +988,7 @@ header when requesting a document from a URL:
 
 :   Use the [`listings`] package for LaTeX code blocks. The package
     does not support multi-byte encoding for source code. To handle UTF-8
-    you would need to use a custom template. This issue is fully 
+    you would need to use a custom template. This issue is fully
     documented here: [Encoding issue with the listings package].
 
 `-i`, `--incremental`
@@ -1906,11 +1906,11 @@ $~$This long line may break if the document is rendered
 with a short line length.$~$
 ```
 
-### Filters
+### Pipes
 
-A filter transforms the value of a variable or partial. Filters are
+A pipe transforms the value of a variable or partial. Pipes are
 specified using a slash (`/`) between the variable name (or partial)
-and the filter name. Example:
+and the pipe name. Example:
 
 ```
 $for(name)$
@@ -1924,7 +1924,7 @@ $endfor$
 $employee:name()/uppercase$
 ```
 
-Filters may be chained:
+Pipes may be chained:
 
 ```
 $for(employees/pairs)$
@@ -1932,7 +1932,7 @@ $it.key/alpha/uppercase$. $it.name$
 $endfor$
 ```
 
-Some filters take parameters:
+Some pipes take parameters:
 
 ```
 |----------------------|------------|
@@ -1942,7 +1942,7 @@ $endfor$
 |----------------------|------------|
 ```
 
-Currently the following filters are predefined:
+Currently the following pipes are predefined:
 
 - `pairs`:  Converts a map or array to an array of maps,
   each with `key` and `value` fields.  If the original
@@ -2126,6 +2126,10 @@ To turn off boolean flags that default to true in reveal.js, use `0`.
 
 `slideous-url`
 :   base URL for Slideous documents (defaults to `slideous`)
+
+`title-slide-attributes`
+:   additional attributes for the title slide of reveal.js slide shows.
+    See [background in reveal.js and beamer] for an example.
 
 [reveal.js configuration options]: https://github.com/hakimel/reveal.js#configuration
 
@@ -4135,6 +4139,9 @@ left, and must not be followed immediately by a digit.  Thus,
 you need to enclose text in literal `$` characters, backslash-escape
 them and they won't be treated as math delimiters.
 
+For display math, use `$$` delimiters.  (In this case, the delimiters
+may be separated from the formula by whitespace.)
+
 TeX math will be printed in all output formats. How it is rendered
 depends on the output format:
 
@@ -5342,7 +5349,7 @@ the [Beamer User's Guide] may also be used: `allowdisplaybreaks`,
 
 ## Background in reveal.js and beamer
 
-Background images can be added to self-contained reveal.js slideshows and 
+Background images can be added to self-contained reveal.js slideshows and
 to beamer slideshows.
 
 For the same image on every slide, use the  configuration
@@ -5350,9 +5357,9 @@ option `background-image` either in the YAML metadata block
 or as a command-line variable. (There are no other options in
 beamer and the rest of this section concerns reveal.js slideshows.)
 
-For reveal.js, you can instead use the reveal.js-native option 
-`parallaxBackgroundImage`. You can also set `parallaxBackgroundHorizontal` 
-and `parallaxBackgroundVertical` the same way and must also set 
+For reveal.js, you can instead use the reveal.js-native option
+`parallaxBackgroundImage`. You can also set `parallaxBackgroundHorizontal`
+and `parallaxBackgroundVertical` the same way and must also set
 `parallaxBackgroundSize` to have your values take effect.
 
 To set an image for a particular reveal.js slide, add
@@ -5366,6 +5373,10 @@ Other reveal.js background settings also work on individual slides, including
 `data-background-size`, `data-background-repeat`, `data-background-color`,
 `data-transition`, and `data-transition-speed`.
 
+To add a background image to the automatically generated title slide, use the
+`title-slide-attributes` variable in the YAML metadata block. It must contain
+a map of attribute names and values.
+
 See the [reveal.js
 documentation](https://github.com/hakimel/reveal.js#slide-backgrounds)
 for more details.
@@ -5376,6 +5387,9 @@ For example in reveal.js:
 ---
 title: My Slideshow
 parallaxBackgroundImage: /path/to/my/background_image.png
+title-slide-attributes:
+    data-background-image: /path/to/title_image.png
+    data-background-size: contain
 ---
 
 ## Slide One
