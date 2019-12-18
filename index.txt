@@ -84,7 +84,7 @@ Wiki markup formats
     &rarr; [Vimwiki markup]\
     &rarr; [XWiki markup]\
     &rarr; [ZimWiki markup]\
-    &rarr; [Jira wiki markup]
+    &harr; [Jira wiki markup]
 
 Slide show formats
 
