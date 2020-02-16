@@ -33,7 +33,7 @@ local image_mime_type = ({
     png = "image/png",
     svg = "image/svg+xml",
   })[image_format]
-  or error("unsupported image format `" .. img_format .. "`")
+  or error("unsupported image format `" .. image_format .. "`")
 
 -- Character escaping
 local function escape(s, in_attribute)
@@ -79,8 +79,7 @@ end
 -- body is a string, metadata is a table, variables is a table.
 -- This gives you a fragment.  You could use the metadata table to
 -- fill variables in a custom lua template.  Or, pass `--template=...`
--- to pandoc, and pandoc will add do the template processing as
--- usual.
+-- to pandoc, and pandoc will do the template processing as usual.
 function Doc(body, metadata, variables)
   local buffer = {}
   local function add(s)
