@@ -56,6 +56,10 @@ Outline formats
 
 :   &harr; [OPML]
 
+Data formats
+
+:   &rarr; [CSV] tables
+
 :::
 
 ::: col
@@ -204,4 +208,5 @@ Copyright 2006--2019 [John MacFarlane].
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [ipynb]: https://nbformat.readthedocs.io/en/latest/
 [LaTeX Beamer]: https://ctan.org/pkg/beamer
+[CSV]: https://tools.ietf.org/html/rfc4180
 [Jira wiki markup]: https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all
