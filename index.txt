@@ -58,7 +58,7 @@ Outline formats
 
 Data formats
 
-:   &rarr; [CSV] tables
+:   &larr; [CSV] tables
 
 :::
 
