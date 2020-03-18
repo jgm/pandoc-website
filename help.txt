@@ -5,12 +5,16 @@ in their free time.  Please keep that in mind when asking for
 help.
 
 The first place to go if you have a question about pandoc, or
-if something doesn't seem to be working properly, is the
-[pandoc-discuss mailing list] on Google Groups. This list has
-over 2000 members, and more often than not, someone will answer
-your question quickly.  If you don't want to use the web
-interface, you can use pandoc-discuss as an old-fashioned
-email listserv:
+if something doesn't seem to be working properly, is to [**search
+the pandoc-discuss mailing list on Google
+Groups**][pandoc-discuss mailing list]. In all
+likelihood, someone has already asked a similar question and
+it has been answered. If not, you can post a message to the
+list.  This list has over 2000 members, and more often than not,
+someone will answer your question quickly.
+
+If you don't want to use the web interface, you can use
+pandoc-discuss as an old-fashioned email listserv:
 
 - To subscribe to the list, send email to
   <pandoc-discuss+subscribe@googlegroups.com>.
