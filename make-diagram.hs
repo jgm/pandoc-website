@@ -1,27 +1,30 @@
+{-# LANGUAGE OverloadedStrings #-}
 import Text.Pandoc
 import Text.Pandoc.Class
 import Data.List
+import qualified Data.Text.IO as TIO
+import qualified Data.Text as T
 
 main = do
-  putStrLn "digraph Pandoc {"
-  putStrLn "rankdir=LR;"
-  putStrLn "ranksep=10;"
-  putStrLn "bgcolor=\"white\";"
-  let rs = [r | r <- map fst (readers :: [(String, Reader PandocIO)]) , r /= "native"]
-  let ws = [w | w <- map fst (writers :: [(String, Writer PandocIO)]) , w /= "native"]
-  putStrLn $ "{rank=same; " ++ unwords [r ++ "reader" | r <- rs] ++ ";}"
-  -- putStrLn $ "{rank=same; " ++ unwords [w ++ "writer" | w <- ws] ++ ";}"
-  putStrLn $ unlines [readernode r | r <- rs]
-  putStrLn $ unlines [writernode w | w <- ws]
-  putStrLn $ unlines $ [unwords [r ++ "reader", "->", w ++ "writer", " [color=\"gray\"]", ";"]
+  TIO.putStrLn "digraph Pandoc {"
+  TIO.putStrLn "rankdir=LR;"
+  TIO.putStrLn "ranksep=10;"
+  TIO.putStrLn "bgcolor=\"white\";"
+  let rs = [r | r <- map fst (readers :: [(T.Text, Reader PandocIO)]) , r /= "native"]
+  let ws = [w | w <- map fst (writers :: [(T.Text, Writer PandocIO)]) , w /= "native"]
+  TIO.putStrLn $ "{rank=same; " <> T.unwords [r <> "reader" | r <- rs] <> ";}"
+  -- TIO.putStrLn $ "{rank=same; " <> T.unwords [w <> "writer" | w <- ws] <> ";}"
+  TIO.putStrLn $ T.unlines [readernode r | r <- rs]
+  TIO.putStrLn $ T.unlines [writernode w | w <- ws]
+  TIO.putStrLn $ T.unlines $ [T.unwords [r <> "reader", "->", w <> "writer", " [color=\"gray\"]", ";"]
                            | r <- rs, w <- ws]
-  putStrLn "}"
+  TIO.putStrLn "}"
 
 readernode r =
-  r ++ "reader [label=" ++ r ++ ", fontsize=14, width=" ++ wid ++ ", height=" ++ hgt ++ "];"
+  r <> "reader [label=" <> r <> ", fontsize=14, width=" <> wid <> ", height=" <> hgt <> "];"
 
 writernode r =
-  r ++ "writer [label=" ++ r ++ ", fontsize=14, width=" ++ wid ++ ", height=" ++ hgt ++ "];"
+  r <> "writer [label=" <> r <> ", fontsize=14, width=" <> wid <> ", height=" <> hgt <> "];"
 
 wid = "2"
 hgt = "1"

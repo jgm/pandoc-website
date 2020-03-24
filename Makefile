@@ -55,7 +55,7 @@ $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 
 
 $(SITE)/diagram.dot :
-	stack runghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc -- make-diagram.hs > $@ || rm $@
+	stack runghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc --package text -- make-diagram.hs > $@ || rm $@
 
 $(SITE)/diagram.jpg : $(SITE)/diagram.png
 	convert -quality 70% $< $@
