@@ -85,7 +85,7 @@ Wiki markup formats
     &harr; [DokuWiki markup]\
     &larr; [TikiWiki markup]\
     &larr; [TWiki markup]\
-    &rarr; [Vimwiki markup]\
+    &larr; [Vimwiki markup]\
     &rarr; [XWiki markup]\
     &rarr; [ZimWiki markup]\
     &harr; [Jira wiki markup]
