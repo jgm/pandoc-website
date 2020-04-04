@@ -105,9 +105,9 @@ Custom formats
 
 PDF
 
-:   &rarr; via `pdflatex`, `xelatex`, `lualatex`, `pdfroff`,
-   `wkhtml2pdf`, `prince`, or `weasyprint`.
-
+:   &rarr; via `pdflatex`, `lualatex`, `xelatex`,
+    `latexmk`, `tectonic`, `wkhtmltopdf`, `weasyprint`,
+    `prince`, `context`, or `pdfroff`.
 :::
 
 ::::
