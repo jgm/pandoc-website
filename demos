@@ -65,7 +65,7 @@ click on the name of the output file:
 
 @   pandoc -N --template=@@template.tex@@ --variable mainfont="Palatino" --variable sansfont="Helvetica" --variable monofont="Menlo" --variable fontsize=12pt --variable version=2.0 @@MANUAL.txt@@ --pdf-engine=xelatex --toc -o @@example14.pdf@@
 
-15. ipnyb (Jupyter notebook):
+15. ipynb (Jupyter notebook):
 
 @   pandoc @@example15.md@@ -o @@example15.ipynb@@
 
