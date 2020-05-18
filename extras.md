@@ -52,6 +52,16 @@ complete list, see the [Pandoc Extras wiki page]( https://github.com/jgm/pandoc/
     is a filter that adds support for figure, table, and
     equation numbers and cross-references.
 
+- Academic publishing workflows
+  - [Manubot](https://manubot.org) is a workflow and set of tools for the next
+    generation of scholarly publishing, including citation support and
+    support for multiple output formats.
+  - [Scholarly Markdown](http://scholarlymarkdown.com) is a set of
+    tools whose main goal is to produce a semantically model of a scholarly
+    article based on Markdown input and translate it to a variety of formats
+    that is suitable for both online scholarly communication, archiving, and
+    publication.
+
 - Containers
   - [pandoc docker images](https://github.com/pandoc/dockerfiles)
 
