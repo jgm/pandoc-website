@@ -56,11 +56,11 @@ complete list, see the [Pandoc Extras wiki page]( https://github.com/jgm/pandoc/
   - [Manubot](https://manubot.org) is a workflow and set of tools for the next
     generation of scholarly publishing, including citation support and
     support for multiple output formats.
-  - [Scholarly Markdown](http://scholarlymarkdown.com) is a set of
-    tools whose main goal is to produce a semantically model of a scholarly
-    article based on Markdown input and translate it to a variety of formats
-    that is suitable for both online scholarly communication, archiving, and
-    publication.
+  - [Pandoc Scholar](https://github.com/pandoc-scholar/pandoc-scholar) is a
+    set of utilities to make publishing of scientific articles as simple and
+    pleasant as possible. It simplifies setting authors' metadata in
+    YAML blocks, allows to add semantic annotation to citations, and
+    only requires the programs pandoc and make.
 
 - Containers
   - [pandoc docker images](https://github.com/pandoc/dockerfiles)
