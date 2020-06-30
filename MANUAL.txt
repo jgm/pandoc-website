@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: March 23, 2020
+date: June 29, 2020
 ---
 
 # Synopsis
@@ -241,7 +241,7 @@ header when requesting a document from a URL:
     - `html` ([HTML])
     - `ipynb` ([Jupyter notebook])
     - `jats` ([JATS] XML)
-    - `jira` ([Jira] wiki markup)
+    - `jira` ([Jira]/Confluence wiki markup)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
     - `markdown` ([Pandoc's Markdown])
@@ -298,7 +298,7 @@ header when requesting a document from a URL:
     - `jats_articleauthoring` ([JATS] XML, Article Authoring Tag Set)
     - `jats_publishing` ([JATS] XML, Journal Publishing Tag Set)
     - `jats` (alias for `jats_archiving`)
-    - `jira` ([Jira] wiki markup)
+    - `jira` ([Jira]/Confluence wiki markup)
     - `json` (JSON version of native AST)
     - `latex` ([LaTeX])
     - `man` ([roff man])
@@ -386,8 +386,7 @@ header when requesting a document from a URL:
 
 `--verbose`
 
-:   Give verbose debugging output.  Currently this only has an effect
-    with PDF output.
+:   Give verbose debugging output.
 
 `--quiet`
 
@@ -903,6 +902,12 @@ header when requesting a document from a URL:
     downloaded). If you're behind a proxy, you also need to set
     the environment variable `http_proxy` to `http://...`.
 
+`--no-check-certificate
+
+:   Disable the certificate verification to allow access to 
+    unsecure HTTP resources (for example when the certificate
+    is no longer valid or self signed).
+
 ## Options affecting specific writers {.options}
 
 `--self-contained`
@@ -1265,7 +1270,9 @@ header when requesting a document from a URL:
     - `-t latex` or none: `pdflatex` (other options: `xelatex`, `lualatex`,
         `tectonic`, `latexmk`)
     - `-t context`: `context`
-    - `-t html`:  `wkhtmltopdf` (other options: `prince`, `weasyprint`)
+    - `-t html`:  `wkhtmltopdf` (other options: `prince`, `weasyprint`;
+        see [print-css.rocks](https://print-css.rocks) for a good
+        introduction to PDF generation from HTML/CSS.)
     - `-t ms`:  `pdfroff`
 
 `--pdf-engine-opt=`*STRING*
@@ -1808,17 +1815,25 @@ ${ endfor }
 ### Partials
 
 Partials (subtemplates stored in different files) may be
-included using the syntax
+included by using the name of the partial, followed
+by `()`, for example:
 
 ```
-${ boilerplate() }
+${ styles() }
 ```
 
 Partials will be sought in the directory containing
-the main template, and will be assumed to have the
-same extension as the main template if they lack
-an explicit extension.  (If the partials are not
-found here, they will also be sought in the `templates`
+the main template. The file name will be assumed to
+have the same extension as the main template if it
+lacks an extension. When calling the partial, the
+full name including file extension can also be used:
+
+```
+${ styles.html() }
+```
+
+(If a partial is not found in the directory of the
+template, it will also be sought in the `templates`
 subdirectory of the user data directory.)
 
 Partials may optionally be applied to variables using
@@ -1966,6 +1981,22 @@ Currently the following pipes are predefined:
 
 - `reverse`:  Reverses a textual value or array,
   and has no effect on other values.
+
+- `first`: Returns the first value of an array, if
+  applied to a non-empty array; otherwise returns
+  the original value.
+
+- `last`: Returns the last value of an array, if
+  applied to a non-empty array; otherwise returns
+  the original value.
+
+- `rest`: Returns all but the first value of an array, if
+  applied to a non-empty array; otherwise returns
+  the original value.
+
+- `allbutlast`: Returns all but the last value of an array, if
+  applied to a non-empty array; otherwise returns
+  the original value.
 
 - `chomp`:  Removes trailing newlines (and breakable space).
 
@@ -2122,7 +2153,8 @@ All [reveal.js configuration options] are available as variables.
 To turn off boolean flags that default to true in reveal.js, use `0`.
 
 `revealjs-url`
-:   base URL for reveal.js documents (defaults to `reveal.js`)
+:   base URL for reveal.js documents (defaults to
+    `https://unpkg.com/reveal.js@^4/`)
 
 `s5-url`
 :   base URL for S5 documents (defaults to `s5/default`)
@@ -2138,7 +2170,7 @@ To turn off boolean flags that default to true in reveal.js, use `0`.
 :   additional attributes for the title slide of reveal.js slide shows.
     See [background in reveal.js and beamer] for an example.
 
-[reveal.js configuration options]: https://github.com/hakimel/reveal.js#configuration
+[reveal.js configuration options]: https://revealjs.com/config/
 
 ### Variables for Beamer slides
 
@@ -2869,7 +2901,7 @@ This extension can be enabled/disabled for the following formats:
 output formats
 :  `odt`, `opendocument`
 
-#### Extension: `styles` #### {#ext-styles}
+#### Extension: `styles` {#ext-styles} ####
 
 When converting from docx, read all docx styles as divs (for
 paragraph styles) and spans (for character styles) regardless
@@ -3793,7 +3825,7 @@ legal (though ugly) pipe table:
 
 The cells of pipe tables cannot contain block elements like paragraphs
 and lists, and cannot span multiple lines.  If a pipe table contains a
-row whose printable content is wider than the column width (see
+row whose Markdown content is wider than the column width (see
 `--columns`), then the table will take up the full text width and
 the cell contents will wrap, with the relative cell widths determined
 by the number of dashes in the line separating the table header from
@@ -3833,30 +3865,42 @@ output.)  The block may contain just a title, a title and an author,
 or all three elements. If you want to include an author but no
 title, or a title and a date but no author, you need a blank line:
 
-    %
-    % Author
+```
+%
+% Author
+```
 
-    % My title
-    %
-    % June 15, 2006
+```
+% My title
+%
+% June 15, 2006
+```
 
 The title may occupy multiple lines, but continuation lines must
 begin with leading space, thus:
 
-    % My title
-      on multiple lines
+```
+% My title
+  on multiple lines
+```
 
 If a document has multiple authors, the authors may be put on
 separate lines with leading space, or separated by semicolons, or
 both.  So, all of the following are equivalent:
 
-    % Author One
-      Author Two
+```
+% Author One
+  Author Two
+```
 
-    % Author One; Author Two
+```
+% Author One; Author Two
+```
 
-    % Author One;
-      Author Two
+```
+% Author One;
+  Author Two
+```
 
 The date must fit on one line.
 
@@ -4558,10 +4602,12 @@ For example:
 ![](file.jpg){ width=50% }
 ```
 
-- Dimensions are converted to inches for output in page-based formats like
-  LaTeX. Dimensions are converted to pixels for output in HTML-like
-  formats.  Use the `--dpi` option to specify the number of pixels per
-  inch.  The default is 96dpi.
+- Dimensions may be converted to a form that is compatible with
+  the output format (for example, dimensions given in pixels will
+  be converted to inches when converting HTML to LaTeX). Conversion
+  between pixels and physical measurements is affected by the
+  `--dpi` option (by default, 96 dpi is assumed, unless the image
+  itself contains dpi information).
 - The `%` unit is generally relative to some available space.
   For example the above example will render to the following.
   - HTML: `<img href="file.jpg" style="width: 50%;" />`
@@ -5343,6 +5389,41 @@ containers with class `column` and a `width` attribute:
     :::
     ::::::::::::::
 
+### Additional columns attributes in beamer
+
+The div containers with classes `columns` and `column` can optionally have
+an `align` attribute.
+The class `columns` can optionally have a `totalwidth` attribute or an
+`onlytextwidth` class.
+
+    :::::::::::::: {.columns align=center totalwidth=8em}
+    ::: {.column width="40%"}
+    contents...
+    :::
+    ::: {.column width="60%" align=bottom}
+    contents...
+    :::
+    ::::::::::::::
+
+The `align` attributes on `columns` and `column` can be used with the
+values `top`, `top-baseline`, `center` and `bottom` to vertically align
+the columns. It defaults to `top` in `columns`.
+
+The `totalwidth` attribute limits the width of the columns to the given value.
+
+    :::::::::::::: {.columns align=top .onlytextwidth}
+    ::: {.column width="40%" align=center}
+    contents...
+    :::
+    ::: {.column width="60%"}
+    contents...
+    :::
+    ::::::::::::::
+
+The class `onlytextwidth` sets the `totalwidth` to `\textwidth`.
+
+See Section 12.7 of the [Beamer User's Guide] for more details.
+
 ## Frame attributes in beamer
 
 Sometimes it is necessary to add the LaTeX `[fragile]` option to
@@ -5387,9 +5468,8 @@ To add a background image to the automatically generated title slide, use the
 `title-slide-attributes` variable in the YAML metadata block. It must contain
 a map of attribute names and values.
 
-See the [reveal.js
-documentation](https://github.com/hakimel/reveal.js#slide-backgrounds)
-for more details.
+See the [reveal.js documentation](https://revealjs.com/backgrounds/) for more
+details.
 
 For example in reveal.js:
 
