@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: June 29, 2020
+date: July 23, 2020
 ---
 
 # Synopsis
@@ -226,6 +226,7 @@ header when requesting a document from a URL:
 
     ::: {#input-formats}
     - `commonmark` ([CommonMark] Markdown)
+    - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `creole` ([Creole 1.0])
     - `csv` ([CSV] table)
     - `docbook` ([DocBook])
@@ -277,6 +278,7 @@ header when requesting a document from a URL:
     - `asciidoc` ([AsciiDoc]) or `asciidoctor` ([AsciiDoctor])
     - `beamer` ([LaTeX beamer][`beamer`] slide show)
     - `commonmark` ([CommonMark] Markdown)
+    - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `context` ([ConTeXt])
     - `docbook` or `docbook4` ([DocBook] 4)
     - `docbook5` (DocBook 5)
@@ -902,7 +904,7 @@ header when requesting a document from a URL:
     downloaded). If you're behind a proxy, you also need to set
     the environment variable `http_proxy` to `http://...`.
 
-`--no-check-certificate
+`--no-check-certificate`
 
 :   Disable the certificate verification to allow access to 
     unsecure HTTP resources (for example when the certificate
@@ -980,7 +982,7 @@ header when requesting a document from a URL:
 
 `-N`, `--number-sections`
 
-:   Number section headings in LaTeX, ConTeXt, HTML, or EPUB output.
+:   Number section headings in LaTeX, ConTeXt, HTML, Docx, or EPUB output.
     By default, sections are not numbered.  Sections with class
     `unnumbered` will never be numbered, even if `--number-sections`
     is specified.
@@ -1123,6 +1125,7 @@ header when requesting a document from a URL:
         - Verbatim Char
         - Footnote Reference
         - Hyperlink
+        - Section Number
 
         Table style:
 
@@ -2767,53 +2770,43 @@ reading web pages formatted using MathJax, for example.
 
 ## Raw HTML/TeX
 
-The following extensions (especially how they affect Markdown
-input/output) are also described in more detail in their respective
-sections of [Pandoc's Markdown].
+The following extensions are described in more detail in
+their respective sections of [Pandoc's Markdown]:
 
-#### Extension: `raw_html` {#raw_html}
+- [`raw_html`](#extension-raw_html) allows HTML elements which
+  are not representable in pandoc's AST to be parsed as raw HTML.
+  By default, this is disabled for HTML input.
 
-When converting from HTML, parse elements to raw HTML which are not
-representable in pandoc's AST.
-By default, this is disabled for HTML input.
+- [`raw_tex`](#extension-raw_tex) allows raw LaTeX, TeX, and ConTeXt
+  to be included in a document.  This extension can be enabled/disabled
+  for the following formats (in addition to `markdown`):
 
-#### Extension: `raw_tex` {#raw_tex}
+  input formats
+  :  `latex`, `org`, `textile`, `html` (environments, `\ref`, and
+     `\eqref` only), `ipynb`
 
-Allows raw LaTeX, TeX, and ConTeXt to be included in a document.
+  output formats
+  :  `textile`, `commonmark`
 
-This extension can be enabled/disabled for the following formats
-(in addition to `markdown`):
+  Note: as applied to `ipynb`, `raw_html` and `raw_tex` affect not
+  only raw TeX in markdown cells, but data with mime type
+  `text/html` in output cells.  Since the `ipynb` reader attempts
+  to preserve the richest possible outputs when several options
+  are given, you will get best results if you disable `raw_html`
+  and `raw_tex` when converting to formats like `docx` which don't
+  allow raw `html` or `tex`.
 
-input formats
-:  `latex`, `org`, `textile`, `html` (environments, `\ref`, and
-   `\eqref` only), `ipynb`
+- [`native_divs`](#extension-native_divs) causes HTML `div`
+  elements to be parsed as native pandoc Div blocks.
+  If you want them to be parsed as raw HTML, use
+  `-f html-native_divs+raw_html`.
 
-output formats
-:  `textile`, `commonmark`
-
-Note: as applied to `ipynb`, `raw_html` and `raw_tex` affect not
-only raw TeX in markdown cells, but data with mime type
-`text/html` in output cells.  Since the `ipynb` reader attempts
-to preserve the richest possible outputs when several options
-are given, you will get best results if you disable `raw_html`
-and `raw_tex` when converting to formats like `docx` which don't
-allow raw `html` or `tex`.
-
-#### Extension: `native_divs` {#native_divs}
-
-This extension is enabled by default for HTML input. This means that
-`div`s are parsed to pandoc native elements. (Alternatively, you
-can parse them to raw HTML using `-f html-native_divs+raw_html`.)
-
-When converting HTML to Markdown, for example, you may want to drop all
-`div`s and `span`s:
-
-    pandoc -f html-native_divs-native_spans -t markdown
-
-#### Extension: `native_spans` {#native_spans}
-
-Analogous to `native_divs` above.
-
+- [`native_spans`](#extension-native_spans) causes HTML `span`
+  elements to be parsed as native pandoc Span inlines.
+  If you want them to be parsed as raw HTML, use
+  `-f html-native_spans+raw_html`.  If you want to drop all
+  `div`s and `span`s when converting HTML to Markdown, you
+  can use `pandoc -f html-native_divs-native_spans -t markdown`.
 
 ## Literate Haskell support
 
@@ -2916,6 +2909,14 @@ input formats
 
 In the `muse` input format, this enables Text::Amuse
 extensions to Emacs Muse markup.
+
+#### Extension: `raw_markdown` ####
+
+In the `ipynb` input format, this causes Markdown cells
+to be included as raw Markdown blocks (allowing lossless
+round-tripping) rather than being parsed.  Use this only
+when you are targetting `ipynb` or a markdown-based
+output format.
 
 #### Extension: `citations` {#org-citations}
 
@@ -4943,6 +4944,37 @@ in pandoc, but may be enabled by adding `+EXTENSION` to the format
 name, where `EXTENSION` is the name of the extension.  Thus, for
 example, `markdown+hard_line_breaks` is Markdown with hard line breaks.
 
+#### Extension: `attributes` ####
+
+Allows attributes to be attached to any inline or block-level
+element.  The syntax for the attributes is the same as that
+used in [`header_attributes`][Extension: `header_attributes`].
+
+- Attributes that occur immediately after an inline
+  element affect that element.  If they follow a space, then they
+  belong to the space.  (Hence, this option subsumes
+  `inline_code_attributes` and `link_attributes`.)
+- Attributes that occur immediately before a block
+  element, on a line by themselves, affect that
+  element.
+- Consecutive attribute specifiers may be used,
+  either for blocks or for inlines.  Their attributes
+  will be combined.
+- Attributes that occur at the end of the text of
+  a Setext or ATX heading (separated by whitespace
+  from the text) affect the heading element. (Hence, this
+  option subsumes `header_attributes`.)
+- Attributes that occur after the opening fence
+  in a fenced code block affect the code block element. (Hence,
+  this option subsumes `fenced_code_attributes`.)
+- Attributes that occur at the end of a reference
+  link definition affect links that refer to that
+  definition.
+
+Note that pandoc's AST does not currently allow attributes
+to be attached to arbitrary elements.  Hence a Span or Div
+container will be added if needed.
+
 #### Extension: `old_dashes` ####
 
 Selects the pandoc <= 1.8.2.1 behavior for parsing smart dashes:
@@ -5141,7 +5173,8 @@ can, however, all be individually disabled.  Also, `raw_tex`
 only affects `gfm` output, not input.
 
 `gfm` (GitHub-Flavored Markdown)
-:   `pipe_tables`, `raw_html`, `fenced_code_blocks`, `auto_identifiers`,
+:   `pipe_tables`, `raw_html`, `native_divs`,
+    `fenced_code_blocks`, `auto_identifiers`,
     `gfm_auto_identifiers`, `backtick_code_blocks`,
     `autolink_bare_uris`, `space_in_atx_header`,
     `intraword_underscores`, `strikeout`, `task_lists`, `emoji`,
@@ -5633,7 +5666,6 @@ seriespage                        frontmatter
 foreword                          frontmatter
 preface                           frontmatter
 seriespage                        frontmatter
-titlepage                         frontmatter
 appendix                          backmatter
 colophon                          backmatter
 bibliography                      backmatter
