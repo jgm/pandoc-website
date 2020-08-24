@@ -1452,6 +1452,7 @@ of options.  Here is a sample defaults file demonstrating all of
 the fields that may be used:
 
 ``` yaml
+---
 from: markdown+emoji
 # reader: may be used instead of from:
 to: html5
@@ -1599,6 +1600,7 @@ fail-if-warnings: false
 dump-args: false
 ignore-args: false
 trace: false
+...
 ```
 
 Fields that are omitted will just have their regular
@@ -1606,7 +1608,9 @@ default values.  So a defaults file can be as simple as
 one line:
 
 ``` yaml
+---
 verbosity: INFO
+...
 ```
 
 Default files can be placed in the `defaults` subdirectory of
