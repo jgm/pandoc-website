@@ -56,15 +56,11 @@ Outline formats
 
 :   &harr; [OPML]
 
-Data formats
-
-:   &larr; [CSV] tables
-
 Bibliography formats
 
-:   &larr; [BibTeX]
-    &larr; [BibLaTeX]
-    &harr; [CSL JSON]
+:   &larr; [BibTeX]\
+    &larr; [BibLaTeX]\
+    &harr; [CSL JSON]\
     &harr; CSL YAML
 
 :::
@@ -105,6 +101,10 @@ Slide show formats
     &rarr; [Slideous]\
     &rarr; [S5]\
     &rarr; [DZSlides]
+
+Data formats
+
+:   &larr; [CSV] tables
 
 Custom formats
 
