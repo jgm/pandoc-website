@@ -179,5 +179,5 @@ click on the name of the output file:
 
 39. Producing a formatted version of a bibliography:
 
-@   pandoc @@biblio.bib@@ --csl ieee.csl -s -o @@biblio.html@@
+@   pandoc @@biblio.bib@@ --citeproc --csl ieee.csl -s -o @@biblio.html@@
 

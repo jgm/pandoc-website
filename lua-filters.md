@@ -305,6 +305,25 @@ end
 This makes it possible to apply these functions on strings using
 colon syntax (`mystring:uc_upper()`).
 
+# Debugging Lua filters
+
+It is possible to use a debugging interface to halt execution and step through a
+Lua filter line by line as it is run inside Pandoc. This is accomplished using
+the remote-debugging interface of the package
+[`mobdebug`](https://github.com/pkulchenko/MobDebug). Although mobdebug can be
+run from the terminal, it is more useful run within the donation-ware Lua editor
+and IDE, [Zerobrane](https://studio.zerobrane.com/). Zerobrane offers a REPL
+console and UI to step-through and view all variables and state.
+
+If you already have Lua 5.3 installed, you can add
+[`mobdebug`](https://luarocks.org/modules/paulclinger/mobdebug) and its
+dependency [`luasocket`](https://luarocks.org/modules/luasocket/luasocket) using
+[`luarocks`](https://luarocks.org), which should then be available on the path.
+Zerobrane also includes both of these in its package, so if you don't want to
+install Lua seperately, you should add/modify your `LUA_PATH` and `LUA_CPATH` to
+include the correct locations; [see detailed instructions
+here](https://studio.zerobrane.com/doc-remote-debugging).
+
 # Examples
 
 The following filters are presented as examples. A repository of
@@ -362,7 +381,7 @@ end
 ## Setting the date in the metadata
 
 This filter sets the date in the document's metadata to the
-current date if a date isn't already set:
+current date, if a date isn't already set:
 
 ``` lua
 function Meta(m)
@@ -370,42 +389,6 @@ function Meta(m)
     m.date = os.date("%B %e, %Y")
     return m
   end
-end
-```
-
-## Extracting information about links
-
-This filter prints a table of all the URLs linked to in the
-document, together with the number of links to that URL.
-
-``` lua
-links = {}
-
-function Link (el)
-  if links[el.target] then
-    links[el.target] = links[el.target] + 1
-  else
-    links[el.target] = 1
-  end
-  return el
-end
-
-function Doc (blocks, meta)
-  function strCell(str)
-    return {pandoc.Plain{pandoc.Str(str)}}
-  end
-  local caption = {pandoc.Str "Link", pandoc.Space(), pandoc.Str "count"}
-  local aligns = {pandoc.AlignDefault, pandoc.AlignLeft}
-  local widths = {0.8, 0.2}
-  local headers = {strCell "Target", strCell "Count"}
-  local rows = {}
-  for link, count in pairs(links) do
-    rows[#rows + 1] = {strCell(link), strCell(count)}
-  end
-  return pandoc.Doc(
-    {pandoc.Table(caption, aligns, widths, headers, rows)},
-    meta
-  )
 end
 ```
 
@@ -1106,21 +1089,33 @@ Values of this type can be created with the
 
 Fields:
 
+`attr`
+:   table attributes ([Attr])
+
 `caption`
-:   table caption ([List] of [Inlines])
+:   table caption ([Caption])
 
-`aligns`
-:   column alignments ([List] of [Alignment]s)
+`colspecs`
+:   column specifications, i.e., alignments and widths ([List] of
+    [ColSpec]s)
 
-`widths`
-:   column widths (number)
+`head`
+:   table head ([TableHead])
 
-`headers`
-:   header row ([List] of [table cells](#type-table-cell))
+`bodies`
+:   table bodies ([List] of [TableBody]s)
 
-`rows`
-:   table rows ([List] of [List]s of [table
-    cells](#type-table-cell))
+`foot`
+:   table foot ([TableFoot])
+
+`identifier`
+:   alias for `attr.identifier` (string)
+
+`classes`
+:   alias for `attr.classes` ([List] of strings)
+
+`attributes`
+:   alias for `attr.attributes` ([Attributes])
 
 `tag`, `t`
 :   the literal `Table` (string)
@@ -1260,6 +1255,9 @@ Fields:
 
 `target`
 :   the link target (string)
+
+`title`
+:   brief link description
 
 `identifier`
 :   alias for `attr.identifier` (string)
@@ -1486,6 +1484,22 @@ Fields:
 `tag`, `t`
 :   the literal `Superscript` (string)
 
+### Underline {#type-underline}
+
+Underlined text
+
+Values of this type can be created with the
+[`pandoc.Underline`](#pandoc.underline) constructor.
+
+Fields:
+
+`content`
+:   inline content ([List] of [Inlines])
+
+`tag`, `t`
+:   the literal `Underline` (string)
+
+
 ## Element components
 
 ### Attr {#type-attr}
@@ -1522,6 +1536,41 @@ Fields:
 List of key/value pairs. Values can be accessed by using keys as
 indices to the list table.
 
+### Caption {#type-caption}
+
+The caption of a table, with an optional short caption.
+
+Fields:
+
+`long`
+:   long caption (list of [Blocks])
+
+`short`
+:   short caption (list of [Inlines])
+
+### Cell {#type-cell}
+
+A table cell.
+
+Fields:
+
+`attr`
+:   cell attributes
+
+`alignment`
+:   individual cell alignment ([Alignment]).
+
+`contents`
+:   cell contents (list of [Blocks]).
+
+`col_span`
+:   number of columns occupied by the cell; the height of the cell
+    (integer).
+
+`row_span`
+:   number of rows occupied by the cell; the height of the cell
+    (integer).
+
 ### Citation {#type-citation}
 
 Single citation entry
@@ -1552,6 +1601,17 @@ Fields:
 `hash`
 :   hash (integer)
 
+### ColSpec {#type-colspec}
+
+Column alignment and width specification for a single table
+column.
+
+This is a pair with the following components:
+
+1. cell alignment ([Alignment]).
+2. table column width, as a fraction of the total table width
+   (number).
+
 ### ListAttributes {#type-listattributes}
 
 List attributes
@@ -1574,6 +1634,53 @@ Fields:
 `delimiter`
 :   delimiter of list numbers; one of `DefaultDelim`, `Period`,
     `OneParen`, and `TwoParens` (string)
+
+### Row {#type-row}
+
+A table row.
+
+Tuple fields:
+
+1. row attributes
+2. row cells (list of [Cells])
+
+### TableBody {#type-tablebody}
+
+A body of a table, with an intermediate head and the specified
+number of row header columns.
+
+Fields:
+
+`attr`
+:   table body attributes ([Attr])
+
+`body`
+:   table body rows (list of [Rows])
+
+`head`
+:   intermediate head (list of [Rows])
+
+`row_head_columns`
+:   number of columns taken up by the row head of each row of a
+    [TableBody]. The row body takes up the remaining columns.
+
+### TableFoot {#type-tablefoot}
+
+The foot of a table.
+
+This is a pair with the following components:
+
+1. attributes
+2. foot rows ([Rows])
+
+### TableHead {#type-tablehead}
+
+The head of a table.
+
+This is a pair with the following components:
+
+1. attributes
+2. head rows ([Rows])
 
 ## ReaderOptions {#type-readeroptions}
 
@@ -1672,6 +1779,36 @@ table into a List.
 A pandoc log message. Objects have no fields, but can be
 converted to a string via `tostring`.
 
+## SimpleTable {#type-simpletable}
+
+A simple table is a table structure which resembles the old (pre
+pandoc 2.10) Table type. Bi-directional conversion from and to
+[Tables](#type-table) is possible with the
+[`pandoc.utils.to_simple_table`](#pandoc.utils.to_simple_table)
+and
+[`pandoc.utils.from_simple_table`](#pandoc.utils.from_simple_table)
+function, respectively. Instances of this type can also be created
+directly with the [`pandoc.SimpleTable`](#pandoc.simpletable)
+constructor.
+
+Fields:
+
+`caption`:
+:   [List] of [Inlines]
+
+`aligns`:
+:   column alignments ([List] of [Alignments](#type-alignment))
+
+`widths`:
+:   column widths; a  ([List] of numbers)
+
+`headers`:
+:   table header row ([List] of lists of [Blocks])
+
+`rows`:
+:   table rows ([List] of rows, where a row is a list of lists of
+    [Blocks])
+
 ## Version {#type-version}
 
 A version object. This represents a software version like
@@ -1725,8 +1862,11 @@ Usage:
 [Attributes]: #type-attributes
 [Block]: #type-block
 [Blocks]: #type-block
+[Caption]: #type-caption
+[Cells]: #type-cell
 [Citation]: #type-citation
 [Citations]: #type-citation
+[ColSpec]: #type-colspec
 [CommonState]: #type-commonstate
 [Image]: #type-image
 [Inline]: #type-inline
@@ -1740,6 +1880,12 @@ Usage:
 [LogMessage]: #type-logmessage
 [Pandoc]: #type-pandoc
 [Para]: #type-para
+[Rows]: #type-row
+[SimpleTable]: #type-simpletable
+[Table]: #type-table
+[TableBody]: #type-tablebody
+[TableFoot]: #type-tablefoot
+[TableHead]: #type-tablehead
 [Version]: #type-version
 [`pandoc.utils.equals`]: #pandoc.utils.equals
 
@@ -2046,26 +2192,29 @@ format, and functions to filter and modify a subtree.
 
     Returns: [RawBlock](#type-rawblock) object
 
-[`Table (caption, aligns, widths, headers, rows)`]{#pandoc.table}
+[`Table (caption, colspecs, head, bodies, foot[, attr])`]{#pandoc.table}
 
 :   Creates a table element.
 
     Parameters:
 
     `caption`:
-    :   table caption
+    :   table [caption](#type-caption)
 
-    `aligns`:
-    :   alignments
+    `colspecs`:
+    :   column alignments and widths (list of [ColSpec](#type-colspec)s)
 
-    `widths`:
-    :   column widths
+    `head`:
+    :   [table head](#type-tablehead)
 
-    `headers`:
-    :   header row
+    `bodies`:
+    :   [table bodies](#type-tablebody)
 
-    `rows`:
-    :   table rows
+    `foot`:
+    :   [table foot](#type-tablefoot)
+
+    `attr`:
+    :   element attributes
 
     Returns: [Table](#type-table) object
 
@@ -2347,6 +2496,17 @@ format, and functions to filter and modify a subtree.
 
     Returns: [Superscript](#type-superscript) object
 
+[`Underline (content)`]{#pandoc.underline}
+
+:   Creates an Underline inline element
+
+    Parameters:
+
+    `content`:
+    :   inline content
+
+    Returns: [Underline](#type-underline) object
+
 ## Element components
 
 [`Attr ([identifier[, classes[, attributes]]])`]{#pandoc.attr}
@@ -2408,6 +2568,51 @@ format, and functions to filter and modify a subtree.
     :   delimiter of list numbers
 
     Returns: [ListAttributes](#type-listattributes) object
+
+## Legacy types
+
+[`SimpleTable (caption, aligns, widths, headers, rows)`]{#pandoc.simpletable}
+
+:   Creates a simple table resembling the old (pre pandoc 2.10)
+    table type.
+
+    Parameters:
+
+    `caption`:
+    :   [List] of [Inlines]
+
+    `aligns`:
+    :   column alignments ([List] of [Alignments](#type-alignment))
+
+    `widths`:
+    :   column widths; a  ([List] of numbers)
+
+    `headers`:
+    :   table header row ([List] of lists of [Blocks])
+
+    `rows`:
+    :   table rows ([List] of rows, where a row is a list of lists
+        of [Blocks])
+
+    Returns: [SimpleTable] object
+
+    Usage:
+
+        local caption = "Overview"
+        local aligns = {pandoc.AlignDefault, pandoc.AlignDefault}
+        local widths = {0, 0} -- let pandoc determine col widths
+        local headers = {"Language", "Typing"}
+        local rows = {
+          {{pandoc.Plain "Haskell"}, {pandoc.Plain "static"}},
+          {{pandoc.Plain "Lua"}, {pandoc.Plain "Dynamic"}},
+        }
+        simple_table = pandoc.SimpleTable(
+          caption,
+          aligns,
+          widths,
+          headers,
+          rows
+        )
 
 ## Constants
 
@@ -2671,6 +2876,26 @@ Returns:
 
 -   Whether the two objects represent the same element (boolean)
 
+### from\_simple\_table {#pandoc.utils.from_simple_table}
+
+`from_simple_table (table)`
+
+Creates a [Table] block element from a [SimpleTable]. This is
+useful for dealing with legacy code which was written for pandoc
+versions older than 2.10.
+
+Returns:
+
+-   table block element ([Table])
+
+Usage:
+
+    local simple = pandoc.SimpleTable(table)
+    -- modify, using pre pandoc 2.10 methods
+    simple.caption = pandoc.SmallCaps(simple.caption)
+    -- create normal table block again
+    table = pandoc.utils.from_simple_table(simple)
+
 ### make\_sections {#pandoc.utils.make_sections}
 
 `make_sections (number_sections, base_level, blocks)`
@@ -2789,6 +3014,24 @@ Usage:
     local to_roman_numeral = pandoc.utils.to_roman_numeral
     local pandoc_birth_year = to_roman_numeral(2006)
     -- pandoc_birth_year == 'MMVI'
+
+### to\_simple\_table {#pandoc.utils.to_simple_table}
+
+`to_simple_table (table)`
+
+Creates a [SimpleTable] out of a [Table] block.
+
+Returns:
+
+-   a simple table object ([SimpleTable])
+
+Usage:
+
+    local simple = pandoc.utils.to_simple_table(table)
+    -- modify, using pre pandoc 2.10 methods
+    simple.caption = pandoc.SmallCaps(simple.caption)
+    -- create normal table block again
+    table = pandoc.utils.from_simple_table(simple)
 
 # Module pandoc.mediabag
 
