@@ -117,9 +117,9 @@ click on the name of the output file:
 
 24. Markdown citations:
 
-@   pandoc -s --bibliography @@biblio.bib@@ --filter pandoc-citeproc @@CITATIONS@@ -o @@example24a.html@@
-@   pandoc -s --bibliography @@biblio.json@@ --filter pandoc-citeproc --csl @@chicago-fullnote-bibliography.csl@@ @@CITATIONS@@ -o @@example24b.html@@
-@   pandoc -s --bibliography @@biblio.yaml@@ --filter pandoc-citeproc --csl @@ieee.csl@@ @@CITATIONS@@ -t man -o @@example24c.1@@
+@   pandoc -s --bibliography @@biblio.bib@@ --citeproc @@CITATIONS@@ -o @@example24a.html@@
+@   pandoc -s --bibliography @@biblio.json@@ --citeproc --csl @@chicago-fullnote-bibliography.csl@@ @@CITATIONS@@ -o @@example24b.html@@
+@   pandoc -s --bibliography @@biblio.yaml@@ --citeproc --csl @@ieee.csl@@ @@CITATIONS@@ -t man -o @@example24c.1@@
 
 25. Textile writer:
 
@@ -172,3 +172,12 @@ click on the name of the output file:
 37. Using a template to produce a table from structured data:
 
 @   pandoc @@fishwatch.yaml@@ -t rst --template @@fishtable.rst@@ -o @@fish.rst@@ # see also the partial @@species.rst@@
+
+38. Converting a bibliography from BibTeX to CSL JSON:
+
+@   pandoc @@biblio.bib@@ -t csljson -o @@biblio.json@@
+
+39. Producing a formatted version of a bibliography:
+
+@   pandoc @@biblio.bib@@ --csl ieee.csl -s -o @@biblio.html@@
+
