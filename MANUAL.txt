@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: July 23, 2020
+date: October 20, 2020
 ---
 
 # Synopsis
@@ -594,7 +594,7 @@ header when requesting a document from a URL:
 `-L` *SCRIPT*, `--lua-filter=`*SCRIPT*
 
 :   Transform the document in a similar fashion as JSON filters (see
-    `--filter`), but use pandoc's build-in Lua filtering system.  The given
+    `--filter`), but use pandoc's built-in Lua filtering system.  The given
     Lua script is expected to return a list of Lua filters which will be
     applied in order.  Each Lua filter must contain element-transforming
     functions indexed by the name of the AST element on which the filter
@@ -943,7 +943,9 @@ header when requesting a document from a URL:
 
 `--html-q-tags`
 
-:   Use `<q>` tags for quotes in HTML.
+:   Use `<q>` tags for quotes in HTML.  (This option only has an
+    effect if the `smart` extension is enabled for the input
+    format used.)
 
 `--ascii`
 
@@ -2364,7 +2366,7 @@ Pandoc uses these variables when [creating a PDF] with a LaTeX engine.
         ...
 
 `indent`
-:   uses document class settings for indentation (the default LaTeX template
+:   if true, pandoc will use document class settings for indentation (the default LaTeX template
     otherwise removes indentation and adds space between paragraphs)
 
 `linestretch`
@@ -2861,7 +2863,7 @@ their respective sections of [Pandoc's Markdown]:
   for the following formats (in addition to `markdown`):
 
   input formats
-  :  `latex`, `org`, `textile`, `html` (environments, `\ref`, and
+  :  `latex`, `textile`, `html` (environments, `\ref`, and
      `\eqref` only), `ipynb`
 
   output formats
@@ -2994,7 +2996,7 @@ extensions to Emacs Muse markup.
 In the `ipynb` input format, this causes Markdown cells
 to be included as raw Markdown blocks (allowing lossless
 round-tripping) rather than being parsed.  Use this only
-when you are targetting `ipynb` or a markdown-based
+when you are targeting `ipynb` or a markdown-based
 output format.
 
 #### Extension: `citations` {#org-citations}
@@ -5147,14 +5149,14 @@ array of YAML-encoded references, for example:
 Note that `pandoc` can be used to produce such a YAML metadata
 section from a BibTeX, BibLaTeX, or CSL JSON bibliography:
 
-    pandoc chem.bib -s -t markdown
-    pandoc chem.json -s -t markdown
+    pandoc chem.bib -s -f biblatex -t markdown
+    pandoc chem.json -s -f csljson -t markdown
 
 `pandoc` can also be used to produce CSL JSON bibliography
 from BibTeX, BibLaTeX, or markdown YAML:
 
-    pandoc chem.bib -s -t csljson
-    pandoc chem.yaml -s -t csljson
+    pandoc chem.bib -s -f biblatex -t csljson
+    pandoc chem.yaml -s -f markdown -t csljson
 
 Running pandoc on a bibliography file with the `--citeproc`
 option will create a formatted bibliography in the format
@@ -5265,7 +5267,7 @@ and escaped in the output, rather than being passed through raw.
 
 This feature allows stylesheets to be customized to give
 different output for different output formats.  However,
-stylesheets customized in this way will not be useable
+stylesheets customized in this way will not be usable
 by other CSL implementations.
 
 
