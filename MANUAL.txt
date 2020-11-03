@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: October 20, 2020
+date: November 3, 2020
 ---
 
 # Synopsis
@@ -665,18 +665,18 @@ header when requesting a document from a URL:
 
 :   Specifies what to do with insertions, deletions, and comments
     produced by the MS Word "Track Changes" feature.  `accept` (the
-    default), inserts all insertions, and ignores all
-    deletions. `reject` inserts all deletions and ignores
-    insertions. Both `accept` and `reject` ignore comments. `all` puts
-    in insertions, deletions, and comments, wrapped in spans with
-    `insertion`, `deletion`, `comment-start`, and `comment-end`
-    classes, respectively. The author and time of change is
-    included. `all` is useful for scripting: only accepting changes
-    from a certain reviewer, say, or before a certain date. If a
-    paragraph is inserted or deleted, `track-changes=all` produces a
-    span with the class `paragraph-insertion`/`paragraph-deletion`
-    before the affected paragraph break. This option only affects the
-    docx reader.
+    default) processes all the insertions and deletions.
+    `reject` ignores them.  Both `accept` and `reject` ignore comments.
+    `all` includes all insertions, deletions, and comments, wrapped
+    in spans with `insertion`, `deletion`, `comment-start`, and
+    `comment-end` classes, respectively. The author and time of
+    change is included. `all` is useful for scripting: only
+    accepting changes from a certain reviewer, say, or before a
+    certain date. If a paragraph is inserted or deleted,
+    `track-changes=all` produces a span with the class
+    `paragraph-insertion`/`paragraph-deletion` before the
+    affected paragraph break. This option only affects the docx
+    reader.
 
 `--extract-media=`*DIR*
 
@@ -1533,6 +1533,7 @@ csl: ieee
 bibliography:
 - foobar.bib
 - barbaz.json
+citation-abbreviations: abbrevs.json
 
 # Filters will be assumed to be Lua filters if they have
 # the .lua extension, and json filters otherwise.  But
@@ -2189,7 +2190,7 @@ ODT or pptx.
 ### Variables for HTML
 
 `document-css`
-:   Enables inclusion of most of the CSS in the `styles.html`
+:   Enables inclusion of most of the [CSS] in the `styles.html`
     [partial](#partials) (have a look with
     `pandoc --print-default-data-file=templates/styles.html`).
     Unless you use [`--css`](#option--css), this variable
@@ -2213,6 +2214,10 @@ ODT or pptx.
 `monofont`
 :   sets the CSS `font-family` property on `code` elements.
 
+`monobackgroundcolor`
+:   sets the CSS `background-color` property on `code` elements
+    and adds extra padding.
+
 `linestretch`
 :   sets the CSS `line-height` property on the `html` element,
     which is preferred to be unitless.
@@ -2222,6 +2227,28 @@ ODT or pptx.
 
 `margin-left`, `margin-right`, `margin-top`, `margin-bottom`
 :   sets the corresponding CSS `padding` properties on the `body` element.
+
+To override or extend some [CSS] for just one document, include for example:
+
+    ---
+    header-includes: |
+      <style>
+      blockquote {
+        font-style: italic;
+      }
+      tr.even {
+        background-color: #f0f0f0;
+      }
+      td, th {
+        padding: 0.5em 2em 0.5em 0.5em;
+      }
+      tbody {
+        border-bottom: none;
+      }
+      </style>
+    ---
+
+[CSS]: https://developer.mozilla.org/en-US/docs/Learn/CSS
 
 ### Variables for HTML math
 
