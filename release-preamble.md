@@ -7,9 +7,7 @@ Want to know when a new release is available? Subscribe to
 low-volume mailing list that is just for announcements of new releases.
 
 Note that pandoc uses the [Haskell Package Versioning Policy][PVP].
-Version numbers should be understood as EPOCH.MAJOR.MINOR.PATCH,
-rather than as MAJOR.MINOR.PATCH as in the more common
-Semantic Versioning (SemVer).
+Version numbers should be understood as `EPOCH.MAJOR.MINOR.PATCH`.
 
 [PVP]: https://pvp.haskell.org/
 
