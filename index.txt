@@ -58,8 +58,8 @@ Outline formats
 
 Bibliography formats
 
-:   &larr; [BibTeX]\
-    &larr; [BibLaTeX]\
+:   &harr; [BibTeX]\
+    &harr; [BibLaTeX]\
     &harr; [CSL JSON]\
     &harr; CSL YAML
 
