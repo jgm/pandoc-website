@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: December 29, 2020
+date: March 8, 2021
 ---
 
 # Synopsis
@@ -136,7 +136,7 @@ to output the generated LaTeX. You can then test it with `pdflatex test.tex`.
 When using LaTeX, the following packages need to be available
 (they are included with all recent versions of [TeX Live]):
 [`amsfonts`], [`amsmath`], [`lm`], [`unicode-math`],
-[`ifxetex`], [`ifluatex`], [`listings`] (if the
+[`iftex`], [`listings`] (if the
 `--listings` option is used), [`fancyvrb`], [`longtable`],
 [`booktabs`], [`graphicx`] (if the document
 contains images), [`hyperref`], [`xcolor`],
@@ -180,8 +180,7 @@ footnotes in tables).
 [`graphicx`]: https://ctan.org/pkg/graphicx
 [`grffile`]: https://ctan.org/pkg/grffile
 [`hyperref`]: https://ctan.org/pkg/hyperref
-[`ifluatex`]: https://ctan.org/pkg/ifluatex
-[`ifxetex`]: https://ctan.org/pkg/ifxetex
+[`iftex`]: https://ctan.org/pkg/iftex
 [`listings`]: https://ctan.org/pkg/listings
 [`lm`]: https://ctan.org/pkg/lm
 [`longtable`]: https://ctan.org/pkg/longtable
@@ -281,6 +280,8 @@ header when requesting a document from a URL:
     ::: {#output-formats}
     - `asciidoc` ([AsciiDoc]) or `asciidoctor` ([AsciiDoctor])
     - `beamer` ([LaTeX beamer][`beamer`] slide show)
+    - `bibtex` ([BibTeX] bibliography)
+    - `biblatex` ([BibLaTeX] bibliography)
     - `commonmark` ([CommonMark] Markdown)
     - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `context` ([ConTeXt])
@@ -360,15 +361,15 @@ header when requesting a document from a URL:
     will be used.  On \*nix and macOS systems this will be the `pandoc`
     subdirectory of the XDG data directory (by default,
     `$HOME/.local/share`, overridable by setting the `XDG_DATA_HOME`
-    environment variable).  If that directory does not exist,
-    `$HOME/.pandoc` will be used (for backwards compatibility).
-    In Windows the default user data directory is
+    environment variable).  If that directory does not exist and
+    `$HOME/.pandoc` exists, it will be used (for backwards compatibility).
+    On Windows the default user data directory is
     `C:\Users\USERNAME\AppData\Roaming\pandoc`.
     You can find the default user data directory on your system by
     looking at the output of `pandoc --version`.
-    A `reference.odt`, `reference.docx`, `epub.css`, `templates`,
-    `slidy`, `slideous`, or `s5` directory
-    placed in this directory will override pandoc's normal defaults.
+    Data files placed in this directory (for example, `reference.odt`,
+    `reference.docx`, `epub.css`, `templates`) will override
+    pandoc's normal defaults.
 
 `-d` *FILE*, `--defaults=`*FILE*
 
@@ -485,7 +486,7 @@ header when requesting a document from a URL:
 [Emacs Org mode]: https://orgmode.org
 [AsciiDoc]: https://www.methods.co.nz/asciidoc/
 [AsciiDoctor]: https://asciidoctor.org/
-[DZSlides]: http://paulrouget.com/dzslides/
+[DZSlides]: https://paulrouget.com/dzslides/
 [Word docx]: https://en.wikipedia.org/wiki/Office_Open_XML
 [PDF]: https://www.adobe.com/pdf/
 [reveal.js]: https://revealjs.com/
@@ -588,8 +589,8 @@ header when requesting a document from a URL:
 
      3. `$PATH` (executable only)
 
-    Filters and Lua-filters are applied in the order specified
-    on the command line.
+    Filters, Lua-filters, and citeproc processing are applied in
+    the order specified on the command line.
 
 `-L` *SCRIPT*, `--lua-filter=`*SCRIPT*
 
@@ -603,26 +604,17 @@ header when requesting a document from a URL:
     The `pandoc` Lua module provides helper functions for element
     creation.  It is always loaded into the script's Lua environment.
 
-    The following is an example Lua script for macro-expansion:
-
-        function expand_hello_world(inline)
-          if inline.c == '{{helloworld}}' then
-            return pandoc.Emph{ pandoc.Str "Hello, World" }
-          else
-            return inline
-          end
-        end
-
-        return {{Str = expand_hello_world}}
+    See the [Lua filters documentation] for further details.
 
     In order of preference, pandoc will look for Lua filters in
 
-     1. a specified full or relative path (executable or
-     non-executable)
+     1. a specified full or relative path
 
-     2. `$DATADIR/filters` (executable or non-executable)
-     where `$DATADIR` is the user data directory (see
-     `--data-dir`, above).
+     2. `$DATADIR/filters` where `$DATADIR` is the user data
+     directory (see `--data-dir`, above).
+
+    Filters, Lua filters, and citeproc processing are applied in
+    the order specified on the command line.
 
 `-M` *KEY*[`=`*VAL*], `--metadata=`*KEY*[`:`*VAL*]
 
@@ -699,14 +691,15 @@ header when requesting a document from a URL:
     system default, use
     `pandoc --print-default-data-file=abbreviations`.  The only
     use pandoc makes of this list is in the Markdown reader.
-    Strings ending in a period that are found in this list will
-    be followed by a nonbreaking space, so that the period will
-    not produce sentence-ending space in formats like LaTeX.
+    Strings found in this list will be followed by a nonbreaking
+    space, and the period will not produce sentence-ending space
+    in formats like LaTeX.  The strings may not contain spaces.
 
 [`pandocfilters`]: https://github.com/jgm/pandocfilters
 [PHP]: https://github.com/vinai/pandocfilters-php
 [perl]: https://metacpan.org/pod/Pandoc::Filter
 [JavaScript/node.js]: https://github.com/mvhenderson/pandoc-filter-node
+[Lua filters documentation]: https://pandoc.org/lua-filters.html
 
 ## General writer options {.options}
 
@@ -898,6 +891,11 @@ header when requesting a document from a URL:
     will not be searched.  For example:
     `--resource-path=.:test` will search the working directory
     and the `test` subdirectory, in that order.
+    This option can be used repeatedly. Search path components
+    that come later on the command line will be searched before
+    those that come earlier, so
+    `--resource-path foo:bar --resource-path baz:bim` is
+    equivalent to `--resource-path baz:bim:foo:bar`.
 
 `--request-header=`*NAME*`:`*VAL*
 
@@ -1471,6 +1469,7 @@ Nonzero exit codes have the following meanings:
    24 PandocCiteprocError
    31 PandocEpubSubdirectoryError
    43 PandocPDFError
+   44 PandocXMLError
    47 PandocPDFProgramNotFoundError
    61 PandocHttpError
    62 PandocShouldNeverHappenError
@@ -1483,6 +1482,7 @@ Nonzero exit codes have the following meanings:
    91 PandocMacroLoop
    92 PandocUTF8DecodingError
    93 PandocIpynbDecodingError
+   94 PandocUnsupportedCharsetError
    97 PandocCouldNotFindDataFileError
    99 PandocResourceNotFound
 ----- ------------------------------------
@@ -1506,6 +1506,16 @@ input-files:
 - preface.md
 - content.md
 # or you may use input-file: with a single value
+
+# Include options from the specified defaults files.
+# The files will be searched for first in the working directory
+# and then in the defaults subdirectory of the user data directory.
+# The files are included in the same order in which they appear in
+# the list. Options specified in this defaults file always have
+# priority over the included ones.
+defaults:
+- defsA
+- defsB
 
 template: letter
 standalone: true
@@ -1564,8 +1574,11 @@ data-dir:
 verbosity: INFO
 log-file: log.json
 
-# citeproc, natbib, or biblatex
+# citeproc, natbib, or biblatex. This only affects LaTeX
+# output.  If you want to use citeproc to format citations,
+# you should also set 'citeproc: true' (see above).
 cite-method: citeproc
+
 # part, chapter, section, or default:
 top-level-division: chapter
 abbreviations:
@@ -1663,6 +1676,34 @@ one line:
 ``` yaml
 verbosity: INFO
 ```
+
+In fields that expect a file path (or list of file paths), the
+following syntax may be used to interpolate environment variables:
+
+``` yaml
+csl:  ${HOME}/mycsldir/special.csl
+```
+
+`${USERDATA}` may also be used; this will always resolve to the
+user data directory that is current when the defaults file is
+parsed, regardless of the setting of the environment
+variable `USERDATA`.
+
+`${.}` will resolve to the directory containing the default
+file itself.  This allows you to refer to resources contained
+in that directory:
+
+``` yaml
+epub-cover-image: ${.}/cover.jpg
+epub-metadata: ${.}/meta.xml
+resource-path:
+- .             # the working directory from which pandoc is run
+- ${.}/images   # the images subdirectory of the directory
+                # containing this defaults file
+```
+
+This environment variable interpolation syntax *only* works in
+fields that expect file paths.
 
 Default files can be placed in the `defaults` subdirectory of
 the user data directory and used from any directory.  For
@@ -1891,7 +1932,8 @@ ${ styles.html() }
 ```
 
 (If a partial is not found in the directory of the
-template, it will also be sought in the `templates`
+template and the template path is given as a relative 
+path, it will also be sought in the `templates`
 subdirectory of the user data directory.)
 
 Partials may optionally be applied to variables using
@@ -3091,6 +3133,13 @@ output format.
 Some aspects of [Pandoc's Markdown citation syntax](#citations)
 are also accepted in `org` input.
 
+#### Extension: `element_citations` ####
+
+In the `jats` output formats, this causes reference items to
+be replaced with `<element-citation>` elements. These
+elements are not influenced by CSL styles, but all information
+on the item is included in tags.
+
 #### Extension: `ntb` ####
 
 In the `context` output format this enables the use of [Natural Tables
@@ -3465,6 +3514,9 @@ line must begin with a space.
       Constable, Jr.
     | 200 Main St.
     | Berkeley, CA 94718
+
+Inline formatting (such as emphasis) is allowed in the content,
+but not block-level formatting (such as block quotes or lists).
 
 This syntax is borrowed from [reStructuredText].
 
@@ -4345,7 +4397,8 @@ you need to enclose text in literal `$` characters, backslash-escape
 them and they won't be treated as math delimiters.
 
 For display math, use `$$` delimiters.  (In this case, the delimiters
-may be separated from the formula by whitespace.)
+may be separated from the formula by whitespace.  However, there can be
+no blank lines betwen the opening and closing `$$` delimiters.)
 
 TeX math will be printed in all output formats. How it is rendered
 depends on the output format:
@@ -5256,11 +5309,11 @@ section from a BibTeX, BibLaTeX, or CSL JSON bibliography:
     pandoc chem.bib -s -f biblatex -t markdown
     pandoc chem.json -s -f csljson -t markdown
 
-`pandoc` can also be used to produce CSL JSON bibliography
-from BibTeX, BibLaTeX, or markdown YAML:
+Indeed, `pandoc` can convert between any of these
+citation formats:
 
     pandoc chem.bib -s -f biblatex -t csljson
-    pandoc chem.yaml -s -f markdown -t csljson
+    pandoc chem.yaml -s -f markdown -t biblatex
 
 Running pandoc on a bibliography file with the `--citeproc`
 option will create a formatted bibliography in the format
@@ -5918,6 +5971,15 @@ The following fields are recognized:
 
 `rights`
   ~ A string value.
+  
+`belongs-to-collection`
+  ~ A string value.  identifies the name of a collection to which
+    the EPUB Publication belongs.
+
+`group-position`
+  ~ The `group-position` field indicates the numeric position in which
+    the EPUB Publication belongs relative to other works belonging to
+    the same `belongs-to-collection` field.
 
 `cover-image`
   ~ A string value (path to cover image).
@@ -6285,6 +6347,21 @@ subdirectory of your user data directory (see [Templates]).
 
 [Lua]: https://www.lua.org
 
+# Reproducible builds
+
+Some of the document formats pandoc targets (such as EPUB,
+docx, and ODT) include build timestamps in the generated document.
+That means that the files generated on successive builds will
+differ, even if the source does not.  To avoid this, set the
+`SOURCE_DATE_EPOCH` environment variable, and the timestamp will
+be taken from it instead of the current time.
+`SOURCE_DATE_EPOCH` should contain an integer unix timestamp
+(specifying the number of second since midnight UTC January 1, 1970).
+
+Some document formats also include a unique identifier.  For
+EPUB, this can be set explicitly by setting the `identifier`
+metadata field (see [EPUB Metadata], above).
+
 # A note on security
 
 If you use pandoc to convert user-contributed content in a web
@@ -6319,7 +6396,7 @@ application, here are some things to keep in mind:
 
 # Authors
 
-Copyright 2006--2020 John MacFarlane (jgm@berkeley.edu). Released
+Copyright 2006--2021 John MacFarlane (jgm@berkeley.edu). Released
 under the [GPL], version 2 or greater.  This software carries no
 warranty of any kind.  (See COPYRIGHT for full copyright and
 warranty notices.) For a full list of contributors, see the file

@@ -3084,7 +3084,8 @@ Clear-out the media bag, deleting all items.
 
 `insert (filepath, mime_type, contents)`
 
-Adds a new entry to pandoc's media bag.
+Adds a new entry to pandoc's media bag. Replaces any existing
+mediabag entry with the same `filepath`.
 
 Parameters:
 
@@ -3092,7 +3093,7 @@ Parameters:
 :   filename and path relative to the output folder.
 
 `mime_type`:
-:   the file's MIME type
+:   the file's MIME type; use `nil` if unknown or unavailable.
 
 `contents`:
 :   the binary contents of the file.
@@ -3176,11 +3177,21 @@ Usage:
 
 ### fetch {#pandoc.mediabag.fetch}
 
-`fetch (source, base_url)`
+`fetch (source)`
 
 Fetches the given source from a URL or local file. Returns two
 values: the contents of the file and the MIME type (or an empty
 string).
+
+The function will first try to retrieve `source` from the
+mediabag; if that fails, it will try to download it or read it
+from the local file system while respecting pandoc's "resource
+path" setting.
+
+Parameters:
+
+`source`:
+:   path to a resource; either a local file path or URI
 
 Returns:
 
@@ -3190,7 +3201,7 @@ Returns:
 Usage:
 
     local diagram_url = "https://pandoc.org/diagram.jpg"
-    local mt, contents = pandoc.mediabag.fetch(diagram_url, ".")
+    local mt, contents = pandoc.mediabag.fetch(diagram_url)
 
 # Module pandoc.List
 
@@ -3375,6 +3386,181 @@ methods and convenience functions.
 
     `comp`:
     :   Comparison function as described above.
+
+# Module pandoc.path
+
+Module for file path manipulations.
+
+## Static Fields {#pandoc.path-fields}
+
+### separator {#pandoc.path.separator}
+
+The character that separates directories.
+
+### search_path_separator {#pandoc.path.search_path_separator}
+
+The character that is used to separate the entries in the `PATH`
+environment variable.
+
+## Functions {#pandoc.path-functions}
+
+### directory (filepath) {#pandoc.path.directory}
+
+Gets the directory name, i.e., removes the last directory
+separator and everything after from the given path.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   The filepath up to the last directory separator. (string)
+
+### filename (filepath) {#pandoc.path.filename}
+
+Get the file name.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   File name part of the input path. (string)
+
+### is_absolute (filepath) {#pandoc.path.is_absolute}
+
+Checks whether a path is absolute, i.e. not fixed to a root.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   `true` iff `filepath` is an absolute path, `false` otherwise.
+    (boolean)
+
+### is_relative (filepath) {#pandoc.path.is_relative}
+
+Checks whether a path is relative or fixed to a root.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   `true` iff `filepath` is a relative path, `false` otherwise.
+    (boolean)
+
+### join (filepaths) {#pandoc.path.join}
+
+Join path elements back together by the directory separator.
+
+Parameters:
+
+filepaths
+:   path components (list of strings)
+
+Returns:
+
+-   The joined path. (string)
+
+### make_relative (path, root[, unsafe]) {#pandoc.path.make_relative}
+
+Contract a filename, based on a relative path. Note that the
+resulting path will usually not introduce `..` paths, as the
+presence of symlinks means `../b` may not reach `a/b` if it starts
+from `a/c`. For a worked example see [this blog
+post](https://neilmitchell.blogspot.co.uk/2015/10/filepaths-are-subtle-symlinks-are-hard.html).
+
+Set `unsafe` to a truthy value to a allow `..` in paths.
+
+Parameters:
+
+path
+:   path to be made relative (string)
+
+root
+:   root path (string)
+
+unsafe
+:   whether to allow `..` in the result. (boolean)
+
+Returns:
+
+-   contracted filename (string)
+
+### normalize (filepath) {#pandoc.path.normalize}
+
+Normalizes a path.
+
+-   `//` makes sense only as part of a (Windows) network drive;
+    elsewhere, multiple slashes are reduced to a single
+    `path.separator` (platform dependent).
+-   `/` becomes `path.separator` (platform dependent)
+-   `./` -\> ''
+-   an empty path becomes `.`
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   The normalized path. (string)
+
+### split (filepath) {#pandoc.path.split}
+
+Splits a path by the directory separator.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   List of all path components. (list of strings)
+
+### split_extension (filepath) {#pandoc.path.split_extension}
+
+Splits the last extension from a file path and returns the parts. The
+extension, if present, includes the leading separator; if the path has
+no extension, then the empty string is returned as the extension.
+
+Parameters:
+
+filepath
+:   path (string)
+
+Returns:
+
+-   filepath without extension (string)
+
+-   extension or empty string (string)
+
+### split_search_path (search_path) {#pandoc.path.split_search_path}
+
+Takes a string and splits it on the `search_path_separator` character.
+Blank items are ignored on Windows, and converted to `.` on Posix. On
+Windows path elements are stripped of quotes.
+
+Parameters:
+
+search_path
+:   platform-specific search path (string)
+
+Returns:
+
+-   list of directories in search path (list of strings)
 
 # Module pandoc.system
 
