@@ -4,9 +4,11 @@
 <!--
 <!ENTITY yes "<phrase role='unicode yes'>✔</phrase>">
 <!ENTITY no "<phrase role='unicode no'>✘</phrase>">
--->
 <!ENTITY yes "<phrase role='unicode yes'>YES</phrase>">
 <!ENTITY no "<phrase role='unicode no'>NO</phrase>">
+-->
+<!ENTITY yes "✔">
+<!ENTITY no "✘">
 ]>
 <article xmlns="http://docbook.org/ns/docbook"
 	 xmlns:xl="http://www.w3.org/1999/xlink"
