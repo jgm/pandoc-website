@@ -71,6 +71,11 @@ produzieren*](http://www.amazon.com/Das-ZEN-von-Pandoc-professionell-ebook/dp/B0
 
 # Blog posts
 
+- Grec, Dan (2021), ["How I self-published a professional paperback and
+  eBook using LaTeX and
+  Pandoc"](http://theroadchoseme.com/how-i-self-published-a-professional-paperback-and-ebook-using-latex-and-pandoc),
+  The Road Chose Me.
+
 - Grandesso, Piero (2018-03-23). ["A pandoc-based layout workflow for
   scholarly journals"](http://pierog.it/en/2018/03/markdown-workflow/).
   Piero G: Notes on Open Access, Scholarly Publishing etc.
