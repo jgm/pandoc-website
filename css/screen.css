@@ -105,6 +105,31 @@ div#toc li {
     padding-left: 1em;
 }
 
+/* show the anchor links in headings if one hovers over the heading. */
+.anchor::before {
+  content: '🔗';
+  display: inline-block;
+  font-size: 80%;
+  left: -1.5em;
+  line-height: 1.5;
+  opacity: 0.15;
+  padding-right: 0.5em;
+  position: absolute;
+  width: 1.5em;
+}
+.anchor:hover {
+    text-decoration: none;
+}
+h1:hover > .anchor::before,
+h2:hover > .anchor::before,
+h3:hover > .anchor::before,
+h4:hover > .anchor::before,
+h5:hover > .anchor::before,
+h6:hover > .anchor::before {
+  opacity: 1;
+}
+/* end: heading anchor links */
+
 div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
 div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }

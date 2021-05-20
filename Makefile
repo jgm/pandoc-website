@@ -5,7 +5,15 @@ JS = js/downloadInstallerBtn.js js/collapseTOC.js
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
-MKPAGE = $(PANDOC) -t html5 --toc -s --highlight-style tango -B nav.html --template=template.html --lua-filter tools/option-anchors.lua --lua-filter tools/faq-panels.lua --lua-filter tools/nowrap.lua
+MKPAGE = $(PANDOC) --toc --standalone \
+	--to=html5 \
+	--highlight-style=tango \
+	--include-before=nav.html \
+	--template=template.html \
+	--lua-filter=tools/option-anchors.lua \
+	--lua-filter=tools/faq-panels.lua \
+	--lua-filter=tools/nowrap.lua \
+	--lua-filter=tools/anchor-links.lua
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
