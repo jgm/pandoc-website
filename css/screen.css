@@ -107,15 +107,16 @@ div#toc li {
 
 /* show the anchor links in headings if one hovers over the heading. */
 .anchor::before {
-  content: '🔗';
+  /* link symbol + variation selector-15 (UFE0E); the latter forces to use the
+   current font, not some special emoji. */
+  content: '🔗\FE0E';
   display: inline-block;
-  font-size: 80%;
-  left: -1.5em;
-  line-height: 1.5;
+  font-size: 66%;
+  left: -1.75em;
+  line-height: 1.66;
   opacity: 0.15;
   padding-right: 0.5em;
   position: absolute;
-  width: 1.5em;
 }
 .anchor:hover {
     text-decoration: none;
