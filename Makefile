@@ -44,10 +44,10 @@ $(SITE)/demos.txt : demos $(DEMO) $(DEMO)/reveal.js $(DEMOFILES) mkdemos.pl
 	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
-	pandoc-citeproc --bib2json $< > $@
+	pandoc -f biblatex -t csljson -s $< > $@
 
 $(DEMO)/biblio.yaml: $(DEMO)/biblio.bib
-	pandoc-citeproc --bib2yaml $< > $@
+	pandoc -f biblatex -t markdown -s $< > $@
 
 $(DEMO)/reveal.js:
 	git clone https://github.com/hakimel/reveal.js $@
