@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: August 20, 2021
+date: October 22, 2021
 ---
 
 # Synopsis
@@ -142,11 +142,11 @@ When using LaTeX, the following packages need to be available
 contains images), [`hyperref`], [`xcolor`],
 [`ulem`], [`geometry`] (with the `geometry` variable set),
 [`setspace`] (with `linestretch`), and
-[`babel`] (with `lang`).  The use of `xelatex` or `lualatex` as
+[`babel`] (with `lang`).  If `CJKmainfont` is set, [`xeCJK`]
+is needed.  The use of `xelatex` or `lualatex` as
 the PDF engine requires [`fontspec`].  `lualatex` uses
-[`selnolig`]. `xelatex` uses [`polyglossia`] (with `lang`),
-[`xecjk`], and [`bidi`] (with the `dir` variable set). If the
-`mathspec` variable is set, `xelatex` will use [`mathspec`]
+[`selnolig`]. `xelatex` uses [`bidi`] (with the `dir` variable set).
+If the `mathspec` variable is set, `xelatex` will use [`mathspec`]
 instead of [`unicode-math`].  The [`upquote`] and [`microtype`]
 packages are used if available, and [`csquotes`] will be used
 for [typography] if the `csquotes` variable or metadata field is
@@ -197,7 +197,7 @@ footnotes in tables).
 [`weasyprint`]: https://weasyprint.org
 [`wkhtmltopdf`]: https://wkhtmltopdf.org
 [`xcolor`]: https://ctan.org/pkg/xcolor
-[`xecjk`]: https://ctan.org/pkg/xecjk
+[`xeCJK`]: https://ctan.org/pkg/xecjk
 [`xurl`]: https://ctan.org/pkg/xurl
 [`selnolig`]: https://ctan.org/pkg/selnolig
 
@@ -730,6 +730,16 @@ header when requesting a document from a URL:
     document in standalone mode. If no *VAL* is specified, the
     key will be given the value `true`.
 
+`--sandbox`
+
+:   Run pandoc in a sandbox, limiting IO operations in readers
+    and writers to reading the files specified on the command line.
+    Note that this option does not limit IO operations by
+    filters or in the production of PDF documents.  But it does
+    offer security against, for example, disclosure of files
+    through the use of `include` directives.  Anyone using
+    pandoc on untrusted user input should use this option.
+
 `-D` *FORMAT*, `--print-default-template=`*FORMAT*
 
 :   Print the system default template for an output *FORMAT*. (See `-t`
@@ -962,7 +972,9 @@ header when requesting a document from a URL:
 :   Specify whether footnotes (and references, if `reference-links` is
     set) are placed at the end of the current (top-level) block, the
     current section, or the document. The default is
-    `document`. Currently only affects the markdown writer.
+    `document`. Currently this option only affects the
+    `markdown`, `muse`, `html`, `epub`, `slidy`, `s5`, `slideous`,
+    `dzslides`, and `revealjs` writers.
 
 `--markdown-headings=setext`|`atx`
 
@@ -1172,11 +1184,15 @@ header when requesting a document from a URL:
         - Title and Content
         - Section Header
         - Two Content
+        - Comparison
+        - Content with Caption
+        - Blank
 
         For each name, the first layout found with that name will be used.
         If no layout is found with one of the names, pandoc will output a
         warning and use the layout with that name from the default reference
-        doc instead.
+        doc instead. (How these layouts are used is described in [PowerPoint
+        layout choice](#powerpoint-layout-choice).)
 
         All templates included with a recent version of MS PowerPoint
         will fit these criteria. (You can click on `Layout` under the
@@ -1185,8 +1201,8 @@ header when requesting a document from a URL:
         You can also modify the default `reference.pptx`: first run
         `pandoc -o custom-reference.pptx --print-default-data-file
         reference.pptx`, and then modify `custom-reference.pptx`
-        in MS PowerPoint (pandoc will use the first four layout
-        slides, as mentioned above).
+        in MS PowerPoint (pandoc will use the layouts with the names
+        listed above).
 
 `--epub-cover-image=`*FILE*
 
@@ -1472,6 +1488,7 @@ Nonzero exit codes have the following meanings:
    22 PandocUnknownWriterError
    23 PandocUnsupportedExtensionError
    24 PandocCiteprocError
+   25 PandocBibliographyError
    31 PandocEpubSubdirectoryError
    43 PandocPDFError
    44 PandocXMLError
@@ -2172,7 +2189,7 @@ Currently the following pipes are predefined:
     and AsciiDoc metadata; repeat as for `author`, above
 
 `subject`
-:   document subject, included in ODT, PDF, docx and pptx metadata
+:   document subject, included in ODT, PDF, docx, EPUB, and pptx metadata
 
 `description`
 :   document description, included in ODT, docx and pptx metadata. Some
@@ -2799,7 +2816,7 @@ on the output format, and include the following:
 
 `toc-title`
 :   title of table of contents (works only with EPUB,
-    HTML, opendocument, odt, docx, pptx, beamer, LaTeX)
+    HTML, revealjs, opendocument, odt, docx, pptx, beamer, LaTeX)
 
 [pandoc-templates]: https://github.com/jgm/pandoc-templates
 
@@ -3732,8 +3749,8 @@ or two spaces.
 A term may have multiple definitions, and each definition may
 consist of one or more block elements (paragraph, code block,
 list, etc.), each indented four spaces or one tab stop.  The
-body of the definition (including the first line, aside from the
-colon or tilde) should be indented four spaces. However, as with
+body of the definition (not including the first line)
+should be indented four spaces. However, as with
 other Markdown lists, you can "lazily" omit indentation except
 at the beginning of a paragraph or other block element:
 
@@ -5123,7 +5140,8 @@ or image itself, if these differ.
 #### Extension: `attributes` ####
 
 Allows attributes to be attached to any inline or block-level
-element.  The syntax for the attributes is the same as that
+element when parsing `commonmark`.
+The syntax for the attributes is the same as that
 used in [`header_attributes`][Extension: `header_attributes`].
 
 - Attributes that occur immediately after an inline
@@ -5781,8 +5799,8 @@ By default, the *slide level* is the highest heading level in
 the hierarchy that is followed immediately by content, and not another
 heading, somewhere in the document. In the example above, level-1 headings
 are always followed by level-2 headings, which are followed by content,
-so the slide level is 2.  This default can be overridden using
-the `--slide-level` option.
+so the slide level is 2. This default can be overridden using the
+`--slide-level` option.
 
 The document is carved up into slides according to the following
 rules:
@@ -5806,19 +5824,62 @@ rules:
     subsequent slide with the same title (for beamer).
 
   * A title page is constructed automatically from the document's title
-    block, if present.  (In the case of beamer, this can be disabled
+    block, if present. (In the case of beamer, this can be disabled
     by commenting out some lines in the default template.)
 
 These rules are designed to support many different styles of slide show. If
 you don't care about structuring your slides into sections and subsections,
-you can just use level-1 headings for all each slide. (In that case, level-1
-will be the slide level.) But you can also structure the slide show into
-sections, as in the example above.
+you can either just use level-1 headings for all slides (in that case, level 1
+will be the slide level) or you can set `--slide-level=0`.
 
 Note:  in reveal.js slide shows, if slide level is 2, a two-dimensional
 layout will be produced, with level-1 headings building horizontally
-and level-2 headings building vertically.  It is not recommended that
-you use deeper nesting of section levels with reveal.js.
+and level-2 headings building vertically. It is not recommended that
+you use deeper nesting of section levels with reveal.js unless you set
+`--slide-level=0` (which lets reveal.js produce a one-dimensional layout
+and only interprets horizontal rules as slide boundaries).
+
+### PowerPoint layout choice
+
+When creating slides, the pptx writer chooses from a number of pre-defined
+layouts, based on the content of the slide:
+
+Title Slide
+:   This layout is used for the initial slide, which is generated and
+    filled from the metadata fields `date`, `author`, and `title`, if
+    they are present.
+
+Section Header
+:   This layout is used for what pandoc calls “title slides”, i.e.
+    slides which start with a header which is above the slide level in
+    the hierarchy.
+
+Two Content
+:   This layout is used for two-column slides, i.e. slides containing a
+    div with class `columns` which contains at least two divs with class
+    `column`.
+
+Comparison
+:   This layout is used instead of “Two Content” for any two-column
+    slides in which at least one column contains text followed by
+    non-text (e.g. an image or a table).
+
+Content with Caption
+:   This layout is used for any non-two-column slides which contain text
+    followed by non-text (e.g. an image or a table).
+
+Blank
+:   This layout is used for any slides which only contain blank content,
+    e.g. a slide containing only speaker notes, or a slide containing
+    only a non-breaking space.
+
+Title and Content
+:   This layout is used for all slides which do not match the criteria
+    for another layout.
+
+These layouts are chosen from the default pptx reference doc included with
+pandoc, unless an alternative reference doc is specified using
+`--reference-doc`.
 
 ## Incremental lists
 
@@ -5857,9 +5918,6 @@ option):
 
 Both methods allow incremental and nonincremental lists to be mixed
 in a single document.
-
-Note: Neither the `-i/--incremental` option nor any of the
-methods described here currently works for PowerPoint output.
 
 ## Inserting pauses
 
@@ -5996,44 +6054,65 @@ the [Beamer User's Guide] may also be used: `allowdisplaybreaks`,
 `allowframebreaks`, `b`, `c`, `t`, `environment`, `label`, `plain`,
 `shrink`, `standout`, `noframenumbering`.
 
-## Background in reveal.js and beamer
+## Background in reveal.js, beamer, and pptx
 
-Background images can be added to self-contained reveal.js slideshows and
-to beamer slideshows.
+Background images can be added to self-contained reveal.js slide shows,
+beamer slide shows, and pptx slide shows.
 
-For the same image on every slide, use the  configuration
-option `background-image` either in the YAML metadata block
-or as a command-line variable. (There are no other options in
-beamer and the rest of this section concerns reveal.js slideshows.)
+### On all slides (beamer, reveal.js, pptx)
 
-For reveal.js, you can instead use the reveal.js-native option
-`parallaxBackgroundImage`. You can also set `parallaxBackgroundHorizontal`
-and `parallaxBackgroundVertical` the same way and must also set
-`parallaxBackgroundSize` to have your values take effect.
+With beamer and reveal.js, the configuration option `background-image` can be
+used either in the YAML metadata block or as a command-line variable to get the
+same image on every slide.
 
-To set an image for a particular reveal.js slide, add
-`{data-background-image="/path/to/image"}`
-to the first slide-level heading on the slide (which may even be empty).
+For pptx, you can use a [reference doc](#option--reference-doc) in which
+background images have been set on the [relevant
+layouts](#powerpoint-layout-choice).
+
+#### `parallaxBackgroundImage` (reveal.js)
+
+For reveal.js, there is also the reveal.js-native option
+`parallaxBackgroundImage`, which can be used instead of `background-image` to
+produce a parallax scrolling background. You must also set
+`parallaxBackgroundSize`, and can optionally set `parallaxBackgroundHorizontal`
+and `parallaxBackgroundVertical` to configure the scrolling behaviour. See the
+[reveal.js documentation](https://revealjs.com/backgrounds/#parallax-background)
+for more details about the meaning of these options.
 
 In reveal.js's overview mode, the parallaxBackgroundImage will show up
 only on the first slide.
 
-Other reveal.js background settings also work on individual slides, including
-`data-background-size`, `data-background-repeat`, `data-background-color`,
-`data-transition`, and `data-transition-speed`.
+### On individual slides (reveal.js, pptx)
 
-To add a background image to the automatically generated title slide, use the
-`title-slide-attributes` variable in the YAML metadata block. It must contain
-a map of attribute names and values.
+To set an image for a particular reveal.js or pptx slide, add
+`{background-image="/path/to/image"}` to the first slide-level heading on the
+slide (which may even be empty).
 
-See the [reveal.js documentation](https://revealjs.com/backgrounds/) for more
-details.
+As the [HTML writers pass unknown attributes
+through](#extension-link_attributes), other reveal.js background settings also
+work on individual slides, including `background-size`, `background-repeat`,
+`background-color`, `transition`, and `transition-speed`. (The `data-` prefix
+will automatically be added.)
 
-For example in reveal.js:
+Note: `data-background-image` is also supported in pptx for consistency with
+reveal.js – if `background-image` isn’t found, `data-background-image` will be
+checked.
+
+### On the title slide (reveal.js, pptx)
+
+To add a background image to the automatically generated title slide for
+reveal.js, use the `title-slide-attributes` variable in the YAML metadata block.
+It must contain a map of attribute names and values. (Note that the `data-`
+prefix is required here, as it isn’t added automatically.)
+
+For pptx, pass a [reference doc](#option--reference-doc) with the background
+image set on the “Title Slide” layout.
+
+### Example (reveal.js)
 
 ```
 ---
-title: My Slideshow
+title: My Slide Show
 parallaxBackgroundImage: /path/to/my/background_image.png
 title-slide-attributes:
     data-background-image: /path/to/title_image.png
@@ -6044,7 +6123,7 @@ title-slide-attributes:
 
 Slide 1 has background_image.png as its background.
 
-## {data-background-image="/path/to/special_image.jpg"}
+## {background-image="/path/to/special_image.jpg"}
 
 Slide 2 has a special image for its background, even though the heading has no content.
 ```
@@ -6110,7 +6189,12 @@ The following fields are recognized:
     language if nothing is specified.
 
 `subject`
-  ~ A string value or a list of such values.
+  ~ Either a string value, or an object with fields `text`, `authority`,
+    and `term`, or a list of such objects. Valid values for `authority`
+    are either a [reserved authority value] (currently `AAT`, `BIC`,
+    `BISAC`, `CLC`, `DDC`, `CLIL`, `EuroVoc`, `MEDTOP`, `LCSH`, `NDC`,
+    `Thema`, `UDC`, and `WGS`) or an absolute IRI identifying a custom
+    scheme. Valid values for `term` are defined by the scheme.
 
 `description`
   ~ A string value.
@@ -6160,6 +6244,7 @@ The following fields are recognized:
     - `scroll-axis`: `vertical`|`horizontal`|`default`
 
 [MARC relators]: https://loc.gov/marc/relators/relaterm.html
+[reserved authority value]: https://idpf.github.io/epub-registries/authorities/
 [`spine` element]: http://idpf.org/epub/301/spec/epub-publications.html#sec-spine-elem
 
 ## The `epub:type` attribute
@@ -6199,6 +6284,7 @@ halftitlepage                     frontmatter
 seriespage                        frontmatter
 foreword                          frontmatter
 preface                           frontmatter
+frontispiece                      frontmatter
 appendix                          backmatter
 colophon                          backmatter
 bibliography                      backmatter
@@ -6540,23 +6626,35 @@ application, here are some things to keep in mind:
 2. Several input formats (including HTML, Org, and RST) support `include`
    directives that allow the contents of a file to be included in the
    output. An untrusted attacker could use these to view the contents of
-   files on the file system.
+   files on the file system.  (Using the `--sandbox` option can
+   protect against this threat.)
 
-3. If your application uses pandoc as a Haskell library (rather than
+3. Several output formats (including RTF, FB2, HTML with
+   `--self-contained`, EPUB, Docx, and ODT) will embed encoded
+   or raw images into the output file.  An untrusted attacker
+   could exploit this to view the contents of non-image files on the
+   file system.  (Using the `--sandbox` option can protect
+   against this threat, but will also prevent including images in
+   these formats.)
+
+4. If your application uses pandoc as a Haskell library (rather than
    shelling out to the executable), it is possible to use it in a mode
    that fully isolates pandoc from your file system, by running the
    pandoc operations in the `PandocPure` monad. See the document
    [Using the pandoc API](https://pandoc.org/using-the-pandoc-api.html)
    for more details.
 
-4. Pandoc's parsers can exhibit pathological performance on some
+5. Pandoc's parsers can exhibit pathological performance on some
    corner cases.  It is wise to put any pandoc operations under
    a timeout, to avoid DOS attacks that exploit these issues.
    If you are using the pandoc executable, you can add the
    command line options `+RTS -M512M -RTS` (for example) to limit
-   the heap size to 512MB.
+   the heap size to 512MB.  Note that the `commonmark` parser
+   (including `commonmark_x` and `gfm`) is much less vulnerable
+   to pathological performance than the `markdown` parser, so
+   it is a better choice when processing untrusted input.
 
-5. The HTML generated by pandoc is not guaranteed to be safe.
+6. The HTML generated by pandoc is not guaranteed to be safe.
    If `raw_html` is enabled for the Markdown input, users can
    inject arbitrary HTML.  Even if `raw_html` is disabled,
    users can include dangerous content in URLs and attributes.

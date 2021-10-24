@@ -695,12 +695,12 @@ end
 function RawBlock(el)
   if starts_with('\\begin{tikzpicture}', el.text) then
     local filetype = extension_for[FORMAT] or 'svg'
-    local fname = system.get_working_directory() .. '/' ..
-        pandoc.sha1(el.text) .. '.' .. filetype
+    local fbasename = pandoc.sha1(el.text) .. '.' .. filetype
+    local fname = system.get_working_directory() .. '/' .. fbasename
     if not file_exists(fname) then
       tikz2image(el.text, filetype, fname)
     end
-    return pandoc.Para({pandoc.Image({}, fname)})
+    return pandoc.Para({pandoc.Image({}, fbasename)})
   else
    return el
   end
@@ -1206,9 +1206,6 @@ Values of this type can be created with the
 
 Fields:
 
-`attr`
-:   attributes ([Attr])
-
 `caption`
 :   text used to describe the image ([List] of [Inlines])
 
@@ -1216,7 +1213,10 @@ Fields:
 :   path to the image file (string)
 
 `title`
-:   brief image description
+:   brief image description (string)
+
+`attr`
+:   attributes ([Attr])
 
 `identifier`
 :   alias for `attr.identifier` (string)
@@ -3442,7 +3442,7 @@ filepath
 
 Returns:
 
--   `true` iff `filepath` is an absolute path, `false` otherwise.
+-   `true` if `filepath` is an absolute path, `false` otherwise.
     (boolean)
 
 ### is_relative (filepath) {#pandoc.path.is_relative}
@@ -3456,7 +3456,7 @@ filepath
 
 Returns:
 
--   `true` iff `filepath` is a relative path, `false` otherwise.
+-   `true` if `filepath` is a relative path, `false` otherwise.
     (boolean)
 
 ### join (filepaths) {#pandoc.path.join}
