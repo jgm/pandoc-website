@@ -1,7 +1,7 @@
 ---
 title: Pandoc User's Guide
 author: John MacFarlane
-date: November 02, 2021
+date: November 20, 2021
 ---
 
 # Synopsis
@@ -266,6 +266,7 @@ header when requesting a document from a URL:
     - `tikiwiki` ([TikiWiki markup])
     - `twiki` ([TWiki markup])
     - `vimwiki` ([Vimwiki])
+    - the path of a custom Lua reader, see [Custom readers and writers] below
     :::
 
     Extensions can be individually enabled or disabled by
@@ -338,7 +339,7 @@ header when requesting a document from a URL:
     - `tei` ([TEI Simple])
     - `xwiki` ([XWiki markup])
     - `zimwiki` ([ZimWiki markup])
-    - the path of a custom Lua writer, see [Custom writers] below
+    - the path of a custom Lua writer, see [Custom readers and writers] below
     :::
 
     Note that `odt`, `docx`, `epub`, and `pdf` output will not be directed
@@ -1480,6 +1481,7 @@ Nonzero exit codes have the following meanings:
 
  Code Error
 ----- ------------------------------------
+    1 PandocIOError
     3 PandocFailOnWarningError
     4 PandocAppError
     5 PandocTemplateError
@@ -1501,6 +1503,7 @@ Nonzero exit codes have the following meanings:
    66 PandocMakePDFError
    67 PandocSyntaxMapError
    83 PandocFilterError
+   84 PandocLuaError
    91 PandocMacroLoop
    92 PandocUTF8DecodingError
    93 PandocIpynbDecodingError
@@ -5331,7 +5334,7 @@ For elements that accept attributes, a `data-pos` attribute
 is added; other elements are placed in a surrounding
 Div or Span elemnet with a `data-pos` attribute.
 
-#### Extension: `short_subsuperscript` ####
+#### Extension: `short_subsuperscripts` ####
 
 Parse multimarkdown style subscripts and superscripts, which start with
 a '~' or '^' character, respectively, and include the alphanumeric sequence
@@ -6572,19 +6575,35 @@ With these custom styles, you can use your input document as a
 reference-doc while creating docx output (see below), and maintain the
 same styles in your input and output files.
 
-# Custom writers
+# Custom readers and writers
 
-Pandoc can be extended with custom writers written in [Lua].  (Pandoc
-includes a Lua interpreter, so Lua need not be installed separately.)
+Pandoc can be extended with custom readers and writers written
+in [Lua].  (Pandoc includes a Lua interpreter, so Lua need not
+be installed separately.)
 
-To use a custom writer, simply specify the path to the Lua script
-in place of the output format. For example:
+To use a custom reader or writer, simply specify the path to the
+Lua script in place of the input or output format. For example:
 
     pandoc -t data/sample.lua
+    pandoc -f my_custom_markup_language.lua -t latex -s
 
-Creating a custom writer requires writing a Lua function for each
-possible element in a pandoc document.  To get a documented example
-which you can modify according to your needs, do
+A custom reader is a Lua script that defines one function,
+Reader, which takes a string as input and returns a Pandoc
+AST.  See the [Lua filters documentation] for documentation
+of the functions that are available for creating pandoc
+AST elements.  For parsing, the [lpeg] parsing library
+is available by default. To see a sample custom reader:
+
+    pandoc --print-default-data-file creole.lua
+
+If you want your custom reader to have access to reader options
+(e.g. the tab stop setting), you give your Reader function a
+second `options` parameter.
+
+A custom writer is a Lua script that defines a function
+that specifies how to render each element in a Pandoc AST.
+To see a documented example which you can modify according
+to your needs:
 
     pandoc --print-default-data-file sample.lua
 
@@ -6596,6 +6615,7 @@ default template with the name
 subdirectory of your user data directory (see [Templates]).
 
 [Lua]: https://www.lua.org
+[lpeg]:  http://www.inf.puc-rio.br/~roberto/lpeg/
 
 # Reproducible builds
 
