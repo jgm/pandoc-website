@@ -109,7 +109,7 @@ Data formats
 
 Custom formats
 
-:   &rarr; custom writers can be written in [lua].
+:   &harr; custom readers and writers can be written in [Lua]
 
 PDF
 
@@ -193,7 +193,7 @@ Copyright 2006--2020 [John MacFarlane].
 [Slideous]: http://goessner.net/articles/slideous/
 [FictionBook2]: http://www.fictionbook.org/index.php/Eng:XML_Schema_Fictionbook_2.1
 [Haddock markup]: http://www.haskell.org/haddock/doc/html/ch03s08.html
-[lua]: http://www.lua.org
+[Lua]: http://www.lua.org
 [reveal.js]: http://lab.hakim.se/reveal-js/
 [InDesign ICML]: http://wwwimages.adobe.com/content/dam/acom/en/devnet/indesign/sdk/cs6/idml/idml-specification.pdf
 [OPML]: http://dev.opml.org/spec2.html
