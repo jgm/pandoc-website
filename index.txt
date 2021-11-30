@@ -50,7 +50,8 @@ XML formats
 
 :   &harr; [DocBook] version 4 or 5\
     &harr; [JATS]\
-    &rarr; [TEI Simple]
+    &rarr; [TEI Simple]\
+    &rarr; [OpenDocument XML]
 
 Outline formats
 
@@ -71,9 +72,7 @@ Word processor formats
 
 :   &harr; Microsoft Word [docx]\
     &harr; Rich Text Format [RTF]\
-    &harr; OpenOffice/LibreOffice [ODT]\
-    &rarr; [OpenDocument XML]\
-    &rarr; Microsoft [PowerPoint]
+    &harr; OpenOffice/LibreOffice [ODT]
 
 Interactive notebook formats
 
@@ -92,11 +91,13 @@ Wiki markup formats
     &larr; [Vimwiki markup]\
     &rarr; [XWiki markup]\
     &rarr; [ZimWiki markup]\
-    &harr; [Jira wiki markup]
+    &harr; [Jira wiki markup]\
+    &larr; [Creole]
 
 Slide show formats
 
 :   &rarr; [LaTeX Beamer]\
+    &rarr; Microsoft [PowerPoint]\
     &rarr; [Slidy]\
     &rarr; [reveal.js]\
     &rarr; [Slideous]\
@@ -206,9 +207,9 @@ Copyright 2006--2020 [John MacFarlane].
 [Muse]: https://www.gnu.org/software/emacs-muse/manual/
 [txt2tags]: http://txt2tags.org
 [Vimwiki markup]: https://vimwiki.github.io
+[Creole]: http://www.wikicreole.org/
 [TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
-[Creole 1.0]: http://www.wikicreole.org/wiki/Creole1.0
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [XWiki markup]: https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiSyntax/
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
