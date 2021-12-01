@@ -60,7 +60,14 @@ div#toc {
 div#toc li {
   list-style:none;
 }
+#toc > ul {
+  margin-left: 0;
+}
 #toc > ul > li {
+  padding-bottom: 6px;
+}
+#toc > ul > li {
+  position: relative;
   padding-bottom: 6px;
 }
 #toc .toggle {
