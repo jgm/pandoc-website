@@ -59,10 +59,11 @@ nav {
 div#toc {
   position: sticky;
   top: 2rem;
-  align-self: start;
+  align-self: baseline;
   background: white;
   margin-top: 1em;
-  overflow: auto;
+  height: 80vh;
+  overflow-y: scroll;
 }
 div#toc li {
   list-style:none;
