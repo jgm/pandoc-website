@@ -1,7 +1,9 @@
-html { color: black; padding: 20px 10px 10px 10px; }
+html { color: black; padding: 20px 10px 10px 10px; scroll-behavior: smooth; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
+a { color: #337ab7;
+    text-decoration: none; }
 th, td { padding-right: 10pt; }
 
 div.twocol { -webkit-column-count: 3; /* Chrome, Safari, Opera */
@@ -13,11 +15,11 @@ div.col {
                break-inside: avoid; }
 
 
-.btn { font-family: sans-serif; }
+.btn { font-family: Arial, Verdana, sans-serif; }
 
-code { font-size: 89%; background-color: transparent; }
+code { font-size: 12pt; background-color: transparent; }
 span.nowrap code { white-space: nowrap; }
-pre code { font-size: 89%; }
+pre code { }
 a.option code { color: inherit; }
 
 header        { }
@@ -33,7 +35,7 @@ hr { height: 1px; color: #aaa; background-color: #aaa; border: 0; margin: .2em 0
 
 h1.title { font-size: 24pt; }
 h1, h2, h3 { font-weight: normal; border-bottom: 1px solid black; }
-h4 { font-size: 14pt; font-style: bold; margin-top: 1em; }
+h4 { font-size: 14pt; font-weight: bold; margin-top: 1em; }
 h1 { font-size: 20pt; }
 h2 { font-size: 18pt; }
 h3 { font-size: 16pt; }
@@ -46,45 +48,56 @@ table th { border-bottom: 1px solid black; }
 
 blockquote { padding: 0 1.6em; color: #666; }
 
-main { max-width: 46em; }
+main {
+  max-width: 42em;
+}
 
 footer { padding: 1em; color: #888; text-align: center; font-size: 12pt; }
 
-nav { font-family: Arial, Verdana, sans-serif; font-size: 12pt; font-weight: bold; }
-nav { margin-top: 2em; }
-nav ul { margin-top: 0; margin-bottom: 0; }
-nav ul li { list-style: none; padding: 0; }
-nav ul li > ul { margin-left: 1em; }
-nav ul li a { text-decoration: none; }
-nav label { }
-
-.navbar-default { background-color: transparent; border: none; }
-
-/* Tree menus */
-.nav-header:after {
-content: "\00A0\25BE";
+nav {
+  font-family: Arial, Verdana, sans-serif;
+  font-weight: 600;
 }
 
+nav li {
+  padding-right: 0.8em;
+}
+
+.card-header {
+  background-color: #eee;
+}
+.card {
+  padding: 0;
+  margin: 0.66em;
+}
+div.row {
+  margin: auto;
+  max-width: 62em;
+}
 div#toc {
-  float: right;
-  margin: 10px 0 60px 10px;
+  position: sticky;
+  top: 2rem;
+  align-self: baseline;
   background: white;
-  max-width: 40%;
+  margin-top: 1em;
+  height: 80vh;
+  overflow-y: scroll;
 }
-/*
-div#toc:before {
-  content: "Table of contents";
-  margin: 0 0 15px 40px;
-  font-weight: bold;
-  display: block;
-}
-*/
 div#toc li {
   list-style:none;
+}
+#toc > ul {
+  margin-left: 0;
+}
+#toc > ul > li {
+  padding-bottom: 6px;
 }
 #toc > ul > li {
   position: relative;
   padding-bottom: 6px;
+}
+#toc ul {
+  padding-left: 1em;
 }
 #toc .toggle {
   cursor: pointer;
@@ -131,10 +144,11 @@ h6:hover > .anchor::before {
 }
 /* end: heading anchor links */
 
-div#flattr { float: right; font-size: 12pt; font-family: sans-serif; }
-div#paypal { float: right; font-size: 12pt; font-family: sans-serif; }
-div#bitcoin { float: right; font-size: 12pt; font-family: sans-serif; }
-div#github-sponsors { float: right; font-size: 12pt; font-family: sans-serif; border-radius: 25px; background-color: cyan; width: 6em; text-align: center; font-weight: bold; font-size: 10pt; }
+div#flattr { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
+div#paypal { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
+div#bitcoin { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
+div#github-sponsors { float: right; margin-left: 1em; font-size: 10pt; font-family: Arial, Verdana, sans-serif; border-radius: 12px; background-color: cyan; width: 6em; height: 1.7em; text-align: center; font-weight: bold;  }
+#github-sponsors a:hover { text-decoration: none; }
 
 #downloadInstallerBtn {
   font-size: 1em;

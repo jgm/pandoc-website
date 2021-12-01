@@ -9,8 +9,8 @@
        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
        <![endif]-->
-  <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/screen.css">
   <link rel="stylesheet" type="text/css" media="print" href="css/print.css">
   <style>
@@ -26,22 +26,13 @@ $if(highlighting-css)$
 $highlighting-css$
 $endif$
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  <script>
-  /* <![CDATA[ */
-    (function() {
-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
-        t.parentNode.insertBefore(s, t);
-    })();
-  /* ]]> */
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="doc" class="container-fluid">
+   <div class="row">
+   <div class="col-md-12 col-sm-12">
     <header>
         <div id="github-sponsors">
           <a href="https://github.com/users/jgm/sponsorship">Sponsor</a>
@@ -59,24 +50,33 @@ $endif$
         <span class="big">Pandoc</span>
         &nbsp;
         <span class="small">a universal document converter</span>
-    </header>
+      </header>
+    </div>
+    </div>
     <div id="bd">
-      <nav id="navbar" class="navbar navbar-default col-md-3 col-sm-4">
+      <div class="row">
+      <div class="col-md-12 col-sm-12">
         $for(include-before)$$include-before$$endfor$
-      </nav>
-      <main class="col-md-9 col-sm-8">
-        <div class="row">
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-md-9 col-sm-9">
+        <main>
 $if(title)$
           <h1 class="title">$title$</h1>
 $endif$
-$if(toc)$
-        <div id="toc">
-$toc$
-        </div>
-$endif$
 $body$
-        </div>
-      </main>
+        </main>
+      </div>
+$if(toc)$
+      <div id="toc" class="col-md-3 cols-sm-3">
+$toc$
+      </div>
+$else$
+      <div class="col-md-3 cols-sm-3">
+        <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
+      </div>
+$endif$
     </div>
     <footer>
     </footer>
