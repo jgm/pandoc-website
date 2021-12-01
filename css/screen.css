@@ -56,6 +56,10 @@ nav {
   font-weight: 600;
 }
 
+nav li {
+  padding-right: 1em;
+}
+
 div#toc {
   position: sticky;
   top: 2rem;
