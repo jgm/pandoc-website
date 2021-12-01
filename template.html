@@ -61,9 +61,15 @@ $if(title)$
 $endif$
 $body$
       </main>
+$if(toc)$
       <div id="toc" class="col-md-3 cols-sm-2">
 $toc$
       </div>
+$else$
+      <div class="col-md-3 cols-sm-2">
+        <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
+      </div>
+$endif$
     </div>
     <footer>
     </footer>

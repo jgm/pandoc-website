@@ -160,8 +160,6 @@ module.
 Pandoc is free software, released under the [GPL].
 Copyright 2006--2020 [John MacFarlane].
 
-<img src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
-
 [John MacFarlane]: http://johnmacfarlane.net/
 [markdown]: http://daringfireball.net/projects/markdown/
 [reStructuredText]: http://docutils.sourceforge.net/docs/ref/rst/introduction.html
