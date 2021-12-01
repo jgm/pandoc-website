@@ -1,4 +1,4 @@
-html { color: black; padding: 20px 10px 10px 10px; }
+html { color: black; padding: 20px 10px 10px 10px; scroll-behavior: smooth; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
@@ -57,8 +57,11 @@ nav {
 }
 
 div#toc {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
   background: white;
-  margin-top: 8em;
+  margin-top: 1em;
 }
 div#toc li {
   list-style:none;
