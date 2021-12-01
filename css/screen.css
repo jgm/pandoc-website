@@ -2,6 +2,8 @@ html { color: black; padding: 20px 10px 10px 10px; scroll-behavior: smooth; }
 
 body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
 
+a { color: #337ab7;
+    text-decoration: none; }
 th, td { padding-right: 10pt; }
 
 div.twocol { -webkit-column-count: 3; /* Chrome, Safari, Opera */
