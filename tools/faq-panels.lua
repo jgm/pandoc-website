@@ -1,8 +1,6 @@
 local function makecard(ident, bs)
   local headb = bs[1]
   table.remove(bs, 1)
-  table.insert(bs, pandoc.Div({pandoc.Plain{pandoc.Link({pandoc.Span({}, pandoc.Attr("",{"glyphicon","glyphicon-link"}))},"#"..ident)}},
-                     pandoc.Attr("",{"link"})))
   local body = pandoc.Div(bs, pandoc.Attr("", {"card-body"}))
   local head = pandoc.Div({headb}, pandoc.Attr("", {"card-header"}))
   return pandoc.Div(
