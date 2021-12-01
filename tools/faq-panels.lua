@@ -1,18 +1,16 @@
-local function makepanel(ident, bs)
+local function makecard(ident, bs)
   local headb = bs[1]
   table.remove(bs, 1)
   table.insert(bs, pandoc.Div({pandoc.Plain{pandoc.Link({pandoc.Span({}, pandoc.Attr("",{"glyphicon","glyphicon-link"}))},"#"..ident)}},
                      pandoc.Attr("",{"link"})))
-  local body = pandoc.Div(bs, pandoc.Attr("", {"panel-body"}))
-  local head = pandoc.Div({headb}, pandoc.Attr("", {"panel-heading"}))
+  local body = pandoc.Div(bs, pandoc.Attr("", {"card-body"}))
+  local head = pandoc.Div({headb}, pandoc.Attr("", {"card-header"}))
   return pandoc.Div(
-          {pandoc.Div(
             { head
             , pandoc.Div(body, pandoc.Attr("collapse-" .. ident,
-                {"panel-collapse","collapse"}))
+                {"collapse"}))
             },
-            pandoc.Attr("", {"panel", "panel-default"}))},
-          pandoc.Attr(ident, {"panel-group"}))
+            pandoc.Attr("", {"card"}))
 end
 
 function Div(el)
@@ -25,13 +23,12 @@ function Div(el)
       if b.t == 'Header' then
         seen_header = true
         if #nextchunk > 0 then
-          chunks[#chunks + 1] = makepanel(ident, nextchunk)
+          chunks[#chunks + 1] = makecard(ident, nextchunk)
         end
         ident = string.gsub(b.identifier, "%p+", "-")
         b.identifier = ""
         local anchor = pandoc.Link(b.content, "#collapse-" .. ident)
         anchor.attributes["data-toggle"] = "collapse"
-        anchor.attributes["data-parent"] = ident
         b.level = 5
         nextchunk = {pandoc.Para{anchor}}
       elseif seen_header then
@@ -39,7 +36,7 @@ function Div(el)
       end
     end
     if #nextchunk > 0 then
-      chunks[#chunks + 1] = makepanel(ident, nextchunk)
+      chunks[#chunks + 1] = makecard(ident, nextchunk)
     end
     return pandoc.Div(chunks)
   end

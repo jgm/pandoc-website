@@ -55,12 +55,14 @@ $endif$
       </div>
       </div>
       <div class="row">
-      <main class="col-md-9 col-sm-6">
+      <div class="col-md-9 col-sm-6">
+        <main>
 $if(title)$
           <h1 class="title">$title$</h1>
 $endif$
 $body$
-      </main>
+        </main>
+      </div>
 $if(toc)$
       <div id="toc" class="col-md-3 cols-sm-2">
 $toc$
