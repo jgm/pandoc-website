@@ -1,44 +1,36 @@
-<div class="navbar-header">
-  <button type="button" class="navbar-toggle"
-          data-toggle="collapse"
-          data-target=".navbar-collapse">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
   </button>
-</div>
-<div class="navbar-collapse collapse">
-<ul class="nav sidebar-nav">
-    <li><a href="index.html">About</a></li>
-    <li><a href="installing.html">Installing</a></li>
-    <li><a href="getting-started.html">Getting started</a></li>
-    <li><a id="demobtn" data-toggle="collapse" data-target="#demotree" aria-expanded="false" class="tree-toggle nav-header" href="#">Demos</a>
-    <ul id="demotree" class="nav tree collapse" role="menu" aria-labelledby="demobtn">
-      <li><a href="try">Try pandoc online</a></li>
-      <li><a href="demos.html">Examples</a></li>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled">Disabled</a>
+      </li>
     </ul>
-    </li>
-    <li><a id="docbtn" data-toggle="collapse" data-target="#doctree" aria-expanded="false" class="tree-toggle nav-header" href="#">Documentation</a>
-    <ul id="doctree" class="nav tree collapse" role="menu" aria-labelledby="docbtn">
-      <li><a href="MANUAL.html">User's Guide</a>
-      <li><a href="MANUAL.pdf">User's Guide (PDF)</a>
-      <li><a href="CONTRIBUTING.html">Contributing</a></li>
-      <li><a href="faqs.html">FAQ</a></li>
-      <li><a href="press.html">Press</a></li>
-      <li><a href="filters.html">Filters</a></li>
-      <li><a href="lua-filters.html">Lua filters</a></li>
-      <li><a href="custom-readers.html">Custom readers</a></li>
-      <li><a href="custom-writers.html">Custom writers</a></li>
-      <li><a href="epub.html">Making an ebook</a></li>
-      <li><a href="org.html">Emacs Org mode support</a></li>
-      <li><a href="jats.html">JATS support</a></li>
-      <li><a href="using-the-pandoc-api.html">Using the Pandoc API</a></li>
-      <li><a href="http://hackage.haskell.org/package/pandoc">API documentation</a></li>
-    </ul>
-    </li>
-    <li><a href="help.html">Help</a></li>
-    <li><a href="extras.html">Extras</a></li>
-    <li><a href="releases.html">Releases</a></li>
-  </ul>
-</div>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
