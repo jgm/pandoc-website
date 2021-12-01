@@ -46,7 +46,9 @@ table th { border-bottom: 1px solid black; }
 
 blockquote { padding: 0 1.6em; color: #666; }
 
-main { max-width: 46em; }
+main {
+  max-width: 46em;
+}
 
 footer { padding: 1em; color: #888; text-align: center; font-size: 12pt; }
 
@@ -56,6 +58,7 @@ nav {
 
 div#toc {
   background: white;
+  margin-top: 8em;
 }
 div#toc li {
   list-style:none;
