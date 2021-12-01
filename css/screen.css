@@ -70,10 +70,14 @@ nav li {
   padding: 0;
   margin: 0.66em;
 }
+div.row {
+  margin: auto;
+  max-width: 62em;
+}
 div#toc {
-  position: sticky;
+/*  position: sticky;
   top: 2rem;
-  align-self: baseline;
+  align-self: baseline; */
   background: white;
   margin-top: 1em;
   height: 80vh;

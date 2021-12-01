@@ -30,6 +30,8 @@ $endif$
 </head>
 <body>
   <div id="doc" class="container-fluid">
+   <div class="row">
+   <div class="col-md-12 col-sm-12">
     <header>
         <div id="github-sponsors">
           <a href="https://github.com/users/jgm/sponsorship">Sponsor</a>
@@ -47,15 +49,17 @@ $endif$
         <span class="big">Pandoc</span>
         &nbsp;
         <span class="small">a universal document converter</span>
-    </header>
+      </header>
+   </div>
+    </div>
     <div id="bd">
       <div class="row">
-      <div class="col-md-10 col-sm-7">
+      <div class="col-md-12 col-sm-12">
         $for(include-before)$$include-before$$endfor$
       </div>
       </div>
       <div class="row">
-      <div class="col-md-7 col-sm-5">
+      <div class="col-md-9 col-sm-9">
         <main>
 $if(title)$
           <h1 class="title">$title$</h1>
@@ -64,11 +68,11 @@ $body$
         </main>
       </div>
 $if(toc)$
-      <div id="toc" class="col-md-3 cols-sm-2">
+      <div id="toc" class="col-md-3 cols-sm-3">
 $toc$
       </div>
 $else$
-      <div class="col-md-3 cols-sm-2">
+      <div class="col-md-3 cols-sm-3">
         <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
       </div>
 $endif$
