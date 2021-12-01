@@ -50,17 +50,17 @@ $endif$
     </header>
     <div id="bd">
       <div class="row">
-      <div class="col-md-12 col-sm-8">
+      <div class="col-md-10 col-sm-7">
         $for(include-before)$$include-before$$endfor$
       </div>
       </div>
       <div class="row">
 $if(toc)$
-      <div id="toc" class="overflow-auto col-md-3 cols-sm-2">
+      <div id="toc" class="col-md-3 cols-sm-2">
 $toc$
       </div>
 $endif$
-      <main class="offset-md-3 offset-sm-2 col-md-9 col-sm-6">
+      <main class="col-md-7 col-sm-5">
 $if(title)$
           <h1 class="title">$title$</h1>
 $endif$

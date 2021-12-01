@@ -62,6 +62,7 @@ div#toc {
   align-self: start;
   background: white;
   margin-top: 1em;
+  overflow: auto;
 }
 div#toc li {
   list-style:none;
