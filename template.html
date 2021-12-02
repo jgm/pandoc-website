@@ -68,15 +68,16 @@ $endif$
 $body$
         </main>
       </div>
-$if(toc)$
-      <div id="toc" class="col-md-3 cols-sm-3">
-$toc$
-      </div>
-$else$
       <div class="col-md-3 cols-sm-3">
+$if(toc)$
+        <a data-toggle="collapse" href="#toc">TOC</a>
+        <div id="toc" class="collapse">
+$toc$
+        </div>
+$else$
         <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
-      </div>
 $endif$
+      </div>
     </div>
     <footer>
     </footer>
