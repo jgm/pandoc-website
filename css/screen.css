@@ -60,7 +60,7 @@ nav {
 }
 
 nav li {
-  padding-right: 1em;
+  padding-right: 0.8em;
 }
 
 .card-header {
@@ -147,7 +147,8 @@ h6:hover > .anchor::before {
 div#flattr { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
 div#paypal { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
 div#bitcoin { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
-div#github-sponsors { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; border-radius: 25px; background-color: cyan; width: 6em; text-align: center; font-weight: bold; font-size: 10pt; }
+div#github-sponsors { float: right; margin-left: 1em; font-size: 10pt; font-family: Arial, Verdana, sans-serif; border-radius: 12px; background-color: cyan; width: 6em; height: 1.7em; text-align: center; font-weight: bold;  }
+#github-sponsors a:hover { text-decoration: none; }
 
 #downloadInstallerBtn {
   font-size: 1em;
