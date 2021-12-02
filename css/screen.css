@@ -62,7 +62,10 @@ nav {
 nav li {
   padding-right: 0.8em;
 }
-
+nav a.dropdown-item {
+   color: #337ab7;
+   font-weight: 600;
+   text-decoration: none; }
 .card-header {
   background-color: #eee;
 }
