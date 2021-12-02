@@ -74,15 +74,12 @@ div.row {
   margin: auto;
   max-width: 62em;
 }
-div#toc-wrap {
+div#toc {
   position: sticky;
   top: 2rem;
   align-self: baseline;
-}
-div#toc {
-  margin-top: 1em;
-  padding: 1em;
   background: white;
+  margin-top: 1em;
   height: 80vh;
   overflow-y: scroll;
 }
