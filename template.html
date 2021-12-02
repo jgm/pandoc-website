@@ -32,7 +32,7 @@ $endif$
 <body>
   <div id="doc" class="container-fluid">
    <div class="row">
-   <div class="col-md-12 col-sm-12">
+   <div class="col-12">
     <header>
         <div id="github-sponsors">
           <a href="https://github.com/users/jgm/sponsorship">Sponsor</a>
@@ -55,28 +55,28 @@ $endif$
     </div>
     <div id="bd">
       <div class="row">
-      <div class="col-md-12 col-sm-12">
+      <div class="col-12">
         $for(include-before)$$include-before$$endfor$
       </div>
       </div>
       <div class="row">
-      <div class="col-md-9 col-sm-9">
+      <div id="toc-wrap" class="col-3">
+$if(toc)$
+        <div id="toc">
+$toc$
+        </div>
+$else$
+        <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
+$endif$
+      </div>
+        <div class="col-9">
         <main>
 $if(title)$
           <h1 class="title">$title$</h1>
 $endif$
 $body$
         </main>
-      </div>
-      <div class="col-md-3 cols-sm-3">
-$if(toc)$
-        <a data-toggle="collapse" href="#toc">TOC</a>
-        <div id="toc" class="collapse">
-$toc$
         </div>
-$else$
-        <img style="width:100%" src="diagram.jpg" class="img-responsive" alt="pandoc conversions">
-$endif$
       </div>
     </div>
     <footer>
