@@ -2,6 +2,7 @@ SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
 JS = js/downloadInstallerBtn.js js/collapseTOC.js
+TIME = $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
@@ -13,7 +14,8 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--lua-filter=tools/option-anchors.lua \
 	--lua-filter=tools/faq-panels.lua \
 	--lua-filter=tools/nowrap.lua \
-	--lua-filter=tools/anchor-links.lua
+	--lua-filter=tools/anchor-links.lua \
+	--variable time=${TIME}
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
@@ -63,7 +65,7 @@ $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 
 
 $(SITE)/diagram.dot :
-	stack runghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc --package text -- make-diagram.hs > $@ || rm $@
+	stack runghc --system-ghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc --package text -- make-diagram.hs > $@ || rm $@
 
 $(SITE)/diagram.jpg : $(SITE)/diagram.png
 	convert -quality 70% $< $@
