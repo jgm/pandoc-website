@@ -38,7 +38,7 @@ $(SITE)/% : %
 clean:
 	rm -rf $(SITE)
 
-DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
+DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
 
 $(DEMO)/% : %
 	cp $< $@
@@ -75,7 +75,7 @@ $(SITE)/diagram.png : $(SITE)/diagram.dot
 
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua $(PANDOC_SRC)/data/creole.lua
 
 update :
 	cp $(SOURCES) .
