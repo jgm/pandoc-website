@@ -15,6 +15,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--lua-filter=tools/faq-panels.lua \
 	--lua-filter=tools/nowrap.lua \
 	--lua-filter=tools/anchor-links.lua \
+	--lua-filter=tools/include-code-files.lua \
 	--variable time=${TIME}
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
@@ -63,7 +64,6 @@ $(SITE)/installing.txt : INSTALL.md
 $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 	cp $< $@
 
-
 $(SITE)/diagram.dot :
 	stack runghc --system-ghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc --package text -- make-diagram.hs > $@ || rm $@
 
@@ -92,7 +92,7 @@ $(SITE)/releases.html : release-preamble.md changelog.md
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@ -V installbtn
 
-%.html : %.txt nav.html template.html
+%.html : %.txt nav.html template.html sample.lua
 	$(MKPAGE) $< -o $@
 
 %.html : %.md nav.html template.html
