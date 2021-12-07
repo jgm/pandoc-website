@@ -1,7 +1,7 @@
 SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
-JS = js/downloadInstallerBtn.js js/collapseTOC.js
+JS = js/downloadInstallerBtn.js js/collapseTOC.js js/index.js
 TIME = $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html donate.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
@@ -20,7 +20,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
-all : $(SITE) $(ALL)
+all : $(SITE) $(ALL) $(SITE)/js/index.js
 
 $(SITE):
 	mkdir $@
@@ -30,6 +30,9 @@ $(SITE)/js:
 
 $(SITE)/css:
 	mkdir -p $@
+
+$(SITE)/js/index.js: tools/build-index.js js/search.js
+	node tools/build-index.js > $@
 
 $(SITE)/% : %
 	cp $< $@
