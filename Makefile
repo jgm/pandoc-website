@@ -43,7 +43,7 @@ DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex tem
 $(DEMO)/% : %
 	cp $< $@
 
-$(SITE)/demos.txt : demos $(DEMO) $(DEMO)/reveal.js $(DEMOFILES) mkdemos.pl
+$(SITE)/demos.txt : demos $(DEMO) $(DEMOFILES) mkdemos.pl
 	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
@@ -51,9 +51,6 @@ $(DEMO)/biblio.json: $(DEMO)/biblio.bib
 
 $(DEMO)/biblio.yaml: $(DEMO)/biblio.bib
 	pandoc -f biblatex -t markdown -s $< > $@
-
-$(DEMO)/reveal.js:
-	git clone https://github.com/hakimel/reveal.js $@
 
 $(DEMO):
 	mkdir $(DEMO)
@@ -112,4 +109,4 @@ $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
 		--pdf-engine=xelatex
 
 upload :
-	rsync -avz --delete --copy-links -e "ssh"  --exclude 'demo/reveal.js/.git' $(SITE)/* $(SITE)/.htaccess website:pandoc.org/
+	rsync -avz --delete --copy-links -e "ssh"  --exclude $(SITE)/* $(SITE)/.htaccess website:pandoc.org/
