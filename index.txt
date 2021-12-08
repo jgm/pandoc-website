@@ -110,7 +110,8 @@ Data formats
 
 Custom formats
 
-:   &harr; custom readers and writers can be written in [Lua]
+:   &harr; [custom readers] and [writers][custom writers]
+    can be written in [Lua]
 
 PDF
 
@@ -218,4 +219,5 @@ Copyright 2006--2020 [John MacFarlane].
 [BibTeX]: http://tug.org/bibtex/
 [BibLaTeX]: https://github.com/plk/biblatex
 [CSL JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
-
+[custom readers]: custom-readers.html
+[custom writers]: custom-writers.html
