@@ -8,6 +8,7 @@ PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) --toc --standalone \
 	--to=html5 \
+	--section-divs \
 	--highlight-style=tango \
 	--include-before=nav.html \
 	--template=template.html \
