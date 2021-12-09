@@ -15,7 +15,8 @@ function getHtmlText(fp) {
     var raw = fs.readFileSync(fp, 'utf8');
     const dom = new JSDOM(raw);
     const text = dom.window.document.querySelector("main").textContent;
-    return { name: fp.replace(/^site\//,''), text: text };
+    const title = dom.window.document.querySelector("title").textContent;
+    return { name: fp.replace(/^site\//,''), title: title, text: text };
   } catch (err) {
     console.error(err);
     process.exit(1);
@@ -32,10 +33,13 @@ try {
 }
 
 var documents = [];
+var titles = {};
 
 var files = glob.sync("site/*.html");
 files.forEach(function(file) {
-    documents.push(getHtmlText(file));
+  var doc = getHtmlText(file);
+  documents.push(doc);
+  titles[doc.name] = doc.title;
 });
 
 var idx = lunr(function () {
@@ -48,5 +52,6 @@ var idx = lunr(function () {
 });
 
 stdout.write('(function(){' +
-    'idx = lunr.Index.load(' + JSON.stringify(idx) + ');\n' +
+    'var idx = lunr.Index.load(' + JSON.stringify(idx) + ');\n' +
+    'var titles = ' + JSON.stringify(titles) + ';\n' +
     searchCode + '})();');
