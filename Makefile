@@ -24,7 +24,7 @@ VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 all : $(SITE) $(ALL) $(SITE)/js/index.js
 
 $(SITE):
-	mkdir $@
+	mkdir -p $@
 
 $(SITE)/js:
 	mkdir -p $@

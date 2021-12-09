@@ -1,3 +1,5 @@
+// npm install lunr jsdom glob
+
 var lunr = require('lunr'),
     jsdom = require('jsdom'),
     glob = require('glob'),
@@ -16,8 +18,14 @@ function getHtmlText(fp) {
     const dom = new JSDOM(raw);
     const title = dom.window.document.querySelector("title").textContent.replace(/^Pandoc - /,'');
     const matches = dom.window.document.querySelectorAll("section");
+    const toplevel = dom.window.document.querySelector("main > p");
     const basename = fp.replace(/^site\//,'');
     var results = [];
+    if (toplevel) {
+      results.push({ name: basename,
+                     title: title,
+                     text: toplevel.textContent });
+    }
     matches.forEach(function(el) {
       const sectident = el.getAttribute("id");
       const secttitle = el.querySelector("h1") || el.querySelector("h2") ||
@@ -48,15 +56,15 @@ var titles = {};
 
 var files = glob.sync("site/*.html");
 files.forEach(function(file) {
-  stderr.write("Processing " + file + "\n");
+  // stderr.write("Processing " + file + "\n");
   var doc = getHtmlText(file);
   documents = documents.concat(doc);
   doc.forEach(function(d) {
     if (d.sectionTitle) {
-      stderr.write("  " + d.sectionTitle + "\n");
+      // stderr.write("  " + d.sectionTitle + "\n");
       titles[d.name] = d.title + " - " + d.sectionTitle ;
     } else {
-      stderr.write(  "(top)\n");
+      // stderr.write(  "(top)\n");
       titles[d.name] = d.title ;
     }
   });
