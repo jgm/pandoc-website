@@ -43,10 +43,13 @@ clean:
 
 DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
 
-$(DEMO)/% : %
+$(DEMO):
+	mkdir $(DEMO)
+
+$(DEMO)/% : % $(DEMO)
 	cp $< $@
 
-$(SITE)/demos.txt : demos $(DEMO) $(DEMOFILES) mkdemos.pl
+$(SITE)/demos.txt : demos $(DEMOFILES) mkdemos.pl
 	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
@@ -55,17 +58,14 @@ $(DEMO)/biblio.json: $(DEMO)/biblio.bib
 $(DEMO)/biblio.yaml: $(DEMO)/biblio.bib
 	pandoc -f biblatex -t markdown -s $< > $@
 
-$(DEMO):
-	mkdir $(DEMO)
-
 $(SITE)/installing.txt : INSTALL.md
 	sed -e '1s/#/%/' $< > $@
 
 $(SITE)/CONTRIBUTING.txt : CONTRIBUTING.md
 	cp $< $@
 
-$(SITE)/diagram.dot :
-	stack runghc --system-ghc --stack-yaml=$$HOME/src/pandoc/stack.yaml --package pandoc --package text -- make-diagram.hs > $@ || rm $@
+$(SITE)/diagram.dot : changelog.md
+	sh tools/make-diagram.sh > $@
 
 $(SITE)/diagram.jpg : $(SITE)/diagram.png
 	convert -quality 70% $< $@
@@ -112,4 +112,4 @@ $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
 		--pdf-engine=xelatex
 
 upload :
-	rsync -avz --delete --copy-links -e "ssh"  --exclude $(SITE)/* $(SITE)/.htaccess website:pandoc.org/
+	rsync -avz --delete --copy-links -e "ssh" $(SITE)/* $(SITE)/.htaccess website:pandoc.org/
