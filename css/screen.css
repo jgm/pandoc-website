@@ -85,6 +85,10 @@ div#toc {
   margin-top: 1em;
   height: 80vh;
   overflow-y: scroll;
+  font-size: 11pt;
+}
+div#toc code {
+  font-size: 10pt;
 }
 div#toc li {
   list-style:none;
