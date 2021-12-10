@@ -175,7 +175,7 @@ click on the name of the output file:
 
 38. Converting a bibliography from BibTeX to CSL JSON:
 
-@   pandoc @@biblio.bib@@ -t csljson -o @@biblio.json@@
+@   pandoc @@biblio.bib@@ -t csljson -o @@biblio2.json@@
 
 39. Producing a formatted version of a bibliography:
 
