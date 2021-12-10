@@ -5,6 +5,8 @@ $("#form-search").submit(function(event) {
   results.sort(function(first, second) {
     if (first.ref.match(/^releases\.html/)) {
       return 1 ;
+    } else if (second.ref.match(/^releases\.html/)) {
+      return -1 ;
     } else {
       return second.score - first.score ;
     }
