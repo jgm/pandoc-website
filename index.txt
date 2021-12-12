@@ -159,7 +159,7 @@ so adding a new input or output format just requires adding a new
 module.
 
 Pandoc is free software, released under the [GPL].
-Copyright 2006--2020 [John MacFarlane].
+Copyright 2006--2021 [John MacFarlane].
 
 [John MacFarlane]: http://johnmacfarlane.net/
 [markdown]: http://daringfireball.net/projects/markdown/
