@@ -44,10 +44,8 @@ clean:
 
 DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
 
-$(DEMO):
-	mkdir $(DEMO)
-
-$(DEMO)/% : % $(DEMO)
+$(DEMO)/% : %
+	mkdir -p $(DEMO)
 	cp $< $@
 
 $(SITE)/demos.txt : demos $(DEMOFILES) mkdemos.pl
