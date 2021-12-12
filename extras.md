@@ -52,9 +52,6 @@ complete list, see the [Pandoc Extras wiki page]( https://github.com/jgm/pandoc/
 
 ### Citations
 
-  - [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc)
-    supports citation and bibliography generation
-    (note that the pandoc binary packages include this program).
   - [zotxt](https://github.com/egh/zotxt) is Zotero extension
     for working with pandoc
 
