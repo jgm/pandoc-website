@@ -91,4 +91,7 @@ repository](https://github.com/pandoc/lua-filters).)
     diagrams](https://github.com/pandoc/lua-filters/tree/master/diagram-generator) in PlantUML, Graphviz, TikZ, and Python.
   - [Handle scholarly
     metadata](https://github.com/pandoc/lua-filters/tree/master/scholarly-metadata).
+  - [Panda](http://christophe.delord.free.fr/panda/) provides
+    conditionals, code file inclusion, string expansion,
+    and diagrams from code blocks.
 
