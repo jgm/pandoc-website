@@ -19,6 +19,7 @@ Lightweight markup formats
     &harr; Emacs [Org-Mode]\
     &harr; Emacs [Muse]\
     &harr; [Textile]\
+    &rarr; [Markua]\
     &larr; [txt2tags]
 
 HTML formats
@@ -221,3 +222,4 @@ Copyright 2006--2021 [John MacFarlane].
 [CSL JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
 [custom readers]: custom-readers.html
 [custom writers]: custom-writers.html
+[Markua]: https://leanpub.com/markua/read
