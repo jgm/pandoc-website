@@ -8,7 +8,7 @@ local function makecard(ident, bs)
             , pandoc.Div(body, pandoc.Attr("collapse-" .. ident,
                 {"collapse"}))
             },
-            pandoc.Attr("", {"card"}))
+            pandoc.Attr("faq-" .. ident, {"section","card"}))
 end
 
 function Div(el)

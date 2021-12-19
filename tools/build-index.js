@@ -29,10 +29,11 @@ function getHtmlText(fp) {
     matches.forEach(function(el) {
       const sectident = el.getAttribute("id");
       const secttitle = el.querySelector("h1") || el.querySelector("h2") ||
-                        el.querySelector("h3") || el.querySelector("h4");
+                        el.querySelector("h3") || el.querySelector("h4") ||
+                        el.querySelector("p");
       results.push({ name: basename + "#" + sectident,
                      title: title,
-                     sectionTitle: secttitle ? secttitle.textContent : null,
+                     sectionTitle: secttitle ? secttitle.textContent.substring(0,80) : null,
                      text: el.textContent });
     });
     return results;
