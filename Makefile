@@ -15,6 +15,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--lua-filter=tools/option-anchors.lua \
 	--lua-filter=tools/faq-panels.lua \
 	--lua-filter=tools/nowrap.lua \
+	--lua-filter=tools/extension-support.lua \
 	--lua-filter=tools/anchor-links.lua \
 	--lua-filter=tools/include-code-files.lua \
 	--variable time=${TIME}
@@ -22,6 +23,9 @@ VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
 all : $(SITE) $(ALL) $(SITE)/js/index.js
+
+.PHONY: css
+css : $(patsubst %,$(SITE)/%,css $(CSS))
 
 $(SITE):
 	mkdir -p $@
@@ -41,6 +45,7 @@ $(SITE)/% : %
 .PHONY: clean
 clean:
 	rm -rf $(SITE)
+	rm extension-support.txt
 
 DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
 
@@ -91,7 +96,7 @@ $(SITE)/releases.html : release-preamble.md changelog.md
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@ -V installbtn
 
-%.html : %.txt nav.html template.html sample.lua
+%.html : %.txt nav.html template.html sample.lua extension-support.txt
 	$(MKPAGE) $< -o $@
 
 %.html : %.md nav.html template.html
@@ -109,6 +114,9 @@ $(SITE)/MANUAL.pdf : MANUAL.txt template.tex
 		--variable linestretch=1.1 \
 		--variable version="$(VERSION)" \
 		--pdf-engine=xelatex
+
+extension-support.txt:
+	sh tools/list-extension-support.sh > $@
 
 upload :
 	rsync -avz --delete --copy-links -e "ssh" $(SITE)/* $(SITE)/.htaccess website:pandoc.org/

@@ -162,3 +162,9 @@ div#github-sponsors { float: right; margin-left: 1em; font-size: 10pt; font-fami
   padding: 0.5em 1.5em;
   white-space: normal;
 }
+
+.extension-checkbox {
+  float: right;
+  opacity: 0.5;
+  cursor: help;
+}

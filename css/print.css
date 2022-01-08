@@ -37,3 +37,4 @@ tr {page-break-inside: avoid;}
 
 /*hide various parts from the site*/
 
+.extension-checkbox { display: none; }
