@@ -85,7 +85,7 @@ update :
 	cp $(SOURCES) .
 
 $(SITE)/releases.html : release-preamble.md changelog.md
-	$(MKPAGE) $^ -o $@ --metadata title=Releases
+	$(MKPAGE) $^ -o $@ --metadata title=Releases --lua-filter=tools/linkify-issues-in-changelog.lua
 
 %.1.html : %.1
 	groff -Txhtml -mandoc $< > $@
