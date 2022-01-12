@@ -44,8 +44,8 @@ $(SITE)/% : %
 
 .PHONY: clean
 clean:
-	rm -rf $(SITE)
-	rm extension-support.txt
+	-rm -rf $(SITE)
+	-rm extension-support.txt
 
 DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
 
