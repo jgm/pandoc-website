@@ -23,6 +23,22 @@ if FORMAT:match 'html' then
         end
     end
 
+    local md_extensions_part_of_commonmark = {
+        escaped_line_breaks = true,
+        space_in_atx_header = true,
+        fenced_code_blocks = true,
+        backtick_code_blocks = true,
+        all_symbols_escapable = true,
+        angle_brackets_escapable = true,
+        intraword_underscores = true,
+        shortcut_reference_links = true,
+        lists_without_preceding_blankline = true,
+        header_attributes = 'available in commonmark\nvia "attributes" extension',
+        fenced_code_attributes = 'available in commonmark\nvia "attributes" extension',
+        inline_code_attributes = 'available in commonmark\nvia "attributes" extension',
+        link_attributes = 'available in commonmark\nvia "attributes" extension',
+    }
+
     function Header(h)
         local text = pandoc.utils.stringify(h)
         local ext = string.match(text, 'Extension: (.*)')
@@ -34,6 +50,12 @@ if FORMAT:match 'html' then
 
         if ext ~= nil then
             local title = ''
+
+            if md_extensions_part_of_commonmark[ext] == true then
+                title = title .. 'part of commonmark\n\n'
+            elseif md_extensions_part_of_commonmark[ext] then
+                title = title .. md_extensions_part_of_commonmark[ext] .. '\n\n'
+            end
 
             if #ext_to_formats_enabled[ext] > 0 then
                 title = title .. 'enabled by default for:\n'
