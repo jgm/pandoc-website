@@ -206,8 +206,8 @@ nav {
   font-family: Arial, Verdana, sans-serif;
   font-weight: 600;
 }
-nav .dropdown-toggle:after {
-  content: " ▼";
+nav .dropdown-toggle:before {
+  content: "▼ ";
 }
 nav .dropdown-menu {
   display: none;
