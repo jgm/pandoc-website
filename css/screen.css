@@ -7,7 +7,7 @@ html {
 body {
   font-family: Georgia, serif;
   font-size: 13pt;
-  line-height: 18pt;
+  line-height: 1.33;
 }
 #paypal {
   float: right;
