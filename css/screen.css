@@ -202,6 +202,7 @@ a {
 }
 
 nav {
+  margin-top: 1em;
   font-family: Arial, Verdana, sans-serif;
   font-weight: 600;
 }
@@ -221,8 +222,8 @@ nav li {
   padding: 3px;
 }
 nav a {
-  padding: 6pt;
-  font-size: 12pt;
+  padding: 6pt 12pt 6pt 12pt;
+  font-size: 13pt;
   font-weight: 600;
   color: #337ab7;
   text-decoration: none;
