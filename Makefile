@@ -3,7 +3,7 @@ DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
 JS = js/downloadInstallerBtn.js js/collapseTOC.js js/index.js js/dropdown.js
 TIME = $(shell date +"%Y%m%d%H%M%S")
-ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html press.html .htaccess css js $(CSS) $(JS))
+ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.svg getting-started.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) --toc --standalone \
@@ -75,6 +75,9 @@ $(SITE)/diagram.jpg : $(SITE)/diagram.png
 
 $(SITE)/diagram.png : $(SITE)/diagram.dot
 	dot -Tpng -o$@ $<
+
+$(SITE)/diagram.svg : $(SITE)/diagram.dot
+	dot -Tsvg -o$@ $<
 
 
 # 'make update' pulls in source files from the pandoc source directory
