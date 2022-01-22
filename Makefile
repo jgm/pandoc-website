@@ -1,7 +1,7 @@
 SITE = site
 DEMO = $(SITE)/demo
 CSS = $(patsubst %,css/%, print.css  screen.css)
-JS = js/downloadInstallerBtn.js js/collapseTOC.js js/index.js
+JS = js/downloadInstallerBtn.js js/collapseTOC.js js/index.js js/dropdown.js
 TIME = $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.jpg getting-started.html press.html .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
@@ -10,7 +10,6 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--to=html5 \
 	--section-divs \
 	--highlight-style=tango \
-	--include-before=nav.html \
 	--template=template.html \
 	--lua-filter=tools/option-anchors.lua \
 	--lua-filter=tools/faq-panels.lua \
@@ -96,10 +95,10 @@ $(SITE)/releases.html : release-preamble.md changelog.md
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@ -V installbtn
 
-%.html : %.txt nav.html template.html sample.lua extension-support.txt
+%.html : %.txt template.html sample.lua extension-support.txt
 	$(MKPAGE) $< -o $@
 
-%.html : %.md nav.html template.html
+%.html : %.md template.html
 	$(MKPAGE) $< -o $@
 
 $(SITE)/MANUAL.pdf : MANUAL.txt template.tex

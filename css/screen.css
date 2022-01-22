@@ -1,93 +1,66 @@
-html { color: black; padding: 20px 10px 10px 10px; scroll-behavior: smooth; }
-
-body { font-size: 13pt; line-height: 1.5em; font-family: Georgia, serif; }
-
-a { color: #337ab7;
-    text-decoration: none; }
-th, td { padding-right: 10pt; }
-
-div.twocol { -webkit-column-count: 3; /* Chrome, Safari, Opera */
-             -moz-column-count: 3; /* Firefox */
-             column-count: 2; }
-
-div.col {
--webkit-column-break-inside: avoid;
-               break-inside: avoid; }
-
-
-.btn { font-family: Arial, Verdana, sans-serif; }
-
-code { font-size: 12pt; background-color: transparent; }
-span.nowrap code { white-space: nowrap; }
-pre code { }
-a.option code { color: inherit; }
-
-header        { }
-header span   { font-family: Arial, Verdana, sans-serif; }
-header .big   { font-size: 36pt; border: none; }
-header .small { font-size: 22pt; color: gray; }
-
-ul ul { margin-bottom: 0.5em }
-
-dd { margin-left: 2em; }
-
-hr { height: 1px; color: #aaa; background-color: #aaa; border: 0; margin: .2em 0 .2em 0; }
-
-h1.title { font-size: 24pt; }
-h1, h2, h3 { font-weight: normal; border-bottom: 1px solid black; }
-h4 { font-size: 14pt; font-weight: bold; margin-top: 1em; }
-h1 { font-size: 20pt; }
-h2 { font-size: 18pt; }
-h3 { font-size: 16pt; }
-
-ul { list-style-type: square; }
-dt { font-weight: bold; margin-bottom: .1em; }
-
-table { margin-top: 1em; margin-bottom: 1em; }
-table th { border-bottom: 1px solid black; }
-
-blockquote { padding: 0 1.6em; color: #666; }
-
-main {
-  max-width: 42em;
-}
-
-footer { padding: 1em; color: #888; text-align: center; font-size: 12pt; }
-
-nav {
-  font-family: Arial, Verdana, sans-serif;
-  font-weight: 600;
-}
-
-nav li {
-  padding-right: 0.8em;
-}
-nav a.dropdown-item {
-   color: #337ab7;
-   font-weight: 600;
-   text-decoration: none; }
-.card-header {
-  background-color: #eee;
-}
-.card {
-  padding: 0;
-  margin: 0.66em;
-}
-div.row {
+html {
+  color: #555;
   margin: auto;
-  max-width: 62em;
+  padding: 10px;
+  max-width: 76em;
 }
-div#toc {
+body {
+  font-family: Georgia, serif;
+  font-size: 13pt;
+  line-height: 18pt;
+}
+#paypal {
+  float: right;
+  font-size: 12pt;
+  font-family: Arial, Verdana, sans-serif;
+}
+#github-sponsors {
+  float: right;
+  margin-left: 1em;
+  font-size: 10pt;
+  font-family: Arial, Verdana, sans-serif;
+  border-radius: 12px;
+  background-color: cyan;
+  width: 6em;
+  height: 1.7em;
+  text-align: center;
+  font-weight: bold;
+}
+#github-sponsors a:hover {
+  text-decoration: none;
+}
+
+#downloadInstallerBtn {
+  font-size: 1em;
+  padding: 0.5em 1.5em;
+  white-space: normal;
+}
+
+.extension-checkbox {
+  float: right;
+  opacity: 0.5;
+  cursor: help;
+}
+.container {
+  display: flex;
+}
+#sidebar {
+  order: 2;
   position: sticky;
   top: 2rem;
+  max-width: 20em;
+  min-width: 12em;
   align-self: baseline;
-  background: white;
+  background: transparent;
+}
+#toc {
   margin-top: 1em;
+  margin-left: 2rem;
   height: 80vh;
   overflow-y: scroll;
   font-size: 11pt;
 }
-div#toc code {
+#toc code {
   font-size: 10pt;
 }
 div#toc li {
@@ -119,12 +92,210 @@ div#toc li {
 }
 
 #tocbtn {
-    width: 100%;
-    text-align: right;
-    font-size: 11pt;
-    padding-left: 1em;
+  width: 100%;
+  text-align: right;
+  font-size: 11pt;
+  padding-left: 1em;
 }
 
+main {
+  order: 1;
+  max-width: 48em;
+  min-width: 20em;
+}
+#input-search {
+  font-family: Arial, Verdana, sans-serif;
+  font-weight: normal;
+  font-size: 13pt;
+  border-radius: 24px;
+}
+#input-search {
+  border-style: none;
+  border: 1px solid grey;
+}
+#submit-search {
+  border-style: none;
+  background-color: #337ab7;
+  color: white;
+  font-family: Arial, Verdana, sans-serif;
+  font-size: 12pt;
+  font-weight: normal;
+  border-radius: 6px;
+  padding: 4px;
+}
+.modal {
+  display: none;
+}
+.modal.scrollable {
+  height: 32em;
+  overflow-y: scroll;
+}
+.modal.show {
+  display: block;
+  position: absolute;
+  tabindex: 1;
+  width: 90%;
+  margin: auto;
+  background: white;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.modal-header {
+background-color: cyan;
+  margin: 0;
+  padding: 4pt 0pt 4pt 0pt;
+  font-size: 13pt;
+  font-weight: 600;
+}
+.modal-title {
+}
+.modal-body {
+  padding: 6pt;
+}
+header span {
+  font-family: Arial, Verdana, sans-serif;
+}
+header .big {
+  font-size: 36pt;
+border: none;
+}
+header .small {
+  font-size: 22pt;
+  color: gray;
+}
+h1.title {
+  font-size: 24pt;
+}
+h1, h2, h3 {
+  font-weight: normal;
+  padding-bottom: 3px;
+  border-bottom: 1px solid black;
+}
+h4 { font-size: 14pt;
+  font-weight: bold;
+  margin-top: 1em;
+}
+h1 {
+  font-size: 20pt;
+}
+h2 {
+  font-size: 18pt;
+}
+h3 {
+  font-size: 16pt;
+}
+
+code{
+  white-space: pre-wrap;
+  font-size: 12pt;
+  background-color: transparent;
+}
+span.nowrap code { white-space: nowrap; }
+a.option code { color: inherit; }
+pre{ font-size: 12pt; }
+.smallcaps{font-variant: small-caps;}
+.line-block{white-space: pre-line;}
+.column{display: inline-block;}
+q { quotes: "“" "”" "‘" "’"; }
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+nav {
+  font-family: Arial, Verdana, sans-serif;
+  font-weight: 600;
+}
+nav .dropdown-toggle:after {
+  content: " ▼";
+}
+nav .dropdown-menu {
+  display: none;
+  position: absolute;
+  padding: 6pt;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  background: white;
+}
+nav li {
+  border-radius: 16px;
+  padding: 3px;
+}
+nav a {
+  padding: 6pt;
+  font-size: 12pt;
+  font-weight: 600;
+  color: #337ab7;
+  text-decoration: none;
+}
+.nav-item:hover {
+  background-color: #bbb;
+}
+nav .show {
+  display: inline-block;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+nav > ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+.card-header {
+  background-color: #eee;
+}
+.card {
+  padding: 0;
+  margin: 0.66em;
+}
+
+table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+table th {
+  border-bottom: 1px solid black;
+}
+th, td {
+  padding-right: 10pt;
+}
+.twocol {
+  display: flex;
+  flex-wrap: wrap;
+}
+.col {
+  min-width: 12em;
+  max-width: 18em;
+}
+.btn {
+  font-family: Arial, Verdana, sans-serif;
+}
+ul ul {
+  margin-bottom: 0.5em
+}
+ul { list-style-type: square; }
+dt { font-weight: bold; margin-bottom: .1em; }
+dd {
+  margin-left: 2em;
+}
+hr {
+  height: 1px;
+  color: #aaa;
+  background-color: #aaa;
+  border: 0;
+  margin: .2em 0 .2em 0;
+}
+blockquote {
+  padding: 0 1.6em;
+  color: #666;
+}
+footer {
+  padding: 1em;
+  color: #888;
+  text-align: center;
+  font-size: 12pt;
+}
 /* show the anchor links in headings if one hovers over the heading. */
 .anchor::before {
   /* link symbol + variation selector-15 (UFE0E); the latter forces to use the
@@ -139,32 +310,12 @@ div#toc li {
   position: absolute;
 }
 .anchor:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 h1:hover > .anchor::before,
 h2:hover > .anchor::before,
-h3:hover > .anchor::before,
-h4:hover > .anchor::before,
-h5:hover > .anchor::before,
-h6:hover > .anchor::before {
+h3:hover > .anchor::before {
   opacity: 1;
 }
 /* end: heading anchor links */
 
-div#flattr { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
-div#paypal { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
-div#bitcoin { float: right; font-size: 12pt; font-family: Arial, Verdana, sans-serif; }
-div#github-sponsors { float: right; margin-left: 1em; font-size: 10pt; font-family: Arial, Verdana, sans-serif; border-radius: 12px; background-color: cyan; width: 6em; height: 1.7em; text-align: center; font-weight: bold;  }
-#github-sponsors a:hover { text-decoration: none; }
-
-#downloadInstallerBtn {
-  font-size: 1em;
-  padding: 0.5em 1.5em;
-  white-space: normal;
-}
-
-.extension-checkbox {
-  float: right;
-  opacity: 0.5;
-  cursor: help;
-}
