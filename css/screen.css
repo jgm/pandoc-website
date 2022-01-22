@@ -207,7 +207,7 @@ nav {
   font-weight: 600;
 }
 nav .dropdown-toggle:before {
-  content: "▼ ";
+  content: "▼";
 }
 nav .dropdown-menu {
   display: none;
