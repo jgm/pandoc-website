@@ -68,16 +68,17 @@ div#toc li {
 }
 #toc > ul {
   margin-left: 0;
+  margin-top: 4pt;
 }
-#toc > ul > li {
-  padding-bottom: 6px;
-}
-#toc > ul > li {
-  position: relative;
-  padding-bottom: 6px;
+#toc li {
+  padding-bottom: 3pt;
+  padding-top: 3pt;
 }
 #toc ul {
   padding-left: 1em;
+}
+#toc ul > li {
+  position: relative;
 }
 #toc .toggle {
   cursor: pointer;
