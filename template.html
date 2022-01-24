@@ -42,7 +42,7 @@ $endif$
         <a class="nav-link" href="demos.html">Demos</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" onclick="toggleDropdown(this);" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
           Documentation
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -111,12 +111,11 @@ $endif$
       </div>
     </div>
   </div>
-  <script src="js/dropdown.js?v=$time$" defer></script>
-  <script src="js/collapseTOC.js?v=$time$" defer></script>
+  <script src="js/site.js?v=$time$"></script>
 $if(installbtn)$
   <script src="js/downloadInstallerBtn.js?v=$time$" defer></script>
 $endif$
-  <script src="https://unpkg.com/lunr@2.3.8/lunr.js"></script>
+  <script src="https://unpkg.com/lunr@2.3.8/lunr.js" defer></script>
   <script src="js/index.js?v=$time$" defer></script>
 </body>
 </html>
