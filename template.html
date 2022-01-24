@@ -5,14 +5,12 @@
   <title>Pandoc - $pagetitle$</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" type="text/css" href="css/screen.css?v=$time$">
-  <link rel="stylesheet" type="text/css" media="print" href="css/print.css?v=$time$">
+  <link rel="stylesheet" type="text/css" href="css/site.css?v=$time$">
 $if(highlighting-css)$
   <style>
     $highlighting-css$
   </style>
 $endif$
-  <script src="https://unpkg.com/lunr@2.3.8/lunr.js"></script>
 </head>
 <body>
   <header>
@@ -113,11 +111,12 @@ $endif$
       </div>
     </div>
   </div>
+  <script src="js/dropdown.js?v=$time$" defer></script>
+  <script src="js/collapseTOC.js?v=$time$" defer></script>
 $if(installbtn)$
   <script src="js/downloadInstallerBtn.js?v=$time$" defer></script>
 $endif$
-  <script src="js/collapseTOC.js?v=$time$" defer></script>
+  <script src="https://unpkg.com/lunr@2.3.8/lunr.js"></script>
   <script src="js/index.js?v=$time$" defer></script>
-  <script src="js/dropdown.js?v=$time$" defer></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 SITE = site
 DEMO = $(SITE)/demo
-CSS = $(patsubst %,css/%, print.css  screen.css)
+CSS = css/site.css
 JS = js/downloadInstallerBtn.js js/collapseTOC.js js/index.js js/dropdown.js
 TIME := $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.svgz getting-started.html press.html .htaccess css js $(CSS) $(JS))
@@ -22,9 +22,6 @@ VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
 all : $(SITE) $(ALL) $(SITE)/js/index.js
-
-.PHONY: css
-css : $(patsubst %,$(SITE)/%,css $(CSS))
 
 $(SITE):
 	mkdir -p $@
