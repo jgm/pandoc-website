@@ -1,1 +1,3 @@
 Redirect /scripting.html /filters.html
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz
