@@ -43,4 +43,10 @@
     })
   })
 
+  document.querySelectorAll('section.card').forEach( function(el) {
+    el.addEventListener("click", function(event) {
+      el.classList.toggle("show");
+    })
+  })
+
 })();

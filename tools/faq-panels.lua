@@ -8,7 +8,7 @@ local function makecard(ident, bs)
             , pandoc.Div(body, pandoc.Attr("collapse-" .. ident,
                 {"collapse"}))
             },
-            pandoc.Attr("faq-" .. ident, {"section","card"}))
+            pandoc.Attr(ident, {"section","card"}))
 end
 
 function Div(el)
@@ -23,12 +23,10 @@ function Div(el)
         if #nextchunk > 0 then
           chunks[#chunks + 1] = makecard(ident, nextchunk)
         end
-        ident = string.gsub(b.identifier, "%p+", "-")
-        b.identifier = ""
-        local anchor = pandoc.Link(b.content, "#collapse-" .. ident)
-        anchor.attributes["data-toggle"] = "collapse"
-        b.level = 5
-        nextchunk = {pandoc.Para{anchor}}
+        ident = b.identifier -- string.gsub(b.identifier, "%p+", "-")
+        -- b.identifier = ""
+        -- b.level = 4
+        nextchunk = {pandoc.Para(b.content)}
       elseif seen_header then
         table.insert(nextchunk, b)
       end

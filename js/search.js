@@ -37,5 +37,10 @@ formSearch.addEventListener("submit", function(event) {
                            function() {
                              results.classList.remove("show");
                            });
+  /* The results should go away when someone clicks anywhere, even inside it */
+  window.onclick = function(event) {
+    results.classList.remove("show");
+  }
+
   event.preventDefault();
 });

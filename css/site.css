@@ -104,6 +104,7 @@ main {
   order: 1;
   max-width: 48em;
   min-width: 20em;
+  padding-bottom: 60em; /* ensure that any anchor can be at top */
 }
 #input-search {
   font-family: Arial, Verdana, sans-serif;
@@ -247,12 +248,26 @@ nav > ul {
 }
 .card-header {
   background-color: #eee;
+  border-radius: 24px 24px 24px 24px;
+  padding: 3pt 6pt 3pt 6pt;
+}
+.show .card-header {
+  border-radius: 24px 24px 0px 0px;
 }
 .card {
-  padding: 0;
-  margin: 0.66em;
+  padding: 0pt;
+  margin: 6pt;
+  border: 1px solid grey;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 24px;
 }
-
+.card-body {
+  padding: 6pt;
+  display: none;
+}
+.show .card-body {
+  display: block;
+}
 table {
   margin-top: 1em;
   margin-bottom: 1em;
@@ -300,15 +315,15 @@ footer {
   font-size: 12pt;
 }
 /* show the anchor links in headings if one hovers over the heading. */
-.anchor::before {
+.anchor:before {
   /* link symbol + variation selector-15 (UFE0E); the latter forces to use the
    current font, not some special emoji. */
   content: '🔗\FE0E';
   display: inline-block;
-  font-size: 66%;
+  font-size: 14pt;
   left: -1.75em;
   line-height: 1.66;
-  opacity: 0.15;
+  opacity: 0.2;
   padding-right: 0.5em;
   position: absolute;
 }
