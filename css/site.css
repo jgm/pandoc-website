@@ -103,7 +103,7 @@ main {
   position: relative; /* needed for the anchor links to work */
   order: 1;
   max-width: 48em;
-  min-width: 20em;
+  min-width: 300px;
   padding-bottom: 60em; /* ensure that any anchor can be at top */
 }
 #input-search {
