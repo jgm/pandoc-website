@@ -101,6 +101,9 @@ $(SITE)/installing.html : $(SITE)/installing.txt template.html
 %.html : %.txt template.html sample.lua extension-support.txt
 	$(MKPAGE) $< -o $@
 
+lua-filters.html: lua-filters.md template.html
+	$(MKPAGE) $< -o $@ --css css/dl-as-table.css
+
 %.html : %.md template.html
 	$(MKPAGE) $< -o $@
 

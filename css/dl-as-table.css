@@ -1,0 +1,13 @@
+@media (min-width: 800px) {
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  dt {
+    width: 33%;
+  }
+  dd {
+    margin-left: auto;
+    width: 66%;
+  }
+}
