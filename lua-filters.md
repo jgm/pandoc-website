@@ -1887,8 +1887,7 @@ This is a pair, i.e., a plain table, with the following
 components:
 
 1. cell alignment ([Alignment]).
-2. table column width, as a fraction of the total table width
-   (number).
+2. table column width, as a fraction of the page width (number).
 
 ### ListAttributes {#type-listattributes}
 
@@ -3923,7 +3922,7 @@ Parameters:
 Returns: a new list containing all elements from list1 and
 list2
 
-### `pandoc.List:__eq (a, b)` {#pandoc.list:__concat}
+### `pandoc.List:__eq (a, b)` {#pandoc.list:__eq}
 
 Compares two lists for equality. The lists are taken as equal
 if and only if they are of the same type (i.e., have the same
@@ -4120,7 +4119,7 @@ separator and everything after from the given path.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4133,7 +4132,7 @@ Get the file name.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4146,7 +4145,7 @@ Checks whether a path is absolute, i.e. not fixed to a root.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4160,7 +4159,7 @@ Checks whether a path is relative or fixed to a root.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4174,7 +4173,7 @@ Join path elements back together by the directory separator.
 
 Parameters:
 
-filepaths
+`filepaths`
 :   path components (list of strings)
 
 Returns:
@@ -4193,13 +4192,13 @@ Set `unsafe` to a truthy value to a allow `..` in paths.
 
 Parameters:
 
-path
+`path`
 :   path to be made relative (string)
 
-root
+`root`
 :   root path (string)
 
-unsafe
+`unsafe`
 :   whether to allow `..` in the result. (boolean)
 
 Returns:
@@ -4219,7 +4218,7 @@ Normalizes a path.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4232,7 +4231,7 @@ Splits a path by the directory separator.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4247,7 +4246,7 @@ no extension, then the empty string is returned as the extension.
 
 Parameters:
 
-filepath
+`filepath`
 :   path (string)
 
 Returns:
@@ -4264,7 +4263,7 @@ Windows path elements are stripped of quotes.
 
 Parameters:
 
-search_path
+`search_path`
 :   platform-specific search path (string)
 
 Returns:
