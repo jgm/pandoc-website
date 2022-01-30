@@ -89,6 +89,9 @@ update :
 $(SITE)/releases.html : release-preamble.md changelog.md
 	$(MKPAGE) $^ -o $@ --metadata title=Releases --lua-filter=tools/linkify-issues-in-changelog.lua
 
+$(SITE)/lua-filters.html: lua-filters.md template.html
+	$(MKPAGE) $< -o $@ --css css/dl-as-table.css
+
 %.1.html : %.1
 	groff -Txhtml -mandoc $< > $@
 
