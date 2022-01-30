@@ -63,7 +63,7 @@ click on the name of the output file:
 
 14. PDF with numbered sections and a custom LaTeX header:
 
-@   pandoc -N --template=@@template.tex@@ --variable mainfont="Palatino" --variable sansfont="Helvetica" --variable monofont="Menlo" --variable fontsize=12pt --variable version=2.0 @@MANUAL.txt@@ --pdf-engine=xelatex --toc -o @@example14.pdf@@
+@   pandoc -N --variable "geometry=margin=1.2in" --variable mainfont="Palatino" --variable sansfont="Helvetica" --variable monofont="Menlo" --variable fontsize=12pt --variable version=2.0 @@MANUAL.txt@@ --include-in-header fancyheaders.tex --pdf-engine=xelatex --toc -o @@example14.pdf@@
 
 15. ipynb (Jupyter notebook):
 

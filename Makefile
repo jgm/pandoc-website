@@ -43,7 +43,7 @@ clean:
 	-rm -rf $(SITE)
 	-rm extension-support.txt
 
-DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex template.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml)
+DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml fancyheaders.tex)
 
 $(DEMO)/% : %
 	mkdir -p $(DEMO)
@@ -104,13 +104,10 @@ $(SITE)/installing.html : $(SITE)/installing.txt template.html
 %.html : %.txt template.html sample.lua extension-support.txt
 	$(MKPAGE) $< -o $@
 
-lua-filters.html: lua-filters.md template.html
-	$(MKPAGE) $< -o $@ --css css/dl-as-table.css
-
 %.html : %.md template.html
 	$(MKPAGE) $< -o $@
 
-$(SITE)/MANUAL.pdf : MANUAL.txt template.tex
+$(SITE)/MANUAL.pdf : MANUAL.txt
 	$(PANDOC) $< -o $@ --toc -s \
 	        --variable papersize=letter \
 		--variable geometry='total={6in,9in}' \
