@@ -5,9 +5,8 @@
   <title>Pandoc - $pagetitle$</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" type="text/css" href="css/site.css?v=$time$">
 $for(css)$
-  <link rel="stylesheet" href="$css$" />
+  <link rel="stylesheet" href="$css$?v=$time$" />
 $endfor$
 $if(highlighting-css)$
   <style>
