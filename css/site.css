@@ -189,12 +189,12 @@ h3 {
 
 code{
   white-space: pre-wrap;
-  font-size: 12pt;
+  font-size: 11pt;
   background-color: transparent;
 }
 span.nowrap code { white-space: nowrap; }
 a.option code { color: inherit; }
-pre{ font-size: 12pt; }
+pre{ font-size: 11pt; }
 .smallcaps{font-variant: small-caps;}
 .line-block{white-space: pre-line;}
 .column{display: inline-block;}
