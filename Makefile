@@ -24,7 +24,7 @@ VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 .PHONY: all
 all : $(SITE) $(ALL) $(SITE)/js/index.js
 
-$(SITE):
+$(SITE): extension-support.txt
 	mkdir -p $@
 
 $(SITE)/js:
@@ -47,10 +47,12 @@ clean:
 DEMOFILES = $(patsubst %, $(DEMO)/%, MANUAL.txt code.text math.text math.tex pandoc.1.md footer.html haskell.wiki SLIDES pandoc.css chicago-author-date.csl ieee.csl chicago-fullnote-bibliography.csl biblio.bib CITATIONS howto.xml sample.lua creole.lua example15.md example15.png example33.text twocolumns.docx biblio.json biblio.yaml fishtable.rst species.rst fishwatch.yaml fancyheaders.tex)
 
 $(DEMO)/% : %
-	mkdir -p $(DEMO)
 	cp $< $@
 
-$(SITE)/demos.txt : demos $(DEMOFILES) mkdemos.pl
+$(DEMO):
+	mkdir -p $(DEMO)
+
+$(SITE)/demos.txt : demos $(DEMO) $(DEMOFILES) mkdemos.pl
 	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
@@ -102,7 +104,7 @@ $(SITE)/lua-filters.html: lua-filters.md template.html
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@ -V installbtn
 
-%.html : %.txt template.html sample.lua extension-support.txt
+%.html : %.txt template.html extension-support.txt
 	$(MKPAGE) $< -o $@
 
 %.html : %.md template.html
