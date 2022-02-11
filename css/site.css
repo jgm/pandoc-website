@@ -30,12 +30,16 @@ body {
   text-decoration: none;
 }
 
-#downloadInstallerBtn {
+.btn {
+  font-family: Arial, Verdana, sans-serif;
+  background-color: #337ab7;
+  color: white;
+  font-weight: bold;
   font-size: 1em;
   padding: 0.5em 1.5em;
   white-space: normal;
+  border-radius: 12px;
 }
-
 .extension-checkbox {
   float: right;
   opacity: 0.5;
@@ -286,9 +290,6 @@ th, td {
 .col {
   min-width: 12em;
   max-width: 18em;
-}
-.btn {
-  font-family: Arial, Verdana, sans-serif;
 }
 ul ul {
   margin-bottom: 0.5em
