@@ -13,6 +13,7 @@ body {
   float: right;
   font-size: 12pt;
   font-family: Arial, Verdana, sans-serif;
+  opacity: 0.2;
 }
 #github-sponsors {
   float: right;
@@ -23,12 +24,32 @@ body {
   background-color: cyan;
   width: 6em;
   height: 1.7em;
+  line-height: 1.7em;
   text-align: center;
   font-weight: bold;
+  opacity: 0.2;
 }
 #github-sponsors a:hover {
   text-decoration: none;
 }
+#ukraine {
+  float: right;
+  margin-left: 1em;
+  font-size: 10pt;
+  font-family: Arial, Verdana, sans-serif;
+  border-radius: 12px;
+  color: #005BBB;
+  background-color: #FFD500;
+  width: 12em;
+  height: 1.7em;
+  line-height: 1.7em;
+  text-align: center;
+  font-weight: bold;
+}
+#ukraine a:hover {
+  text-decoration: none;
+}
+
 
 .btn {
   font-family: Arial, Verdana, sans-serif;
