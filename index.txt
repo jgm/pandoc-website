@@ -63,7 +63,9 @@ Bibliography formats
 :   &harr; [BibTeX]\
     &harr; [BibLaTeX]\
     &harr; [CSL JSON]\
-    &harr; CSL YAML
+    &harr; CSL YAML\
+    &larr; [RIS]\
+    &larr; [EndNote XML]
 
 :::
 
@@ -223,3 +225,6 @@ Copyright 2006--2021 [John MacFarlane].
 [custom readers]: custom-readers.html
 [custom writers]: custom-writers.html
 [Markua]: https://leanpub.com/markua/read
+[RIS]: https://en.wikipedia.org/wiki/RIS_(file_format)
+[EndNote XML]: https://support.clarivate.com/Endnote/s/article/EndNote-XML-Document-Type-Definition
+
