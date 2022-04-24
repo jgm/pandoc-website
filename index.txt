@@ -110,6 +110,7 @@ Slide show formats
 Data formats
 
 :   &larr; [CSV] tables
+:   &larr; [TSV] tables
 
 Custom formats
 
@@ -227,4 +228,5 @@ Copyright 2006--2021 [John MacFarlane].
 [Markua]: https://leanpub.com/markua/read
 [RIS]: https://en.wikipedia.org/wiki/RIS_(file_format)
 [EndNote XML]: https://support.clarivate.com/Endnote/s/article/EndNote-XML-Document-Type-Definition
+[TSV]: https://www.iana.org/assignments/media-types/text/tab-separated-values
 
