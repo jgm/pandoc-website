@@ -6,6 +6,12 @@ Here are some books, articles, and blogs that discuss pandoc:
 
 - [Pandoc](http://en.wikipedia.org/wiki/Pandoc) on Wikipedia.
 
+- Albert Krewinkel, Juanjo Bazán, and Afron M. Smith,
+  ["JATS from Markdown: Developer friendly single-source
+  scholarly
+  publishing"](https://www.ncbi.nlm.nih.gov/books/NBK579698/),
+  *JATS-Con Proceedings 2022*.
+
 - Julien Dehut, ["En finir avec Word ! Pour une analyse des
   enjeux relatifs aux traitements de texte et à leur
   utilisation"](https://eriac.hypotheses.org/80),
