@@ -84,7 +84,7 @@ $(SITE)/%.svgz: $(SITE)/%.svg
 	mv $<.gz $@
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua $(PANDOC_SRC)/data/creole.lua
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md doc/press.md) $(PANDOC_SRC)/man/pandoc.1 $(PANDOC_SRC)/data/sample.lua $(PANDOC_SRC)/data/creole.lua
 
 update :
 	cp $(SOURCES) .
