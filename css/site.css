@@ -161,7 +161,6 @@ main {
 .modal.show {
   display: block;
   position: absolute;
-  tabindex: 1;
   width: 90%;
   margin: auto;
   background: white;

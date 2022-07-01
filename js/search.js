@@ -32,6 +32,7 @@ formSearch.addEventListener("submit", function(event) {
   }
   var results = document.querySelector("#search-results");
   results.classList.add("show");
+  results.setAttribute("tabindex", "1");
   results.querySelector(".modal-header button")
          .addEventListener("click",
                            function() {
@@ -40,6 +41,7 @@ formSearch.addEventListener("submit", function(event) {
   /* The results should go away when someone clicks anywhere, even inside it */
   window.onclick = function(event) {
     results.classList.remove("show");
+    results.setAttribute("tabindex", "-1");
   }
 
   event.preventDefault();
