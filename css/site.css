@@ -307,10 +307,11 @@ th, td {
 .twocol {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 .col {
   min-width: 12em;
-  max-width: 18em;
+  max-width: 22em;
 }
 ul ul {
   margin-bottom: 0.5em
