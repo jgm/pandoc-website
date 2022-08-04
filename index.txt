@@ -109,7 +109,7 @@ Slide show formats
 
 Data formats
 
-:   &larr; [CSV] tables
+:   &larr; [CSV] tables\
 :   &larr; [TSV] tables
 
 Custom formats
