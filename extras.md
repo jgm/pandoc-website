@@ -74,6 +74,12 @@ complete list, see the [Pandoc Extras wiki page]( https://github.com/jgm/pandoc/
     pleasant as possible. It simplifies setting authors' metadata in
     YAML blocks, allows to add semantic annotation to citations, and
     only requires the programs pandoc and make.
+  - [Stylo](https://stylo.huma-num.fr/) is an online semantic text editor.
+    Stylo is a tool designed to transform the digital workflow of scholarly
+    journals in humanities and social sciences. As a WYSIWYM (What You See Is
+    What You Mean) semantic text editor for the humanities, it aims to improve
+    the academic publishing chain. Stylo is based on Markdown, BibTeX, Pandoc,
+    Hypothes.is and Latex. It's free to use (and fork).
 
 ### Containers
 
