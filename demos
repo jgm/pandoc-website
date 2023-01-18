@@ -153,9 +153,9 @@ click on the name of the output file:
 
 @   pandoc -f mediawiki -t html5 -s @@haskell.wiki@@ -o @@example32.html@@
 
-33. Custom writer:
+33. Chunked HTML:
 
-@   pandoc -t @@sample.lua@@ @@example33.text@@ -o @@example33.html@@
+@   pandoc -t chunkedhtml --split-level=2 --toc --toc-depth=2 --number-sections -o @@example33@@ @@MANUAL.txt@@
 
 34. Docx with a reference docx:
 
