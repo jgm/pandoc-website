@@ -25,7 +25,8 @@ Lightweight markup formats
 HTML formats
 
 :   &harr; (X)HTML 4\
-    &harr; HTML5
+    &harr; HTML5\
+    &rarr; Chunked HTML
 
 Ebooks
 
