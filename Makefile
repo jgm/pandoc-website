@@ -53,6 +53,7 @@ $(DEMO):
 	mkdir -p $(DEMO)
 
 $(SITE)/demos.txt : demos $(DEMO) $(DEMOFILES) mkdemos.pl
+	-rm -r $(DEMO)/example33
 	perl mkdemos.pl $< $@ $(DEMO)
 
 $(DEMO)/biblio.json: $(DEMO)/biblio.bib
