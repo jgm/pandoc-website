@@ -1,5 +1,11 @@
-\ ![Pandoc cartoon by Amy de Buitléir](pandoc-cartoon.svgz
-    "Credit: Amy de Buitléir")
+---
+headerimage:
+  alt: "Cartoon of a toaster-like machine ingesting paper, bits,
+    and a cat and outputing a book"
+  title: "Credit: Amy de Buitléir"
+  src: pandoc-cartoon.svgz
+  width: "80%"
+...
 
 If you need to convert files from one markup format into another,
 pandoc is your swiss-army knife.  Pandoc can convert between the
