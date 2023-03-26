@@ -196,7 +196,7 @@ Copyright 2006--2022 [John MacFarlane].
 [EPUB]: http://en.wikipedia.org/wiki/EPUB
 [Slidy]: http://www.w3.org/Talks/Tools/Slidy
 [org-mode]: http://orgmode.org
-[textile]: http://redcloth.org/textile
+[Textile]: https://textile-lang.com
 [citeproc-hs]:  http://hackage.haskell.org/package/citeproc-hs
 [pandoc-citeproc]:  http://hackage.haskell.org/package/pandoc-citeproc
 [AsciiDoc]:  https://asciidoc.org
