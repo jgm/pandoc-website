@@ -50,11 +50,10 @@ Roff formats
 :   &harr; [roff man]\
     &rarr; [roff ms]
 
-TeX and TeX-inspired formats
+TeX formats
 
 :   &harr; [LaTeX]\
-    &rarr; [ConTeXt]\
-    &rarr; [Typst]
+    &rarr; [ConTeXt]
 
 XML formats
 
@@ -92,7 +91,8 @@ Interactive notebook formats
 
 Page layout formats
 
-:   &rarr; [InDesign ICML]
+:   &rarr; [InDesign ICML]\
+    &rarr; [Typst]
 
 Wiki markup formats
 
