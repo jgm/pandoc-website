@@ -50,10 +50,11 @@ Roff formats
 :   &harr; [roff man]\
     &rarr; [roff ms]
 
-TeX formats
+TeX and TeX-inspired formats
 
 :   &harr; [LaTeX]\
-    &rarr; [ConTeXt]
+    &rarr; [ConTeXt]\
+    &rarr; [Typst]
 
 XML formats
 
@@ -237,4 +238,4 @@ Copyright 2006--2022 [John MacFarlane].
 [RIS]: https://en.wikipedia.org/wiki/RIS_(file_format)
 [EndNote XML]: https://support.clarivate.com/Endnote/s/article/EndNote-XML-Document-Type-Definition
 [TSV]: https://www.iana.org/assignments/media-types/text/tab-separated-values
-
+[Typst]: https://typst.app
