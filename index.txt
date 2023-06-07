@@ -92,7 +92,7 @@ Interactive notebook formats
 Page layout formats
 
 :   &rarr; [InDesign ICML]\
-    &rarr; [Typst]
+    &harr; [Typst]
 
 Wiki markup formats
 
