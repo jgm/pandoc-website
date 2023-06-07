@@ -93,11 +93,9 @@ click on the name of the output file:
 @   pandoc @@code.text@@ -s --highlight-style tango -o @@example18f.html@@
 @   pandoc @@code.text@@ -s --highlight-style zenburn -o @@example18g.html@@
 
-19. GNU Texinfo, converted to info and HTML formats:
+19. GNU Texinfo:
 
 @   pandoc @@MANUAL.txt@@ -s -o @@example19.texi@@
-@   makeinfo --no-validate --force @@example19.texi@@ -o @@example19.info@@
-@   makeinfo --no-validate --force @@example19.texi@@ --html -o @@example19@@
 
 20. OpenDocument XML:
 
