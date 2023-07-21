@@ -125,7 +125,7 @@ $(SITE)/MANUAL.pdf : MANUAL.txt
 		--variable fontsize=11pt \
 		--variable linestretch=1.1 \
 		--variable version="$(VERSION)" \
-		--pdf-engine=xelatex
+		--pdf-engine=lualatex
 
 extension-support.txt:
 	sh tools/list-extension-support.sh > $@
