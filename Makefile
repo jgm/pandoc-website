@@ -1,7 +1,7 @@
 SITE = site
 DEMO = $(SITE)/demo
 CSS = css/site.css
-JS = js/downloadInstallerBtn.js js/site.js js/index.js
+JS = js/site.js js/index.js
 TIME := $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.svgz getting-started.html press.html pandoc-cartoon.svgz .htaccess css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
@@ -107,9 +107,6 @@ $(SITE)/lua-filters.html: lua-filters.md template.html
 
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@
-	# -V installbtn
-	#  we've removed this because we can't autodetect
-	#  arm vs intel macos
 
 %.html : %.txt template.html extension-support.txt
 	$(MKPAGE) $< -o $@
