@@ -106,7 +106,10 @@ $(SITE)/lua-filters.html: lua-filters.md template.html
 	groff -Txhtml -mandoc $< > $@
 
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
-	$(MKPAGE) $< -o $@ -V installbtn
+	$(MKPAGE) $< -o $@
+	# -V installbtn
+	#  we've removed this because we can't autodetect
+	#  arm vs intel macos
 
 %.html : %.txt template.html extension-support.txt
 	$(MKPAGE) $< -o $@
