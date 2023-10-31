@@ -59,6 +59,7 @@ XML formats
 
 :   &harr; [DocBook] version 4 or 5\
     &harr; [JATS]\
+    &larr; [BITS]\
     &rarr; [TEI Simple]\
     &rarr; [OpenDocument XML]
 
@@ -215,6 +216,7 @@ Copyright 2006--2022 [John MacFarlane].
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
 [CommonMark]: http://commonmark.org
 [JATS]: https://jats.nlm.nih.gov/publishing/
+[BITS]: https://jats.nlm.nih.gov/extensions/bits/
 [GitHub-flavored Markdown]: https://github.github.com/gfm/
 [Muse]: https://www.gnu.org/software/emacs-muse/manual/
 [txt2tags]: http://txt2tags.org
