@@ -27,7 +27,8 @@ Lightweight markup formats
     &harr; Emacs [Muse]\
     &harr; [Textile]\
     &rarr; [Markua]\
-    &larr; [txt2tags]
+    &larr; [txt2tags]\
+    &harr; [djot]
 
 HTML formats
 
@@ -241,3 +242,4 @@ Copyright 2006--2022 [John MacFarlane].
 [EndNote XML]: https://support.clarivate.com/Endnote/s/article/EndNote-XML-Document-Type-Definition
 [TSV]: https://www.iana.org/assignments/media-types/text/tab-separated-values
 [Typst]: https://typst.app
+[djot]: https://djot.net
