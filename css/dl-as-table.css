@@ -5,6 +5,9 @@ dt {
   dl {
     display: flex;
     flex-wrap: wrap;
+    padding: 6pt;
+    border: 1px solid grey;
+    border-radius: 12px;
   }
   dt {
     width: 30%;
