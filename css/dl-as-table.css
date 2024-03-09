@@ -1,13 +1,15 @@
 dt {
     font-weight: normal;
 }
-@media (min-width: 800px) {
-  dl {
-    display: flex;
-    flex-wrap: wrap;
+dl {
     padding: 6pt;
     border: 1px solid grey;
     border-radius: 12px;
+}
+@media (min-width: 1024px) {
+  dl {
+    display: flex;
+    flex-wrap: wrap;
   }
   dt {
     width: 30%;
