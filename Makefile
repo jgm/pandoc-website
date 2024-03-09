@@ -1,6 +1,6 @@
 SITE = site
 DEMO = $(SITE)/demo
-CSS = css/site.css
+CSS = css/site.css css/dl-as-table.css
 JS = js/site.js js/index.js
 TIME := $(shell date +"%Y%m%d%H%M%S")
 ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html using-the-pandoc-api.html help.html epub.html faqs.html diagram.svgz getting-started.html press.html pandoc-cartoon.svgz .htaccess css js $(CSS) $(JS))
