@@ -46,6 +46,8 @@ if FORMAT:match 'html' then
         if ext == 'superscript, subscript' then
             -- Normalize irregular section name.
             ext = 'superscript'
+        elseif ext ~= 'citations %(' then
+            ext = 'citations'
         end
 
         if ext ~= nil then
