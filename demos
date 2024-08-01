@@ -11,35 +11,35 @@ click on the name of the output file:
 
 1.  HTML fragment:
 
-@   pandoc @@MANUAL.txt@@ -o @@example1.html@@
+@   pandoc @@MANUAL.md@@ -o @@example1.html@@
 
 2.  Standalone HTML file:
 
-@   pandoc -s @@MANUAL.txt@@ -o @@example2.html@@
+@   pandoc -s @@MANUAL.md@@ -o @@example2.html@@
 
 3.  HTML with table of contents, CSS, and custom footer:
 
-@   pandoc -s --toc -c @@pandoc.css@@ -A @@footer.html@@ @@MANUAL.txt@@ -o @@example3.html@@
+@   pandoc -s --toc -c @@pandoc.css@@ -A @@footer.html@@ @@MANUAL.md@@ -o @@example3.html@@
 
 4.  LaTeX:
 
-@   pandoc -s @@MANUAL.txt@@ -o @@example4.tex@@
+@   pandoc -s @@MANUAL.md@@ -o @@example4.tex@@
 
 5.  From LaTeX to markdown:
 
-@   pandoc -s @@example4.tex@@ -o @@example5.text@@
+@   pandoc -s @@example4.tex@@ -o @@example5.md@@
 
 6.  reStructuredText:
 
-@   pandoc -s -t rst --toc @@MANUAL.txt@@ -o @@example6.text@@
+@   pandoc -s -t rst --toc @@MANUAL.m@ -o 
 
 7.  Rich text format (RTF):
 
-@   pandoc -s @@MANUAL.txt@@ -o @@example7.rtf@@
+@   pandoc -s @@@@ -o @@example7.rtf@@
 
 8.  Beamer slide show:
 
-@   pandoc -t beamer @@SLIDES@@ -o @@example8.pdf@@
+@   pandoc -t beamer @@SLIDES.txt@@ -o @@example8.pdf@@
 
 9.  DocBook XML:
 
@@ -55,11 +55,11 @@ click on the name of the output file:
 
 12. Converting a web page to markdown:
 
-@   pandoc -s -r html @@http://www.gnu.org/software/make/@@ -o @@example12.text@@
+@   pandoc -s -r html @@http://www.gnu.org/software/make/@@ -o @@example12.md@@
 
 13. From markdown to PDF:
 
-@   pandoc @@MANUAL.txt@@ --pdf-engine=xelatex -o @@example13.pdf@@
+@   pandoc @@MANUAL.md@@ --pdf-engine=xelatex -o @@example13.pdf@@
 
 14. PDF with numbered sections and a custom LaTeX header:
 
@@ -71,17 +71,17 @@ click on the name of the output file:
 
 16. HTML slide shows:
 
-@   pandoc -s --mathml -i -t dzslides @@SLIDES@@ -o @@example16a.html@@
-@   pandoc -s --webtex -i -t slidy @@SLIDES@@ -o @@example16b.html@@
-@   pandoc -s --mathjax -i -t revealjs @@SLIDES@@ -o @@example16d.html@@
+@   pandoc -s --mathml -i -t dzslides @@SLIDES.txt@@ -o @@example16a.html@@
+@   pandoc -s --webtex -i -t slidy @@SLIDES.tx@@ -o @@example16b.html@@
+@   pandoc -s --mathjax -i -t revealjs @@SLIDES.txt@@ -o @@example16d.html@@
 
 17. TeX math in HTML:
 
-@   pandoc @@math.text@@ -s -o @@mathDefault.html@@
-@   pandoc @@math.text@@ -s --mathml  -o @@mathMathML.html@@
-@   pandoc @@math.text@@ -s --webtex  -o @@mathWebTeX.html@@
-@   pandoc @@math.text@@ -s --mathjax -o @@mathMathJax.html@@
-@   pandoc @@math.text@@ -s --katex   -o @@mathKaTeX.html@@
+@   pandoc @@math.tex@@ -s -o @@mathDefault.html@@
+@   pandoc @@math.tex@@ -s --mathml  -o @@mathMathML.html@@
+@   pandoc @@math.tex@@ -s --webtex  -o @@mathWebTeX.html@@
+@   pandoc @@math.tex@@ -s --mathjax -o @@mathMathJax.html@@
+@   pandoc @@math.tex@@ -s --katex   -o @@mathKaTeX.html@@
 
 18. Syntax highlighting of delimited code blocks:
 
