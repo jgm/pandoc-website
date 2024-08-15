@@ -332,6 +332,15 @@ blockquote {
   padding: 0 1.6em;
   color: #666;
 }
+#footnotes {
+  margin-top: 1em;
+}
+#footnotes::before {
+  font-weight: normal;
+  font-size: 18pt;
+  padding-bottom: 3px;
+  content: "Notes";
+}
 footer {
   padding: 1em;
   color: #888;
