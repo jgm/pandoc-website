@@ -90,6 +90,9 @@ $endif$
   </nav>
   <div class="container">
     <main>
+$if(headerimage)$
+    <img id="headerimage" src="$headerimage.src$" title="$headerimage.title$" alt="$headerimage.alt$" width="$headerimage.width$" />
+$endif$
 $if(title)$
       <h1 class="title">$title$</h1>
 $endif$
