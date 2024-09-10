@@ -121,7 +121,11 @@ Slide show formats
 Data formats
 
 :   &larr; [CSV] tables\
-:   &larr; [TSV] tables
+    &larr; [TSV] tables
+
+Terminal output
+
+:   &rarr; [ANSI]-formatted text
 
 Custom formats
 
@@ -243,3 +247,4 @@ Copyright 2006--2022 [John MacFarlane].
 [TSV]: https://www.iana.org/assignments/media-types/text/tab-separated-values
 [Typst]: https://typst.app
 [djot]: https://djot.net
+[ANSI]: https://en.wikipedia.org/wiki/ANSI_escape_code
