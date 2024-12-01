@@ -17,6 +17,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--lua-filter=tools/nowrap.lua \
 	--lua-filter=tools/extension-support.lua \
 	--lua-filter=tools/include-code-files.lua \
+	--lua-filter=tools/interlink.lua \
 	--variable time=${TIME} \
 	--css=css/site.css
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
