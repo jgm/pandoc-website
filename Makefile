@@ -15,7 +15,6 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--lua-filter=tools/anchor-links.lua \
 	--lua-filter=tools/faq-panels.lua \
 	--lua-filter=tools/nowrap.lua \
-	--lua-filter=tools/extension-support.lua \
 	--lua-filter=tools/include-code-files.lua \
 	--variable time=${TIME} \
 	--css=css/site.css
@@ -108,7 +107,10 @@ $(SITE)/lua-filters.html: lua-filters.md template.html
 $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@
 
-%.html : %.txt template.html extension-support.txt
+$(SITE)/MANUAL.html : MANUAL.txt template.html extension-support.txt
+	$(MKPAGE) $< -o $@ --lua-filter=tools/extension-support.lua
+
+%.html : %.txt template.html
 	$(MKPAGE) $< -o $@
 
 %.html : %.md template.html

@@ -41,14 +41,7 @@ if FORMAT:match 'html' then
 
     function Header(h)
         local text = pandoc.utils.stringify(h)
-        local ext = string.match(text, 'Extension: (.*)')
-
-        if ext == 'superscript, subscript' then
-            -- Normalize irregular section name.
-            ext = 'superscript'
-        elseif ext ~= 'citations %(' then
-            ext = 'citations'
-        end
+        local ext = string.match(text, 'Extension:%s*([^ ,]*)')
 
         if ext ~= nil then
             local title = ''
