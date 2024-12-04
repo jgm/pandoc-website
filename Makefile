@@ -11,10 +11,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 	--section-divs \
 	--highlight-style=tango \
 	--template=template.html \
-	--lua-filter=tools/option-anchors.lua \
 	--lua-filter=tools/anchor-links.lua \
-	--lua-filter=tools/faq-panels.lua \
-	--lua-filter=tools/nowrap.lua \
 	--lua-filter=tools/include-code-files.lua \
 	--variable time=${TIME} \
 	--css=css/site.css
@@ -108,7 +105,12 @@ $(SITE)/installing.html : $(SITE)/installing.txt template.html
 	$(MKPAGE) $< -o $@
 
 $(SITE)/MANUAL.html : MANUAL.txt template.html extension-support.txt
-	$(MKPAGE) $< -o $@ --lua-filter=tools/extension-support.lua
+	$(MKPAGE) $< -o $@ \
+		--lua-filter=tools/extension-support.lua \
+		--lua-filter=tools/option-anchors.lua
+
+$(SITE)/faqs.html : faqs.md template.html
+	$(MKPAGE) $< -o $@ --lua-filter=tools/faq-panels.lua
 
 %.html : %.txt template.html
 	$(MKPAGE) $< -o $@

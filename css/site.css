@@ -219,8 +219,8 @@ code{
   font-size: 11pt;
   background-color: transparent;
 }
-span.nowrap code { white-space: nowrap; }
-a.option code { color: inherit; }
+code.option-def { white-space: nowrap; }
+a.option code { color: inherit; white-space: nowrap; }
 pre{ font-size: 11pt; }
 .smallcaps{font-variant: small-caps;}
 .line-block{white-space: pre-line;}
