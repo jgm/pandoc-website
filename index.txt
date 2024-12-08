@@ -49,7 +49,8 @@ Documentation formats
 Roff formats
 
 :   &harr; [roff man]\
-    &rarr; [roff ms]
+    &rarr; [roff ms]\
+    &larr; [mdoc man]
 
 TeX formats
 
