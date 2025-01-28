@@ -51,7 +51,7 @@ Roff formats
 
 :   &harr; [roff man]\
     &rarr; [roff ms]\
-    &larr; [mdoc man]
+    &larr; [mdoc]
 
 TeX formats
 
@@ -251,4 +251,5 @@ Copyright 2006--2022 [John MacFarlane].
 [djot]: https://djot.net
 [ANSI]: https://en.wikipedia.org/wiki/ANSI_escape_code
 [pod]: https://perldoc.perl.org/perlpod
+[mdoc]: https://mandoc.bsd.lv/man/mdoc.7.html
 
