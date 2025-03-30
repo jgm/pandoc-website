@@ -4,6 +4,9 @@
 
 You can try pandoc online [here](http://johnmacfarlane.net/pandoc/try).
 
+There is also a (limited) [webasm version of pandoc that runs in your
+browser](https://tweag.github.io/pandoc-wasm/).
+
 # Examples
 
 To see the output created by each of the commands below,
