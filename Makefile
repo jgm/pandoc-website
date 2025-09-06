@@ -9,7 +9,7 @@ PANDOC = pandoc
 MKPAGE = $(PANDOC) --toc --standalone \
 	--to=html5 \
 	--section-divs \
-	--highlight-style=tango \
+	--syntax-highlighting=tango \
 	--template=template.html \
 	--lua-filter=tools/anchor-links.lua \
 	--lua-filter=tools/include-code-files.lua \
