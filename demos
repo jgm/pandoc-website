@@ -88,13 +88,13 @@ click on the name of the output file:
 
 18. Syntax highlighting of delimited code blocks:
 
-@   pandoc @@code.text@@ -s --highlight-style pygments -o @@example18a.html@@
-@   pandoc @@code.text@@ -s --highlight-style kate -o @@example18b.html@@
-@   pandoc @@code.text@@ -s --highlight-style monochrome -o @@example18c.html@@
-@   pandoc @@code.text@@ -s --highlight-style espresso -o @@example18d.html@@
-@   pandoc @@code.text@@ -s --highlight-style haddock -o @@example18e.html@@
-@   pandoc @@code.text@@ -s --highlight-style tango -o @@example18f.html@@
-@   pandoc @@code.text@@ -s --highlight-style zenburn -o @@example18g.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting pygments -o @@example18a.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting kate -o @@example18b.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting monochrome -o @@example18c.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting espresso -o @@example18d.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting haddock -o @@example18e.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting tango -o @@example18f.html@@
+@   pandoc @@code.text@@ -s --syntax-highlighting zenburn -o @@example18g.html@@
 
 19. GNU Texinfo:
 
