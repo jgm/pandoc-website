@@ -129,6 +129,12 @@ Terminal output
 
 :   &rarr; [ANSI]-formatted text
 
+Serialization formats
+
+:   &harr; Haskell AST\
+    &harr; JSON representation of AST\
+    &harr; XML representation of AST
+
 Custom formats
 
 :   &harr; [custom readers] and [writers][custom writers]
