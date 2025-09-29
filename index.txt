@@ -45,7 +45,8 @@ Documentation formats
 
 :   &rarr; [GNU TexInfo]\
     &larr; [pod]\
-    &harr; [Haddock markup]
+    &harr; [Haddock markup]\
+    &rarr; [Vimdoc]
 
 Roff formats
 
@@ -258,4 +259,4 @@ Copyright 2006--2025 [John MacFarlane].
 [ANSI]: https://en.wikipedia.org/wiki/ANSI_escape_code
 [pod]: https://perldoc.perl.org/perlpod
 [mdoc]: https://mandoc.bsd.lv/man/mdoc.7.html
-
+[Vimdoc]: https://vimhelp.org/helphelp.txt.html#help-writing
