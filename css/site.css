@@ -9,6 +9,12 @@ body {
   font-size: 13pt;
   line-height: 1.4;
 }
+/* Hide the SVG diagram on mobile devices */
+@media (max-width: 64rem) {
+  #diagram {
+    display: none;
+  }
+}
 #paypal {
   float: right;
   font-size: 12pt;
