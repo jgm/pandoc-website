@@ -22,7 +22,7 @@ Lightweight markup formats
 :   &harr; [Markdown] (including [CommonMark] and
     [GitHub-flavored Markdown])\
     &harr; [reStructuredText]\
-    &rarr; [AsciiDoc]\
+    &harr; [AsciiDoc]\
     &harr; Emacs [Org-Mode]\
     &harr; Emacs [Muse]\
     &harr; [Textile]\
@@ -114,7 +114,7 @@ Wiki markup formats
 Slide show formats
 
 :   &rarr; [LaTeX Beamer]\
-    &rarr; Microsoft [PowerPoint]\
+    &harr; Microsoft [PowerPoint]\
     &rarr; [Slidy]\
     &rarr; [reveal.js]\
     &rarr; [Slideous]\
@@ -124,7 +124,8 @@ Slide show formats
 Data formats
 
 :   &larr; [CSV] tables\
-    &larr; [TSV] tables
+    &larr; [TSV] tables\
+:   &larr; Microsoft [Excel] spreadsheets
 
 Terminal output
 
@@ -241,6 +242,7 @@ Copyright 2006--2025 [John MacFarlane].
 [ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [XWiki markup]: https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiSyntax/
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
+[Excel]: https://en.wikipedia.org/wiki/Microsoft_Excel
 [ipynb]: https://nbformat.readthedocs.io/en/latest/
 [LaTeX Beamer]: https://ctan.org/pkg/beamer
 [CSV]: https://tools.ietf.org/html/rfc4180
