@@ -28,7 +28,8 @@ Lightweight markup formats
     &harr; [Textile]\
     &rarr; [Markua]\
     &larr; [txt2tags]\
-    &harr; [djot]
+    &harr; [djot]\
+    &rarr; [BBCode]
 
 HTML formats
 
