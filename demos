@@ -58,7 +58,7 @@ click on the name of the output file:
 
 12. Converting a web page to markdown:
 
-@   pandoc -s -r html @@https://www.gnu.org/software/make/@@ -o @@example12.text@@
+@   pandoc -s -r html @@https://pandoc.org/@@ -o @@example12.text@@
 
 13. From markdown to PDF:
 
