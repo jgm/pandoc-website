@@ -126,7 +126,7 @@ Data formats
 
 :   &larr; [CSV] tables\
     &larr; [TSV] tables\
-:   &larr; Microsoft [Excel] spreadsheets
+    &larr; Microsoft [Excel] spreadsheets
 
 Terminal output
 
@@ -263,3 +263,4 @@ Copyright 2006--2025 [John MacFarlane].
 [pod]: https://perldoc.perl.org/perlpod
 [mdoc]: https://mandoc.bsd.lv/man/mdoc.7.html
 [Vimdoc]: https://vimhelp.org/helphelp.txt.html#help-writing
+[BBCode]: https://www.bbcode.org/reference.php
