@@ -1,3 +1,5 @@
 Redirect /scripting.html /filters.html
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
+RewriteEngine On
+RewriteRule ^doc/(.*)\.md$ /$1.html [R=301,L]
