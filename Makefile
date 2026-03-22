@@ -3,7 +3,8 @@ DEMO = $(SITE)/demo
 CSS = css/site.css css/dl-as-table.css
 JS = js/site.js js/index.js
 TIME := $(shell date +"%Y%m%d%H%M%S")
-ALL = $(patsubst %,$(SITE)/%,index.html installing.html extras.html MANUAL.html MANUAL.pdf CONTRIBUTING.html demos.html releases.html changelog.md filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html using-the-pandoc-api.html help.html epub.html typst-property-output.html faqs.html diagram.svgz getting-started.html press.html code-signing-policy.html pandoc-cartoon.svgz css js $(CSS) $(JS))
+PAGES = index.html installing.html extras.html MANUAL.html CONTRIBUTING.html demos.html releases.html filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html using-the-pandoc-api.html help.html epub.html typst-property-output.html faqs.html getting-started.html press.html code-signing-policy.html
+ALL = $(patsubst %,$(SITE)/%,$(PAGES) MANUAL.pdf changelog.md diagram.svgz pandoc-cartoon.svgz css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
 MKPAGE = $(PANDOC) --toc --standalone \
@@ -18,7 +19,7 @@ MKPAGE = $(PANDOC) --toc --standalone \
 VERSION = $(shell pandoc --version | head -1 | awk '{print $$2}')
 
 .PHONY: all
-all : $(SITE) $(ALL) $(SITE)/js/index.js
+all : $(SITE) $(ALL) $(SITE)/js/index.js $(SITE)/sitemap.xml
 
 $(SITE): extension-support.txt
 	mkdir -p $@
@@ -31,6 +32,12 @@ $(SITE)/css:
 
 $(SITE)/js/index.js: tools/build-index.js js/search.js
 	node tools/build-index.js > $@
+
+$(SITE)/sitemap.xml: Makefile
+	@echo '<?xml version="1.0" encoding="UTF-8"?>' > $@
+	@echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> $@
+	@for page in $(PAGES); do echo "  <url><loc>https://pandoc.org/$$page</loc></url>" >> $@; done
+	@echo '</urlset>' >> $@
 
 $(SITE)/% : %
 	cp $< $@
