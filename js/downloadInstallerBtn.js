@@ -1,5 +1,4 @@
 (function() {
-  // from https://stackoverflow.com/a/38241481/214446
   var userAgent = window.navigator.userAgent
     , platform = window.navigator.platform
     , macosPlatforms = ['Macintosh', 'MacIntel']
@@ -10,11 +9,10 @@
     ;
   if (macosPlatforms.indexOf(platform) !== -1) {
     detected = 'macOS';
-    target = '-macOS.pkg';
+    target = '-x86_64-macOS.pkg';
   } else if (iosPlatforms.indexOf(platform) !== -1) {
   } else if (windowsPlatforms.indexOf(platform) !== -1) {
     if (userAgent.indexOf("WOW64") !== -1 || userAgent.indexOf("Win64") !== -1){
-      // from https://stackoverflow.com/a/6866569/214446
       detected = 'Windows (64-bit)';
       target = '-windows-x86_64.msi';
     } else {
@@ -22,19 +20,40 @@
       target = '-windows-i386.msi';
     }
   } else if (/Android/.test(userAgent)) {
-  } else if (!os && /Linux/.test(platform)) {
-    detected = 'Linux (64-bit)';
-    target = '-amd64.deb';
+  } else if (/Linux/.test(platform)) {
+    if (/aarch64|armv8/i.test(platform)) {
+      detected = 'Linux (ARM 64-bit)';
+      target = '-arm64.deb';
+    } else {
+      detected = 'Linux (64-bit)';
+      target = '-amd64.deb';
+    }
   }
 
-  if (target) {
-    fetch("https://api.github.com/repos/jgm/pandoc/releases")
+  // On macOS, try to detect Apple Silicon via userAgentData
+  // (available in Chromium-based browsers). Falls back to x86_64
+  // which works on Apple Silicon via Rosetta 2.
+  if (detected === 'macOS' && navigator.userAgentData) {
+    navigator.userAgentData.getHighEntropyValues(['architecture'])
+    .then(function(ua) {
+      if (ua.architecture === 'arm') {
+        target = '-arm64-macOS.pkg';
+        detected = 'macOS (Apple Silicon)';
+      }
+      fetchInstaller(target, detected);
+    });
+  } else if (target) {
+    fetchInstaller(target, detected);
+  }
+
+  function fetchInstaller(target, detected) {
+    fetch("https://api.github.com/repos/jgm/pandoc/releases?per_page=1")
     .then(function(data) {
         return data.json();
     })
     .then(function(json) {
       var assets = json[0].assets.filter(function(a){
-        return a.name.endsWith(target)
+        return a.name.endsWith(target);
       });
       if (assets[0]) {
         var btn = document.getElementById('downloadInstallerBtn');
