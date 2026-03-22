@@ -43,6 +43,12 @@ formSearch.addEventListener("submit", function(event) {
     results.classList.remove("show");
     results.setAttribute("tabindex", "-1");
   }
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      results.classList.remove("show");
+      results.setAttribute("tabindex", "-1");
+    }
+  });
 
   event.preventDefault();
 });
