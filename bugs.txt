@@ -46,5 +46,5 @@ Submitting patches:
 5.  Before you put time into a nontrivial patch, it is worth discussing it
     on [pandoc-discuss].
 
-[pandoc-discuss]: http://groups.google.com/group/pandoc-discuss
+[pandoc-discuss]: https://groups.google.com/group/pandoc-discuss
 

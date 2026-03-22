@@ -1,7 +1,7 @@
 % Code
 
 Pandoc has a publicly accessible git repository at
-[github](http://github.com/jgm/pandoc).
+[github](https://github.com/jgm/pandoc).
 To get a local copy of the source:
 
     git clone git://github.com/jgm/pandoc.git
@@ -25,5 +25,5 @@ and making it executable:
 The modules `Text.Pandoc.Definition`,
 `Text.Pandoc.Builder`, and `Text.Pandoc.Generics` are in
 a separate package `pandoc-types`.  The code can be
-found in [this repository](http://github.com/jgm/pandoc-types).
+found in [this repository](https://github.com/jgm/pandoc-types).
 

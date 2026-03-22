@@ -193,55 +193,55 @@ Copyright 2006--2025 [John MacFarlane].
 
 [Code signing policy](code-signing-policy.html)
 
-[John MacFarlane]: http://johnmacfarlane.net/
-[markdown]: http://daringfireball.net/projects/markdown/
-[reStructuredText]: http://docutils.sourceforge.net/docs/ref/rst/introduction.html
-[S5]: http://meyerweb.com/eric/tools/s5/
-[HTML]:  http://www.w3.org/TR/html40/
-[LaTeX]:  http://www.latex-project.org/
-[ConTeXt]: http://www.pragma-ade.nl/ 
-[RTF]:  http://en.wikipedia.org/wiki/Rich_Text_Format
-[PDF]: http://en.wikipedia.org/wiki/Portable_Document_Format
-[ODT]: http://en.wikipedia.org/wiki/OpenDocument
-[DocBook]: http://www.docbook.org/
-[OpenDocument XML]: http://opendocument.xml.org/
-[MediaWiki markup]: http://www.mediawiki.org/wiki/Help:Formatting
-[roff man]: http://www.gnu.org/software/groff/groff.html
-[roff ms]: http://www.gnu.org/software/groff/groff.html
-[GNU Texinfo]: http://www.gnu.org/software/texinfo/
-[Haskell]:  http://www.haskell.org/
-[GHC]:  http://www.haskell.org/ghc/
-[GPL]:  http://www.gnu.org/copyleft/gpl.html
-[EPUB]: http://en.wikipedia.org/wiki/EPUB
-[Slidy]: http://www.w3.org/Talks/Tools/Slidy
-[org-mode]: http://orgmode.org
+[John MacFarlane]: https://johnmacfarlane.net/
+[markdown]: https://daringfireball.net/projects/markdown/
+[reStructuredText]: https://docutils.sourceforge.net/docs/ref/rst/introduction.html
+[S5]: https://meyerweb.com/eric/tools/s5/
+[HTML]:  https://www.w3.org/TR/html40/
+[LaTeX]:  https://www.latex-project.org/
+[ConTeXt]: https://www.pragma-ade.nl/
+[RTF]:  https://en.wikipedia.org/wiki/Rich_Text_Format
+[PDF]: https://en.wikipedia.org/wiki/Portable_Document_Format
+[ODT]: https://en.wikipedia.org/wiki/OpenDocument
+[DocBook]: https://www.docbook.org/
+[OpenDocument XML]: https://opendocument.xml.org/
+[MediaWiki markup]: https://www.mediawiki.org/wiki/Help:Formatting
+[roff man]: https://www.gnu.org/software/groff/groff.html
+[roff ms]: https://www.gnu.org/software/groff/groff.html
+[GNU Texinfo]: https://www.gnu.org/software/texinfo/
+[Haskell]:  https://www.haskell.org/
+[GHC]:  https://www.haskell.org/ghc/
+[GPL]:  https://www.gnu.org/copyleft/gpl.html
+[EPUB]: https://en.wikipedia.org/wiki/EPUB
+[Slidy]: https://www.w3.org/Talks/Tools/Slidy
+[org-mode]: https://orgmode.org
 [Textile]: https://textile-lang.com
-[citeproc-hs]:  http://hackage.haskell.org/package/citeproc-hs
-[pandoc-citeproc]:  http://hackage.haskell.org/package/pandoc-citeproc
+[citeproc-hs]:  https://hackage.haskell.org/package/citeproc-hs
+[pandoc-citeproc]:  https://hackage.haskell.org/package/pandoc-citeproc
 [AsciiDoc]:  https://asciidoc.org
 [docx]: https://en.wikipedia.org/wiki/Office_Open_XML
-[DZSlides]: http://paulrouget.com/dzslides/
-[CSL]: http://citationstyles.org/
-[Slideous]: http://goessner.net/articles/slideous/
+[DZSlides]: https://paulrouget.com/dzslides/
+[CSL]: https://citationstyles.org/
+[Slideous]: https://goessner.net/articles/slideous/
 [FictionBook2]: http://www.fictionbook.org/index.php/Eng:XML_Schema_Fictionbook_2.1
-[Haddock markup]: http://www.haskell.org/haddock/doc/html/ch03s08.html
-[Lua]: http://www.lua.org
-[reveal.js]: http://lab.hakim.se/reveal-js/
+[Haddock markup]: https://www.haskell.org/haddock/doc/html/ch03s08.html
+[Lua]: https://www.lua.org
+[reveal.js]: https://lab.hakim.se/reveal-js/
 [OPML]: http://dev.opml.org/spec2.html
 [DokuWiki markup]: https://www.dokuwiki.org/wiki:syntax
-[TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
+[TWiki markup]: https://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TEI Simple]: https://github.com/TEIC/TEI-Simple
-[CommonMark]: http://commonmark.org
+[CommonMark]: https://commonmark.org
 [JATS]: https://jats.nlm.nih.gov/publishing/
 [BITS]: https://jats.nlm.nih.gov/extensions/bits/
 [GitHub-flavored Markdown]: https://github.github.com/gfm/
 [Muse]: https://www.gnu.org/software/emacs-muse/manual/
-[txt2tags]: http://txt2tags.org
+[txt2tags]: https://txt2tags.org
 [Vimwiki markup]: https://vimwiki.github.io
 [Creole]: http://www.wikicreole.org/
-[TWiki markup]: http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
+[TWiki markup]: https://twiki.org/cgi-bin/view/TWiki/TextFormattingRules
 [TikiWiki markup]: https://doc.tiki.org/Wiki-Syntax-Text#The_Markup_Language_Wiki-Syntax
-[ZimWiki markup]: http://zim-wiki.org/manual/Help/Wiki_Syntax.html
+[ZimWiki markup]: https://zim-wiki.org/manual/Help/Wiki_Syntax.html
 [XWiki markup]: https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiSyntax/
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [Excel]: https://en.wikipedia.org/wiki/Microsoft_Excel
@@ -249,7 +249,7 @@ Copyright 2006--2025 [John MacFarlane].
 [LaTeX Beamer]: https://ctan.org/pkg/beamer
 [CSV]: https://tools.ietf.org/html/rfc4180
 [Jira wiki markup]: https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all
-[BibTeX]: http://tug.org/bibtex/
+[BibTeX]: https://tug.org/bibtex/
 [BibLaTeX]: https://github.com/plk/biblatex
 [CSL JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
 [custom readers]: custom-readers.html

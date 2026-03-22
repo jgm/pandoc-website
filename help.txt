@@ -29,5 +29,5 @@ forum.
 [github bug tracker]: https://github.com/jgm/pandoc/issues
 [gmane]: http://dir.gmane.org/gmane.text.pandoc
 [guidelines on contributing]: https://github.com/jgm/pandoc/blob/master/CONTRIBUTING.md
-[stackoverflow]: http://stackoverflow.com/questions/tagged/pandoc
+[stackoverflow]: https://stackoverflow.com/questions/tagged/pandoc
 [discussion forum]: https://github.com/jgm/pandoc/discussions
