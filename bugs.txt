@@ -26,12 +26,12 @@ Guidelines:
 
 5.  If you're not sure whether something is a bug, or want to discuss
     a potential new feature before putting in an enhancement request,
-    [pandoc-discuss] is a good place to bring it up.
+    [our discussion forum] is a good place to bring it up.
 
-Submitting patches:
+Submitting pull requests:
 
-1.  Patches may be attached to issues or submitted to [pandoc-discuss].
-    Each patch should make one logical change.
+1.  Patches should be submitted as GitHub PRs.  Each patch should make one
+    logical change.
 
 2.  Please follow the existing stylistic conventions (e.g. for if-then
     formatting), and wrap code to 80 columns.  Always include type
@@ -44,7 +44,7 @@ Submitting patches:
     `tests/RunTests.hs` to run your tests).
 
 5.  Before you put time into a nontrivial patch, it is worth discussing it
-    on [pandoc-discuss].
+    on [our discussion forum].
 
-[pandoc-discuss]: https://groups.google.com/group/pandoc-discuss
+[our discussion forum]: https://github.com/jgm/pandoc/discussions
 
