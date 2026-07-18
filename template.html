@@ -12,6 +12,7 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Pandoc - $pagetitle$">
   <meta name="twitter:description" content="A universal document converter">
+  <link rel="icon" href="pandoc-icon.svg?v=$time$">
 $for(css)$
   <link rel="stylesheet" href="$css$?v=$time$" />
 $endfor$
@@ -97,9 +98,6 @@ $endif$
   </nav>
   <div class="container">
     <main>
-$if(headerimage)$
-    <img id="headerimage" src="$headerimage.src$" title="$headerimage.title$" alt="$headerimage.alt$" width="$headerimage.width$" />
-$endif$
 $if(title)$
       <h1 class="title">$title$</h1>
 $endif$
