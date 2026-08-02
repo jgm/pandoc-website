@@ -3,7 +3,7 @@ DEMO = $(SITE)/demo
 CSS = css/site.css css/dl-as-table.css
 JS = js/site.js js/index.js
 TIME := $(shell date +"%Y%m%d%H%M%S")
-PAGES = index.html installing.html extras.html MANUAL.html CONTRIBUTING.html demos.html releases.html filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html using-the-pandoc-api.html help.html epub.html typst-property-output.html faqs.html getting-started.html press.html code-signing-policy.html
+PAGES = index.html installing.html extras.html MANUAL.html CONTRIBUTING.html demos.html releases.html filters.html lua-filters.html custom-writers.html custom-readers.html pandoc-server.html jats.html org.html twenty-years-of-pandoc.html using-the-pandoc-api.html help.html epub.html typst-property-output.html faqs.html getting-started.html press.html code-signing-policy.html
 ALL = $(patsubst %,$(SITE)/%,$(PAGES) 404.html MANUAL.pdf changelog.md diagram.svgz pandoc-cartoon.svgz pandoc-icon.svg pandoc-0.1.jpg css js $(CSS) $(JS))
 PANDOC_SRC ?= ${HOME}/src/pandoc
 PANDOC = pandoc
@@ -91,7 +91,7 @@ $(SITE)/%.svgz: $(SITE)/%.svg
 	mv $<.gz $@
 
 # 'make update' pulls in source files from the pandoc source directory
-SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/pandoc-server.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md doc/typst-property-output.md doc/press.md doc/extras.md) $(PANDOC_SRC)/pandoc-cli/man/pandoc.1 $(PANDOC_SRC)/data/creole.lua
+SOURCES = $(patsubst %, $(PANDOC_SRC)/%, changelog.md MANUAL.txt INSTALL.md CONTRIBUTING.md doc/filters.md doc/pandoc-server.md doc/org.md doc/faqs.md doc/custom-readers.md doc/custom-writers.md doc/lua-filters.md doc/jats.md doc/using-the-pandoc-api.md doc/getting-started.md doc/epub.md doc/typst-property-output.md doc/press.md doc/extras.md doc/twenty-years-of-pandoc.md) $(PANDOC_SRC)/pandoc-cli/man/pandoc.1 $(PANDOC_SRC)/data/creole.lua
 
 update :
 	cp $(SOURCES) .

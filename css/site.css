@@ -311,6 +311,7 @@ table th {
 th, td {
   padding-right: 10pt;
   vertical-align: top;
+  text-align: left;
 }
 .twocol {
   display: flex;
@@ -419,6 +420,31 @@ h3:hover > .anchor::before {
   caption { background: #fff; margin-bottom:2em; text-align:left; }
   thead {display: table-header-group;}
   tr {page-break-inside: avoid;}
+
+  /* Figure */
+  figure { width: 90%; margin: 1em 0 1em 0; }
+  figcaption { font-size: 88%; text-align: center; font-style: italic; }
+  </style>
+  ```
+...
+
+On August 3, 2006, I uploaded the first version of pandoc to my
+website, releasing it under the free GPL license. Pandoc 0.1
+consisted of about 3000 lines of Haskell code, with no
+dependencies aside from GHC's standard library. It could convert
+Markdown, reStructuredText, HTML, and LaTeX documents into
+any of these formats, plus RTF or S5. I had no idea at the time
+that this would just be the first of over two hundred releases
+over the next twenty years; that the project would become the
+[most popular program written in Haskell][githubranking];
+that I would spend countless hours on bug-fixes, improvement, and project
+management; that I would collaborate with programmers in many
+other countries; that pandoc would come to support over fifty
+document formats; that it would allow automatic generation of
+citations and bibliographies; that it would become integrated
+into academic writing tools like [Quarto](https://quarto.org)
+and [Jupyter Notebook](https://jupyter.org); that it
+would be installed on millions of computers around the world.
 
   /*hide various parts from the site*/
   .extension-checkbox { display: none; }
