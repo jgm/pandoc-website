@@ -95,7 +95,7 @@ end
 local function get_option_id (ils)
     for _,il in ipairs(ils) do
         if il.t == 'Code' and string.find(il.text, '^%-%-') then
-            return ('option' .. il.text:gsub('=.*',''))
+            return ('option' .. il.text:gsub('[%[=].*',''))
          end
     end
    return nil
@@ -131,7 +131,7 @@ function collect_option_ids(el, opt_id_map)
     opt_id_map = opt_id_map or {}
     local id
     local code_filter = { Code = function (code)
-            local opt_name = string.match(code.text, '^%-[%-%w]+')
+            local opt_name = string.match(code.text, '^%-[%-a-z]+')
             if opt_name then
                 opt_id_map[opt_name] = id
                 table.insert(code.attr.classes, 'option-def')
@@ -156,7 +156,7 @@ end
 
 function add_option_links(blocks, opt_id_map)
     return pandoc.walk_block(pandoc.Div(blocks), { Code = function (el)
-            local opt_name = string.match(el.text, '^%-[%-%w]+')
+            local opt_name = string.match(el.text, '^%-[%-a-z]+')
             if opt_name then
                 local id = opt_id_map[opt_name]
                 if id then
