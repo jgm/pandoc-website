@@ -82,7 +82,8 @@ Word processor formats
 
 :   &harr; Microsoft Word [docx]\
     &harr; Rich Text Format [RTF]\
-    &harr; OpenOffice/LibreOffice [ODT]
+    &harr; OpenOffice/LibreOffice [ODT]\
+    &harr; OpenOffice/LibreOffice [fodt]
 
 Interactive notebook formats
 
